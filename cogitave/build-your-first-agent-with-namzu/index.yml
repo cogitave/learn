@@ -1,0 +1,38 @@
+### YamlMime:Module
+uid: cogitave.learn.build-your-first-agent-with-namzu
+metadata:
+  title: Build your first agent with Namzu
+  description: Build a minimal MCP-native agent with the Namzu kernel, declare its identity and capabilities, and run it on the Yuva agent operating system.
+  ms.date: 2026-06-27
+  author: cogitave
+  ms.topic: module
+title: Build your first agent with Namzu
+summary: Build a minimal MCP-native agent with the Namzu kernel — one tool, one resource, a declared capability boundary — and run it on Yuva.
+abstract: |
+  By the end of this module, you'll be able to:
+  - Explain how the Namzu agent kernel relates to the Yuva agent operating system.
+  - Build a minimal Namzu agent that exposes an MCP tool and resource.
+  - Declare an agent's identity, capabilities, and sandbox boundaries.
+  - Run your agent on Yuva over stdio or Streamable HTTP, and gate it with evals.
+prerequisites: |
+  - Completion of the "Get started with Yuva" module.
+  - Basic familiarity with TypeScript.
+iconUrl: /learn/achievements/build-your-first-agent-with-namzu.svg
+ratingEnabled: true
+levels:
+  - beginner
+roles:
+  - developer
+products:
+  - namzu
+  - yuva
+subjects:
+  - artificial-intelligence
+units:
+  - cogitave.learn.build-your-first-agent-with-namzu.introduction
+  - cogitave.learn.build-your-first-agent-with-namzu.what-is-namzu
+  - cogitave.learn.build-your-first-agent-with-namzu.build-an-agent
+  - cogitave.learn.build-your-first-agent-with-namzu.knowledge-check
+  - cogitave.learn.build-your-first-agent-with-namzu.summary
+badge:
+  uid: cogitave.learn.build-your-first-agent-with-namzu.badge

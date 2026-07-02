@@ -1,0 +1,24 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.get-started-with-yuva.knowledge-check
+title: Knowledge check
+metadata:
+  title: Knowledge check
+  description: Check what you learned about Yuva.
+  ms.date: 2026-06-27
+  author: cogitave
+  ms.topic: unit
+durationInMinutes: 2
+quiz:
+  title: Check your knowledge
+  questions:
+    - content: "What is Yuva?"
+      choices:
+        - content: "An agent operating system."
+          isCorrect: true
+          explanation: "Correct — Yuva is the agent operating system; not for humans, only for agents."
+        - content: "A human-facing IDE."
+          isCorrect: false
+          explanation: "No — Yuva targets agents, not human end-users."
+        - content: "A relational database."
+          isCorrect: false
+          explanation: "No — Yuva is an operating system for agents."

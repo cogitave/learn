@@ -1,0 +1,30 @@
+### YamlMime:LearningPath
+uid: cogitave.learn.paths.patterns-golden-paths
+metadata:
+  title: Patterns and golden paths
+  description: Learn the reuse-first way of working at Cogitave - discover before you generate, use the patterns catalog, inherit the project baseline, and follow the decision guides for database, infrastructure, and model selection.
+  ms.date: 2026-06-28
+  author: cogitave
+  ms.topic: learning-path
+title: Patterns and golden paths
+summary: |
+  Learn to build the Cogitave way: reuse first, discover before you generate, start from the patterns catalog, inherit a repository's complete ruleset through the project baseline, and use the decision guides for database, infrastructure, and model selection. By the end you'll reach for the named artifact before writing anything new. Day 0: this path is scaffolded - the module bodies are authored in a later content phase.
+prerequisites: |
+  - Completion of the "Cogitave engineering standards" path is recommended.
+iconUrl: /learn/achievements/patterns-golden-paths.svg
+levels:
+  - intermediate
+roles:
+  - developer
+  - solution-architect
+products:
+  - cogitave-core
+subjects:
+  - software-engineering
+modules:
+  - cogitave.learn.reuse-first-engineering
+  - cogitave.learn.navigate-the-patterns-catalog
+  - cogitave.learn.inherit-the-project-baseline
+  - cogitave.learn.use-the-decision-guides
+trophy:
+  uid: cogitave.learn.paths.patterns-golden-paths.trophy

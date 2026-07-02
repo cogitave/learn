@@ -1,0 +1,49 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.build-your-first-agent-with-namzu.knowledge-check
+title: Knowledge check
+metadata:
+  title: Knowledge check
+  description: Check what you learned about building an agent with Namzu and running it on Yuva.
+  ms.date: 2026-06-27
+  author: cogitave
+  ms.topic: unit
+  module_assessment: true
+durationInMinutes: 3
+content: |
+  [!include[](includes/4-knowledge-check.md)]
+quiz:
+  title: Check your knowledge
+  questions:
+    - content: "How do the Namzu kernel and the Yuva operating system divide responsibility?"
+      choices:
+        - content: "Namzu is the build-time kernel you author agents with; Yuva is the run-time operating system that hosts them."
+          isCorrect: true
+          explanation: "Correct. Namzu (TypeScript, build) is decoupled from Yuva (Rust, serve): you author and test with the kernel, and the OS runs the artifact."
+        - content: "Namzu serves agents at run time; Yuva is only used to write them."
+          isCorrect: false
+          explanation: "Incorrect. It's the other way around — Yuva is the run-time operating system and Namzu is the build-time kernel."
+        - content: "They are two names for the same Rust binary."
+          isCorrect: false
+          explanation: "Incorrect. They are distinct layers in distinct languages: Namzu in TypeScript, Yuva in Rust."
+    - content: "What makes up a Namzu agent's public surface?"
+      choices:
+        - content: "MCP tools (actions) and resources (addressable read surfaces)."
+          isCorrect: true
+          explanation: "Correct. Namzu is MCP-native: the same surface a human calls through an API is the surface an agent calls through MCP."
+        - content: "A bespoke binary protocol unique to each agent."
+          isCorrect: false
+          explanation: "Incorrect. Namzu does not define a second protocol; the surface is MCP tools and resources."
+        - content: "Only a REST endpoint with no schema."
+          isCorrect: false
+          explanation: "Incorrect. Tools and resources are typed and described over MCP, not an unschemed REST endpoint."
+    - content: "An eval scenario for a new capability is failing. What is the correct response?"
+      choices:
+        - content: "Fix the agent so the behavior is provably safe; never widen capabilities just to make the eval pass."
+          isCorrect: true
+          explanation: "Correct. Capabilities follow behavior you can prove safe — they are a least-privilege allow-list, not a workaround."
+        - content: "Add a broad wildcard capability so the agent can do whatever the test needs."
+          isCorrect: false
+          explanation: "Incorrect. Widening capabilities to pass a test inverts the security model and defeats least privilege."
+        - content: "Delete the failing eval scenario."
+          isCorrect: false
+          explanation: "Incorrect. Removing the scenario removes the safety gate; new behavior must keep its eval."

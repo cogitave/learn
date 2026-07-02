@@ -1,0 +1,17 @@
+### YamlMime:Achievements
+achievements:
+  - uid: cogitave.learn.get-started-with-yuva.badge
+    type: badge
+    title: Get started with Yuva
+    summary: You learned what the Yuva agent operating system is and ran your first agent.
+    iconUrl: /learn/achievements/get-started-with-yuva.svg
+  - uid: cogitave.learn.build-your-first-agent-with-namzu.badge
+    type: badge
+    title: Build your first agent with Namzu
+    summary: You built a minimal MCP-native agent with the Namzu kernel, declared its capabilities, and ran it on Yuva.
+    iconUrl: /learn/achievements/build-your-first-agent-with-namzu.svg
+  - uid: cogitave.learn.paths.agent-platform-fundamentals.trophy
+    type: trophy
+    title: Agent platform fundamentals
+    summary: You completed both halves of the Cogitave agent platform — running agents on Yuva and building them with Namzu.
+    iconUrl: /learn/achievements/agent-platform-fundamentals.svg

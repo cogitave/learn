@@ -1,0 +1,30 @@
+### YamlMime:LearningPath
+uid: cogitave.learn.paths.contributor-onboarding
+metadata:
+  title: Contributor onboarding
+  description: The fast start for every new Cogitave contributor and agent - apply the AGENTS floor, inherit the project baseline, work the request lifecycle, and open your first pull request.
+  ms.date: 2026-06-28
+  author: cogitave
+  ms.topic: learning-path
+title: Contributor onboarding
+summary: |
+  The fast start for everyone who joins Cogitave: apply the non-negotiable AGENTS floor, inherit a repository's complete ruleset through the project baseline, work the propose-only request lifecycle, and open your first signed, Conventional-Commit pull request. This is the Tier-0 entry point every role track builds on. Day 0: this path is scaffolded - the module bodies are authored in a later content phase.
+prerequisites: |
+  - Basic familiarity with Git and the command line.
+  - No prior Cogitave experience required.
+iconUrl: /learn/achievements/contributor-onboarding.svg
+levels:
+  - beginner
+roles:
+  - developer
+products:
+  - cogitave-core
+subjects:
+  - software-engineering
+modules:
+  - cogitave.learn.apply-the-agents-floor
+  - cogitave.learn.inherit-the-project-baseline
+  - cogitave.learn.work-the-request-lifecycle
+  - cogitave.learn.open-your-first-pull-request
+trophy:
+  uid: cogitave.learn.paths.contributor-onboarding.trophy

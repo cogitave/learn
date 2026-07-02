@@ -1,0 +1,31 @@
+### YamlMime:LearningPath
+uid: cogitave.learn.paths.operate-the-estate
+metadata:
+  title: Operate the estate
+  description: Learn to run the Cogitave estate in production - the request lifecycle, agentic operations, reliability and SRE, incident response, and Day 1 operations.
+  ms.date: 2026-06-28
+  author: cogitave
+  ms.topic: learning-path
+title: Operate the estate
+summary: |
+  Learn to operate the Cogitave estate safely and auditably: work the propose-only request lifecycle, run agentic operations, apply reliability and SRE practice, respond to incidents, and stand up Day 1 operations. By the end you'll be able to keep the estate running under least privilege with every action recorded as evidence. Day 0: this path is scaffolded - the module bodies are authored in a later content phase.
+prerequisites: |
+  - Completion of the "Cogitave engineering standards" and "Build on Cogitave Core" paths is recommended.
+iconUrl: /learn/achievements/operate-the-estate.svg
+levels:
+  - advanced
+roles:
+  - site-reliability-engineer
+  - devops-engineer
+products:
+  - cogitave-core
+subjects:
+  - devops
+modules:
+  - cogitave.learn.work-the-request-lifecycle
+  - cogitave.learn.run-agentic-operations
+  - cogitave.learn.reliability-and-sre
+  - cogitave.learn.respond-to-incidents
+  - cogitave.learn.operate-from-day-1
+trophy:
+  uid: cogitave.learn.paths.operate-the-estate.trophy

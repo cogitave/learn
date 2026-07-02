@@ -1,0 +1,12 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.build-your-first-agent-with-namzu.build-an-agent
+title: 'Exercise - Build and run an agent'
+metadata:
+  title: 'Exercise - Build and run an agent'
+  description: Scaffold a Namzu agent with one tool and one resource, declare its capabilities, choose a transport, and run it on Yuva.
+  ms.date: 2026-06-27
+  author: cogitave
+  ms.topic: unit
+durationInMinutes: 12
+content: |
+  [!include[](includes/3-exercise-build-an-agent.md)]

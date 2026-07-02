@@ -1,0 +1,31 @@
+### YamlMime:LearningPath
+uid: cogitave.learn.paths.build-on-core
+metadata:
+  title: Build on Cogitave Core
+  description: Learn the one canonical model behind the whole estate - the Cogitave Core node and edge model, Cogitave Query, the native MCP interface, and how products project their state into Core.
+  ms.date: 2026-06-28
+  author: cogitave
+  ms.topic: learning-path
+title: Build on Cogitave Core
+summary: |
+  Learn the harmonic core that every Cogitave product and agent shares: the Cogitave Core node and edge model, Cogitave Query, the native MCP interface, and how products project their state into a single queryable graph. By the end you'll be able to read the estate the same way humans and agents do. Day 0: this path is scaffolded - the module bodies are authored in a later content phase.
+prerequisites: |
+  - Basic familiarity with graph data models and APIs.
+  - Completion of the "Contributor onboarding" path is recommended.
+iconUrl: /learn/achievements/build-on-core.svg
+levels:
+  - intermediate
+roles:
+  - developer
+  - solution-architect
+products:
+  - cogitave-core
+subjects:
+  - artificial-intelligence
+modules:
+  - cogitave.learn.core-model-fundamentals
+  - cogitave.learn.query-the-estate-with-cogitave-query
+  - cogitave.learn.native-mcp-interface
+  - cogitave.learn.project-products-into-core
+trophy:
+  uid: cogitave.learn.paths.build-on-core.trophy
