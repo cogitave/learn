@@ -1,7 +1,7 @@
 ---
 uid: cogitave.learn.docs.authoring-guide
 title: Authoring Guide — learn.cogitave.com
-description: How to write content for the Cogitave knowledge platform - the schema-validated extension set (alerts, includes, code-by-reference, tabs, images, zone pivots, monikers, xref), required metadata, and the Diátaxis mapping.
+description: How to write content for the Cogitave knowledge platform - the schema-validated extension set (alerts, includes, code-by-reference, tabs, images, zone pivots, monikers, xref), required metadata, and the Di-taxis mapping.
 type: how-to
 owner: cogitave/platform
 lastReviewed: 2026-06-27
