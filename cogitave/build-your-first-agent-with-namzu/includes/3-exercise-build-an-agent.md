@@ -1,4 +1,4 @@
-In this exercise you'll build a minimal Namzu agent — one tool, one resource, a declared identity — and run it on Yuva. Everything here is a self-contained TypeScript snippet you can paste into a `template-agent` scaffold.
+In this exercise you'll build a minimal Namzu agent — one tool, one resource, a declared identity — and run it on Yuva. Everything here is a self-contained TypeScript snippet you can paste into a `templates/agent` scaffold.
 
 ## 1. Scaffold the agent
 
