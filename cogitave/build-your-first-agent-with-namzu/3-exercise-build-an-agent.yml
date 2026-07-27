@@ -1,10 +1,10 @@
 ### YamlMime:ModuleUnit
 uid: cogitave.learn.build-your-first-agent-with-namzu.build-an-agent
-title: 'Exercise - Build and run an agent'
+title: 'Exercise - Your first call, and your first tool'
 metadata:
-  title: 'Exercise - Build and run an agent'
-  description: Scaffold a Namzu agent with one tool and one resource, declare its capabilities, choose a transport, and run it on Yuva.
-  ms.date: 2026-06-27
+  title: 'Exercise - Your first call, and your first tool'
+  description: Install the kernel and one provider driver, register it, send a model call, then declare a tool with a typed input schema and an explicit authority. Runs locally, and against the built-in mock if no model is available.
+  ms.date: 2026-07-26
   author: cogitave
   ms.topic: unit
 durationInMinutes: 12

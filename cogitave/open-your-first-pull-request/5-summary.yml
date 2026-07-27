@@ -1,0 +1,12 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.open-your-first-pull-request.summary
+title: Summary
+metadata:
+  title: Summary
+  description: Recap the mechanics of a first contribution - a signed, Conventional-Commit, docs-complete pull request that passes the gates and stops for review - and where to go next.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: unit
+durationInMinutes: 3
+content: |
+  [!include[](includes/5-summary.md)]

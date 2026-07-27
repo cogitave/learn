@@ -3,8 +3,8 @@ uid: cogitave.learn.build-your-first-agent-with-namzu.introduction
 title: Introduction
 metadata:
   title: Introduction
-  description: Meet the Namzu agent kernel and see what you'll build and run on Yuva.
-  ms.date: 2026-06-27
+  description: Meet the Namzu agent kernel, see how a kernel differs from an application framework, and preview what you will have running by the end - locally, with no account.
+  ms.date: 2026-07-26
   author: cogitave
   ms.topic: unit
 durationInMinutes: 3

@@ -13,12 +13,13 @@ roles:
   - content-developer
   - solution-architect
 level: beginner
+visibility: internal   # engineering document: stays in git, not published
 status: draft
 ---
 
 # Curriculum Architecture - learn.cogitave.com
 
-> The single canonical map of what learn.cogitave.com teaches and how it is ordered. This document is the curriculum; the individual `index.yml` path and module files are its projection. It builds on the existing scaffold (the `agent-platform-fundamentals` path plus the `get-started-with-yuva` and `build-your-first-agent-with-namzu` modules) and follows the MicrosoftDocs/learn-pr convention exactly, as codified in the [authoring guide](authoring-guide.md) and served by the [engine](engine-architecture.md).
+> The single canonical map of what learn.cogitave.com teaches and how it is ordered. This document is the curriculum; the individual `index.yml` path and module files are its projection. It builds on the existing scaffold (the `agent-platform-fundamentals` path plus the `build-your-first-agent-with-namzu` and `understand-yuva` modules) and follows the MicrosoftDocs/learn-pr convention exactly, as codified in the [authoring guide](authoring-guide.md) and served by the [engine](engine-architecture.md).
 
 ## 1. The curriculum thesis
 
@@ -35,7 +36,7 @@ Three commitments follow from that thesis:
 
 ## 2. The track map
 
-The estate is large enough to need a tiered curriculum, not a flat list. It is organized as **Tier-0 foundation** plus three track families - **role**, **product**, and **topic** - the same three axes Microsoft Learn organizes around (a path is either role-based or technology-based; a topic path teaches a cross-cutting subject). A single module can appear in more than one path (it is referenced by UID, never copied), so `get-started-with-yuva` serves both the platform-fundamentals path and the Yuva product track.
+The estate is large enough to need a tiered curriculum, not a flat list. It is organized as **Tier-0 foundation** plus three track families - **role**, **product**, and **topic** - the same three axes Microsoft Learn organizes around (a path is either role-based or technology-based; a topic path teaches a cross-cutting subject). A single module can appear in more than one path (it is referenced by UID, never copied), so `understand-yuva` serves both the platform-fundamentals path and the Yuva product track.
 
 Each path below is a table of its ordered modules. The **Prereq** column is the intra-path ordering (a module builds on the one above it); the **path** prerequisite is stated in the path heading. The **Teaches (estate docs)** column is the set of canonical docs each module teaches - a first-class `xref`/`teachesSkill` edge in the graph ([section 5](#5-mcp-queryable-the-learning-graph)), not prose.
 
@@ -47,19 +48,19 @@ Every role track depends on Tier-0. It is the entry point for a new human or age
 
 | # | Module (`cogitave.learn.<slug>`) | Prereq | Teaches (estate docs) |
 |---|---|---|---|
-| 1 | `get-started-at-cogitave` | - | [company/mission](../../corp/company/mission.md), [vision](../../corp/company/vision.md), [values](../../corp/company/values.md), [operating-principles](../../corp/company/operating-principles.md); root [AGENTS.md](../../../AGENTS.md) "Who Cogitave is" |
-| 2 | `navigate-the-estate` | 1 | [estate-taxonomy](../../standards/docs/standards/estate-taxonomy.md); [ADR-0006 mirror-principle](../../standards/docs/decisions/0006-mirror-principle-estate-manifest.md); [ADR-0014 org-first-flat-mirror](../../standards/docs/decisions/0014-org-first-flat-mirror.md); [bootstrap/estate.yaml](../../bootstrap/estate.yaml) |
-| 3 | `the-non-negotiable-floor` | 2 | [AGENTS.md](../../../AGENTS.md) 7 rules; [commits-versioning](../../standards/docs/standards/commits-versioning.md); [hooks-precommit](../../standards/docs/standards/hooks-precommit.md); [documentation](../../standards/docs/standards/documentation.md) |
-| 4 | `work-the-request-lifecycle` | 3 | [lifecycle/LIFECYCLE](../../agents/lifecycle/LIFECYCLE.md); [definition-of-done](../../agents/lifecycle/definition-of-done.md) |
+| 1 | `apply-the-agents-floor` *(exists)* | - | root [AGENTS.md](../../../AGENTS.md) 7 rules; [commits-versioning](../../standards/docs/standards/commits-versioning.md); [documentation](../../standards/docs/standards/documentation.md); [authorization](../../standards/docs/standards/authorization.md); [autonomy-and-oversight](../../standards/docs/standards/autonomy-and-oversight.md) |
+| 2 | `inherit-the-project-baseline` *(exists)* | 1 | [project-baseline](../../standards/docs/standards/project-baseline.md); [product-core-baseline](../../standards/docs/standards/product-core-baseline.md); [patterns/README](../../standards/docs/patterns/README.md) |
+| 3 | `work-the-request-lifecycle` *(exists)* | 2 | [lifecycle/LIFECYCLE](../../agents/lifecycle/LIFECYCLE.md); [definition-of-done](../../agents/lifecycle/definition-of-done.md) |
+| 4 | `open-your-first-pull-request` *(exists)* | 3 | [commits-versioning](../../standards/docs/standards/commits-versioning.md); [hooks-precommit](../../standards/docs/standards/hooks-precommit.md); [documentation](../../standards/docs/standards/documentation.md) |
 
 #### Path `cogitave.learn.paths.agent-platform-fundamentals` (trophy) - prereq: contributor-onboarding
 
-The existing scaffold. Kept verbatim; only its path prerequisite is now stated as contributor-onboarding.
+Start where a reader can build (Namzu on Node), then step down a layer to the sovereign kernel it will eventually run on. The prerequisite is now stated as contributor-onboarding.
 
 | # | Module | Prereq | Teaches (estate docs) |
 |---|---|---|---|
-| 1 | `get-started-with-yuva` *(exists)* | - | [products/os](../../standards/docs/architecture/products/os.md); [ADR-0010 no-single-product-runtime-core](../../standards/docs/decisions/0010-no-single-product-runtime-core.md) |
-| 2 | `build-your-first-agent-with-namzu` *(exists)* | 1 | [products/agent-sdk](../../standards/docs/architecture/products/agent-sdk.md); [ai-agent-engineering](../../standards/docs/standards/ai-agent-engineering.md); [mcp-tool-and-resource](../../standards/docs/patterns/mcp-tool-and-resource.md) |
+| 1 | `build-your-first-agent-with-namzu` *(exists)* | - | [products/agent-sdk](../../standards/docs/architecture/products/agent-sdk.md); [ai-agent-engineering](../../standards/docs/standards/ai-agent-engineering.md); [mcp-tool-and-resource](../../standards/docs/patterns/mcp-tool-and-resource.md) |
+| 2 | `understand-yuva` *(exists)* | 1 | [products/os](../../standards/docs/architecture/products/os.md); [ADR-0010 no-single-product-runtime-core](../../standards/docs/decisions/0010-no-single-product-runtime-core.md) |
 
 ### 2.1 Role tracks
 
@@ -118,7 +119,7 @@ One track per product surface. Each teaches a product spec plus the ADRs that sh
 
 | # | Module | Prereq | Teaches (estate docs) |
 |---|---|---|---|
-| 1 | `get-started-with-yuva` *(reused)* | - | [products/os](../../standards/docs/architecture/products/os.md) |
+| 1 | `understand-yuva` *(reused)* | - | [products/os](../../standards/docs/architecture/products/os.md) |
 | 2 | `yuva-capability-os-and-sandboxing` | 1 | [products/os](../../standards/docs/architecture/products/os.md); [products ADR-0004 yuva-capability-os](../../standards/docs/architecture/products/decisions/0004-yuva-capability-os-self-hostable.md); [authorization](../../standards/docs/standards/authorization.md) |
 | 3 | `run-and-schedule-agents-on-yuva` | 2 | [agents/scheduled](../../agents/scheduled/); [agents/operations/README](../../agents/operations/README.md) |
 
@@ -281,10 +282,10 @@ products:
 subjects:
   - it-management
 modules:
-  - cogitave.learn.get-started-at-cogitave
-  - cogitave.learn.navigate-the-estate
-  - cogitave.learn.the-non-negotiable-floor
+  - cogitave.learn.apply-the-agents-floor
+  - cogitave.learn.inherit-the-project-baseline
   - cogitave.learn.work-the-request-lifecycle
+  - cogitave.learn.open-your-first-pull-request
 trophy:
   uid: cogitave.learn.paths.contributor-onboarding.trophy
 ```
@@ -293,23 +294,23 @@ trophy:
 
 ```yaml
 ### YamlMime:Module
-uid: cogitave.learn.navigate-the-estate
+uid: cogitave.learn.apply-the-agents-floor
 metadata:
-  title: Navigate the estate
-  description: Learn the mirror principle, the estate taxonomy, and the manifest, so you can find any repo, standard, or product from its UID and place.
-  ms.date: 2026-07-02
+  title: Apply the AGENTS floor
+  description: State the seven non-negotiable rules every Cogitave contributor and agent obeys, say what enforces each one, and apply them to your own first change.
+  ms.date: 2026-07-26
   author: cogitave
   ms.topic: module
-title: Navigate the estate
-summary: Learn how the single-org, flat, mirrored estate is organized and how to find anything in it.
+title: Apply the AGENTS floor
+summary: State the seven non-negotiable rules every Cogitave contributor and agent obeys, say what enforces each one - a hook, a CI gate, an org ruleset, or policy-as-code - and apply them to your own first change.
 abstract: |
   By the end of this module, you'll be able to:
-  - Explain the mirror principle and why tier and visibility are metadata, not path segments.
-  - Read the estate manifest to locate any repo and its ruleset.
-  - Use the estate taxonomy to place a new artifact.
+  - Name the seven non-negotiable rules in the root AGENTS.md and explain why they are the floor.
+  - Say what enforces each rule - a commit-msg hook, a CI gate, an org ruleset, or policy-as-code.
+  - Apply the floor to your own first change: sign it, name it as a Conventional Commit, update its docs, and stay inside your grant.
 prerequisites: |
-  - Completion of the "Get started at Cogitave" module.
-iconUrl: /learn/achievements/navigate-the-estate.svg
+  - None. This is the first module of contributor onboarding.
+iconUrl: /learn/achievements/apply-the-agents-floor.svg
 ratingEnabled: true
 levels:
   - beginner
@@ -318,15 +319,15 @@ roles:
 products:
   - cogitave-core
 subjects:
-  - it-management
+  - software-engineering
 units:
-  - cogitave.learn.navigate-the-estate.introduction
-  - cogitave.learn.navigate-the-estate.the-mirror-principle
-  - cogitave.learn.navigate-the-estate.read-the-manifest
-  - cogitave.learn.navigate-the-estate.knowledge-check
-  - cogitave.learn.navigate-the-estate.summary
+  - cogitave.learn.apply-the-agents-floor.introduction
+  - cogitave.learn.apply-the-agents-floor.the-seven-rules
+  - cogitave.learn.apply-the-agents-floor.how-the-floor-is-enforced
+  - cogitave.learn.apply-the-agents-floor.knowledge-check
+  - cogitave.learn.apply-the-agents-floor.summary
 badge:
-  uid: cogitave.learn.navigate-the-estate.badge
+  uid: cogitave.learn.apply-the-agents-floor.badge
 ```
 
 The corresponding badge and trophy are added to [`achievements.yml`](../achievements.yml) as `type: badge` / `type: trophy` entries whose `uid` matches the references above.
@@ -358,6 +359,17 @@ Because a completed `Module` is a badge and a badge is competence evidence, `que
 
 ## 6. Authoring roadmap
 
+> [!NOTE]
+> **As-built status (2026-07-26).** All six scaffolded learning paths are now
+> **fully authored and building end to end**: `agent-platform-fundamentals`,
+> `contributor-onboarding`, `engineering-standards`, `patterns-golden-paths`,
+> `build-on-core`, and `operate-the-estate` - 25 modules, 123 units, every badge
+> and trophy resolved, every unit body grounded in and linked to its canonical
+> estate doc. The reserved module UIDs in the section-2 tables are the authority;
+> where a table below still names the earlier plan, the scaffold `index.yml` and
+> the authored module are what shipped. The remaining role/product/topic tracks
+> in section 2 stay the forward-looking target map.
+
 Day-0 honest: this document plus the path/module *scaffolds* are the deliverable now; **unit-body prose is a later content phase**. The knowledge platform build/serve engine is itself a separate task (task #15). Author in three waves.
 
 **Wave 1 - scaffold the foundation (now).** Ship `index.yml` for the two Tier-0 paths and full module + unit files for `contributor-onboarding` (it is the gate on everything). `agent-platform-fundamentals` already exists; only add the `contributor-onboarding` prerequisite to it. Add every new badge/trophy to `achievements.yml` as the paths are scaffolded.
@@ -366,8 +378,8 @@ Day-0 honest: this document plus the path/module *scaffolds* are the deliverable
 |---|---|
 | `paths/contributor-onboarding/index.yml` | full |
 | `paths/agent-platform-fundamentals/index.yml` | exists (add prereq) |
-| Tier-0 modules (`get-started-at-cogitave` ... `work-the-request-lifecycle`) | full modules + units |
-| `get-started-with-yuva`, `build-your-first-agent-with-namzu` | exist (yuva partial) |
+| Tier-0 modules (`apply-the-agents-floor` ... `open-your-first-pull-request`) | full modules + units |
+| `build-your-first-agent-with-namzu`, `understand-yuva` | exist (both fully authored, verified against the real SDK / kernel) |
 | all other path `index.yml` | scaffold (metadata + `modules:` list only) |
 | all other module `index.yml` | scaffold (metadata + `abstract` + empty/`units:` stub) |
 | unit `includes/*.md` bodies | Wave 3 |

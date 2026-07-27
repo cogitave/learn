@@ -1,0 +1,69 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.diyar-safety-and-evidence.knowledge-check
+title: "Knowledge check"
+metadata:
+  title: "Knowledge check"
+  description: "A short knowledge check on the safe-state rule, why the cloud cannot force actuation, and how Diyar's evidence chain detects tampering."
+  ms.date: 2026-07-27
+  author: cogitave
+  ms.topic: unit
+  module_assessment: true
+durationInMinutes: 5
+quiz:
+  title: "Knowledge check"
+  questions:
+    - content: "The safety design's core rule is that the heater's safe state is always OFF. Which layer is described as the hardware-only backstop against a wedged CPU — with no software, no firmware, and no failure mode it shares with the processor?"
+      choices:
+        - content: "The independent hardware thermal cutoff (Layer 1)"
+          isCorrect: true
+          explanation: "Correct. It is a thermal fuse or bimetallic limiter wired in series with the heater contactor that opens on temperature alone; nothing about it depends on the CPU running, so a wedged processor cannot defeat it."
+        - content: "The software typestate interlock in the edge-safety crate (Layer 3)"
+          isCorrect: false
+          explanation: "Incorrect. The typestate interlock only reacts inside the same control loop it is meant to guard — a heartbeat that can only fire from inside the loop it guards is not, by itself, a safe stall detector."
+        - content: "Worker enforcement in the measurement loop (Layer 4)"
+          isCorrect: false
+          explanation: "Incorrect. Worker enforcement is software running in the same process as the loop that might be wedged; it cuts the heater on every normal exit path, but it cannot run at all if the loop never returns control."
+    - content: "An operator starts a treatment remotely from a mobile app. What actually happens, per Diyar's design?"
+      choices:
+        - content: "The app sends a signed, device-bound, nonce- and TTL-limited request that the edge independently validates and may veto."
+          isCorrect: true
+          explanation: "Correct. Remote start is exactly this: signed, device-bound, nonce- and TTL-limited, and the edge validates it and can refuse it locally. There is no cloud primitive that can force actuation."
+        - content: "The app writes a \"desired\" field directly into the device shadow, and the edge applies whatever it finds there."
+          isCorrect: false
+          explanation: "Incorrect. The device shadow's desired state is deliberately config-class only (things like OTA channel or sampling interval); it can never be a command path to energy, and the edge only ever treats it as advisory configuration."
+        - content: "The cloud holds a broadcast actuation primitive it can use to start any enrolled device once the operator is authenticated."
+          isCorrect: false
+          explanation: "Incorrect. The design deliberately has no broadcast actuation primitive anywhere in the system; mass remote ignition is treated as the top threat in the model, not a supported feature."
+    - content: "Why does Diyar write every reading into a local SQLite journal before it publishes anything?"
+      choices:
+        - content: "So a power cut or a lost network connection can never cost evidence — the record already exists on disk before any transmission is attempted."
+          isCorrect: true
+          explanation: "Correct. The journal (WAL, synchronous=FULL) is written before publication specifically so a power cut or a lost uplink never costs evidence; it doubles as the store-and-forward outbox rather than being a separate staging step."
+        - content: "Because the cloud requires readings to arrive in a fixed batch size, and journaling lets the edge accumulate a full batch first."
+          isCorrect: false
+          explanation: "Incorrect. Journal-before-publish is tied to durability against power loss and connection loss, not to batch-size accounting."
+        - content: "Because the verdict engine can only evaluate readings that have already been hash-chained on disk."
+          isCorrect: false
+          explanation: "Incorrect. The verdict engine evaluates each step directly against the acquisition sweep; journaling and hash-chaining are about evidentiary durability and integrity, not a prerequisite the verdict engine imposes."
+    - content: "What happens when the cloud receives an evidence batch whose independently re-derived hash chain does not match what the edge claims?"
+      choices:
+        - content: "The cloud accepts the batch anyway, since the edge is the authoritative source for its own readings."
+          isCorrect: false
+          explanation: "Incorrect. The whole point of re-deriving the chain with the same canonicalization on both sides is that the cloud does not simply trust the edge's word."
+        - content: "The cloud quarantines whatever does not reconcile, because it independently re-derives the chain rather than trusting the edge's claim."
+          isCorrect: true
+          explanation: "Correct. The cloud re-derives the chain (and the per-session history-tree root) independently and quarantines anything that does not reconcile, rather than accepting it on faith."
+        - content: "The cloud silently drops the mismatched rows and continues processing the rest of the batch as if nothing happened."
+          isCorrect: false
+          explanation: "Incorrect. A mismatch is quarantined, not silently discarded — silently dropping rows would erase exactly the evidence of tampering this mechanism exists to surface."
+    - content: "A field device is driven over Modbus RTU and includes a heat output. What does profile validation require before the edge will accept that device's configuration?"
+      choices:
+        - content: "A watchdog block: the field device must de-energize its own heat output if it stops seeing a refresh from the edge within a configured expiry."
+          isCorrect: true
+          explanation: "Correct. Profile validation rejects a Modbus RTU transport that actuates a heat source without a watchdog block; the edge writes an incrementing heartbeat and the field device must self-cut if the refresh stops, because a lost serial cable means the edge can no longer guarantee an \"off\" command arrives."
+        - content: "A backup RS-485 cable so the bus has physical redundancy."
+          isCorrect: false
+          explanation: "Incorrect. The requirement is a comms-loss watchdog on the field device's own logic, not physical cable redundancy; profile validation does not ask for a second bus."
+        - content: "A cloud-side confirmation that the field device's firmware has been code-signed."
+          isCorrect: false
+          explanation: "Incorrect. That concerns firmware provenance, not the comms-loss safety requirement; the actual gate here is the watchdog register and its timing."

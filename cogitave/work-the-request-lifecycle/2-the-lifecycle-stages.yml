@@ -1,0 +1,12 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.work-the-request-lifecycle.the-lifecycle-stages
+title: The seven lifecycle stages
+metadata:
+  title: The seven lifecycle stages
+  description: The canonical seven stages a Request moves through, the artifact and gate each one produces, how stages auto-advance on green checks, and why the two write tools only ever propose.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: unit
+durationInMinutes: 6
+content: |
+  [!include[](includes/2-the-lifecycle-stages.md)]

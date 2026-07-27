@@ -1,0 +1,58 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.secure-sdlc.knowledge-check
+title: Knowledge check
+metadata:
+  title: Knowledge check
+  description: Check your grasp of the split between the Security Standard and the Secure Development Lifecycle Standard, when a threat model is mandatory, what the two Definition-of-Done gates enforce, and how vulnerability SLAs are re-ranked by exploit probability.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: unit
+  module_assessment: true
+durationInMinutes: 5
+quiz:
+  title: Check your knowledge
+  questions:
+    - content: "A design describes IAM (SSO, OIDC, agent capability grants) and also the process for running a threat model at the design gate. Which standard owns which, per Cogitave?"
+      choices:
+        - content: "The Security Standard owns the controls (IAM, secrets, PKI, security operations); the Secure Development Lifecycle Standard owns the process that applies them stage by stage."
+          isCorrect: true
+          explanation: "Correct. The SDL standard states plainly that it does not restate controls - wherever it names one, `security.md` is authoritative - and that it owns the process that yields secure software."
+        - content: "The Secure Development Lifecycle Standard owns both, and the Security Standard is only a certification mapping."
+          isCorrect: false
+          explanation: "Incorrect. The Security Standard owns the controls and is load-bearing for ISO 27001 / SOC 2; the certification control-mapping lives separately under `compliance/`."
+        - content: "The Security Standard owns both; the SDL standard just repeats them for developers."
+          isCorrect: false
+          explanation: "Incorrect. The SDL standard explicitly does not restate controls - it names which activity and gate each lifecycle stage owns, a process the Security Standard does not define."
+    - content: "A change adds a new external HTTP interface with a new authentication path. Is a threat model optional here?"
+      choices:
+        - content: "No - it is mandatory and cannot be waived (DoD S1), because the change introduces a new trust boundary, and it must be reviewed at the design gate before implementation."
+          isCorrect: true
+          explanation: "Correct. A new external interface or authn/authz path moves a trust boundary, which is one of the conditions that makes a threat model required; a model produced after code is a process failure."
+        - content: "Optional - a threat model is only ever required for changes to the Yuva agent OS."
+          isCorrect: false
+          explanation: "Incorrect. Yuva has a dedicated threat model, but the mandatory conditions apply estate-wide: design-class changes, new trust boundaries, new stores of personal or secret data, and new agent or LLM surfaces."
+        - content: "Optional now - the threat model can be written after the feature ships, once the interface is live to test against."
+          isCorrect: false
+          explanation: "Incorrect. The model is reviewed at the design gate, before implementation. A threat model produced after code exists is explicitly called a process failure."
+    - content: "In the request lifecycle, what do the two Definition-of-Done security gates, S1 and S2, enforce?"
+      choices:
+        - content: "S1 is the threat-model gate at design; S2 is the no-new-High-or-Critical finding gate at verify - together they make the lifecycle enforceable per change."
+          isCorrect: true
+          explanation: "Correct. S1 requires the reviewed threat model before implementation, and S2 blocks any merge that introduces a new High or Critical finding. Both are Definition-of-Done items."
+        - content: "S1 signs the release artifact and S2 generates the SBOM."
+          isCorrect: false
+          explanation: "Incorrect. SBOM generation and artifact signing happen at the release stage under the supply-chain gate, not at the S1/S2 Definition-of-Done security gates."
+        - content: "S1 and S2 are the SAST and secret-scan hooks that run at pre-commit."
+          isCorrect: false
+          explanation: "Incorrect. SAST and secret-scan are implement-stage pipeline tiers. S1 and S2 are the Definition-of-Done gates - threat-model-reviewed and no-new-high-or-critical."
+    - content: "A dependency finding scores CVSS 6.5 (Medium), but its EPSS exploit probability is 0.7. How does the SLA change?"
+      choices:
+        - content: "It is elevated one severity tier - to High - because EPSS > 0.5 (or a KEV listing) means probable real-world exploitation outranks the raw base score."
+          isCorrect: true
+          explanation: "Correct. The standard re-ranks CVSS by EPSS and known exploitation: EPSS above 0.5 or a CISA KEV listing elevates the item one tier, tightening its remediation SLA."
+        - content: "Nothing changes - the CVSS base score alone fixes the SLA at the Medium 30-day window."
+          isCorrect: false
+          explanation: "Incorrect. Prioritization is CVSS re-ranked by EPSS and known exploitation, not CVSS alone; a high EPSS deliberately overrides the base-score tier."
+        - content: "It is escalated straight onto the security-incident path regardless of exploitation status."
+          isCorrect: false
+          explanation: "Incorrect. The security-incident path is for actively exploited zero-days. A high EPSS raises the finding one severity tier inside the normal remediation flow, not onto the incident path."

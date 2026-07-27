@@ -1,0 +1,58 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.project-products-into-core.knowledge-check
+title: Knowledge check
+metadata:
+  title: Knowledge check
+  description: Check your grasp of why content projects into Core as one graph, how a document becomes a queryable node, the fact registry's cite-not-restate rule, and Core's honest Day-0 status.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: unit
+  module_assessment: true
+durationInMinutes: 4
+quiz:
+  title: Check your knowledge
+  questions:
+    - content: "Why does a product spec, a standard, or a piece of learn content project into Cogitave Core as a typed node instead of living in its own store?"
+      choices:
+        - content: "Because Core is the single canonical graph - docs, the IDP, governance, compliance evidence, and infra are all projections of it, so a human's UI and an agent's MCP client query the exact same model instead of separately drifting copies."
+          isCorrect: true
+          explanation: "Correct. The architecture spec states this as the thesis: never separate stores, always projections of one graph."
+        - content: "Because storing every file in one repository is cheaper than paying for several repositories."
+          isCorrect: false
+          explanation: "Incorrect. Cost of storage is not the reason given anywhere in the spec; the reason is a single queryable model, not a single repo."
+        - content: "Because the Model Context Protocol requires all content to live inside one server process."
+          isCorrect: false
+          explanation: "Incorrect. MCP is the query surface Core exposes; it does not mandate a single-process content store, and nothing in the MCP interface makes that claim."
+    - content: "A new standard lands and later shows up in `docs_fetch` and `docs_search` results. What actually made that happen?"
+      choices:
+        - content: "Its source blob was hashed and parsed into a typed node with a stable UID and a content-addressed `contentHash`, linked into the closed edge set, and the catalog/graph/search materializations were rebuilt as pure functions of the graph and published behind a new content root."
+          isCorrect: true
+          explanation: "Correct. That is the ACQUIRE-to-PUBLISH pipeline plus the identity scheme described in the architecture spec."
+        - content: "The Markdown file was copied as-is into a separate database that the MCP server queries directly."
+          isCorrect: false
+          explanation: "Incorrect. There is no separate database; the catalog, graph store, and search index are derived, rebuildable materializations of the one graph, not a second store."
+        - content: "Someone re-typed its title and summary into a spreadsheet that feeds the search box."
+          isCorrect: false
+          explanation: "Incorrect. There is no manual re-entry step; the pipeline is what turns the blob into a node, automatically and reproducibly."
+    - content: "The knowledge-propagation standard says a canonical SLO ladder must never be retyped as prose in a second document. What is the rule, and why?"
+      choices:
+        - content: "One owner document holds the value; every other artifact cites it (an xref, a relative link, or an include) rather than restating it, because a plain-prose restatement carries no edge and is invisible to every graph walk - exactly the failure class that let an ADR carry the wrong SLO ladder."
+          isCorrect: true
+          explanation: "Correct. This is the cite-not-restate rule: 'the ADR decides, the standard carries the number, everything else points.'"
+        - content: "Numbers may be freely retyped as long as they were correct at the moment they were written."
+          isCorrect: false
+          explanation: "Incorrect, and the standard says so directly: an unmarked restatement is a defect even while its value is still correct, because correctness today is not propagation tomorrow."
+        - content: "Numbers must be retyped in every document, because an agent cannot follow a link to another file."
+          isCorrect: false
+          explanation: "Incorrect. An agent follows an xref or resolves a resource URI over MCP exactly as readily as it reads inline prose; that is the whole point of a queryable graph."
+    - content: "The knowledge-propagation standard states that its own fact-drift scanner's first CI run is expected to fail. What does that mean?"
+      choices:
+        - content: "No Core server runs yet, so the registry and scanner operate on the mirror as plain files; the audits that motivated this design found real unrepaired restatement drift, and that first failure is the gate proving itself, not a defect in it."
+          isCorrect: true
+          explanation: "Correct. This is the standard's own Day-0 honesty note - stated up front rather than hidden."
+        - content: "The scanner itself is broken and should not be trusted until someone fixes it."
+          isCorrect: false
+          explanation: "Incorrect. The scanner is deterministic and read-only by design; the expected failure is about real drift it correctly finds, not a bug in the tool."
+        - content: "Cogitave Core is already deployed in production and is actively catching live drift there."
+          isCorrect: false
+          explanation: "Incorrect, and it overstates status. Core is a specification and architecture today; the registry and scanner run over files on the mirror, not against a live running graph."

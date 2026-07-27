@@ -1,0 +1,12 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.respond-to-incidents.the-incident-response-model
+title: The incident-response model
+metadata:
+  title: The incident-response model
+  description: The NIST 800-61r3/CSF 2.0 lifecycle, how an incident is detected and declared, the single severity scale and the security override, the single-commander roles, the runbook contract, and the blameless postmortem.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: unit
+durationInMinutes: 9
+content: |
+  [!include[](includes/2-the-incident-response-model.md)]

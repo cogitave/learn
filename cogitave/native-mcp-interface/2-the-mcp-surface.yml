@@ -1,0 +1,12 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.native-mcp-interface.the-mcp-surface
+title: Why MCP is the native surface
+metadata:
+  title: Why MCP is the native surface
+  description: ADR-0003's decision and drivers for making MCP the canonical query surface over Core, and the protocol baseline the server commits to - spec revision, transports, schema dialect, capabilities, and the tool-error model.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: unit
+durationInMinutes: 7
+content: |
+  [!include[](includes/2-the-mcp-surface.md)]

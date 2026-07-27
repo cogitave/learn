@@ -1,0 +1,12 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.diyar-safety-and-evidence.the-cloud-cannot-actuate
+title: "Why the cloud can request but never actuate"
+metadata:
+  title: "Why the cloud can request but never actuate"
+  description: "Why a remote treatment start is a signed, vetoable request the edge alone decides, and why the device shadow's desired state can only ever be configuration, never actuation."
+  ms.date: 2026-07-27
+  author: cogitave
+  ms.topic: unit
+durationInMinutes: 5
+content: |
+  [!include[](includes/2-the-cloud-cannot-actuate.md)]

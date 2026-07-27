@@ -1,0 +1,58 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.native-mcp-interface.knowledge-check
+title: Knowledge check
+metadata:
+  title: Knowledge check
+  description: Check your grasp of why MCP is Core's native surface, how tool errors are reported, how `query_graph` is bounded, and why the request-lifecycle write tools only propose.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: unit
+  module_assessment: true
+durationInMinutes: 4
+quiz:
+  title: Check your knowledge
+  questions:
+    - content: "ADR-0003 considered three options for Core's query surface: MCP-native, REST/GraphQL-native with an MCP adapter, and a proprietary agent RPC. Which did it choose, and why?"
+      choices:
+        - content: "MCP-native: tools and resources are canonical, REST/GraphQL/llms.txt are generated from the same materializations - because Cogitave is agent-first and one model/one query keeps humans and agents from drifting onto different data."
+          isCorrect: true
+          explanation: "Correct. The decision drivers were agent-first maturity, one model for humans and agents, standardized tool/resource semantics with subscriptions, and a spec with a clear upgrade path."
+        - content: "REST/GraphQL-native with an MCP adapter, because most existing tooling is built against REST."
+          isCorrect: false
+          explanation: "Incorrect. The ADR rejects this option explicitly: it would make agents second-class consumers, which it calls the opposite of the company thesis."
+        - content: "A proprietary agent RPC, because it gives full control over the wire format."
+          isCorrect: false
+          explanation: "Incorrect. The ADR rejects proprietary RPC for losing ecosystem and standardization - the opposite of what a spec-aligned surface buys."
+    - content: "A call to `docs_search` sends a `query` field of the wrong type. What happens under Core's MCP contract, and why was it designed that way?"
+      choices:
+        - content: "It comes back as a tool execution error (`isError: true`), not a JSON-RPC protocol error - so the calling model receives a readable failure and can self-correct, per SEP-1303."
+          isCorrect: true
+          explanation: "Correct. Tool input-validation failures are surfaced as tool execution errors precisely so a model can read what went wrong and retry, instead of the call simply breaking at the protocol level."
+        - content: "The server closes the session, since malformed tool input is treated as a protocol-level violation."
+          isCorrect: false
+          explanation: "Incorrect. Input-validation failures are tool execution errors, not protocol errors - the session and connection are unaffected."
+        - content: "The value is silently coerced to the nearest valid type so the call always returns a normal result."
+          isCorrect: false
+          explanation: "Incorrect. Nothing is silently coerced; the schema mismatch is reported back as an explicit tool error the caller can act on."
+    - content: "`query_graph` is the one Core tool that runs an actual graph-query pattern. What keeps it from being a general, unrestricted query escape hatch?"
+      choices:
+        - content: "It is read-only, restricted to an allowlisted set of node/edge labels, capped at traversal depth `*1..4`, capped at 1000 rows (with a `truncated` flag), and bounded by a per-query timeout and an expansion guard - any violation returns a tool error."
+          isCorrect: true
+          explanation: "Correct. This is the bounded graph-query profile: no mutation or DDL, a closed vocabulary, and hard limits enforced server-side rather than left to caller discipline."
+        - content: "It requires a signed commit to be attached to every query before it runs."
+          isCorrect: false
+          explanation: "Incorrect. Commit signing governs the estate's source-control writes; it has nothing to do with bounding a read-only graph query."
+        - content: "It is available only to human operators through a separate console, never to agents over MCP."
+          isCorrect: false
+          explanation: "Incorrect. `query_graph` is an MCP tool available to any caller within its grant; the safety comes from its bounds, not from excluding agents."
+    - content: "`request_intake` and `advance_stage` let an agent work the request lifecycle over MCP. What do they actually do?"
+      choices:
+        - content: "They validate input and stage a draft `Request` node plus the corresponding GitHub issue or PR - propose-only; they never mutate protected state or apply anything."
+          isCorrect: true
+          explanation: "Correct. Reads are unrestricted within a caller's grant, but these two write tools only ever produce a draft node and an issue/PR, honoring AGENTS.md's 'no unapproved mutation.'"
+        - content: "They merge the resulting pull request automatically once the intake form validates."
+          isCorrect: false
+          explanation: "Incorrect. Merging is a human gate; these tools stop at opening the issue/PR and staging a draft node, never at merging or applying."
+        - content: "They are read-only, functioning exactly like `list_requests` and `get_request`."
+          isCorrect: false
+          explanation: "Incorrect. They are the two writing tools in the set - propose-only writes, not reads - distinct from the read tools `list_requests`, `get_request`, and `get_dod`."

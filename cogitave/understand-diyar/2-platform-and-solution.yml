@@ -1,0 +1,12 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.understand-diyar.platform-and-solution
+title: "The platform and solution split"
+metadata:
+  title: "The platform and solution split"
+  description: "How Diyar separates what every regulated deployment needs (the platform) from what one industry adds on top (a solution), why ISPM-15 is a solution and not the product, and the diyar:<layer>:<name>;<major> id grammar shared across all four layers."
+  ms.date: 2026-07-27
+  author: cogitave
+  ms.topic: unit
+durationInMinutes: 6
+content: |
+  [!include[](includes/2-platform-and-solution.md)]

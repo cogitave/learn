@@ -1,0 +1,12 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.install-the-massar-agent.a-session-and-local-proof
+title: "A session end to end, and proving it locally"
+metadata:
+  title: "A session end to end, and proving it locally"
+  description: "How a Massar session opens, resizes, and closes over a PTY, and how to reproduce the whole relay locally with massar-broker-dev and massar-op-test, no Diyar account required."
+  ms.date: 2026-07-27
+  author: cogitave
+  ms.topic: unit
+durationInMinutes: 8
+content: |
+  [!include[](includes/4-a-session-and-local-proof.md)]

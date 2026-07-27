@@ -1,0 +1,12 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.reuse-first-engineering.why-reuse-first
+title: Why reuse-first, and what enforces it
+metadata:
+  title: Why reuse-first, and what enforces it
+  description: The discover-before-generate hard rule, the tokens-to-primitives-to-golden-components single source of truth, the MCP-native registry, and the anti-duplication gates that keep a needless re-author out of main.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: unit
+durationInMinutes: 8
+content: |
+  [!include[](includes/2-why-reuse-first.md)]

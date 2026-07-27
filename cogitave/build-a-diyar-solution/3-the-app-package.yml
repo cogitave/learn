@@ -1,0 +1,12 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.build-a-diyar-solution.the-app-package
+title: "The app package and the permission model"
+metadata:
+  title: "The app package and the permission model"
+  description: "The three signed JSON documents that make up a Diyar app package, the OBSERVE/OPERATE/ACTUATE tiers, and the offline A n B n C authority intersection - including the firmware allowlist that makes hazardous actuation certifiable."
+  ms.date: 2026-07-27
+  author: cogitave
+  ms.topic: unit
+durationInMinutes: 8
+content: |
+  [!include[](includes/3-the-app-package.md)]

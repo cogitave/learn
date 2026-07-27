@@ -1,0 +1,58 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.operate-from-day-1.knowledge-check
+title: Knowledge check
+metadata:
+  title: Knowledge check
+  description: Check your grasp of the parity contract, how the inner and outer loop compose, why ADR-0025 chose flow over Scrum, and what a WIP limit protects when agents are team members.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: unit
+  module_assessment: true
+durationInMinutes: 4
+quiz:
+  title: Check your knowledge
+  questions:
+    - content: "A change passes a teammate's local pre-commit hook, but the identical commit fails the same check in CI. What does development-process say this means?"
+      choices:
+        - content: "The parity contract - lefthook commands == CI commands == just targets - is broken somewhere; since the hook and CI are meant to call the same `just` target through the same pinned `.mise.toml` toolchain, this is a parity bug, not a flaky test, and the fix is to close the gap, never to relax CI."
+          isCorrect: true
+          explanation: "Correct. Drift between hook and CI is the exact bug development-process exists to kill; there is deliberately no fourth, hand-written copy of the command."
+        - content: "This is expected, because the pre-commit hook and CI are unrelated tools that happen to run similar checks."
+          isCorrect: false
+          explanation: "Incorrect. The standard's load-bearing rule is that they run the *same* command through the same toolchain; if results diverge, something is genuinely broken, not merely coincidental."
+        - content: "The correct fix is to relax the CI check so it matches whatever the more permissive local hook allows."
+          isCorrect: false
+          explanation: "Incorrect. CI is the real, unbypassable gate; the hook is only a bypassable convenience. Loosening CI to match a local pass would remove the actual gate, which is the opposite of the fix."
+    - content: "How does ways-of-working.md describe its relationship to development-process.md?"
+      choices:
+        - content: "Ways-of-working is the outer loop that sits above the inner-loop toolchain (edit -> build -> test, in seconds) and uses the request-lifecycle Request as its unit of work; it composes with the inner loop rather than replacing it."
+          isCorrect: true
+          explanation: "Correct. The two documents are explicitly layered: the outer loop plans and flows the same Requests the inner loop's implement stage builds and tests."
+        - content: "Ways-of-working replaces development-process's pinned toolchain and canonical `just` targets with a new set of tools."
+          isCorrect: false
+          explanation: "Incorrect. Ways-of-working is about planning and flowing work, not about the toolchain; it does not touch mise, just, or the parity contract."
+        - content: "The two documents describe unrelated, non-overlapping parts of the estate with no cross-link between them."
+          isCorrect: false
+          explanation: "Incorrect. Ways-of-working explicitly cross-links development-process as the inner loop it sits above, and reuses its DORA/SPACE measurement rather than inventing a second one."
+    - content: "Per ADR-0025, why was Scrum rejected as Cogitave's base internal engineering method?"
+      choices:
+        - content: "Fixed sprints batch work against trunk-based continuous delivery, velocity is a trivially gamed metric that is meaningless once agents are team members, and Scrum's ceremonies and roles exist to manage a coordination problem this small, autonomy-by-default team does not have."
+          isCorrect: true
+          explanation: "Correct. This is the ADR's stated reasoning: the failure modes (batching, gameable velocity, human-only roles and ceremony) actively hurt a team on trunk-based CD with agents pulling work continuously."
+        - content: "Scrum was rejected because ADR-0025 concludes it is a flawed method that no team should ever use."
+          isCorrect: false
+          explanation: "Incorrect. The ADR is explicit that Scrum genuinely fits newer teams needing scaffolding or fixed-scope, stakeholder-heavy work; it is rejected as the wrong fit for *this* team, not condemned in general."
+        - content: "Scrum was rejected purely because Cogitave could not staff a dedicated Scrum Master role."
+          isCorrect: false
+          explanation: "Incorrect. Staffing a role is never cited as a reason in the ADR; the stated reasons are sprint batching against trunk-based CD, gameable velocity, and ceremony built for a coordination problem this team lacks."
+    - content: "In the flow-based model, agents pull and execute most Requests unattended. What does the WIP limit actually protect, and when does a human get involved?"
+      choices:
+        - content: "The WIP limit protects the scarce human-attention budget - items awaiting review, sign-off, or the exception gate - not raw agent throughput; a human is pulled in only on an exception (a failed check, low confidence or novelty, drift or a policy violation, or a transition in the always-human set), not as a routine checkpoint on every item."
+          isCorrect: true
+          explanation: "Correct. This is the stated purpose of the WIP limit in the flow-based model: it exists so human review never becomes a silently-growing queue, while in-spec work runs unattended."
+        - content: "The WIP limit caps how many agents may run concurrently, and every item still needs a human's approval before advancing to the next stage."
+          isCorrect: false
+          explanation: "Incorrect. The limit is about the human-attention budget, not a cap on agent concurrency, and a human is deliberately not asked to sign off at every boundary - only on an exception."
+        - content: "The WIP limit is a vanity metric used to rank how much work each individual contributor completes."
+          isCorrect: false
+          explanation: "Incorrect. Flow metrics are explicitly the honest, hard-to-game alternative to individual ranking; a WIP limit is a flow-management control, never a leaderboard input."

@@ -1,0 +1,37 @@
+### YamlMime:Module
+uid: cogitave.learn.secure-sdlc
+metadata:
+  title: Build with the secure SDLC
+  description: The security baseline every Cogitave product carries - threat modeling, least privilege, and IAM at a high level - and the secure development lifecycle that makes security a gate at each stage rather than a release-time bolt-on, mapped onto the request lifecycle you already work.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: module
+title: Build with the secure SDLC
+summary: State the security baseline - threat modeling, least privilege, and IAM - and follow the secure development lifecycle that shifts security left, so each stage of a change carries its own security gate instead of a check bolted on at the end.
+abstract: |
+  By the end of this module, you'll be able to:
+  - Distinguish the security controls the Security Standard owns (IAM, secrets, PKI, security operations) from the process the Secure Development Lifecycle Standard owns.
+  - Explain the security baseline: STRIDE-style threat modeling, least privilege, and identity and access management for humans, workloads, and agents.
+  - Map security as a gate onto each stage of the request lifecycle - from a threat model at the design gate to remediation SLAs after release - rather than treating it as an afterthought.
+  - Say when a threat model is mandatory and what enforces the no-new-high-or-critical gate, and follow each rule to the standard that owns the detail.
+prerequisites: |
+  - Familiarity with the AGENTS floor and the request lifecycle Cogitave changes move through.
+  - Basic understanding of Git, pull requests, and CI gates.
+iconUrl: /learn/achievements/secure-sdlc.svg
+ratingEnabled: true
+levels:
+  - intermediate
+roles:
+  - developer
+products:
+  - cogitave-core
+subjects:
+  - software-engineering
+units:
+  - cogitave.learn.secure-sdlc.introduction
+  - cogitave.learn.secure-sdlc.the-security-baseline
+  - cogitave.learn.secure-sdlc.the-secure-development-lifecycle
+  - cogitave.learn.secure-sdlc.knowledge-check
+  - cogitave.learn.secure-sdlc.summary
+badge:
+  uid: cogitave.learn.secure-sdlc.badge

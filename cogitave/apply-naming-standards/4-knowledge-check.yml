@@ -1,0 +1,58 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.apply-naming-standards.knowledge-check
+title: Knowledge check
+metadata:
+  title: Knowledge check
+  description: Check your grasp of keyword-first naming, casing by role, tiers as metadata, and when a product codename is allowed versus codename-exempt.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: unit
+  module_assessment: true
+durationInMinutes: 4
+quiz:
+  title: Check your knowledge
+  questions:
+    - content: "You are creating a new repository under the `cogitave` org for a bootstrap toolkit. Which name follows the naming standard?"
+      choices:
+        - content: "`bootstrap` - a plain, lowercase kebab-case keyword, with no redundant `cogitave-` prefix."
+          isCorrect: true
+          explanation: "Correct. The org already provides the namespace, so repos are plain keywords with no `cogitave-` echo. This is the keyword-first principle and ADR-0007."
+        - content: "`cogitave-bootstrap` - prefixing with the org makes the name unambiguous."
+          isCorrect: false
+          explanation: "Incorrect. The `cogitave-` prefix is exactly the redundancy ADR-0007 removes; inside a `cogitave/` namespace the hierarchy already disambiguates."
+        - content: "`internal-bootstrap` - encode the tier so readers know its visibility."
+          isCorrect: false
+          explanation: "Incorrect. Tiers such as `self`, `public`, and `internal` are `estate.yaml` metadata values, never part of a repo name. Immutable IDs carry no mutable facts."
+    - content: "A Go file needs a constant for a maximum length and a struct field for an HTTP URL. Which casing does the naming standard require?"
+      choices:
+        - content: "`maxLength` for the constant and `URL` for the initialism - Go uses `MixedCaps`, never underscores, and keeps initialisms uniform case."
+          isCorrect: true
+          explanation: "Correct. Go constants use MixedCaps (`maxLength`, not `MAX_LENGTH`) and initialisms stay uniform (`ID`, `URL`, `HTTP`), so casing follows the identifier's role in that language."
+        - content: "`MAX_LENGTH` and `Url` - screaming snake case marks a constant and `Url` reads as a word."
+          isCorrect: false
+          explanation: "Incorrect. `SCREAMING_SNAKE_CASE` is a Rust convention for consts; Go forbids underscores in identifiers, and it never writes `Url` - initialisms stay uniform (`URL`)."
+        - content: "`max_length` and `http_url` - snake_case is the estate default everywhere."
+          isCorrect: false
+          explanation: "Incorrect. snake_case is Rust's role for functions and variables, not a global default; casing is assigned by role per language, and Go uses MixedCaps."
+    - content: "The team is standing up the repo for a new product whose codename is `duru`, a browser. How should the repo be named?"
+      choices:
+        - content: "`browser` - the descriptive category keyword, since the category is the clearest identifier; the codename `duru` stays the product identity and the registry binds the two."
+          isCorrect: true
+          explanation: "Correct. A repo is either the codename (when the product leads with its name) or the descriptive keyword (when the category is clearest). The codename standard names `browser` as exactly this case."
+        - content: "`duru-browser` - concatenate the codename and the category so both are visible."
+          isCorrect: false
+          explanation: "Incorrect. You never concatenate a codename with its category (`duru-browser`, `yuva-os`). The registry holds the mapping; the name stays simple."
+        - content: "`cogitave-duru` - prefix the codename with the org for a globally unique repo."
+          isCorrect: false
+          explanation: "Incorrect. The redundant `cogitave-` prefix is dropped inside the org namespace, and a repo is a plain keyword - either the codename or the category, not a prefixed blend."
+    - content: "Someone proposes giving the `core` infrastructure repo a Roots codename to match `yuva` and `namzu`. What does the codename standard say?"
+      choices:
+        - content: "Platform and infrastructure primitives are codename-exempt; `core`, `bootstrap`, `standards`, `agents`, and `infra` run under descriptive keyword names because they are substrate, not marketed surfaces."
+          isCorrect: true
+          explanation: "Correct. A Roots codename is reserved for products and major externally-distinct initiatives; infra primitives stay on their descriptive keyword unless one ever graduates into a distinct external product."
+        - content: "Every repo must have a codename, so `core` should be assigned the next available Roots token immediately."
+          isCorrect: false
+          explanation: "Incorrect. Codenames are one-per-product, not one-per-repo; primitives are explicitly codename-exempt."
+        - content: "Assign a codename and mark it `active` right away, since `core` already ships."
+          isCorrect: false
+          explanation: "Incorrect. Even for an eligible product a codename goes `active` only after knockout checks, founder sign-off, and full clearance - and `core`, as a primitive, is exempt in the first place."

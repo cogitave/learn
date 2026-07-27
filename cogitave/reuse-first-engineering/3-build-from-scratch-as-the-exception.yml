@@ -1,0 +1,12 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.reuse-first-engineering.build-from-scratch-as-the-exception
+title: Build from scratch as the exception
+metadata:
+  title: Build from scratch as the exception
+  description: ADR-0003's port-best-in-class, rebuild-native stance - references not dependencies, reinvent only where you materially beat the reference, the sanctioned bootstrap crutch, and how the technology radar records every default.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: unit
+durationInMinutes: 8
+content: |
+  [!include[](includes/3-build-from-scratch-as-the-exception.md)]

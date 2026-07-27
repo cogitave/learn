@@ -1,0 +1,12 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.navigate-the-patterns-catalog.introduction
+title: Introduction
+metadata:
+  title: Introduction
+  description: What the patterns catalog is, the gap it closes between the reuse-first principle and a one-hop answer, and what you will be able to do after this module.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: unit
+durationInMinutes: 4
+content: |
+  [!include[](includes/1-introduction.md)]

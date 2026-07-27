@@ -1,0 +1,12 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.open-your-first-pull-request.pass-the-gates-and-open-the-pr
+title: Pass the gates and open the PR
+metadata:
+  title: Pass the gates and open the PR
+  description: What the pre-commit hooks run (formatters, linters, gitleaks, commitlint), why CI is the real gate, how docs-as-code is enforced, and how to open a pull request that stops for human review.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: unit
+durationInMinutes: 6
+content: |
+  [!include[](includes/3-pass-the-gates-and-open-the-pr.md)]

@@ -1,0 +1,12 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.configuration-management.introduction
+title: Introduction
+metadata:
+  title: Introduction
+  description: Why Cogitave treats configuration as typed data that a misconfigured service refuses to run on, why secrets are references rather than values, and what you will be able to do after this module.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: unit
+durationInMinutes: 4
+content: |
+  [!include[](includes/1-introduction.md)]

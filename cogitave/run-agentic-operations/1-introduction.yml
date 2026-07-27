@@ -1,0 +1,12 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.run-agentic-operations.introduction
+title: Introduction
+metadata:
+  title: Introduction
+  description: Cogitave dogfoods its own agent platform to run the estate - what agentic operations covers, why it spans both engineering and the business, and what you will be able to do after this module.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: unit
+durationInMinutes: 4
+content: |
+  [!include[](includes/1-introduction.md)]

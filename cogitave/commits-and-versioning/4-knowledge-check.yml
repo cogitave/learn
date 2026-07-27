@@ -1,0 +1,58 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.commits-and-versioning.knowledge-check
+title: Knowledge check
+metadata:
+  title: Knowledge check
+  description: Check your grasp of the Conventional Commits grammar, how commit types drive Semantic Versioning, the pre-1.0 rule, how release-please cuts a release, and the protected-main branching model.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: unit
+  module_assessment: true
+durationInMinutes: 5
+quiz:
+  title: Check your knowledge
+  questions:
+    - content: "You fixed a bug in the authentication code. Which Conventional Commits message is correct, and what version bump does it drive?"
+      choices:
+        - content: "`fix(auth): reject expired refresh tokens` - the `fix` type drives a PATCH bump."
+          isCorrect: true
+          explanation: "Correct. A bug fix uses the `fix` type, which the commits-versioning standard maps to a PATCH bump, and `(auth)` is the optional scope naming where the change lands."
+        - content: "`chore(auth): reject expired refresh tokens` - `chore` keeps the change out of the release."
+          isCorrect: false
+          explanation: "Incorrect. `chore` is for changes that do not bump the version, so calling a real bug fix a `chore` hides it from the changelog and skips the patch release it should have shipped."
+        - content: "`auth: fixed expired refresh tokens` - the scope comes first, then a past-tense description."
+          isCorrect: false
+          explanation: "Incorrect. The grammar is `<type>[scope][!]: <desc>` - the type comes first and the scope goes in parentheses. `auth:` has no type token, so commitlint would reject it."
+    - content: "A commit is `feat(api)!: remove the deprecated v1 response field`. On a package already at `2.3.0`, what version does it produce?"
+      choices:
+        - content: "`3.0.0` - the `!` marks a breaking change, which drives a MAJOR bump."
+          isCorrect: true
+          explanation: "Correct. The `!` before the colon (equivalently a `BREAKING CHANGE:` footer) marks a break, and past 1.0.0 a break bumps MAJOR - `2.3.0` becomes `3.0.0`."
+        - content: "`2.4.0` - because the type is `feat`, it is a MINOR bump regardless of the `!`."
+          isCorrect: false
+          explanation: "Incorrect. A plain `feat` is a MINOR bump, but the `!` overrides that and marks the change as breaking, which is a MAJOR bump."
+        - content: "`2.3.1` - removing a field is a fix, so it is a PATCH bump."
+          isCorrect: false
+          explanation: "Incorrect. The message's type is `feat` and it carries a `!`, so the tooling reads a breaking change, not a patch. The version math follows the marker, not your intuition about the change."
+    - content: "A package is at `0.4.2` and you land a breaking change with a `BREAKING CHANGE:` footer. What version does the pre-1.0 rule produce?"
+      choices:
+        - content: "`0.5.0` - pre-1.0.0, everything including breaking changes bumps MINOR or PATCH, and MAJOR stays at 0 until 1.0.0 is declared."
+          isCorrect: true
+          explanation: "Correct. Under SemVer's `0.y.z` rule, as the commits-versioning standard notes, a break does not force `1.0.0`; it bumps MINOR to `0.5.0`. The first major is a deliberate decision."
+        - content: "`1.0.0` - a breaking change always bumps MAJOR, so it crosses to 1.0.0."
+          isCorrect: false
+          explanation: "Incorrect. That is the post-1.0 rule. While a package is still `0.y.z`, MAJOR stays at 0 even for breaking changes - reaching 1.0.0 is a decision, not an automatic consequence of a break."
+        - content: "`0.4.3` - a breaking change with no `!` is only a PATCH."
+          isCorrect: false
+          explanation: "Incorrect. The `BREAKING CHANGE:` footer marks a break just as `!` does, so this is not a patch; pre-1.0 it bumps MINOR to `0.5.0`."
+    - content: "Merged commits with releasable types have landed on `main`. How does a versioned release actually get cut under the org standards?"
+      choices:
+        - content: "release-please opens a Release-PR proposing the next SemVer number and a Keep a Changelog entry; a human merges it, which cuts the tag and artifact."
+          isCorrect: true
+          explanation: "Correct. release-please in manifest mode assembles the human-approved Release-PR and changelog; merging it - a human-enacted step past protected main - produces the SemVer tag and signed artifact."
+        - content: "Each commit to `main` immediately publishes a new tagged release with no further approval."
+          isCorrect: false
+          explanation: "Incorrect. Releases are human-approved: release-please batches releasable commits into a Release-PR, and a person merges it. `main` is protected, so nothing auto-publishes on each commit."
+        - content: "A developer force-pushes a tag directly to `main` to mark the release."
+          isCorrect: false
+          explanation: "Incorrect. The branching-release ruleset blocks force-push and requires a reviewed PR into protected `main`; releases go through the Release-PR flow, not a hand-pushed tag."

@@ -1,0 +1,12 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.api-design.introduction
+title: Introduction
+metadata:
+  title: Introduction
+  description: Why Cogitave separates how an API is shaped from how it evolves, which two standards own each, and what you will be able to design and version after this module.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: unit
+durationInMinutes: 4
+content: |
+  [!include[](includes/1-introduction.md)]

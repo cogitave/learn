@@ -1,0 +1,58 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.ci-cd-pipelines.knowledge-check
+title: Knowledge check
+metadata:
+  title: Knowledge check
+  description: Check your grasp of the canonical CI stage set and its mandatory floor, why CI is the real gate, and how the deployment model promotes one signed artifact through gated environments.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: unit
+  module_assessment: true
+durationInMinutes: 5
+quiz:
+  title: Check your knowledge
+  questions:
+    - content: "A pull request passed the local pre-commit hook cleanly, but its CI run is red on the coverage gate. Which statement matches the standard?"
+      choices:
+        - content: "CI is the real gate and the local hook is only its fast mirror; the merge is blocked until the coverage gate is green, regardless of what the hook reported."
+          isCorrect: true
+          explanation: "Correct. ADR 0017 states CI is the real gate and local hooks are only the fast mirror. The hook can run on a stale tree or be skipped, so a green hook never overrides a red required check."
+        - content: "The local hook is authoritative because it ran on the developer's actual working tree, so the red CI result can be overridden."
+          isCorrect: false
+          explanation: "Incorrect. The hook is a mirror, not the gate. It can be skipped or run against a stale tree; only the canonical CI run on the merge candidate is recorded evidence."
+        - content: "Coverage is an optional stage, so a red coverage gate is a warning that does not block the merge."
+          isCorrect: false
+          explanation: "Incorrect. The coverage gate is part of the mandatory floor on every pull request; a failed mandatory gate is fail-fast and blocks the merge."
+    - content: "Which set is the mandatory CI floor that every pull request must pass, for all project types?"
+      choices:
+        - content: "Checkout and toolchain, resolve and cache, format check, lint, build, unit tests, the coverage gate, secret scan, SAST, SCA and license, and docs-required."
+          isCorrect: true
+          explanation: "Correct. The CI/CD standard names exactly this floor as mandatory on every PR for all project types; the remaining stages are conditional on project type and risk class."
+        - content: "Only build and unit tests - everything else, including secret scanning and docs-required, is enabled per project type."
+          isCorrect: false
+          explanation: "Incorrect. The secret scan, SAST, SCA and license, and docs-required are all part of the mandatory floor, not project-type add-ons."
+        - content: "The full stage set including container scan, SBOM, and E2E, because every stage is mandatory on every repository."
+          isCorrect: false
+          explanation: "Incorrect. Container scan, SBOM and provenance, and E2E are conditional - they run only where the project ships that surface or a public contract exists."
+    - content: "A team wants to add a custom lint step by copying the org quality-gate workflow into their repo and editing it. What does the standard require instead?"
+      choices:
+        - content: "Repos call the org reusable workflows and pass inputs; stage logic lives only in the reusable set, so a customization is an input, never a fork of the workflow body."
+          isCorrect: true
+          explanation: "Correct. ADR 0017 and the pipeline standard require thin callers that wire reusable workflows by SHA-pinned reference; forking the body causes gate drift and is disallowed."
+        - content: "Each repo should maintain its own copy of the workflow so teams can move independently."
+          isCorrect: false
+          explanation: "Incorrect. Per-repo bespoke workflows were explicitly rejected in ADR 0017 because they guarantee gate drift and unauditable inconsistency across the estate."
+        - content: "Copy the workflow but pin it to a branch instead of a SHA so it stays up to date automatically."
+          isCorrect: false
+          explanation: "Incorrect. The standard requires every uses: to be pinned to a full commit SHA, and it forbids forking stage logic at all - the fix is to call the reusable workflow, not to copy it."
+    - content: "A release is ready to promote to prod. Under the deployment model, what happens at the production gate?"
+      choices:
+        - content: "The signed digest is verified (failing closed if unverifiable), then a human approves the manual promote in a protected environment with prevent-self-review and admin bypass disabled; agents and CI never self-approve prod."
+          isCorrect: true
+          explanation: "Correct. The deployment standard and ADR 0017 make prod a manually promoted, protection-gated environment with signature verification that fails closed and a human holding the gate under separation of duties."
+        - content: "CI applies the change directly to the prod cluster once staging is green, since automation removes the need for a human step."
+          isCorrect: false
+          explanation: "Incorrect. Delivery is pull-based GitOps: CI never applies to a cluster, and prod always requires a human approval - agents propose, humans enact."
+        - content: "A fresh artifact is rebuilt for prod from the release tag to guarantee it matches production settings."
+          isCorrect: false
+          explanation: "Incorrect. You promote the same signed digest forward across environments; a rebuilt binary is a different, unverified artifact, which the standard forbids."

@@ -1,0 +1,38 @@
+### YamlMime:Module
+uid: cogitave.learn.observability-and-reliability
+metadata:
+  title: Observability and reliability
+  description: How Cogitave measures a running system and engineers its reliability - OpenTelemetry-spec traces, metrics, and logs bound to the Core model, agent traces kept as evidence, and SLIs, SLOs, error budgets, and the error-budget policy that freezes release velocity when the budget is spent.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: module
+title: Observability and reliability
+summary: Instrument a service with OpenTelemetry-spec traces, metrics, and logs, understand why agent traces are kept as evidence, and reason about reliability through SLIs, SLOs, error budgets, and the policy that turns a spent budget into a release freeze.
+abstract: |
+  By the end of this module, you'll be able to:
+  - Describe Cogitave's telemetry model - OpenTelemetry-spec traces, metrics, and logs under one correlation, bound to the Core model and queryable from MCP.
+  - Explain what AI/agent observability adds - the agent trace, token and cost, eval drift, and inference records kept as responsible-AI evidence.
+  - Define an SLI, an SLO, and an error budget, and compute a budget from an SLO and a window.
+  - State the error-budget policy - the rule that converts a spent budget into a per-service feature freeze - and why the SLA is always looser than the SLO.
+  - Read the observability and reliability standards as the source of truth and follow them for the detail.
+prerequisites: |
+  - Familiarity with running a web service and reading its logs.
+  - The "Apply the AGENTS floor" module, or equivalent estate familiarity, is recommended.
+iconUrl: /learn/achievements/observability-and-reliability.svg
+ratingEnabled: true
+levels:
+  - intermediate
+roles:
+  - developer
+products:
+  - cogitave-core
+subjects:
+  - software-engineering
+units:
+  - cogitave.learn.observability-and-reliability.introduction
+  - cogitave.learn.observability-and-reliability.instrument-for-observability
+  - cogitave.learn.observability-and-reliability.reliability-and-slos
+  - cogitave.learn.observability-and-reliability.knowledge-check
+  - cogitave.learn.observability-and-reliability.summary
+badge:
+  uid: cogitave.learn.observability-and-reliability.badge

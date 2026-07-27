@@ -1,0 +1,96 @@
+/*
+ * learn.cogitave.com - stylesheet.
+ *
+ * The spec is docs/design-language.md. Four constraints from it are absolute and
+ * every rule below obeys them:
+ *
+ *   1. Type is 12 / 13 / 14 / 24 px. Nothing else. Rank comes from weight,
+ *      colour, rules, and space - never from a fifth size.
+ *   2. Weights are 400 and 500. No semibold, no bold. `<strong>` is 500.
+ *   3. Letter spacing is -0.15px everywhere, set once on `body` and inherited.
+ *   4. Radii are 8px (controls, code, alerts), 16px (cards, panels), and a full
+ *      pill on the primary call to action.
+ *
+ * Colour is monochrome: a three-step text ramp carries the whole hierarchy.
+ * There is exactly one accent - near-black on the light theme, the marketing
+ * surface's ivory on the dark theme - so the two properties read as one brand.
+ *
+ * Plain CSS, no framework, no build step: a RECORDED DEVIATION from
+ * design-system.md, which binds docs surfaces to cogitave/ui. That package is
+ * README-only today, so there is nothing to consume yet; the custom properties
+ * are named after the semantic roles they will map onto when it ships.
+ * See docs/build-v0.md, deviation D3.
+ */
+
+/* ========================================================================== */
+/* faces                                                                      */
+/* ========================================================================== */
+
+/*
+ * CG Pro and CG Mono are the site-facing names of the two self-hosted faces.
+ * Their provenance, licensing, and the command that produced the subsets are
+ * recorded in `tools/assets/fonts/README.md` and in docs/design-language.md -
+ * the alias is how the site addresses them, not a claim about who drew them.
+ *
+ * Latin subset only, since the estate is English-only. `swap` because a docs
+ * page must be readable before the face arrives.
+ */
+
+@font-face {
+  font-family: "CG Pro";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/assets/fonts/cg-pro-text-400.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "CG Pro";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/assets/fonts/cg-pro-text-500.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "CG Pro";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/assets/fonts/cg-pro-text-400-italic.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "CG Pro";
+  font-style: italic;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/assets/fonts/cg-pro-text-500-italic.woff2") format("woff2");
+}
+
+/* The optical size crossover: the display cut is drawn for 20px and up, which
+   in this scale is the 24px page title and nothing else. */
+@font-face {
+  font-family: "CG Pro Display";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/assets/fonts/cg-pro-display-500.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "CG Mono";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/assets/fonts/cg-mono-400.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "CG Mono";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/assets/fonts/cg-mono-500.woff2") format("woff2");
+}
+

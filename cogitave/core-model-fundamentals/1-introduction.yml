@@ -1,0 +1,12 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.core-model-fundamentals.introduction
+title: Introduction
+metadata:
+  title: Introduction
+  description: Why Cogitave Core is one canonical graph that docs, the IDP, governance, infra, and agents all project from, and an honest note on what is decided architecture versus a running product.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: unit
+durationInMinutes: 4
+content: |
+  [!include[](includes/1-introduction.md)]

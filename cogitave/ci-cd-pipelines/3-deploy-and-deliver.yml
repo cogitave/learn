@@ -1,0 +1,12 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.ci-cd-pipelines.deploy-and-deliver
+title: Deploy and deliver
+metadata:
+  title: Deploy and deliver
+  description: The outer loop - how one signed artifact is promoted dev to staging to prod by pull-based GitOps, with signature-verified deploy gates, SLO-gated progressive delivery, and a human gate on production.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: unit
+durationInMinutes: 7
+content: |
+  [!include[](includes/3-deploy-and-deliver.md)]

@@ -1,0 +1,58 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.observability-and-reliability.knowledge-check
+title: Knowledge check
+metadata:
+  title: Knowledge check
+  description: Check your grasp of Cogitave's telemetry model, AI/agent observability, the error-budget math, and the error-budget policy that freezes release velocity.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: unit
+  module_assessment: true
+durationInMinutes: 4
+quiz:
+  title: Check your knowledge
+  questions:
+    - content: "You are instrumenting a new knowledge-query service. What does Cogitave's observability standard require its telemetry to look like?"
+      choices:
+        - content: "Traces, metrics, and logs that are OpenTelemetry-spec, correlated under one model, and bound to the Cogitave Core model so they are queryable from MCP."
+          isCorrect: true
+          explanation: "Correct. The standard defines OpenTelemetry-spec traces + metrics + logs under a single correlation, and requires all signals to be bound to the Core model so humans and agents query the same evidence from MCP."
+        - content: "A single log stream in a proprietary format; traces and metrics are optional add-ons for services that need them."
+          isCorrect: false
+          explanation: "Incorrect. All three signals are required and correlated - not a single log stream - and the format conforms to the OpenTelemetry spec rather than a proprietary one."
+        - content: "Metrics forwarded to a third-party vendor agent, kept separate from the Core model to avoid coupling."
+          isCorrect: false
+          explanation: "Incorrect. Cogitave's collector/SDK conform to the OpenTelemetry spec instead of a vendor agent, and the whole point of propagation is to bind signals to the Core model, not keep them separate."
+    - content: "A teammate asks why an agent's tool calls and token usage are retained rather than discarded after the run. What is the standard's reason?"
+      choices:
+        - content: "Inference records are kept as responsible-AI evidence for ISO/IEC 42001; the agent trace, token/cost, and drift are part of AI/agent observability."
+          isCorrect: true
+          explanation: "Correct. The observability standard treats the agent trace, token/cost, eval drift, and guardrail-violation monitoring as first-class signals, and keeps inference records as responsible-AI (42001) evidence."
+        - content: "Only to help debug latency; once a run succeeds the records can be safely deleted to save storage."
+          isCorrect: false
+          explanation: "Incorrect. The records are retained as compliance evidence under a non-repudiation posture, not merely as transient debugging aids to delete on success."
+        - content: "They are not retained; agent runs are ephemeral and leave no trace by design."
+          isCorrect: false
+          explanation: "Incorrect. The opposite is true - the agent trace is an explicit required signal, and inference records are kept as evidence."
+    - content: "A Tier-1 service has a 99.9% availability SLO over a 30-day window. Roughly how much downtime is its error budget, and what happens when that budget is spent?"
+      choices:
+        - content: "About 43 minutes; when the budget is exhausted or projected to exhaust, a per-service feature freeze applies - only reliability, rollback, and security/critical fixes deploy until it recovers."
+          isCorrect: true
+          explanation: "Correct. 0.1% of 30 days is ~43 minutes. The error-budget policy converts a spent budget into a per-service feature freeze, prioritizing reliability work, with security/critical fixes always exempt."
+        - content: "About 43 minutes, but nothing changes automatically - the SLO is a dashboard number and shipping continues at normal velocity."
+          isCorrect: false
+          explanation: "Incorrect. The budget math is right, but an SLO with no consequence is exactly what the error-budget policy exists to prevent; a spent budget triggers a freeze."
+        - content: "Zero downtime; a 99.9% SLO means the service must never be unavailable, so any outage is an incident with no budget."
+          isCorrect: false
+          explanation: "Incorrect. The whole thesis is that 100% is the wrong target; 99.9% deliberately allows ~43 minutes of unreliability to spend on velocity."
+    - content: "Your service's disk is filling and a pod restarted, but no user-facing SLO is being burned. Under the reliability standard, should this page an on-call engineer?"
+      choices:
+        - content: "No. A service must not page on a metric that is not in a user's SLO; cause-based signals are tickets or dashboards, and the pager is reserved for symptoms the user feels."
+          isCorrect: true
+          explanation: "Correct. This is the standard's anti-fatigue rule. Pages fire on user-facing SLO symptoms via burn-rate alerts; a disk filling or a pod restart is a ticket unless it is itself burning an SLO."
+        - content: "Yes. Any infrastructure anomaly should page immediately so an engineer can investigate before it becomes user-facing."
+          isCorrect: false
+          explanation: "Incorrect. Paging on every cause-based signal is the alert-fatigue failure the standard forbids; those become tickets or dashboards, not pages."
+        - content: "Yes, but only with a static threshold alert rather than a burn-rate alert."
+          isCorrect: false
+          explanation: "Incorrect. SLO alerts must be burn-rate alerts, not static thresholds - and regardless, a non-SLO metric must not page at all."

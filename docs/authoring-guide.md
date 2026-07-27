@@ -12,6 +12,7 @@ roles:
   - developer
   - content-developer
 level: beginner
+visibility: internal   # engineering document: stays in git, not published
 status: draft
 ---
 
@@ -126,24 +127,32 @@ Code-by-reference sources live in a central **snippet registry** at [`learn/snip
 
 ```ts
 // <snippet_tool>
-agent.tool({
+import { z } from "zod";
+import { defineTool } from "@namzu/sdk";
+
+export const GreetTool = defineTool({
   name: "greet",
   description: "Return a friendly greeting for a given name.",
-  input: { name: { type: "string", minLength: 1 } },
-  async handler({ name }) {
-    return { content: `Hello, ${name}, from your first Namzu agent.` };
+  inputSchema: z.object({ name: z.string().min(1) }),
+  category: "custom",
+  permissions: [],
+  readOnly: true,
+  destructive: false,
+  concurrencySafe: true,
+  async execute({ name }) {
+    return { success: true, output: `Hello, ${name}, from your first Namzu tool.` };
   },
 });
 // </snippet_tool>
 ```
 
-A unit then pulls that exact region in by reference (this is the live example used in *Build your first agent with Namzu*):
+A unit then pulls that region in by reference (this is the `defineTool` region from the live example in *Build your first agent with Namzu*):
 
 ```md
 :::code language="typescript" source="snippets/greeter/agent.ts" id="snippet_tool":::
 ```
 
-The `code-snippet-resolves` rule is **blocking**: the `source` must exist in the registry and the `id`/`range` must resolve to a real, compile-checked location, or the build fails. When a runnable example must be fully inline (no source file), use a fenced ```` ```ts ```` block instead.
+The `code-snippet-resolves` rule is **blocking**: the `source` must exist in the registry and the `id`/`range` must resolve, or the build fails. Compile-checking of the resolved region is not yet wired into the build (see [`build-v0.md`](build-v0.md)); the registry file is kept compilable and its symbols are hand-verified against the real `@namzu/sdk` surface. When a runnable example must be fully inline (no source file), use a fenced ```` ```ts ```` block instead.
 
 ## 6. Tabs
 
@@ -166,7 +175,7 @@ Content for the HTTP transport.
 Always provide alt text; the `alt-text` rule is blocking. Use `type="content"` for simple images and `type="complex"` (with a long description) for diagrams that need an accessible text equivalent — this is an accessibility and certification requirement:
 
 ```md
-:::image type="content" source="media/topology.png" alt-text="Namzu builds an agent that Yuva runs.":::
+:::image type="content" source="media/topology.png" alt-text="A registered provider routes a chat request through the Namzu kernel to a model.":::
 
 :::image type="complex" source="media/pipeline.png" alt-text="Six-stage build pipeline.":::
    ACQUIRE pulls content through loaders; PARSE produces an AST; ENRICH compiles,
@@ -200,7 +209,7 @@ Applies to Yuva 2.0 and later.
 **Xref** links by UID, so links survive URL changes. Inline `@uid` or the explicit form:
 
 ```md
-See @cogitave.learn.get-started-with-yuva to start.
+See @cogitave.learn.understand-yuva to start.
 See <xref:cogitave.learn.build-your-first-agent-with-namzu>.
 ```
 

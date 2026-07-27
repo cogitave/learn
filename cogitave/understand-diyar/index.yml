@@ -1,0 +1,42 @@
+### YamlMime:Module
+uid: cogitave.learn.understand-diyar
+metadata:
+  title: "Understand Cogitave Diyar"
+  description: "Cogitave Diyar is the platform layer of the Cogitave cloud: multi-tenant management for distributed field devices that have to keep working, and keep proving what they did, even when the network is unavailable. This module introduces the problem Diyar solves (a regulated, unattended field proce"
+  ms.date: 2026-07-27
+  author: cogitave
+  ms.topic: module
+title: "Understand Cogitave Diyar"
+summary: |
+  Cogitave Diyar is the platform layer of the Cogitave cloud: multi-tenant management for distributed field devices that have to keep working, and keep proving what they did, even when the network is unavailable. This module introduces the problem Diyar solves (a regulated, unattended field process — starting with ISPM-15 wood-packaging heat treatment — that must run and produce trustworthy evidence with no network), the edge-autonomous model that solves it (the device is the sole authority over safety and evidence and runs fully offline), the platform/solution split that lets a new regulated process plug in as a certified verdict engine plus a signed device profile rather than a fork, and a tour of the architecture from the edge binary through the cloud/on-prem control plane to the client surfaces — including an honest account of what is still early (the kiosk and portal UIs) and what is still gated pending hardware validation.
+abstract: |
+  By the end of this module, you will be able to:
+
+  - Explain why Diyar is built edge-autonomous, and what it means for the device to be the sole authority over safety and evidence.
+  - Distinguish the platform (what every regulated deployment needs) from a solution (what one industry adds on top), and correctly place ISPM-15 as the first solution rather than the product.
+  - Read the `diyar:<layer>:<name>;<major>` identifier grammar used across solutions, engines, profiles, and apps.
+  - Describe the three architectural zones — the edge, the cloud/on-prem control plane, and the client surfaces — and state precisely which of them can actuate hardware.
+  - Identify, honestly, which parts of Diyar are still early (client UIs) or still gated pending real-hardware validation.
+prerequisites: |
+  - No prior experience with Cogitave Diyar is required.
+  - General familiarity with IoT/edge device concepts (sensors, actuators, offline operation) is helpful but not required.
+  - No coding, configuration, or deployment work is required for this module.
+iconUrl: /learn/achievements/understand-diyar.svg
+ratingEnabled: true
+levels:
+  - beginner
+roles:
+  - developer
+  - solution-architect
+products:
+  - diyar
+subjects:
+  - device-management
+  - compliance
+units:
+  - cogitave.learn.understand-diyar.what-diyar-solves
+  - cogitave.learn.understand-diyar.platform-and-solution
+  - cogitave.learn.understand-diyar.the-architecture
+  - cogitave.learn.understand-diyar.knowledge-check
+badge:
+  uid: cogitave.learn.understand-diyar.badge

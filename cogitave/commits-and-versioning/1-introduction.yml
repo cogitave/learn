@@ -1,0 +1,12 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.commits-and-versioning.introduction
+title: Introduction
+metadata:
+  title: Introduction
+  description: Why a Cogitave commit message is not a note to a human but a machine-readable instruction that versions and releases the code - and what this module teaches you to control.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: unit
+durationInMinutes: 4
+content: |
+  [!include[](includes/1-introduction.md)]

@@ -1,0 +1,58 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.query-the-estate-with-cogitave-query.knowledge-check
+title: Knowledge check
+metadata:
+  title: Knowledge check
+  description: Check your grasp of why Cogitave Query fuses three retrieval signals, why fusion is rank-based rather than score-based, what the graph-aware rerank adds, and what makes the bounded query_graph profile safe for an agent to call directly.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: unit
+  module_assessment: true
+durationInMinutes: 4
+quiz:
+  title: Check your knowledge
+  questions:
+    - content: "Cogitave Query runs BM25 and HNSW dense search in parallel rather than picking one. Why?"
+      choices:
+        - content: "BM25 misses paraphrase and synonymy, while dense retrieval misses the rare exact tokens - identifiers, error codes, API symbols, version strings - that dominate technical and agent queries; each covers what the other fails on."
+          isCorrect: true
+          explanation: "Correct. This is exactly the failure-mode split Cogitave Query names as the reason to run both, rather than a preference for redundancy."
+        - content: "Because dense retrieval alone is accurate enough, but BM25 is kept only for backward compatibility with older search UIs."
+          isCorrect: false
+          explanation: "Incorrect. Dense retrieval is not treated as sufficient on its own - it specifically misses the exact-token queries that matter for technical and agent use, which is the stated reason BM25 stays in the pipeline."
+        - content: "Running two retrievers is purely a latency optimization, since BM25 is faster to compute than an ANN search."
+          isCorrect: false
+          explanation: "Incorrect. The two retrievers are combined for recall coverage on different query shapes, not for speed - fusing two result sets is strictly more work than running one."
+    - content: "Cogitave Query fuses BM25 and dense-vector results with Reciprocal Rank Fusion instead of a weighted sum of their raw scores. Why?"
+      choices:
+        - content: "RRF fuses on rank position, sidestepping the unsolved problem of reconciling BM25's unbounded scores with cosine similarity's [-1,1] range, and it lets retrievers be added or removed without recalibrating the fusion."
+          isCorrect: true
+          explanation: "Correct. ADR-0002 rejected weighted linear fusion (option 4) as brittle for exactly this reason - it needs per-corpus normalization and re-breaks whenever a retriever changes."
+        - content: "A weighted sum was tried first and simply produced worse NDCG on every benchmark tested, with no theoretical explanation."
+          isCorrect: false
+          explanation: "Incorrect. The stated reason is structural, not merely an empirical loss: raw BM25 and cosine scores live on incompatible scales, so a weighted sum requires ongoing normalization and tuning that rank-based fusion avoids entirely."
+        - content: "RRF was chosen because it is the only fusion method that can run inside the same Rust process as the inverted index."
+          isCorrect: false
+          explanation: "Incorrect. Where the fusion computation runs is not the stated reason; RRF's advantage is being rank-based and implementation-independent, not a process-locality constraint."
+    - content: "After BM25 and dense results are fused by RRF, Cogitave Query applies a graph-aware rerank. What does that stage add that lexical and dense retrieval cannot see?"
+      choices:
+        - content: "A structural prior computed with Personalized PageRank, seeded on the query's anchor nodes and propagated differently depending on edge type and weight - for example a dependsOn prerequisite edge versus a plain xref."
+          isCorrect: true
+          explanation: "Correct. Text and vector indexes have no notion of graph structure at all; the rerank stage is what lets prerequisite and authority relationships shape the final order."
+        - content: "A second, independent dense embedding computed specifically from the graph's edge list, fused back in with another round of RRF."
+          isCorrect: false
+          explanation: "Incorrect. The graph rerank is a Personalized-PageRank structural prior applied to the already-fused candidate set, not a second embedding model or a second RRF pass."
+        - content: "A cache layer that simply re-serves the most recently clicked result for a similar query."
+          isCorrect: false
+          explanation: "Incorrect. The rerank is driven by graph structure and typed edges - moniker freshness, prerequisite proximity, authority - not by click-through caching."
+    - content: "An agent calls query_graph directly to pattern-match over the property graph. What makes that safe to expose, rather than a full query language?"
+      choices:
+        - content: "The engine enforces a hard, server-side contract: parse-level rejection of any mutating or DDL clause, a closed allowlist of the 9 edge labels, a capped traversal depth, a capped and truncatable row limit, a wall-clock timeout, and parameters that bind by name and can never widen the pattern."
+          isCorrect: true
+          explanation: "Correct. Every one of those bounds is enforced server-side and returns a tool execution error on violation - a hard contract, not advisory guidance, precisely because a graph-query tool is an arbitrary-code-execution-shaped surface."
+        - content: "Agents are trusted callers, so no server-side bound is needed beyond normal authentication."
+          isCorrect: false
+          explanation: "Incorrect. The design explicitly treats a graph-query tool as a surface to be cautious with regardless of caller identity, and enforces bounds server-side rather than relying on trust."
+        - content: "query_graph only ever reads from a static, pre-computed snapshot that is regenerated once a day, so live queries cannot cause any damage."
+          isCorrect: false
+          explanation: "Incorrect. Safety comes from the read-only, bounded, allowlisted, parameterized contract described in the docs - not from serving stale or pre-computed data."

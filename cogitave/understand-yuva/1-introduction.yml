@@ -1,0 +1,12 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.understand-yuva.introduction
+title: Introduction
+metadata:
+  title: Introduction
+  description: Why an isolation guarantee is only as strong as the layer enforcing it, where Yuva sits relative to Namzu, and an honest statement of what Yuva can and cannot do today.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: unit
+durationInMinutes: 4
+content: |
+  [!include[](includes/1-introduction.md)]

@@ -1,0 +1,12 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.core-model-fundamentals.the-one-model
+title: The one-model thesis
+metadata:
+  title: The one-model thesis
+  description: The canonical graph's node and edge types, the two orthogonal identifiers uid and contentHash, the three read materializations, and why docs, IDP, governance, and infra are projections rather than separate stores.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: unit
+durationInMinutes: 7
+content: |
+  [!include[](includes/2-the-one-model.md)]

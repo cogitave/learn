@@ -1,0 +1,58 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.respond-to-incidents.knowledge-check
+title: Knowledge check
+metadata:
+  title: Knowledge check
+  description: Check your grasp of the detection-and-declaration principle, the security override, the single-commander separation rule, and how business continuity activates and recovers in dependency order.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: unit
+  module_assessment: true
+durationInMinutes: 4
+quiz:
+  title: Check your knowledge
+  questions:
+    - content: "You are triaging a growing incident and cannot yet tell whether it is S1 or S2. What does the incident-response plan say to do?"
+      choices:
+        - content: "Declare at the higher severity now and downgrade later if the facts warrant it - the declarationPrinciple is declare-high-downgrade-later, because a declared-and-downgraded incident costs minutes and a missed S1 costs trust."
+          isCorrect: true
+          explanation: "Correct. The severity matrix states this explicitly: when uncertain, declare high. Anyone may declare, and nobody is blamed for a declaration that turns out minor."
+        - content: "Wait until impact is fully confirmed before declaring anything, since an incorrect declaration reflects badly on whoever raised it."
+          isCorrect: false
+          explanation: "Incorrect. The plan is explicit that anyone may declare and nobody is blamed for declaring something that turns out minor - waiting for certainty is exactly the delay the principle exists to prevent."
+        - content: "Default to S2, since a standard-response incident is cheaper to run than a full-response one."
+          isCorrect: false
+          explanation: "Incorrect. Optimizing for the cheaper response when severity is genuinely uncertain is the opposite of declare-high-downgrade-later; cost is not the deciding factor, customer impact is."
+    - content: "A report looks like a minor, cosmetic S3 bug, but it turns out to involve a possible credential leak. What happens under Cogitave's severity model?"
+      choices:
+        - content: "The security override wins regardless of apparent severity: the signal routes onto the security-incident path, paging oncall-security and engaging the Security lead, even though it looked like an S3."
+          isCorrect: true
+          explanation: "Correct. The severity matrix states the security override always wins - even an S3-looking report gets routed to the security-incident path and the Security lead."
+        - content: "It stays classified as S3 and is worked in the normal queue, since the apparent severity was low when it was first reported."
+          isCorrect: false
+          explanation: "Incorrect. Apparent severity never outranks a security-relevant signal; the override applies regardless of the S-level a report first looks like."
+        - content: "The Incident Commander must first re-score it to S1 before the Security lead can be engaged."
+          isCorrect: false
+          explanation: "Incorrect. The security override engages the Security lead directly on any security-relevant signal; it does not wait on a prior re-scoring step by the IC."
+    - content: "During a live S1, who is allowed to be both the Incident Commander and the engineer typing the fix?"
+      choices:
+        - content: "Nobody - roles-and-raci makes the IC-never-debugs-hands-on and IC-and-responder-are-never-the-same-person rules absolute, because you cannot command and type at once."
+          isCorrect: true
+          explanation: "Correct. These are the two absolute separations in the single-commander model; even in a small incident where one person holds several functions, these two do not merge."
+        - content: "The Operations lead, since they already own hands-on diagnosis, mitigation, and recovery."
+          isCorrect: false
+          explanation: "Incorrect. The Operations lead is a distinct role from the IC precisely so the person commanding is never the person doing the hands-on work."
+        - content: "Any responder, as long as the Scribe independently logs their actions in the incident record."
+          isCorrect: false
+          explanation: "Incorrect. Independent logging by the Scribe does not satisfy the separation - the rule is about who holds the IC function, not about whether actions are recorded."
+    - content: "A cloud region loss threatens to push tier-0 services past their RTO. What does business continuity say happens next, and in what order do services come back?"
+      choices:
+        - content: "The Incident Commander declares BC/DR activation and crisis roles stand up; recovery proceeds in dependency order - identity first, then secrets/PKI, then the API/MCP gateway and Core, then tier-1 products - not simply by tier number."
+          isCorrect: true
+          explanation: "Correct. The BCP's declaration criteria include a tier-0/1 RTO breach or a primary-region loss, and the DR plan's failover sequence is explicitly dependency-ordered rather than tier-number-ordered."
+        - content: "Every tier restores strictly in tier-number order (tier-0, then tier-1, then tier-2), regardless of what each tier depends on."
+          isCorrect: false
+          explanation: "Incorrect. The DR plan is explicit that recovery follows dependency order - identity, then secrets/PKI, then gateway/Core - because a tier-0 service is unusable if the identity layer beneath it is still down."
+        - content: "Business continuity activation replaces incident response entirely, so the usual severity model and command roles no longer apply."
+          isCorrect: false
+          explanation: "Incorrect. The BCP states plainly that it does not replace incident response - it escalates from it; the incident-response roles and severity model remain the substrate BC/DR builds on."

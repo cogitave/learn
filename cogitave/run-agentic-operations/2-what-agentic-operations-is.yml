@@ -1,0 +1,12 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.run-agentic-operations.what-agentic-operations-is
+title: What agentic operations is
+metadata:
+  title: What agentic operations is
+  description: The co-pilot-estate thesis, the three-part contract every ops agent satisfies, and the draft-vs-act rule with its loop-placement table that decides when an agent acts unattended and when it stops for a human.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: unit
+durationInMinutes: 8
+content: |
+  [!include[](includes/2-what-agentic-operations-is.md)]

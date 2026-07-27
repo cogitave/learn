@@ -1,0 +1,12 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.inherit-the-project-baseline.summary
+title: Summary
+metadata:
+  title: Summary
+  description: Recap how a repo inherits its complete ruleset, how the scaffold bakes it in, the two-tier standards, and the discover-before-generate habit - plus where to go next.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: unit
+durationInMinutes: 3
+content: |
+  [!include[](includes/5-summary.md)]

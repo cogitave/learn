@@ -1,0 +1,37 @@
+### YamlMime:Module
+uid: cogitave.learn.project-products-into-core
+metadata:
+  title: Project products into Core
+  description: How a product spec, a standard, or a piece of learn content projects into Cogitave Core as a typed, content-addressed node instead of living in its own silo - the ACQUIRE-to-PUBLISH pipeline, the closed edge set, and the fact registry that keeps one owner per fact.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: module
+title: Project products into Core
+summary: See how content projects into Cogitave Core as typed, content-addressed nodes rather than separate silos, and how the fact registry's cite-not-restate rule and fact-drift scanner keep one owner per fact across the estate.
+abstract: |
+  By the end of this module, you'll be able to:
+  - Explain why Cogitave treats docs, standards, and learn content as projections of one graph rather than separate stores.
+  - Describe how a source document becomes a queryable node: the ACQUIRE-to-PUBLISH pipeline, its UID and content-addressed contentHash, and the closed edge set that links it in.
+  - State the fact registry's cite-not-restate rule - one owner per fact, everything else points - and what the fact-drift scanner checks for.
+  - Read Core's Day-0 status accurately: the registry and scanner run on the mirror as plain files today, and full graph projection lands when Core runs.
+prerequisites: |
+  - Completion of the first three modules in this path (the Core node/edge model, Cogitave Query, and the native MCP interface) is recommended but not required.
+  - No prior graph-database experience needed.
+iconUrl: /learn/achievements/project-products-into-core.svg
+ratingEnabled: true
+levels:
+  - intermediate
+roles:
+  - developer
+products:
+  - cogitave-core
+subjects:
+  - software-engineering
+units:
+  - cogitave.learn.project-products-into-core.introduction
+  - cogitave.learn.project-products-into-core.how-content-projects-into-core
+  - cogitave.learn.project-products-into-core.the-fact-registry
+  - cogitave.learn.project-products-into-core.knowledge-check
+  - cogitave.learn.project-products-into-core.summary
+badge:
+  uid: cogitave.learn.project-products-into-core.badge

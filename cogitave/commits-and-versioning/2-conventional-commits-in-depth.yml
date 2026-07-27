@@ -1,0 +1,12 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.commits-and-versioning.conventional-commits-in-depth
+title: Conventional Commits in depth
+metadata:
+  title: Conventional Commits in depth
+  description: The Conventional Commits 1.0.0 grammar as Cogitave uses it - the type list and what each one means, the optional scope, the two ways to mark a breaking change, and how commitlint enforces the shape in the hook and in CI.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: unit
+durationInMinutes: 8
+content: |
+  [!include[](includes/2-conventional-commits-in-depth.md)]

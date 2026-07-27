@@ -1,0 +1,12 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.testing-and-quality.the-test-harness-and-quality-bar
+title: The test harness and the quality bar
+metadata:
+  title: The test harness and the quality bar
+  description: The runnable harness - runners, the inner and outer loop, and the gate-to-DoD map - and the code-craftsmanship bar that review enforces, led by correctness by construction with the anti-dogma rule.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: unit
+durationInMinutes: 7
+content: |
+  [!include[](includes/3-the-test-harness-and-quality-bar.md)]

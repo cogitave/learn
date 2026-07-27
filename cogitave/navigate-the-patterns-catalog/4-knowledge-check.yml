@@ -1,0 +1,58 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.navigate-the-patterns-catalog.knowledge-check
+title: Knowledge check
+metadata:
+  title: Knowledge check
+  description: Check your grasp of the catalog's five-section entry shape, the catalog.yaml canonical_pattern field, the discover-before-you-build loop's order of operations, and what an off-road deviation still owes the Definition of Done.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: unit
+  module_assessment: true
+durationInMinutes: 4
+quiz:
+  title: Check your knowledge
+  questions:
+    - content: "A pattern entry's `error-handling.md` and the `api-design` standard it cites disagree on how a validation failure should be shaped. Which wins, and why?"
+      choices:
+        - content: "The standard wins, and the pattern is treated as a bug. A pattern entry only REFERENCES its governing standard(s) - it never restates them, so the standard is always the single authority."
+          isCorrect: true
+          explanation: "Correct. ADR-0022 (part A2) is explicit: if a pattern and its governing standard disagree, the standard wins and the pattern is a bug to fix; patterns/README.md conveys the same pointer-not-policy principle, because the catalog is a pointer, never a second copy of policy."
+        - content: "The pattern wins, because it states the one canonical, concrete solution and the standard is only background reading."
+          isCorrect: false
+          explanation: "Incorrect. The catalog is deliberately a thin, honest pointer. The rules live in the governing standard; the pattern entry never outranks it."
+        - content: "Neither wins - you escalate to an ADR before writing any error-handling code."
+          isCorrect: false
+          explanation: "Incorrect. An entry disagreeing with its own governing standard is a defect in the entry, not a genuine open design question requiring a new ADR."
+    - content: "In `catalog.yaml`, the `new-service-rust` entry carries a `canonical_pattern` field pointing to `service-scaffold.md`. What does that field mean?"
+      choices:
+        - content: "This intent is one of several that share the same five-section canonical pattern doc - `service-scaffold.md` is the authoritative Problem / Cogitave-way / standard / artifact / anti-pattern write-up, and the catalog.yaml row is a shorter, task-specific pointer into it."
+          isCorrect: true
+          explanation: "Correct. Several catalog.yaml intents (new-repo, new-service-rust, new-service-go, new-library) all set canonical_pattern to service-scaffold.md, because they are variations on one canonical pattern doc rather than separate policies."
+        - content: "The entry is deprecated and superseded by the pattern it names."
+          isCorrect: false
+          explanation: "Incorrect. Supersession is a distinct, explicit relationship (`supersededBy`) in the catalog's design; `canonical_pattern` is not a deprecation marker."
+        - content: "The entry has no governing standard of its own, so it borrows one from the linked pattern instead."
+          isCorrect: false
+          explanation: "Incorrect. The entry still lists its own `governing_standard` list; `canonical_pattern` additionally names the five-section doc that carries the full write-up, it does not remove the entry's own standard references."
+    - content: "You are about to add a background job. Per the catalog's discover-before-you-build loop, what is the correct first step?"
+      choices:
+        - content: "Query the catalog for the task - \"do work off the request path\" - before writing any code, then open the matching entry and follow its two links: the governing standard and the reusable artifact."
+          isCorrect: true
+          explanation: "Correct. Step 1 of the loop is query before you generate. Only after finding and reading the entry do you follow its governing standard (background-jobs pattern: reliability, product-core-baseline) and its reusable artifact (the worker entrypoint + idempotency primitive)."
+        - content: "Write the job the way that feels natural, then check afterward whether a pattern already existed."
+          isCorrect: false
+          explanation: "Incorrect. That is checking after generating, the exact inversion of discover-before-generate; building from scratch is meant to be the justified exception, decided before you write code, not a default you audit in hindsight."
+        - content: "Copy the code of a similar-looking job from another repo you remember, without opening the catalog at all."
+          isCorrect: false
+          explanation: "Incorrect. Copying an unrelated repo's ad-hoc implementation is exactly the anti-pattern the background-jobs entry calls out - fire-and-forget work with no idempotency, retry, or dead-letter story - because it skipped the catalog and its governing standard."
+    - content: "You searched the catalog and no existing pattern fits your problem. What does the catalog require of you before you build from scratch?"
+      choices:
+        - content: "You may go off-road, but it is a decision with a cost: you record the rationale (an ADR or a lifecycle `evaluate` note), you own the ongoing maintenance, and you still have to satisfy the Definition of Done."
+          isCorrect: true
+          explanation: "Correct. Step 4 of the loop states this exactly: deviating is allowed but is a decision with a cost, not a silent default - and ADR-0022 (part A3) plus the reuse-first standard add that a genuinely new, industrial-standard solution should be contributed back so the next project finds it."
+        - content: "Nothing - patterns are optional suggestions, so building from scratch needs no rationale or record."
+          isCorrect: false
+          explanation: "Incorrect. Building from scratch is the exception that must be justified, not a cost-free default; recording the rationale and owning maintenance is required, not optional."
+        - content: "You may build from scratch only after a human manually deletes the closest catalog entry so it stops looking like a fit."
+          isCorrect: false
+          explanation: "Incorrect. Deleting or hiding an entry is not part of the loop and is not how the catalog handles a genuine gap; a recorded rationale (ADR or evaluate note) is the actual requirement, and the entry itself stays intact for the next reader."

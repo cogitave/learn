@@ -1,0 +1,58 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.work-the-request-lifecycle.knowledge-check
+title: Knowledge check
+metadata:
+  title: Knowledge check
+  description: Check your understanding of how a Request advances through the stages, what propose-only rules out, and what actually closes a Request as done.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: unit
+  module_assessment: true
+durationInMinutes: 4
+quiz:
+  title: Check your knowledge
+  questions:
+    - content: "A Request always carries exactly one stage. What moves it from one stage to the next?"
+      choices:
+        - content: "Each stage produces an artifact and passes a gate; the stage auto-advances when its automated checks are green, and a human is pulled in only on an exception."
+          isCorrect: true
+          explanation: "Correct. Stages auto-advance on green checks - schema and typed validation, policy-as-code, security clear, and a green eval gate for behavior changes. The human is an exception handler, not a checkpoint at every boundary."
+        - content: "A human must sign off at every one of the seven stage boundaries before it can advance."
+          isCorrect: false
+          explanation: "Incorrect. The human gate is an exception handler, not a routine checkpoint. Stages auto-advance when their gate checks pass; a human is summoned only on a failure, a novel or low-confidence case, detected drift, or an always-human transition."
+        - content: "The agent decides on its own authority and writes the new stage directly to the protected Request record."
+          isCorrect: false
+          explanation: "Incorrect. No agent mutates protected state. A transition is proposed through advance_stage and only happens when the stage's gate is satisfied; a failed gate returns the Request to the prior stage."
+    - content: "The lifecycle exposes exactly two write tools, request_intake and advance_stage. What does propose-only mean for them?"
+      choices:
+        - content: "They open a GitHub issue or PR and stage a draft Request node; they never mutate protected state, merge, apply, or release."
+          isCorrect: true
+          explanation: "Correct. Both write tools only open an issue/PR and stage a draft node. The consequential action - merge, apply, release - is always held for a human gate."
+        - content: "They apply the change directly once the agent is confident enough, skipping review."
+          isCorrect: false
+          explanation: "Incorrect. Propose-only means the opposite: they never apply, and confidence does not authorize mutation. Every consequential action waits for a human."
+        - content: "advance_stage may merge a PR to a protected branch as soon as the DoD score reaches 100%."
+          isCorrect: false
+          explanation: "Incorrect. A green DoD is the machine gate, but merging is a human CODEOWNER action. An agent proposes; a human enacts."
+    - content: "A Request advances from review to done only when which condition holds?"
+      choices:
+        - content: "DoD == 100% (no failing item, every applicable item passing or validly waived) AND a CODEOWNER approves."
+          isCorrect: true
+          explanation: "Correct. The DoD is the machine gate and the CODEOWNER approval is a separate human gate; both are required, which is separation of duties in action."
+        - content: "All twelve Core checklist items are waived with a recorded reason and approver."
+          isCorrect: false
+          explanation: "Incorrect. Core items cannot be waived at all - only conditional items can, and even then a waiver needs both an approver and a reason."
+        - content: "The automated DoD score reaches 100%, which by itself moves the Request to done."
+          isCorrect: false
+          explanation: "Incorrect. A 100% DoD is necessary but not sufficient. The separate CODEOWNER human approval - and the recorded completion evidence - are also required."
+    - content: "You pushed a branch, the tests are green, and get_dod reports every applicable item passing. Is the Request done?"
+      choices:
+        - content: "Not yet. Done also requires the CODEOWNER's approval and the completion evidence recorded; until then it is worked on, not done."
+          isCorrect: true
+          explanation: "Correct. get_dod returns done only when no item fails, every applicable item passes or is validly waived, and codeownerApproval.approved is true - with the completion-evidence token written to Core."
+        - content: "Yes - a green automated DoD score is the definition of done."
+          isCorrect: false
+          explanation: "Incorrect. The machine gate is only half. The human CODEOWNER gate and the recorded evidence are also required before a Request reaches done."
+        - content: "Yes, as long as the agent marks it done with advance_stage."
+          isCorrect: false
+          explanation: "Incorrect. advance_stage is propose-only; it cannot enact the final transition on its own authority. The human gate still holds."

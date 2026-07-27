@@ -1,0 +1,37 @@
+### YamlMime:Module
+uid: cogitave.learn.open-your-first-pull-request
+metadata:
+  title: Open your first pull request
+  description: Write a Conventional Commit, sign it so GitHub shows it Verified, let the pre-commit hooks run, satisfy docs-as-code, and open a pull request that passes the gates for human review - the hands-on capstone of contributor onboarding.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: module
+title: Open your first pull request
+summary: Apply the floor, the baseline, and the lifecycle in one hands-on contribution - a signed, Conventional-Commit, docs-complete pull request that passes the gates and stops for human review.
+abstract: |
+  By the end of this module, you'll be able to:
+  - Write a Conventional Commit - pick the right type and scope, and mark a breaking change correctly.
+  - Sign a commit so GitHub reports it Verified, and explain why signing is never disabled.
+  - Let the pre-commit hooks run (commitlint, secret scan, formatting) and explain why CI, not the hook, is the real gate.
+  - Satisfy docs-as-code and open a pull request that passes the gates and stops for human review.
+prerequisites: |
+  - Basic familiarity with Git and the command line.
+  - The earlier modules in this path, especially "Work the request lifecycle".
+iconUrl: /learn/achievements/open-your-first-pull-request.svg
+ratingEnabled: true
+levels:
+  - beginner
+roles:
+  - developer
+products:
+  - cogitave-core
+subjects:
+  - software-engineering
+units:
+  - cogitave.learn.open-your-first-pull-request.introduction
+  - cogitave.learn.open-your-first-pull-request.write-a-signed-conventional-commit
+  - cogitave.learn.open-your-first-pull-request.pass-the-gates-and-open-the-pr
+  - cogitave.learn.open-your-first-pull-request.knowledge-check
+  - cogitave.learn.open-your-first-pull-request.summary
+badge:
+  uid: cogitave.learn.open-your-first-pull-request.badge

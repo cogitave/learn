@@ -1,0 +1,12 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.understand-massar.introduction
+title: "Introduction"
+metadata:
+  title: "Introduction"
+  description: "What Cogitave Massar is, who evaluates it, and the one job its agent performs: dial out to Diyar, bridge a real terminal, and hold no standing shell between sessions."
+  ms.date: 2026-07-27
+  author: cogitave
+  ms.topic: unit
+durationInMinutes: 4
+content: |
+  [!include[](includes/1-introduction.md)]

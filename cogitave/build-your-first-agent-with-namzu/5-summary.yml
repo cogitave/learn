@@ -3,8 +3,8 @@ uid: cogitave.learn.build-your-first-agent-with-namzu.summary
 title: Summary
 metadata:
   title: Summary
-  description: Recap building an agent with Namzu and running it on Yuva, plus next steps.
-  ms.date: 2026-06-27
+  description: Recap what the kernel owns, how provider drivers keep vendor choice yours, and what you declared when you defined a tool - plus where to go next.
+  ms.date: 2026-07-26
   author: cogitave
   ms.topic: unit
 durationInMinutes: 3

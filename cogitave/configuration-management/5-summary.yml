@@ -1,0 +1,12 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.configuration-management.summary
+title: Summary
+metadata:
+  title: Summary
+  description: Recap the constant-vs-config-vs-secret classification, the precedence chain and fail-closed parsing, per-environment overlays, and how secrets are referenced and kept out of git with dotenvx.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: unit
+durationInMinutes: 3
+content: |
+  [!include[](includes/5-summary.md)]

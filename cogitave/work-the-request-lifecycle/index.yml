@@ -1,0 +1,37 @@
+### YamlMime:Module
+uid: cogitave.learn.work-the-request-lifecycle
+metadata:
+  title: Work the request lifecycle
+  description: How any unit of change moves through the canonical seven-stage request lifecycle over MCP, why the two write tools are propose-only (they open an issue or PR and stage a draft, never mutate protected state or apply), and the Definition of Done that closes a stage.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: module
+title: Work the request lifecycle
+summary: Move a change through the seven-stage request lifecycle, understand why the write tools only propose, and read the Definition of Done that decides when a request is actually done rather than merely worked on.
+abstract: |
+  By the end of this module, you'll be able to:
+  - Name the seven stages a Request moves through and say what advances each one.
+  - Explain why the two write tools are propose-only, and what propose-only rules out.
+  - Read the Definition of Done and tell when a Request is actually done, not just worked on.
+  - Identify the human gate - the consequential transition an agent proposes but never enacts.
+prerequisites: |
+  - Familiarity with the org's non-negotiable rules (the AGENTS floor) and the propose-only way of working.
+  - Basic familiarity with Git, issues, and pull requests.
+iconUrl: /learn/achievements/work-the-request-lifecycle.svg
+ratingEnabled: true
+levels:
+  - beginner
+roles:
+  - developer
+products:
+  - cogitave-core
+subjects:
+  - software-engineering
+units:
+  - cogitave.learn.work-the-request-lifecycle.introduction
+  - cogitave.learn.work-the-request-lifecycle.the-lifecycle-stages
+  - cogitave.learn.work-the-request-lifecycle.the-definition-of-done
+  - cogitave.learn.work-the-request-lifecycle.knowledge-check
+  - cogitave.learn.work-the-request-lifecycle.summary
+badge:
+  uid: cogitave.learn.work-the-request-lifecycle.badge

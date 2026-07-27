@@ -1,0 +1,32 @@
+### YamlMime:LearningPath
+uid: cogitave.learn.paths.introduction-to-diyar
+metadata:
+  title: "Introduction to Cogitave Diyar"
+  description: "Diyar is Cogitave's edge-autonomous platform for operating regulated field devices, where the device stays the sole authority over safety and evidence and each industry ships as a signed, pluggable solution. Understand what Diyar is, why safety and evidence stay local to the device, and how a d"
+  ms.date: 2026-07-27
+  author: cogitave
+  ms.topic: learning-path
+title: "Introduction to Cogitave Diyar"
+summary: |
+  Diyar is Cogitave's edge-autonomous platform for operating regulated field devices, where the device stays the sole authority over safety and evidence and each industry ships as a signed, pluggable solution. Understand what Diyar is, why safety and evidence stay local to the device, and how a device becomes a solution through signed profiles, verdict engines, and app packages.
+prerequisites: |
+  - General familiarity with distributed systems or industrial/IoT devices is helpful.
+  - No prior Cogitave or Rust experience required.
+iconUrl: /learn/achievements/introduction-to-diyar.svg
+levels:
+  - beginner
+  - intermediate
+roles:
+  - developer
+  - solution-architect
+products:
+  - diyar
+subjects:
+  - device-management
+  - compliance
+modules:
+  - cogitave.learn.understand-diyar
+  - cogitave.learn.diyar-safety-and-evidence
+  - cogitave.learn.build-a-diyar-solution
+trophy:
+  uid: cogitave.learn.paths.introduction-to-diyar.trophy

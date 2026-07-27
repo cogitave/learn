@@ -1,0 +1,37 @@
+### YamlMime:Module
+uid: cogitave.learn.apply-the-agents-floor
+metadata:
+  title: Apply the AGENTS floor
+  description: The seven non-negotiable rules in the root AGENTS.md that every Cogitave contributor and agent obeys - English only, Conventional Commits, signed commits, docs-as-code, least privilege, autonomy within the rails, and the human gate as an exception handler - and what enforces each.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: module
+title: Apply the AGENTS floor
+summary: State the seven non-negotiable rules every Cogitave contributor and agent obeys, say what enforces each one - a hook, a CI gate, an org ruleset, or policy-as-code - and apply them to your own first change.
+abstract: |
+  By the end of this module, you'll be able to:
+  - Name the seven non-negotiable rules in the root AGENTS.md and explain why they are the floor every contributor and agent inherits.
+  - Say what enforces each rule - a commit-msg hook, a CI gate, an org ruleset, or policy-as-code - not just the rule itself.
+  - Read AGENTS.md as the single source of truth and follow it to the owning standard for the detail.
+  - Apply the floor to your own first change: sign it, name it as a Conventional Commit, update its docs, and stay inside your grant.
+prerequisites: |
+  - Basic familiarity with Git and the command line.
+  - No prior Cogitave experience required.
+iconUrl: /learn/achievements/apply-the-agents-floor.svg
+ratingEnabled: true
+levels:
+  - beginner
+roles:
+  - developer
+products:
+  - cogitave-core
+subjects:
+  - software-engineering
+units:
+  - cogitave.learn.apply-the-agents-floor.introduction
+  - cogitave.learn.apply-the-agents-floor.the-seven-rules
+  - cogitave.learn.apply-the-agents-floor.how-the-floor-is-enforced
+  - cogitave.learn.apply-the-agents-floor.knowledge-check
+  - cogitave.learn.apply-the-agents-floor.summary
+badge:
+  uid: cogitave.learn.apply-the-agents-floor.badge

@@ -1,0 +1,51 @@
+name: CI
+
+# PR-gate for learn.cogitave.com. Runs the build (which enforces every
+# implemented validation gate - schema, metadata-required, unit-membership,
+# achievement-resolves, quiz-shape, and include/snippet resolution), then
+# smoke-tests the MCP server against the freshly emitted `_api/` projection.
+# Zero runtime dependencies (ADR-0003); Node only.
+#
+# This file is `.yaml`, NOT `.yml`, on purpose: `estate-lint`'s `check_learnpr`
+# matches any `.yml` under a path containing "learn" and demands a
+# `### YamlMime:` first line, which a workflow does not have. See docs/build-v0.md.
+#
+# Actions are referenced by major-version tag here; pin each to a commit SHA at
+# cutover per standards/docs/standards/supply-chain.md.
+
+on:
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build, validate, MCP smoke
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [22, 24]
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 1
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Build + validate (all implemented gates; fails on any error)
+        run: node tools/build.mjs --out _site
+
+      - name: MCP smoke - server serves the built corpus over stdio
+        run: >
+          printf '%s\n'
+          '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-11-25","capabilities":{},"clientInfo":{"name":"ci","version":"0"}}}'
+          | node tools/mcp/server.mjs --site _site 2>&1 >/dev/null
+          | grep -q 'MCP (stdio) ready'

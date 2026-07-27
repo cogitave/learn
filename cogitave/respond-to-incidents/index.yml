@@ -1,0 +1,38 @@
+### YamlMime:Module
+uid: cogitave.learn.respond-to-incidents
+metadata:
+  title: Respond to incidents
+  description: How the Cogitave estate detects, declares, and responds to incidents under the NIST 800-61r3-aligned plan, and how business continuity and disaster recovery keep critical services inside their RTO/RPO through a bigger disruption.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: module
+title: Respond to incidents
+summary: Walk the incident-response flow end to end - detection, severity declaration, single-commander roles, containment through a runbook, communication, recovery, and the blameless postmortem - and see how business continuity and disaster recovery extend the same discipline to a region loss or a destructive event.
+abstract: |
+  By the end of this module, you'll be able to:
+  - Walk the incident lifecycle from detection through declaration, response, recovery, and the blameless postmortem, and name what enforces each step.
+  - Apply the single severity scale and the declare-high-downgrade-later principle, and explain why a security-relevant signal always overrides the apparent severity.
+  - Name the single-commander incident roles and the one rule that never bends: the Incident Commander never debugs hands-on and is never the same person as a responder.
+  - Explain how the BIA, service tiers, backup strategy, and DR plan chain together to meet an RTO/RPO, and in what order the estate recovers when multiple services are down.
+  - Read ops/README.md as the entry point to the incident-response and business-continuity trees and follow it to the owning document for the detail.
+prerequisites: |
+  - Familiarity with how the estate measures and reasons about reliability (SLIs, SLOs, error budgets) is recommended.
+  - No prior incident-response or on-call experience required.
+iconUrl: /learn/achievements/respond-to-incidents.svg
+ratingEnabled: true
+levels:
+  - intermediate
+roles:
+  - developer
+products:
+  - cogitave-core
+subjects:
+  - it-management
+units:
+  - cogitave.learn.respond-to-incidents.introduction
+  - cogitave.learn.respond-to-incidents.the-incident-response-model
+  - cogitave.learn.respond-to-incidents.business-continuity
+  - cogitave.learn.respond-to-incidents.knowledge-check
+  - cogitave.learn.respond-to-incidents.summary
+badge:
+  uid: cogitave.learn.respond-to-incidents.badge

@@ -1,0 +1,168 @@
+/* ========================================================================== */
+/* quiz                                                                       */
+/* ========================================================================== */
+
+.quiz {
+  margin-top: 48px;
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
+}
+
+/* The section already carries the rule; the h2 default would draw a second one
+   a line below it. */
+.quiz-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 6px;
+  padding-top: 0;
+  border-top: 0;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.quiz-head svg {
+  color: var(--t3);
+}
+
+.quiz-lede {
+  margin: 0 0 24px;
+  font-size: 13px;
+  color: var(--t2);
+}
+
+.questions {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  counter-reset: q;
+}
+
+.question {
+  margin-bottom: 28px;
+  counter-increment: q;
+}
+
+.question-text {
+  margin: 0 0 12px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--t1);
+}
+
+.question-no {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--t3);
+  margin-right: 8px;
+}
+
+.choices {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.choice {
+  display: grid;
+  grid-template-columns: 16px 1fr;
+  gap: 10px;
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-sm);
+  background: var(--bg-raised);
+  font: inherit;
+  font-size: 13px;
+  letter-spacing: var(--tracking);
+  color: var(--t1);
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 140ms var(--ease), background-color 140ms var(--ease);
+}
+
+.choice:hover:not(:disabled) {
+  border-color: var(--line-strong);
+  background: var(--bg-sunken);
+}
+
+.choice:disabled {
+  cursor: default;
+}
+
+.choice-dot {
+  width: 14px;
+  height: 14px;
+  margin-top: 3px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-pill);
+  color: transparent;
+}
+
+.choice-dot svg {
+  width: 12px;
+  height: 12px;
+  margin: 0 0 0 -1px;
+}
+
+/* Without scripting every explanation is visible, which is the honest static
+   fallback. With scripting they stay hidden until the reader has answered. */
+.choice-explain {
+  display: block;
+  grid-column: 2;
+  margin-top: 6px;
+  font-size: 13px;
+  color: var(--t2);
+}
+
+.js .choice-explain {
+  display: none;
+}
+
+.js .choice.is-answered .choice-explain {
+  display: block;
+}
+
+.choice.is-correct {
+  border-color: var(--tip);
+}
+
+.choice.is-correct .choice-dot {
+  border-color: var(--tip);
+  background: var(--tip);
+  color: var(--bg);
+}
+
+.choice.is-wrong {
+  border-color: var(--caution);
+}
+
+.choice.is-wrong .choice-dot {
+  border-color: var(--caution);
+  background: var(--caution);
+  color: var(--bg);
+}
+
+.quiz-score {
+  margin-top: 24px;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-sm);
+  background: var(--bg-sunken);
+  font-size: 13px;
+  color: var(--t2);
+}
+
+.quiz-score[hidden] {
+  display: none;
+}
+
+.quiz-noscript {
+  margin: 0 0 20px;
+  font-size: 12px;
+  color: var(--t3);
+}
+

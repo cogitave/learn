@@ -1,0 +1,12 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.understand-diyar.the-architecture
+title: "A tour of the architecture"
+metadata:
+  title: "A tour of the architecture"
+  description: "The edge as the sole actuation and evidence authority, the cloud/on-prem control plane that requests but never actuates, the option to run a site fully disconnected, and an honest look at the client surfaces."
+  ms.date: 2026-07-27
+  author: cogitave
+  ms.topic: unit
+durationInMinutes: 7
+content: |
+  [!include[](includes/3-the-architecture.md)]

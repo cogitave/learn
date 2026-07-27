@@ -1,0 +1,12 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.open-your-first-pull-request.write-a-signed-conventional-commit
+title: Write a signed Conventional Commit
+metadata:
+  title: Write a signed Conventional Commit
+  description: The Conventional Commits 1.0.0 shape, how to pick a type and mark a breaking change, and how to SSH-sign a commit so GitHub reports it Verified - and why signing is never disabled.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: unit
+durationInMinutes: 6
+content: |
+  [!include[](includes/2-write-a-signed-conventional-commit.md)]

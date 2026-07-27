@@ -1,22 +1,17 @@
-In the previous module you learned what **Yuva** is — the operating system that agents run on. Now you'll cross to the other side of the stack and *build* an agent with **Namzu**, the agent kernel.
+**Namzu is an agent kernel for TypeScript.** It runs agents the way an operating
+system runs processes — isolation, scheduling, budgets, signals, durability, and
+an auditable event stream — and it deliberately ships no user interface, no
+hosted service, and no favoured model vendor.
 
-Where Yuva is the runtime (Rust, serve-time), Namzu is the kernel and software development kit you author against (TypeScript, build-time). A Namzu agent is a small, typed program that exposes **tools** (actions it can take) and **resources** (read surfaces it can expose) over the Model Context Protocol (MCP), declares its **identity** and **capabilities**, and is gated by an **evaluation harness** before it ever reaches the OS.
+In this module you will install the kernel, register a model provider, send your
+first call, and declare a tool with a typed input schema. Everything you write
+runs locally on Node; you need no account and no cloud key.
 
-In this module you'll scaffold an MCP server with Namzu, give it one tool and one resource, declare its capability boundaries, choose a transport, and run it on Yuva.
-
-## Learning objectives
-
-By the end of this module, you'll be able to:
-
-- Explain how the Namzu agent kernel relates to the Yuva agent operating system.
-- Build a minimal Namzu agent that exposes an MCP tool and resource.
-- Declare an agent's identity, capabilities, and sandbox boundaries.
-- Run your agent on Yuva over `stdio` or Streamable HTTP.
-
-## Prerequisites
-
-- Completion of @cogitave.learn.get-started-with-yuva.
-- Basic familiarity with TypeScript.
+By the end you will have working code and, more usefully, a correct mental model
+of where the boundary sits: what the kernel owns, and what stays yours.
 
 > [!NOTE]
-> This module is authored to the Microsoft Learn `learn-pr` convention (`### YamlMime:Module` + `includes/`) and served by Cogitave's own from-scratch documentation engine. The format is the standard; the engine is ours.
+> Installed on its own, `@namzu/sdk` runs against a pre-registered
+> `MockLLMProvider` with no network dependency. You can complete the whole
+> exercise before choosing a vendor — which is also why tests against Namzu are
+> deterministic and free.

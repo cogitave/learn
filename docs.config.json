@@ -3,8 +3,16 @@
   "version": "1.0.0",
   "comment": "Build config for the Cogitave knowledge platform (docfx.json analog). The format follows the DocFX/Learn learn-pr convention; the engine is ours (namzu/TS build, yuva/Rust serve). Build is decoupled from serve.",
   "engine": {
-    "build": { "name": "namzu", "language": "typescript", "phase": "build" },
-    "serve": { "name": "yuva", "language": "rust", "phase": "serve" },
+    "build": {
+      "name": "namzu",
+      "language": "typescript",
+      "phase": "build"
+    },
+    "serve": {
+      "name": "yuva",
+      "language": "rust",
+      "phase": "serve"
+    },
     "decoupled": true
   },
   "build": {
@@ -12,28 +20,46 @@
     "content": [
       {
         "loader": "achievements",
-        "files": ["achievements.yml"],
+        "files": [
+          "achievements.yml"
+        ],
         "dest": "achievements/main/"
       },
       {
         "loader": "learn-pr",
+        "comment": "All learning paths are authored and resolve end to end. Only structural globs are excluded: includes/media/snippets are pulled by reference into units, not loaded as standalone content nodes.",
         "src": "cogitave",
-        "files": ["**/*.yml", "**/*.md"],
-        "exclude": ["**/includes/**", "**/media/**", "**/snippets/**"],
+        "files": [
+          "**/*.yml",
+          "**/*.md"
+        ],
+        "exclude": [
+          "**/includes/**",
+          "**/media/**",
+          "**/snippets/**"
+        ],
         "dest": "modules"
       },
       {
         "loader": "diataxis",
         "src": "docs",
-        "files": ["**/*.md"],
-        "exclude": ["**/includes/**"],
+        "files": [
+          "**/*.md"
+        ],
+        "exclude": [
+          "**/includes/**"
+        ],
         "dest": "docs"
       }
     ],
     "resource": [
       {
         "src": "cogitave",
-        "files": ["**/media/**", "**/*.svg", "**/*.png"]
+        "files": [
+          "**/media/**",
+          "**/*.svg",
+          "**/*.png"
+        ]
       }
     ],
     "globalMetadata": {
@@ -48,8 +74,34 @@
     "fileMetadata": {
       "comment": "Path-glob scoped metadata, overrides globalMetadata.",
       "products": {
-        "cogitave/get-started-with-yuva/**": ["yuva"],
-        "cogitave/build-your-first-agent-with-namzu/**": ["namzu", "yuva"]
+        "cogitave/understand-yuva/**": [
+          "yuva"
+        ],
+        "cogitave/build-your-first-agent-with-namzu/**": [
+          "namzu",
+          "yuva"
+        ],
+        "cogitave/understand-massar/**": [
+          "massar"
+        ],
+        "cogitave/install-the-massar-agent/**": [
+          "massar"
+        ],
+        "cogitave/understand-diyar/**": [
+          "diyar"
+        ],
+        "cogitave/diyar-safety-and-evidence/**": [
+          "diyar"
+        ],
+        "cogitave/build-a-diyar-solution/**": [
+          "diyar"
+        ],
+        "cogitave/get-started-with-massar/**": [
+          "massar"
+        ],
+        "cogitave/introduction-to-diyar/**": [
+          "diyar"
+        ]
       },
       "ms.topic": {
         "cogitave/**/index.yml": "module",
@@ -59,12 +111,36 @@
     "monikers": {
       "comment": "Moniker registry shape. ::: moniker range='>=yuva-2.0' ::: resolves against this. Versioning is per-product; a doc is rendered once per applicable moniker.",
       "definitions": [
-        { "name": "yuva-1.0", "product": "yuva", "order": 100, "status": "stable" },
-        { "name": "yuva-2.0", "product": "yuva", "order": 200, "status": "stable", "default": true },
-        { "name": "namzu-1.0", "product": "namzu", "order": 100, "status": "stable", "default": true }
+        {
+          "name": "yuva-1.0",
+          "product": "yuva",
+          "order": 100,
+          "status": "stable"
+        },
+        {
+          "name": "yuva-2.0",
+          "product": "yuva",
+          "order": 200,
+          "status": "stable",
+          "default": true
+        },
+        {
+          "name": "namzu-1.0",
+          "product": "namzu",
+          "order": 100,
+          "status": "stable",
+          "default": true
+        }
       ],
       "ranges": {
-        "operators": [">=", "<=", ">", "<", "=", "||"],
+        "operators": [
+          ">=",
+          "<=",
+          ">",
+          "<",
+          "=",
+          "||"
+        ],
         "default": "yuva-2.0 || namzu-1.0"
       }
     },
@@ -82,12 +158,20 @@
       }
     },
     "snippets": {
-      "comment": "Central snippet registry for code-by-reference. :::code source=... resolves a file from the registry root; id=... selects a named region delimited by language-native line-comment markers (// <id> … // </id>). range=... selects an inclusive line range. Sources are compile-checked; resolution and compilation are part of the code-snippet-resolves blocking gate. Resolves the snippet-registry open question (central registry, not per-repo loader).",
+      "comment": "Central snippet registry for code-by-reference. :::code source=... resolves a file from the registry root; id=... selects a named region delimited by language-native line-comment markers (// <id> … // </id>). range=... selects an inclusive line range. The code-snippet-resolves gate resolves the region; compile-checking is not yet wired into the build (see docs/build-v0.md), so registry files are kept compilable and their symbols are hand-verified against the real package surface. Resolves the snippet-registry open question (central registry, not per-repo loader).",
       "registry": "snippets/",
       "resolveSourceFrom": "contentRoot",
-      "regionMarker": { "open": "<{id}>", "close": "</{id}>", "example": "// <snippet_tool> … // </snippet_tool>" },
-      "compileChecked": true,
-      "languages": ["typescript", "rust", "bash"]
+      "regionMarker": {
+        "open": "<{id}>",
+        "close": "</{id}>",
+        "example": "// <snippet_tool> … // </snippet_tool>"
+      },
+      "compileChecked": false,
+      "languages": [
+        "typescript",
+        "rust",
+        "bash"
+      ]
     },
     "incremental": {
       "comment": "Incremental build via content-addressed AST hash + dependency graph. Only the transitive closure of changed nodes is rebuilt; no full-site rebuild.",
@@ -95,28 +179,95 @@
       "hash": "blake3",
       "cache": ".cache/",
       "manifest": "manifest.json",
-      "track": ["sourceHash", "astHash", "dependencies", "xrefEdges", "includeEdges", "snippetEdges"]
+      "track": [
+        "sourceHash",
+        "astHash",
+        "dependencies",
+        "xrefEdges",
+        "includeEdges",
+        "snippetEdges"
+      ]
     },
     "validation": {
       "comment": "Schema-DSL validates AND interprets. Blocking gate at certificate level: schema + broken xref/link/bookmark are errors, not warnings.",
       "failOn": "error",
       "rules": [
-        { "id": "schema", "description": "Document must validate against its ### YamlMime:<Type> schema.", "severity": "error", "blocking": true },
-        { "id": "metadata-required", "description": "Required front matter present: title, uid, description (75-300 chars), type, owner, lastReviewed (ISO-8601), products, roles, level.", "severity": "error", "blocking": true },
-        { "id": "broken-xref", "description": "Every <xref:uid> / @uid resolves in the UID graph.", "severity": "error", "blocking": true },
-        { "id": "broken-link", "description": "Every relative link and include path resolves.", "severity": "error", "blocking": true },
-        { "id": "broken-bookmark", "description": "Every #anchor resolves to a heading in the target document.", "severity": "error", "blocking": true },
-        { "id": "code-snippet-resolves", "description": ":::code source resolves against the snippet registry (build.snippets.registry, from the content root), id selects a named // <id>…</id> region (or range an inclusive line range), and the location is compile-checked.", "severity": "error", "blocking": true },
-        { "id": "quiz-shape", "description": "Knowledge-check questions have >=2 choices and exactly 1 correct in single-answer mode; every choice has an explanation.", "severity": "error", "blocking": true },
-        { "id": "achievement-resolves", "description": "Module.badge.uid and LearningPath.trophy.uid exist in achievements.yml.", "severity": "error", "blocking": true },
-        { "id": "unit-membership", "description": "Every Module.units[] UID resolves to a ModuleUnit; every LearningPath.modules[] UID resolves to a Module.", "severity": "error", "blocking": true },
-        { "id": "alt-text", "description": ":::image must carry alt-text; complex images must carry a long description (a11y / cert).", "severity": "error", "blocking": true },
-        { "id": "stale-content", "description": "lastReviewed older than the freshness window.", "severity": "warning", "blocking": false }
+        {
+          "id": "schema",
+          "description": "Document must validate against its ### YamlMime:<Type> schema.",
+          "severity": "error",
+          "blocking": true
+        },
+        {
+          "id": "metadata-required",
+          "description": "Required front matter present: title, uid, description (75-300 chars), type, owner, lastReviewed (ISO-8601), products, roles, level.",
+          "severity": "error",
+          "blocking": true
+        },
+        {
+          "id": "broken-xref",
+          "description": "Every <xref:uid> / @uid resolves in the UID graph.",
+          "severity": "error",
+          "blocking": true
+        },
+        {
+          "id": "broken-link",
+          "description": "Every relative link and include path resolves.",
+          "severity": "error",
+          "blocking": true
+        },
+        {
+          "id": "broken-bookmark",
+          "description": "Every #anchor resolves to a heading in the target document.",
+          "severity": "error",
+          "blocking": true
+        },
+        {
+          "id": "code-snippet-resolves",
+          "description": ":::code source resolves against the snippet registry (build.snippets.registry, from the content root), id selects a named // <id>…</id> region (or range an inclusive line range). Compile-checking of the resolved region is not yet wired into the build (see docs/build-v0.md).",
+          "severity": "error",
+          "blocking": true
+        },
+        {
+          "id": "quiz-shape",
+          "description": "Knowledge-check questions have >=2 choices and exactly 1 correct in single-answer mode; every choice has an explanation.",
+          "severity": "error",
+          "blocking": true
+        },
+        {
+          "id": "achievement-resolves",
+          "description": "Module.badge.uid and LearningPath.trophy.uid exist in achievements.yml.",
+          "severity": "error",
+          "blocking": true
+        },
+        {
+          "id": "unit-membership",
+          "description": "Every Module.units[] UID resolves to a ModuleUnit; every LearningPath.modules[] UID resolves to a Module.",
+          "severity": "error",
+          "blocking": true
+        },
+        {
+          "id": "alt-text",
+          "description": ":::image must carry alt-text; complex images must carry a long description (a11y / cert).",
+          "severity": "error",
+          "blocking": true
+        },
+        {
+          "id": "stale-content",
+          "description": "lastReviewed older than the freshness window.",
+          "severity": "warning",
+          "blocking": false
+        }
       ]
     },
     "diataxis": {
       "comment": "The single content taxonomy. type maps to a Diataxis mode.",
-      "modes": ["tutorial", "how-to", "reference", "explanation"]
+      "modes": [
+        "tutorial",
+        "how-to",
+        "reference",
+        "explanation"
+      ]
     },
     "output": {
       "comment": "Multiple emit targets from one typed model. HTML for humans; JSON content API + MCP + llms.txt for agents.",
@@ -137,8 +288,18 @@
         "enabled": true,
         "spec": "2025-11-25",
         "resourceUriTemplate": "cogitave-docs://{product}/{version}/{uid}",
-        "capabilities": { "subscribe": true, "listChanged": true },
-        "tools": ["docs_search", "docs_fetch", "code_sample_search", "get_related", "get_learning_path", "resolve_xref"]
+        "capabilities": {
+          "subscribe": true,
+          "listChanged": true
+        },
+        "tools": [
+          "docs_search",
+          "docs_fetch",
+          "code_sample_search",
+          "get_related",
+          "get_learning_path",
+          "resolve_xref"
+        ]
       },
       "llmsTxt": {
         "comment": "llms.txt + llms-full.txt (Jeremy Howard proposal, 2024-09-03). H1 name, blockquote summary, H2 sections of links, Optional section.",
@@ -151,16 +312,36 @@
   "search": {
     "comment": "Edge-first hybrid retrieval in the Rust hot path (Tantivy-class). Static fragmented index for the browser (Pagefind-class) + server BM25 + HNSW vectors + graph-aware re-rank.",
     "edge": {
-      "static": { "enabled": true, "model": "fragmented-index", "dest": "_pagefind/" },
-      "server": { "bm25": true, "vector": "hnsw", "graphRerank": ["monikerFreshness", "audience", "prerequisiteProximity"] }
+      "static": {
+        "enabled": true,
+        "model": "fragmented-index",
+        "dest": "_pagefind/"
+      },
+      "server": {
+        "bm25": true,
+        "vector": "hnsw",
+        "graphRerank": [
+          "monikerFreshness",
+          "audience",
+          "prerequisiteProximity"
+        ]
+      }
     },
-    "cacheKey": ["uid", "moniker", "locale", "audience"]
+    "cacheKey": [
+      "uid",
+      "moniker",
+      "locale",
+      "audience"
+    ]
   },
   "publish": {
     "comment": "region = audience/locale. Publish on a fixed cadence; emit MCP resources/updated + list_changed on change.",
     "edgeFirst": true,
     "regionByAudience": true,
     "cadence": "on-merge",
-    "notify": ["notifications/resources/updated", "notifications/resources/list_changed"]
+    "notify": [
+      "notifications/resources/updated",
+      "notifications/resources/list_changed"
+    ]
   }
 }

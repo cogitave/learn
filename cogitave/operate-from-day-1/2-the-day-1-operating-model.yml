@@ -1,0 +1,12 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.operate-from-day-1.the-day-1-operating-model
+title: The Day 1 operating model
+metadata:
+  title: The Day 1 operating model
+  description: The reproducible, pinned inner loop - mise, just, the parity contract of lefthook commands == CI commands == just targets, trunk-based delivery with preview environments, and honest DORA plus SPACE measurement.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: unit
+durationInMinutes: 6
+content: |
+  [!include[](includes/2-the-day-1-operating-model.md)]

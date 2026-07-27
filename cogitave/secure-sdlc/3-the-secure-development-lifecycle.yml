@@ -1,0 +1,12 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.secure-sdlc.the-secure-development-lifecycle
+title: The secure development lifecycle
+metadata:
+  title: The secure development lifecycle
+  description: How security shifts left into the request lifecycle - a threat model at the design gate, secure-coding and SAST at implement, the security test tiers at verify, SBOM and signing at release, and vulnerability SLAs after - with the two Definition-of-Done gates that make it enforceable per change.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: unit
+durationInMinutes: 8
+content: |
+  [!include[](includes/3-the-secure-development-lifecycle.md)]

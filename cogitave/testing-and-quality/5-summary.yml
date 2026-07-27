@@ -1,0 +1,12 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.testing-and-quality.summary
+title: Summary
+metadata:
+  title: Summary
+  description: Recap the test-shape stance, the diff-coverage and mutation gates, flaky-test quarantine, the gate-to-DoD map, and the craftsmanship review bar, with links back to the three owning standards.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: unit
+durationInMinutes: 3
+content: |
+  [!include[](includes/5-summary.md)]

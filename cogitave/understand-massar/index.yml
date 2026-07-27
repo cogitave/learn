@@ -1,0 +1,41 @@
+### YamlMime:Module
+uid: cogitave.learn.understand-massar
+metadata:
+  title: "Understand Cogitave Massar"
+  description: "Cogitave Massar is the guardian remote-console agent that gives an authorized operator a terminal on a customer device without opening an inbound port or requiring a VPN. This module explains what Massar is and the one job its agent performs, why an outbound-only connection model removes the ne"
+  ms.date: 2026-07-27
+  author: cogitave
+  ms.topic: module
+title: "Understand Cogitave Massar"
+summary: |
+  Cogitave Massar is the guardian remote-console agent that gives an authorized operator a terminal on a customer device without opening an inbound port or requiring a VPN. This module explains what Massar is and the one job its agent performs, why an outbound-only connection model removes the need for inbound access, how a session moves control messages and terminal bytes across the agent-broker-operator chain, and how a device authenticates while Diyar-side RBAC and audit authorize and record who connects. It also states plainly which parts are shipped today - the CLI installers with a static per-device token, Windows and Linux support - and which are still previews, such as the graphical enrollment wizard and macOS support.
+abstract: |
+  By the end of this module, you will be able to:
+  - Explain what Massar is and the one job its agent performs: dial out, bridge a PTY, hold no standing shell.
+  - Explain why an outbound-only connection model removes the need for an inbound port or a VPN.
+  - Describe the three parties in a session and how control messages (Text frames) are distinguished from terminal bytes (Binary frames) on the wire.
+  - Describe how a device authenticates with a per-device token and how an operator is authorized and audited on the Diyar side.
+  - State accurately which install and enrollment paths are shipped today, and which are previews.
+prerequisites: |
+  - No prior Cogitave product experience required.
+  - Familiarity with basic terminal/shell concepts and how a WebSocket connection works is helpful but not required.
+iconUrl: /learn/achievements/understand-massar.svg
+ratingEnabled: true
+levels:
+  - beginner
+roles:
+  - developer
+  - solution-architect
+products:
+  - massar
+subjects:
+  - remote-access
+  - security
+units:
+  - cogitave.learn.understand-massar.introduction
+  - cogitave.learn.understand-massar.the-dial-out-model
+  - cogitave.learn.understand-massar.how-a-session-works
+  - cogitave.learn.understand-massar.the-security-model
+  - cogitave.learn.understand-massar.knowledge-check
+badge:
+  uid: cogitave.learn.understand-massar.badge

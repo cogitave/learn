@@ -1,0 +1,58 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.configuration-management.knowledge-check
+title: Knowledge check
+metadata:
+  title: Knowledge check
+  description: Check your grasp of the constant-vs-config-vs-secret classification, the precedence chain and per-environment overlays, fail-closed parsing, and how secrets are referenced and how dotenvx keeps them out of git.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: unit
+  module_assessment: true
+durationInMinutes: 5
+quiz:
+  title: Check your knowledge
+  questions:
+    - content: "A service needs the base URL of a downstream API, which differs between staging and production. How should this value be expressed?"
+      choices:
+        - content: "As a deployment parameter in the typed config layer, supplied by the per-environment overlay - it is likely to vary between deploys."
+          isCorrect: true
+          explanation: "Correct. A hostname or URL that changes between staging and production is a deployment parameter, so it lives in the typed config layer and is set by the overlay that loads for that environment."
+        - content: "As a named `const` in code, because a URL is a fixed string once written."
+          isCorrect: false
+          explanation: "Incorrect. Code constants are for domain invariants that are identical in every environment. A URL that differs between staging and production hard-binds the code to one environment, which the 12-Factor litmus test forbids."
+        - content: "As a `SecretRef`, because any external endpoint should be treated as sensitive."
+          isCorrect: false
+          explanation: "Incorrect. A `SecretRef` is for credentials, keys, and tokens. A base URL is not a secret; making it one would send a non-secret through the secret-resolution path unnecessarily."
+    - content: "In the Cogitave precedence chain, which source wins when the same key is set in both `config.{env}.toml` and a `COG_*` environment variable?"
+      choices:
+        - content: "The `COG_*` environment variable, because it comes later in the ordered chain (defaults, `config.toml`, `config.{env}.toml`, `COG_*` env vars, then CLI arguments)."
+          isCorrect: true
+          explanation: "Correct. Providers are ordered and later overrides earlier, so a `COG_*` env var overrides the committed overlay - and a CLI argument would override the env var."
+        - content: "The `config.{env}.toml` overlay, because a committed file is more authoritative than a runtime environment variable."
+          isCorrect: false
+          explanation: "Incorrect. The chain is ordered by precedence, not by whether a source is committed. The env var comes after the overlay and therefore wins."
+        - content: "Whichever is loaded first, because the first provider to set a key locks it."
+          isCorrect: false
+          explanation: "Incorrect. The chain is last-wins, not first-wins: built-in defaults load first precisely so that every later layer can override them."
+    - content: "At startup a service finds that a required config value is missing and a `SecretRef` cannot be resolved against the store. What should it do?"
+      choices:
+        - content: "Fail closed - refuse to start and emit a precise, layer-attributed error naming what was wrong."
+          isCorrect: true
+          explanation: "Correct. Cert-grade config means never running misconfigured. Both a missing required value and an unresolvable secret reference cause the process to refuse to start with a precise error."
+        - content: "Start anyway using a built-in default for the missing value and an empty string for the secret, then log a warning."
+          isCorrect: false
+          explanation: "Incorrect. A default may never mask a required or environment-specific value, and an empty secret would let the service run in a broken, insecure state - the exact silent-acceptance failure the standard exists to prevent."
+        - content: "Start in a degraded read-only mode and retry resolving the secret on each request."
+          isCorrect: false
+          explanation: "Incorrect. The standard is fail-closed at the boundary: config is parsed once at startup into a value that cannot be invalid, not re-checked per request. An unresolvable secret means the service does not start."
+    - content: "How does dotenvx let a team commit `.env` files to git without leaking secrets?"
+      choices:
+        - content: "It encrypts the values with a committed `DOTENV_PUBLIC_KEY`; only the matching `DOTENV_PRIVATE_KEY` - kept out of git in `.env.keys` and held in the secret store in production - can decrypt them at runtime."
+          isCorrect: true
+          explanation: "Correct. The public key lets anyone add and encrypt values, the encrypted `.env` is safe to commit, and decryption requires the private key, which is a runtime secret held in the store and fetched via OIDC in CI."
+        - content: "It strips secret values out of the `.env` at commit time and stores them in the git config instead."
+          isCorrect: false
+          explanation: "Incorrect. dotenvx does not move secrets into git config; that would still place plaintext secrets in the repository. It encrypts the values in place so the committed file carries only ciphertext."
+        - content: "It adds `.env` to `.gitignore` so the file is never committed at all."
+          isCorrect: false
+          explanation: "Incorrect. The point of dotenvx is that the encrypted `.env` *is* committed and reviewable. It is the private key file `.env.keys` that is gitignored, not the encrypted `.env`."

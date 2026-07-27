@@ -1,0 +1,12 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.apply-naming-standards.the-naming-rules
+title: The naming rules
+metadata:
+  title: The naming rules
+  description: The cross-cutting naming principles and the concrete conventions for repos, code identifiers, files, and branches - keyword-first, no redundant prefix, casing by role, immutable IDs with facts in metadata - all mapped to CI gates.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: unit
+durationInMinutes: 7
+content: |
+  [!include[](includes/2-the-naming-rules.md)]

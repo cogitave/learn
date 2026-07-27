@@ -1,0 +1,58 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.core-model-fundamentals.knowledge-check
+title: Knowledge check
+metadata:
+  title: Knowledge check
+  description: Check your understanding of the one-model thesis, the graph's identity scheme, and why ADR-0001 chose a labeled property graph as Cogitave Core's substrate.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: unit
+  module_assessment: true
+durationInMinutes: 3
+quiz:
+  title: Check your knowledge
+  questions:
+    - content: "Why does Cogitave Core use one typed property graph instead of a docs CMS, an IDP catalog, a CMDB, and a vector store as separate systems?"
+      choices:
+        - content: "Because a store per domain is the default industry shape, and it guarantees drift and duplicated identity - one graph lets docs, IDP, governance, infra, and agent knowledge all be projections of the same source instead of copies that can disagree."
+          isCorrect: true
+          explanation: "Correct. This is the problem statement ADR-0001 opens with: per-domain stores are the default, and they guarantee drift because nothing forces them to agree once they diverge."
+        - content: "Because a single graph is cheaper to host than four separate databases."
+          isCorrect: false
+          explanation: "Incorrect, and not the stated reason. The decision drivers are one identity, one query layer for humans and agents, and a traversable provenance model for certification - not hosting cost."
+        - content: "Because property graphs are the only data model that can store text."
+          isCorrect: false
+          explanation: "Incorrect. Any of the considered stores can hold text. The distinguishing property is that nodes and edges carry properties directly, which matches faceting and ranking without join gymnastics."
+    - content: "ADR-0001 considered a relational schema, an RDF/triple store, a federated per-domain store, and a single labeled property graph (LPG). Why was the LPG chosen?"
+      choices:
+        - content: "It is now an ISO standard (GQL) with a mature open lineage (openCypher), and its nodes/edges carrying properties directly matches faceting and ranking needs - while relational buries the graph being traversed, RDF is higher-ceremony with weaker property ergonomics, and federation re-introduces the drift the decision exists to remove."
+          isCorrect: true
+          explanation: "Correct. That is the decision outcome and the stated reasons each alternative was rejected."
+        - content: "Because relational databases cannot represent relationships at all."
+          isCorrect: false
+          explanation: "Incorrect. Relational databases represent relationships via foreign keys; the ADR's objection is that this buries the graph you actually want to traverse, not that it is impossible."
+        - content: "Because RDF and SPARQL are deprecated technologies with no active users."
+          isCorrect: false
+          explanation: "Incorrect and not the ADR's claim. RDF was rejected for being higher-ceremony with weaker property ergonomics for this use case, not for being unused."
+    - content: "Cogitave Core gives every node both a `uid` and a `contentHash`. What is each one for?"
+      choices:
+        - content: "`uid` is immutable identity, globally unique across the whole estate, and never changes even if the URL does; `contentHash` is a content-addressed digest of the canonicalized payload that changes whenever the content changes, so unchanged content is deduplicated and stored once."
+          isCorrect: true
+          explanation: "Correct. Identity and version are deliberately orthogonal: `uid` is what edges and `@uid` references point to; `contentHash` is what determines whether two materializations are byte-identical."
+        - content: "They are two names for the same thing, kept for backward compatibility."
+          isCorrect: false
+          explanation: "Incorrect. They answer different questions - which node is this, versus which version of its content is this - and are tracked separately for exactly that reason."
+        - content: "`uid` changes on every edit; `contentHash` is the permanent identifier."
+          isCorrect: false
+          explanation: "Incorrect - this is backwards. The `uid` is what stays permanent; the `contentHash` is what changes when the content does."
+    - content: "Cogitave authors Core's graph model against GQL/openCypher, an external ISO standard, but the serving engine is described as \"full-scratch.\" What does that combination mean?"
+      choices:
+        - content: "The property-graph model is used as a vendor-neutral spec to design against, so concepts and vocabulary transfer and interoperate - but the actual query and storage engine that serves it is built in-house rather than running an off-the-shelf graph database."
+          isCorrect: true
+          explanation: "Correct. Off-the-shelf systems are treated as reference implementations and specs, not dependencies - the standard is authored against, not installed."
+        - content: "It means Cogitave runs an unmodified openCypher database in production."
+          isCorrect: false
+          explanation: "Incorrect. The standard is the spec being authored against; the serving engine itself - the single Rust binary co-locating BM25, HNSW, and the graph - is built from scratch."
+        - content: "It means the GQL standard is irrelevant to how Cogitave Core actually works."
+          isCorrect: false
+          explanation: "Incorrect. The standard is exactly why the LPG model was chosen over the alternatives - it is load-bearing for the decision, even though the engine is not a copy of any existing implementation."

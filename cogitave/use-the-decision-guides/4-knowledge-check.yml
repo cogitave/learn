@@ -1,0 +1,58 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.use-the-decision-guides.knowledge-check
+title: Knowledge check
+metadata:
+  title: Knowledge check
+  description: Check your grasp of the three-layer guidance model, the shared decision-guide shape, and how to walk database, infrastructure, and model selection to a justified, recorded choice.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: unit
+  module_assessment: true
+durationInMinutes: 4
+quiz:
+  title: Check your knowledge
+  questions:
+    - content: "Where do the decision guides (database, infrastructure, model selection) sit relative to the technology radar and the domain standards, per ADR-0021?"
+      choices:
+        - content: "Above the radar and above the domain standards: the guides say which family for which workload, the radar says what is adopted, and the domain standards say how to build with the choice."
+          isCorrect: true
+          explanation: "Correct. ADR-0021's three-layer model is selection (which) above radar (what) above domain standards (how); the guides consume the radar's ring for each option and defer build detail to the domain standards."
+        - content: "Below the radar: the radar decides which family for which workload, and the guides just restate the radar's rings in more detail."
+          isCorrect: false
+          explanation: "Incorrect. The guides sit above the radar and explicitly do not restate its rings - they consume each option's ring and add the which-for-which mapping the radar does not provide."
+        - content: "Equivalent to the domain standards - naming, reliability, and saas are the same layer as database selection and infrastructure selection."
+          isCorrect: false
+          explanation: "Incorrect. Domain standards are a separate, lower layer that says how to build once a choice is made (e.g. naming's schema rules); selection guides are the which layer above them."
+    - content: "A team wants to add full-text search to a Cogitave product. According to database selection's decision tree, what is the correct step-1 answer, and why does it not fall through to the Postgres default?"
+      choices:
+        - content: "Cogitave Core's fused query layer - step 1 (access pattern) routes full-text/semantic/graph traversal straight to Core before the relational default is ever reached."
+          isCorrect: true
+          explanation: "Correct. Step 1 of the five-step tree branches on access pattern; full-text/semantic/graph short-circuits to Core's query layer under the Cogitave override, bypassing the Postgres-first default entirely."
+        - content: "Postgres with pgvector - Postgres is always the first thing to try before considering any override."
+          isCorrect: false
+          explanation: "Incorrect. For Cogitave products, the override makes Core's query layer the default for full-text/vector/graph; standing up pgvector as a parallel stack alongside Core would itself be a deviation."
+        - content: "A standalone Elasticsearch cluster - full-text search always requires a dedicated search engine outside the operational store."
+          isCorrect: false
+          explanation: "Incorrect. A standalone Elasticsearch cluster is explicitly a deviation requiring a measured recall/scale need and an ADR; it is not the default for a Cogitave product."
+    - content: "A team is deploying a new agentic flow for a task that has no prior eval evidence and is correctness-critical. What does model selection's default posture say to do?"
+      choices:
+        - content: "Start at the most capable Claude tier to establish the correctness bar and a golden output set, then optimize down tier-by-tier only once an eval proves a cheaper tier holds quality."
+          isCorrect: true
+          explanation: "Correct. The default for a new or correctness-critical task is the most capable tier - correctness over speed - and moving down is a deviation gated on eval evidence, never a starting assumption."
+        - content: "Start at the fastest, cheapest tier to control cost, and escalate only if it fails outright in production."
+          isCorrect: false
+          explanation: "Incorrect. That is the inverse of the guide's directive; starting cheap for a new, correctness-critical task with no eval evidence is exactly the deviation the guide forbids."
+        - content: "Pick whichever tier the team is most familiar with, since model choice is a matter of developer preference."
+          isCorrect: false
+          explanation: "Incorrect. Model selection is a directive guidance system with a stated default and an eval-gated deviation rule - it is not a preference call."
+    - content: "A team wants to deviate from a decision guide's default (for example, choosing a VM autoscaling group instead of a container on managed Kubernetes). What must the deviation record, and where?"
+      choices:
+        - content: "A measured need - a benchmark or production signal tied to a reliability SLO/error budget, not a hunch - recorded in an ADR with the chosen option and a migration path; the default itself needs no such record."
+          isCorrect: true
+          explanation: "Correct. Every decision guide's deviation rule requires a measured ceiling and an ADR (or, for model selection, eval evidence) before deviating; landing on the default requires nothing recorded."
+        - content: "Nothing - any team can choose a different option at any time as long as it still works in production."
+          isCorrect: false
+          explanation: "Incorrect. A decision guide prescribes a default precisely so deviations are not ad hoc; an unrecorded deviation is exactly what the guidance system exists to prevent."
+        - content: "A comment in the pull request description explaining the preference, with no ADR required."
+          isCorrect: false
+          explanation: "Incorrect. The deviation rule requires an ADR (recording the workload, the measured ceiling, the chosen option's trade-offs, and the migration path) - an informal PR comment does not meet that bar."

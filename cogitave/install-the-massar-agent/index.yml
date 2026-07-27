@@ -1,0 +1,43 @@
+### YamlMime:Module
+uid: cogitave.learn.install-the-massar-agent
+metadata:
+  title: "Install and operate the Massar agent"
+  description: "This module installs and operates the Cogitave Massar agent: the small, cross-platform binary a customer runs on a device so an authorized Diyar operator can dial in for an audited remote terminal, with no inbound port and no VPN. You install it with the CLI installer for your OS - install.sh o"
+  ms.date: 2026-07-27
+  author: cogitave
+  ms.topic: module
+title: "Install and operate the Massar agent"
+summary: |
+  This module installs and operates the Cogitave Massar agent: the small, cross-platform binary a customer runs on a device so an authorized Diyar operator can dial in for an audited remote terminal, with no inbound port and no VPN. You install it with the CLI installer for your OS - install.sh on Linux, install.ps1 on Windows - confirm it is verified and running as a service, trace a session from open to close, reproduce the whole relay locally with the project's own dev harness, and remove it cleanly when you are done. Two facts are stated plainly rather than glossed over: today's supported install targets are Windows and Linux only, and every end-to-end proof described here is the local dev harness, not a production Diyar deployment.
+abstract: |
+  By the end of this module, you will be able to:
+  - Identify Massar's supported install platforms today (Windows and Linux) and explain concretely why macOS is not one of them yet.
+  - Gather what an install needs - a broker URL and a per-device token - and describe how the installer verifies the binary (checksum unconditionally, then signature) before placing it, and how SBOM and provenance serve audit rather than gate the install.
+  - Install the agent as a systemd service on Linux or a Windows service on Windows using the shipped CLI installers, and confirm each is actually running.
+  - Trace a remote session from PTY open through resize and close, and reproduce the full relay locally with massar-broker-dev and massar-op-test.
+  - Remove the agent cleanly on either OS and state exactly what removal does, and does not, erase.
+prerequisites: |
+  - Comfortable running commands as root on Linux or as Administrator on Windows.
+  - A broker URL and a per-device token issued for a Diyar-connected device - or just a terminal, for the local dev-harness proof in this module, which needs neither.
+  - No prior Rust, systemd, or Windows-service experience required.
+iconUrl: /learn/achievements/install-the-massar-agent.svg
+ratingEnabled: true
+levels:
+  - intermediate
+roles:
+  - administrator
+  - developer
+products:
+  - massar
+subjects:
+  - remote-access
+  - security
+units:
+  - cogitave.learn.install-the-massar-agent.before-you-install
+  - cogitave.learn.install-the-massar-agent.install-on-linux
+  - cogitave.learn.install-the-massar-agent.install-on-windows
+  - cogitave.learn.install-the-massar-agent.a-session-and-local-proof
+  - cogitave.learn.install-the-massar-agent.remove-the-agent
+  - cogitave.learn.install-the-massar-agent.knowledge-check
+badge:
+  uid: cogitave.learn.install-the-massar-agent.badge

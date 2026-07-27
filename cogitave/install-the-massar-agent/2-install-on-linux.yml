@@ -1,0 +1,12 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.install-the-massar-agent.install-on-linux
+title: "Install the agent on Linux"
+metadata:
+  title: "Install the agent on Linux"
+  description: "Run install.sh as root with --broker-url and --token, and see exactly what it downloads, verifies, writes, and starts as a locked-down systemd service."
+  ms.date: 2026-07-27
+  author: cogitave
+  ms.topic: unit
+durationInMinutes: 6
+content: |
+  [!include[](includes/2-install-on-linux.md)]

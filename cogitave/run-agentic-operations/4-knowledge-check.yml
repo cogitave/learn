@@ -1,0 +1,58 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.run-agentic-operations.knowledge-check
+title: Knowledge check
+metadata:
+  title: Knowledge check
+  description: Check your grasp of the draft-vs-act rule, why engineering and business-ops agents are governed the same way under different standards, the must-human-gate boundary, and the Day-0 honesty of the agent fleet.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: unit
+  module_assessment: true
+durationInMinutes: 4
+quiz:
+  title: Check your knowledge
+  questions:
+    - content: "A pr-triage run reclassifies a pull request, applies labels, and routes it to the right CODEOWNER; no check failed and nothing irreversible happened. Under the draft-vs-act rule, must a human approve this before it lands?"
+      choices:
+        - content: "No. The agent ACTS autonomously within its grant when the rails hold - typed I/O, policy-as-code, a reversible effect, a green eval gate. A human is pulled in only on an exception, and labeling/routing is exactly the safe-to-automate, human-out-of-loop case."
+          isCorrect: true
+          explanation: "Correct. The standard states this is 'the single most important rule': proposing is the exception path, not the default over every correct action. Labels and a review request are reversible, internal effects inside pr-triage's grant."
+        - content: "Yes. Every agent action needs a human gate before it lands, because these agents are Day-0 specs and nothing they do is trusted yet."
+          isCorrect: false
+          explanation: "Incorrect. Day-0 honesty means the agent is not live in production yet - it does not mean every in-grant action, once it does run, requires a human gate. The draft-vs-act rule reserves gating for exceptions and the must-human-gate boundary, not for routine reversible work."
+        - content: "No, because pr-triage is exempt from the eval harness, so nothing it does needs checking."
+          isCorrect: false
+          explanation: "Incorrect. The three-part contract requires every agent, scheduled or operations, to be gated by the eval harness before any behavior change ships. Nothing is exempt from the eval gate."
+    - content: "The agentic-operations standard's own scope section puts PR triage, dependency review, security triage, and docs sync out of scope for that standard. Where do those agents actually live, and why are they still governed the same way as marketing or support agents?"
+      choices:
+        - content: "They live under `agents/scheduled/` and its own specs. They are still governed the same way because every agent, scheduled or operations, satisfies the same three-part contract: a least-privilege identity, a run inside the request lifecycle, and an eval-gated release."
+          isCorrect: true
+          explanation: "Correct. The standard is explicit that engineering automation is out of its scope, but the operating model - identity plus capability, the request lifecycle, and the eval harness - is the shared contract both catalogs inherit."
+        - content: "They have no governing spec yet; they are informal scripts maintained ad hoc by whichever engineer wrote them."
+          isCorrect: false
+          explanation: "Incorrect. Each scheduled agent has a paired human-authoritative `.md` spec and a machine-authoritative `.yaml` config under `agents/scheduled/`, exactly like the operations catalog."
+        - content: "They are governed by `agents/operations/README.md`, because engineering counts as a domain of business operations."
+          isCorrect: false
+          explanation: "Incorrect. The operations overview explicitly separates the two: `scheduled/` runs the engineering estate, `operations/` runs the business. They are sibling catalogs under the same parent, not one nested inside the other."
+    - content: "A marketing or support agent's confidence score on a proposed customer email is very high. Can it send that email or publish a KB update on its own?"
+      choices:
+        - content: "No. No agent in either catalog holds a `publish`, `send`, `email`, or `apply` capability - those verbs are reserved for the human gate regardless of confidence, and an attempt to reach them is a capability-boundary violation."
+          isCorrect: true
+          explanation: "Correct. The must-human-gate boundary covers all customer-facing communications and external publication unconditionally; confidence only affects escalation among the actions an agent's grant already allows, never whether it can hold a reserved verb."
+        - content: "Yes, once confidence clears the documented threshold, externally visible sends are treated as safe to automate."
+          isCorrect: false
+          explanation: "Incorrect. Confidence gates escalation of in-grant work; it never grants a reserved capability. All customer-facing communications sit in the must-human-gate boundary unconditionally."
+        - content: "Only status-comms may send external posts on its own, because incident communication is time-sensitive."
+          isCorrect: false
+          explanation: "Incorrect. status-comms drafts status-page and incident comms; the incident commander approves any external post. Time sensitivity does not create an exception to the publish/send/email/apply boundary."
+    - content: "A colleague claims the finops-anomaly agent is already catching cloud cost overruns in production today. What does the agentic-operations standard actually say about the state of the fleet?"
+      choices:
+        - content: "Day-0 honesty: these are specs, not running systems - no ops agent is live yet. Wherever a spec says an agent \"does\" something, read it as the behavior once that agent is built and passes its evals, not a claim it runs today."
+          isCorrect: true
+          explanation: "Correct. The standard states this in its own opening framing, and it applies to every entry in the catalog, finops-anomaly included - each one is a stub until its spec exists and clears the eval gate."
+        - content: "finops-anomaly is the one named exception that already runs, because financial risk is considered urgent enough to skip the eval gate."
+          isCorrect: false
+          explanation: "Incorrect. No agent is exempted, and no agent skips the eval gate; the standard names no live exception anywhere in the catalog."
+        - content: "All six operations agents went live the moment their `.md` spec merged, since the spec is the human-authoritative source."
+          isCorrect: false
+          explanation: "Incorrect. A merged spec authors the contract; it does not deploy the agent. Each catalog entry is explicitly a stub until it is registered in the AIMS inventory, has a defined grant and loop placement, and clears the eval gate."

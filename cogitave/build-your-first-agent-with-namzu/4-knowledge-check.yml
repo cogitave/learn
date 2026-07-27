@@ -3,8 +3,8 @@ uid: cogitave.learn.build-your-first-agent-with-namzu.knowledge-check
 title: Knowledge check
 metadata:
   title: Knowledge check
-  description: Check what you learned about building an agent with Namzu and running it on Yuva.
-  ms.date: 2026-06-27
+  description: Check what you learned about the Namzu kernel - what it owns, how provider drivers work, and what a tool declaration actually asserts.
+  ms.date: 2026-07-26
   author: cogitave
   ms.topic: unit
   module_assessment: true
@@ -14,36 +14,47 @@ content: |
 quiz:
   title: Check your knowledge
   questions:
-    - content: "How do the Namzu kernel and the Yuva operating system divide responsibility?"
+    - content: "What is the difference between Namzu and an agent application framework?"
       choices:
-        - content: "Namzu is the build-time kernel you author agents with; Yuva is the run-time operating system that hosts them."
+        - content: "Namzu is a kernel: it owns lifecycle, isolation, scheduling, and the event stream, and ships no interface, no hosted service, and no favoured vendor."
           isCorrect: true
-          explanation: "Correct. Namzu (TypeScript, build) is decoupled from Yuva (Rust, serve): you author and test with the kernel, and the OS runs the artifact."
-        - content: "Namzu serves agents at run time; Yuva is only used to write them."
+          explanation: "Correct. The things it refuses to own are the point - your frontend, your storage, and your model choice stay your decisions."
+        - content: "Namzu bundles a chat interface and a dashboard so you can demo faster."
           isCorrect: false
-          explanation: "Incorrect. It's the other way around — Yuva is the run-time operating system and Namzu is the build-time kernel."
-        - content: "They are two names for the same Rust binary."
+          explanation: "Incorrect. That is precisely what a kernel does not do. Namzu renders no interface at all."
+        - content: "Namzu is a hosted service you sign into and connect your agents to."
           isCorrect: false
-          explanation: "Incorrect. They are distinct layers in distinct languages: Namzu in TypeScript, Yuva in Rust."
-    - content: "What makes up a Namzu agent's public surface?"
+          explanation: "Incorrect. There is no hosted service and no control plane; the kernel is a package you install."
+    - content: "You need to move from a local model to a hosted one. What changes?"
       choices:
-        - content: "MCP tools (actions) and resources (addressable read surfaces)."
+        - content: "The provider registration - the import and the type. The code below it is unchanged."
           isCorrect: true
-          explanation: "Correct. Namzu is MCP-native: the same surface a human calls through an API is the surface an agent calls through MCP."
-        - content: "A bespoke binary protocol unique to each agent."
+          explanation: "Correct. Vendors are drivers in separate packages, and every driver returns the same response shape, so nothing downstream has to know which one answered."
+        - content: "Every call site, because each vendor returns a different response shape."
           isCorrect: false
-          explanation: "Incorrect. Namzu does not define a second protocol; the surface is MCP tools and resources."
-        - content: "Only a REST endpoint with no schema."
+          explanation: "Incorrect. The uniform shape - id, model, message, finishReason, usage - is exactly what the kernel guarantees."
+        - content: "Nothing, because the kernel picks a vendor for you automatically."
           isCorrect: false
-          explanation: "Incorrect. Tools and resources are typed and described over MCP, not an unschemed REST endpoint."
-    - content: "An eval scenario for a new capability is failing. What is the correct response?"
+          explanation: "Incorrect. You choose the vendor explicitly by registering its driver. Installed alone, the kernel answers from MockLLMProvider."
+    - content: "In `defineTool`, what does `permissions: []` assert?"
       choices:
-        - content: "Fix the agent so the behavior is provably safe; never widen capabilities just to make the eval pass."
+        - content: "That the tool may compute and reach nothing else - authority is an allow-list, and an empty list grants nothing."
           isCorrect: true
-          explanation: "Correct. Capabilities follow behavior you can prove safe — they are a least-privilege allow-list, not a workaround."
-        - content: "Add a broad wildcard capability so the agent can do whatever the test needs."
+          explanation: "Correct. Permissions are declared, not inferred. An empty set is the narrowest possible grant, not a missing value."
+        - content: "That permissions have not been decided yet, so the kernel grants defaults."
           isCorrect: false
-          explanation: "Incorrect. Widening capabilities to pass a test inverts the security model and defeats least privilege."
-        - content: "Delete the failing eval scenario."
+          explanation: "Incorrect. There is no implicit default grant. Nothing is available because it happened to be reachable."
+        - content: "That the tool inherits whatever the surrounding process can do."
           isCorrect: false
-          explanation: "Incorrect. Removing the scenario removes the safety gate; new behavior must keep its eval."
+          explanation: "Incorrect. Inheriting ambient authority is the failure mode this model exists to prevent."
+    - content: "A tool call keeps failing on malformed input, and widening the tool's permissions would make the error stop. What do you do?"
+      choices:
+        - content: "Leave the permissions alone and fix the cause - authority follows behaviour you can prove safe, not the reverse."
+          isCorrect: true
+          explanation: "Correct. A declaration widened to silence an error has removed the only evidence that a passing result meant anything."
+        - content: "Widen the permissions until the error stops appearing."
+          isCorrect: false
+          explanation: "Incorrect. That inverts the security model: the declaration is supposed to constrain the behaviour, not accommodate it."
+        - content: "Remove the input schema so validation cannot fail."
+          isCorrect: false
+          explanation: "Incorrect. The schema is why your `execute` only ever sees well-formed arguments; removing it moves the failure into your code."

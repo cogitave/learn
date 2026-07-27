@@ -1,0 +1,12 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.ci-cd-pipelines.the-ci-pipeline
+title: The CI pipeline
+metadata:
+  title: The CI pipeline
+  description: The canonical CI stage set every repository runs on every pull request, its mandatory floor, why CI is the real Definition-of-Done gate, and the org reusable-workflow model that repos wire rather than fork.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: unit
+durationInMinutes: 7
+content: |
+  [!include[](includes/2-the-ci-pipeline.md)]

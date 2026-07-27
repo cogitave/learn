@@ -1,0 +1,12 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.secure-sdlc.introduction
+title: Introduction
+metadata:
+  title: Introduction
+  description: Why Cogitave treats security as a design property produced by a lifecycle, not a release-time bolt-on, and how the Security Standard and the Secure Development Lifecycle Standard divide the controls from the process.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: unit
+durationInMinutes: 4
+content: |
+  [!include[](includes/1-introduction.md)]

@@ -12,6 +12,7 @@ roles:
   - developer
   - solution-architect
 level: intermediate
+visibility: internal   # engineering document: stays in git, not published
 status: draft
 ---
 

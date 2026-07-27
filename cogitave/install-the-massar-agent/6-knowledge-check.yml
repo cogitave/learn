@@ -1,0 +1,69 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.install-the-massar-agent.knowledge-check
+title: "Knowledge check"
+metadata:
+  title: "Knowledge check"
+  description: "Check your understanding of binary verification, where Linux configuration lives, the local proof harness, per-OS removal, and what the release pipeline's verify-install gate actually checks."
+  ms.date: 2026-07-27
+  author: cogitave
+  ms.topic: unit
+  module_assessment: true
+durationInMinutes: 4
+quiz:
+  title: "Check your knowledge"
+  questions:
+    - content: "Which statement about how install.sh verifies the massar-agent binary before installing it is accurate?"
+      choices:
+        - content: "The SHA-256 checksum is verified unconditionally; the cosign signature check runs only if cosign is installed and --skip-signature was not passed."
+          isCorrect: true
+          explanation: "Correct. The checksum check has no off switch. The cosign step is skipped with a warning if cosign isn't found, and skipped outright if --skip-signature was passed."
+        - content: "Both the checksum and the signature check are skipped entirely when --skip-signature is passed."
+          isCorrect: false
+          explanation: "Incorrect. --skip-signature only skips the cosign signature step. The SHA-256 checksum is always verified, with or without that flag."
+        - content: "If cosign isn't installed on the machine, the installer refuses to continue."
+          isCorrect: false
+          explanation: "Incorrect. If cosign is missing, install.sh prints a warning and continues on the verified checksum alone - it does not abort the install."
+    - content: "Where does install.sh write the agent's runtime configuration on Linux, and how is it protected?"
+      choices:
+        - content: "/etc/massar/agent.env, created under a strict umask and then chmod 0600."
+          isCorrect: true
+          explanation: "Correct. The directory is 0750 and the env file itself is written under umask 077 and explicitly set to 0600 - readable only by root, because it holds the device's token."
+        - content: "/etc/systemd/system/massar-agent.service, mode 0644."
+          isCorrect: false
+          explanation: "Incorrect. That path is the systemd unit file, which only references the config via EnvironmentFile - it does not itself contain the token, and world-readable is fine for a unit file."
+        - content: "$HOME/.config/massar/agent.env, readable by the invoking user."
+          isCorrect: false
+          explanation: "Incorrect. Configuration is written system-wide under /etc/massar, not per-user - the service runs under a systemd DynamicUser, not any interactive account's home directory."
+    - content: "Building with cargo build --features dev-tools unlocks two additional binaries used only to prove the relay locally, without Diyar. What are they?"
+      choices:
+        - content: "massar-broker-dev and massar-op-test."
+          isCorrect: true
+          explanation: "Correct. Both are declared required-features = [\"dev-tools\"] in the agent crate's Cargo.toml: a dev-only broker and an automated operator test client."
+        - content: "massar-agent and massar-broker-dev."
+          isCorrect: false
+          explanation: "Incorrect. massar-agent is the binary you'd actually install on a device - it builds and runs without the dev-tools feature at all."
+        - content: "massar-broker-dev and massar-diyar-mock."
+          isCorrect: false
+          explanation: "Incorrect. There is no massar-diyar-mock binary. The operator-side test client is massar-op-test."
+    - content: "Which pair correctly matches an OS to its supported removal path?"
+      choices:
+        - content: "Linux: sudo ./uninstall.sh. Windows: Settings > Apps > Cogitave Massar > Uninstall, or running uninstall.ps1 directly."
+          isCorrect: true
+          explanation: "Correct. install.sh points you at sudo ./uninstall.sh when it finishes; on Windows the installer copies uninstall.ps1 into the install directory and wires it into Settings > Apps, so you can remove Massar from the OS's own uninstall surface or by running the script directly."
+        - content: "Linux: rm -rf /opt/massar. Windows: delete the .exe from Program Files by hand."
+          isCorrect: false
+          explanation: "Incorrect on both counts. Massar installs to /usr/local/bin and /etc/massar on Linux, not /opt; and deleting the Windows .exe by hand leaves the service and the Settings > Apps entry still registered."
+        - content: "Both: re-run the installer with an --uninstall flag."
+          isCorrect: false
+          explanation: "Incorrect. Neither install.sh nor install.ps1 has an --uninstall flag - removal is a separate uninstall.sh / uninstall.ps1 script."
+    - content: "The release pipeline's verify-install job runs against every freshly built release. What does it actually do?"
+      choices:
+        - content: "It runs install.sh --verify, then downloads the just-built massar-agent-linux-x86_64 binary, checksum-verifies it, marks it executable, and asserts it runs - proving the install path works against the real artifact before the release is trusted."
+          isCorrect: true
+          explanation: "Correct. That is exactly the verify-install job: a clean-room check that the installer's preflight passes and the freshly published binary can be fetched, verified, and run (mirroring namzu's consumer gate)."
+        - content: "It performs the full systemd service install and opens a live session to a Diyar broker to confirm an operator can connect."
+          isCorrect: false
+          explanation: "Incorrect. verify-install does not stand up the service or reach a real broker - the job's own comment notes a full service install needs the real broker, so it only asserts the binary is fetched, verified, and runnable."
+        - content: "It uninstalls the agent and asserts every file and the service are gone, because removal is the release gate."
+          isCorrect: false
+          explanation: "Incorrect. The verify-install job proves the install and download path, not removal - it never runs the uninstaller. Each installer ships a matching uninstall script, but that is not what this CI gate checks."
