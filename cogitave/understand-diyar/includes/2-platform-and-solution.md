@@ -1,4 +1,4 @@
-Diyar separates what every regulated device deployment needs from what a specific industry adds on top. This unit covers that split, why ISPM-15 sits on the industry side of it, and the identifier grammar that ties the two together.
+Diyar separates what every regulated device deployment needs from what a specific industry adds on top. This unit covers that split, what a solution actually is, and the identifier grammar that ties the two together.
 
 ## What the platform owns
 
@@ -20,16 +20,18 @@ What a specific industry needs on top of the platform is a **solution**: a certi
 - **Solutions plug in; they are not forks.** A device's channels, actuators, safety limits, process parameters, field-bus binding, and verdict rule all arrive in one signed **Device Profile**. Adapting the platform to a different machine — or a different process with its own compliance rule — is configuration plus a certified engine, not a copy of the codebase.
 - **A profile cannot introduce a rule.** It may only *name* an engine the running build is already certified to run. Signing a profile is not, by itself, enough to make a device do something new.
 
-## ISPM-15 is a solution, not the product
+## Solutions plug in; they are not the product
 
-The phytosanitary rule — 56°C core held for 30 minutes, for wood packaging — is one implementation behind Diyar's `VerdictEngine` interface. It is the first solution Diyar shipped, and the most mature one, but the product's own documentation is explicit that it is a solution and not the product itself: it currently lives in-repo at `backend/crates/solution-ispm15/`, and is destined for its own repository, added to a deployment rather than built into it.
+A solution lives on the industry side of the split, and the product's own documentation is explicit about keeping it there: a solution is *added to a deployment*, not built into the platform. Each product engine lives in its own crate and is destined for its own repository, so the platform can be understood, updated, and audited without reference to any one industry's rule.
 
-The engineering record behind this split states the pivot directly: Diyar is not an ISPM-15 product. It is a platform for devices — the hub knows which solution runs on a device and under which security posture; the solution carries the domain. ISPM-15 heat-treatment compliance is simply the first solution built on it.
+The engineering record behind this split states the pivot directly: Diyar is not a single-product system. It is a platform for devices — the hub knows which solution runs on a device and under which security posture; the solution carries the domain. The platform stays generic; the domain rides in on a certified engine and a signed profile.
+
+Diyar does ship concrete, certified solutions this way. The first and most mature is phytosanitary heat treatment (ISPM-15); it has its own dedicated unit and is not used as the worked example here.
 
 > [!NOTE]
-> The repository also carries a small number of non-thermal example fixtures — `pressure-hold`, `steam-sterilizer-f0`, `coldroom-hold` — used internally to prove that the generic engine pattern actually works for a process that isn't heat treatment. These are test fixtures, not customer case studies: each is onboarded as pure signed data (a profile plus an app package, no new engine code), which is the proof that the platform/solution boundary holds rather than an assertion of it.
+> The repository also carries a small number of example fixtures — `pressure-hold`, `steam-sterilizer-f0`, `coldroom-hold` — used internally to prove that the generic engine pattern actually works across different, non-thermal processes. These are test fixtures, not customer case studies: each is onboarded as pure signed data (a profile plus an app package, no new engine code), which is the proof that the platform/solution boundary holds rather than an assertion of it.
 
-## One id grammar, four layers
+## One id grammar across every layer
 
 Every layer of Diyar names itself with a single, uniformly-parsed grammar:
 
@@ -40,13 +42,12 @@ diyar:<layer>:<name>;<major>
 For example:
 
 ```text
-diyar:solution:ispm15;1
-diyar:engine:ispm15-parity;1
-diyar:profile:ispm15-kiln;1
+diyar:engine:threshold-hold;1
 diyar:app:pressure-hold;1
+diyar:profile:<name>;1
 ```
 
-All four layers — and the cloud — validate ids through one shared parser rather than four bespoke formats, so a solution id, an engine id, a profile id, and an app id are all held to the same rule (allowed name characters, a required major-version field) instead of drifting apart as the platform grows.
+Every layer — and the cloud — validates ids through one shared parser rather than several bespoke formats, so an engine id, an app id, and a profile id are all held to the same rule (allowed name characters, a required major-version field) instead of drifting apart as the platform grows. The trailing `;<major>` is a real major-version boundary, not decoration.
 
 ## Why the split matters
 

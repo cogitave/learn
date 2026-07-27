@@ -8,7 +8,7 @@ The heater is a kilowatt-class resistive/contactor load: left uncontrolled, it i
 
 The layered design exists because no single failure mode is allowed to leave the heater energized without a live control loop behind it:
 
-- **Thermal runaway** — the heater keeps climbing past target. The compliance rule (ISPM-15) is a *minimum* hold, and a minimum can never detect a runaway, because hotter always satisfies it. A separate, absolute ceiling is required.
+- **Thermal runaway** — the heater keeps climbing past target. A minimum-hold compliance rule only checks that a floor was met, and a minimum can never detect a runaway, because hotter always satisfies it. A separate, absolute ceiling is required.
 - **A wedged control loop** — the software responsible for cutting the heater stops running (a hung syscall, a deadlock, priority inversion) while the relay is still energized. Software checked *inside* that same loop cannot save itself.
 - **Blind acquisition** — every temperature channel faults at once, so the system no longer knows how hot it is. Continuing to heat blind is unsafe.
 - **Evidence loss** — a journal write fails. A run that can no longer be proven must not continue as if it were still valid.
@@ -31,7 +31,7 @@ Above the two mandatory hardware layers sits a software interlock that makes "he
 
 - The heater can only be energized through `Idle -> Armed -> Heating`; nothing sets the raw relay directly.
 - `Heating` demands a heartbeat within its deadline, or it releases the relay.
-- The same guard enforces an absolute over-temperature ceiling, set from the equipment's thermal model — **not** the ISPM-15 target, which is a minimum and cannot bound a maximum.
+- The same guard enforces an absolute over-temperature ceiling, set from the equipment's thermal model — **not** the process's minimum-hold target, which is a minimum and cannot bound a maximum.
 - If a ceiling is configured but no channel has a trustworthy reading this sweep, the interlock trips rather than continuing to heat blind.
 - A ceiling is validated at construction: a non-positive, infinite, or NaN value — any of which could never trip — is rejected before it can be used.
 - Dropping the heating handle releases the relay, so a panic or task cancellation de-energizes the heater. This backstop depends on unwinding panics rather than aborting them, and the workspace is built to enforce that.

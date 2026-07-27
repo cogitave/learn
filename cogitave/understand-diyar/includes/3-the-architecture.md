@@ -6,7 +6,7 @@ The edge is a single static aarch64 binary running on the field device, deployed
 
 - The **sole actuation authority** — nothing else in the system holds a primitive that can energize hardware.
 - The **sole evidence authority** — it owns the local, tamper-evident hash chain that every reading is journaled into before anything is published.
-- Fully capable of running **offline** — a treatment runs to completion with no cloud, no network, and no operator phone reachable.
+- Fully capable of running **offline** — a run completes with no cloud, no network, and no operator phone reachable.
 
 Underneath the edge binary, a hardware abstraction layer (`TempSource` / `RelayBank` / `MonotonicClock`) is the seam a new physical device implements; the `VerdictEngine` trait is the seam a new solution implements (Unit 2). The edge also hosts a local MCP agent surface, and — where deployed — a loopback `agent-gateway` process fronting the same REST API a human operator uses, gated by an operating-mode state machine (Manual by default).
 

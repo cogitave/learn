@@ -1,8 +1,8 @@
-Diyar's cloud and mobile clients can ask an edge device to start a treatment, but nothing in the protocol lets them force it. This unit covers the shape of a remote-start request, why the cloud holds no actuation primitive at all, and the one config-only exception carved out for the device shadow.
+Diyar's cloud and mobile clients can ask an edge device to start a run, but nothing in the protocol lets them force it. This unit covers the shape of a remote-start request, why the cloud holds no actuation primitive at all, and the one config-only exception carved out for the device shadow.
 
-## Where a treatment can be started
+## Where a run can be started
 
-An operator starts a treatment at the kiosk on the LAN, or remotely from a web or mobile client. Both paths reach the same one door: the edge validates every request locally before anything is energized.
+An operator starts a run at the kiosk on the LAN, or remotely from a web or mobile client. Both paths reach the same one door: the edge validates every request locally before anything is energized.
 
 ## The signed, vetoable remote-start request
 

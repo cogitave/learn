@@ -4,7 +4,7 @@ Every Diyar edge boots from exactly one signed document that describes the hardw
 
 A **device profile** is an Ed25519-signed JSON document, one per solution, that parametrically configures the edge (`edge-app`) at startup. It is not application config in the ordinary sense: the profile decides measurement conditions and safety-relevant pin maps that end up inside the evidence record, so Diyar signs it with the same detached-signature primitive it uses for its other signed documents (the update manifest, the license, the roster).
 
-The profile is identified by a DTMI-style id and a monotonic revision, for example `profile_id: "diyar:profile:ispm15-kiln;1"` at `revision: 1`. `profile_id` must parse as `diyar:profile:<name>;<major>` - the trailing `;<major>` is a real major-version boundary, not decoration - and `revision` is a monotonic anti-rollback counter.
+The profile is identified by a DTMI-style id and a monotonic revision, for example `profile_id: "diyar:profile:pressure-hold;1"` at `revision: 1`. `profile_id` must parse as `diyar:profile:<name>;<major>` - the trailing `;<major>` is a real major-version boundary, not decoration - and `revision` is a monotonic anti-rollback counter.
 
 ## What it configures
 
@@ -12,8 +12,8 @@ The profile is identified by a DTMI-style id and a monotonic revision, for examp
 | --- | --- |
 | `channels[]` | one entry per sensor: id, ADC index/mux or protocol address, kind (probe, cold junction, ambient, disabled), unit, calibration, a plausibility band |
 | `actuators[]` | one entry per output: id, role (`heat_source`, `airflow`, `indicator`), pin or protocol write target, and a `fail_safe: deenergized` default |
-| `safety` | the absolute safety limit (for ISPM-15, an over-temperature ceiling) and the maximum allowed rate of change |
-| `process` | the process-rule parameters (target, hold count, difference threshold, sampling interval, max steps) |
+| `safety` | the absolute safety limit — a signal-bound limit with a `Max`/`Min` direction and a bound in that signal's own unit (an over-temperature ceiling for a heat process, an over-pressure limit for a pressure one) — and the maximum allowed rate of change |
+| `process` | the process-rule parameters the named engine requires — for a threshold-hold engine, the in-band range and the number of consecutive in-band samples; sampling interval and max steps are common to every engine |
 | `verdict_binding` | which verdict engine this profile names, and how its channels map onto that engine's expected input (the next unit covers what a profile is and is not allowed to name here) |
 | `workflow` / `capabilities` | ordered phase ids, and which contract operations this product exposes |
 
