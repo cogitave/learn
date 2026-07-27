@@ -1,0 +1,12 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.testing-and-quality.the-testing-standard
+title: The testing standard
+metadata:
+  title: The testing standard
+  description: The Testing & Quality Standard as policy - the three principles, pyramid vs trophy shape and the rule that overrides the ratios, required test types by surface, the diff-coverage and mutation gates, and flaky-test quarantine.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: unit
+durationInMinutes: 7
+content: |
+  [!include[](includes/2-the-testing-standard.md)]

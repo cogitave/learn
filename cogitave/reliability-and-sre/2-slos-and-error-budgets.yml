@@ -1,0 +1,12 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.reliability-and-sre.slos-and-error-budgets
+title: SLOs and error budgets
+metadata:
+  title: SLOs and error budgets
+  description: How to set an SLO from a critical user journey, the tier targets a service inherits, how to compute an error budget and a burn rate from it, and the multi-window multi-burn-rate alerting rule.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: unit
+durationInMinutes: 8
+content: |
+  [!include[](includes/2-slos-and-error-budgets.md)]

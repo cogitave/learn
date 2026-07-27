@@ -1,0 +1,12 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.navigate-the-patterns-catalog.discover-before-you-build
+title: Discover before you build
+metadata:
+  title: Discover before you build
+  description: The four-step discover-before-you-build loop from patterns/README.md - query before you generate, read the entry and follow its two links, start from the artifact, and own it honestly when you must go off-road.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: unit
+durationInMinutes: 8
+content: |
+  [!include[](includes/3-discover-before-you-build.md)]

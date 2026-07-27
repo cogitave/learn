@@ -1,0 +1,12 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.understand-massar.the-security-model
+title: "The security and consent model"
+metadata:
+  title: "The security and consent model"
+  description: "How a device authenticates with a per-device token while Diyar RBAC and audit gate the operator, why sessions are TTL-bounded, and an honest account of the shipped install path versus the preview enrollment wizard and macOS support."
+  ms.date: 2026-07-27
+  author: cogitave
+  ms.topic: unit
+durationInMinutes: 7
+content: |
+  [!include[](includes/4-the-security-model.md)]

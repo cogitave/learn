@@ -1,0 +1,69 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.understand-diyar.knowledge-check
+title: "Knowledge check"
+metadata:
+  title: "Knowledge check"
+  description: "A short quiz on edge autonomy, the platform/solution split, the cloud's never-actuates principle, and one honesty point about current build status."
+  ms.date: 2026-07-27
+  author: cogitave
+  ms.topic: unit
+  module_assessment: true
+durationInMinutes: 5
+quiz:
+  title: "Knowledge check"
+  questions:
+    - content: "A treatment is running on a Diyar edge device when the site's network connection goes down. What happens to the treatment?"
+      choices:
+        - content: "It continues to completion; the device is the sole authority over safety and evidence and keeps journaling readings locally."
+          isCorrect: true
+          explanation: "Correct. Diyar's edge-autonomous model means a treatment runs to completion with the network, the cloud, and the operator's phone all absent — only cloud-side features degrade."
+        - content: "It pauses until the network returns, because the cloud has to approve each step of the treatment."
+          isCorrect: false
+          explanation: "Incorrect. The cloud never approves in-progress steps. Actuation authority stays entirely on the device; the cloud only sees evidence after the fact."
+        - content: "It fails safe immediately and cuts power, because Diyar requires a live cloud connection to keep measuring."
+          isCorrect: false
+          explanation: "Incorrect. Network loss alone does not trip the safety interlock. The whole point of edge autonomy is that the device keeps measuring and evaluating offline."
+    - content: "How does Diyar's own documentation describe ISPM-15's place in the platform?"
+      choices:
+        - content: "ISPM-15 is the product; the platform was built specifically around it."
+          isCorrect: false
+          explanation: "Incorrect. Diyar is a platform for devices in general; ISPM-15 is explicitly one solution built on it, not the product itself."
+        - content: "ISPM-15 is the first, most mature solution — a certified verdict engine plus a signed device profile — not the product itself."
+          isCorrect: true
+          explanation: "Correct. ISPM-15 is one implementation behind the VerdictEngine interface, currently in-repo and destined for its own repository, added to a deployment rather than built into it."
+        - content: "ISPM-15 is a required dependency that every Diyar deployment must run."
+          isCorrect: false
+          explanation: "Incorrect. Solutions plug in rather than being mandatory; a deployment for a different process would use a different solution and device profile."
+    - content: "Which statement correctly describes what the cloud / on-prem control plane can do to a device in Diyar?"
+      choices:
+        - content: "It can request, advise, and mirror state, but holds no primitive that can actuate hardware directly."
+          isCorrect: true
+          explanation: "Correct. Authority is one-directional: the control plane can request and mirror, never energize anything."
+        - content: "It can push a desired heater state that the device applies as a direct command."
+          isCorrect: false
+          explanation: "Incorrect. The device twin's desired state is config-class only (things like OTA channel or sampling interval) and is never actuation."
+        - content: "It can issue a broadcast command to start treatments across an entire fleet at once."
+          isCorrect: false
+          explanation: "Incorrect. There is deliberately no broadcast actuation primitive anywhere in the system; mass remote ignition is the top threat the design guards against."
+    - content: "What must a signed Device Profile do to make a device run a new compliance rule?"
+      choices:
+        - content: "It can write arbitrary verdict logic directly into the profile, since the profile itself is signed."
+          isCorrect: false
+          explanation: "Incorrect. Signing a profile is not enough on its own — a profile cannot introduce a rule."
+        - content: "It can only name a verdict engine the running build is already certified to run; it cannot introduce a new rule itself."
+          isCorrect: true
+          explanation: "Correct. A profile may only name an engine the build is certified to run, which is what keeps hazardous actuation certifiable."
+        - content: "It requests live cloud approval at runtime before applying a new rule."
+          isCorrect: false
+          explanation: "Incorrect. There is no runtime cloud-approval step for the verdict rule; authority over which engines exist is fixed at build time, not negotiated live."
+    - content: "Which of the following accurately reflects Diyar's current status, per its own documentation?"
+      choices:
+        - content: "The kiosk and web portal are minimal stubs today; the fuller React build-out is scheduled for later phases."
+          isCorrect: true
+          explanation: "Correct. Both currently ship as minimal stubs, not full interfaces; Diyar's client strategy schedules the richer React web interfaces for later build phases."
+        - content: "The kiosk and web portal already ship as full production React interfaces."
+          isCorrect: false
+          explanation: "Incorrect. Both are still minimal stubs; the richer interfaces have not shipped yet."
+        - content: "Real hardware acquisition (DIYAR_HAL=real) is fully validated and ready for field deployment."
+          isCorrect: false
+          explanation: "Incorrect. Real hardware acquisition is deliberately gated and refuses to start pending hardware-in-the-loop characterization."

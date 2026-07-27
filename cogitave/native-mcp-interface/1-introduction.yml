@@ -1,0 +1,12 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.native-mcp-interface.introduction
+title: Introduction
+metadata:
+  title: Introduction
+  description: Why this module teaches the native MCP interface to Cogitave Core, why "native" is a specific claim and not a decoration, and what you will be able to reason about by the end.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: unit
+durationInMinutes: 4
+content: |
+  [!include[](includes/1-introduction.md)]

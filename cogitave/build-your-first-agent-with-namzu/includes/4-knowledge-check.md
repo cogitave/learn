@@ -1,1 +1,1 @@
-Check what you learned about building an agent with the Namzu kernel and running it on Yuva.
+Check what you learned about building an agent with the Namzu kernel. Everything you built runs locally on Node.

@@ -1,0 +1,12 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.native-mcp-interface.tools-and-resources
+title: Tools, resources, and propose-only governance
+metadata:
+  title: Tools, resources, and propose-only governance
+  description: Core's eight query tools and the `cogitave://{type}/{id}` resource surface, how `query_graph` is bounded so it cannot become a general escape hatch, and why the request-lifecycle write tools only propose.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: unit
+durationInMinutes: 7
+content: |
+  [!include[](includes/3-tools-and-resources.md)]

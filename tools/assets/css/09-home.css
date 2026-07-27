@@ -1,0 +1,739 @@
+/* ========================================================================== */
+/* home                                                                       */
+/* ========================================================================== */
+
+/* No rule under the hero: the first section head already draws one, and two
+   hairlines 20px apart read as a mistake. */
+.hero {
+  padding: 48px 0 20px;
+}
+
+.hero-lead {
+  padding: 72px 0 56px;
+}
+
+/* --- landing cards -------------------------------------------------------- */
+
+.lcards {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin: 0 0 8px;
+  padding: 0;
+}
+
+.lcard {
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  background: var(--bg-raised);
+}
+
+.lcard-title {
+  margin: 0 0 6px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.lcard-desc {
+  margin: 0 0 20px;
+  font-size: 13px;
+  color: var(--t2);
+}
+
+.lcard-list {
+  list-style: none;
+  margin: 0 0 20px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.lcard-list li {
+  margin: 0;
+}
+
+.lcard-list a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px;
+  margin: 0 -8px;
+  border-radius: var(--r-sm);
+  font-size: 13px;
+  color: var(--t1);
+  text-decoration: none;
+  transition: background-color 140ms var(--ease);
+}
+
+.lcard-list a:hover {
+  background: var(--bg-hover);
+}
+
+.lcard-mark {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  flex: none;
+  border: 1px solid var(--line);
+  border-radius: var(--r-sm);
+  color: var(--t2);
+}
+
+.lcard-more {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: auto;
+  font-size: 13px;
+  color: var(--t1);
+  text-decoration: none;
+}
+
+.lcard-more svg {
+  transition: transform 160ms var(--ease);
+}
+
+.lcard-more:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.lcard-more:hover svg {
+  transform: translateX(2px);
+}
+
+/* --- closing band --------------------------------------------------------- */
+
+.band {
+  margin: 48px 0 16px;
+  padding: 40px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  background: var(--bg-sunken);
+}
+/* Home hero, two columns: the lede + search on the left, a compact "connect an
+   agent" card on the right so the space beside the hero carries the MCP endpoint
+   and the plugin instead of sitting empty. */
+.hero-split {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(560px, 720px);
+  gap: clamp(32px, 3.5vw, 60px);
+  align-items: start;
+}
+/* The traveling beam animates a single custom angle; declaring it as a typed
+   property is what lets it interpolate in @keyframes. Where @property is
+   unsupported the beam simply sits still - a static colorful edge, still fine. */
+@property --hc-beam {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+/* BorderBeam (mono, strength ~0.7): the card itself is a 1.5px conic-gradient
+   frame whose start angle animates, and an inner panel covers the centre so the
+   gradient shows ONLY as the border - a single bright arc that travels the edge.
+   The bright colour is the theme's foreground (dark on light, light on dark) so
+   the mono beam reads on both. This paints the frame directly (no mask, no
+   overlay), so it is reliably visible; where @property is unsupported the angle
+   holds at 0deg - a static mono accent, still fine. */
+.hero-connect {
+  padding: 1.5px;
+  border-radius: var(--r-lg);
+  background: conic-gradient(
+    from var(--hc-beam),
+    var(--line) 0deg,
+    var(--line) 200deg,
+    color-mix(in srgb, var(--t1) 35%, var(--line)) 256deg,
+    color-mix(in srgb, var(--t1) 90%, transparent) 300deg,
+    color-mix(in srgb, var(--t1) 35%, var(--line)) 344deg,
+    var(--line) 360deg
+  );
+  animation: hc-beam-travel 5s linear infinite;
+}
+.hero-connect-inner {
+  padding: 22px 24px;
+  border-radius: calc(var(--r-lg) - 1.5px);
+  background: var(--bg-sunken);
+}
+@keyframes hc-beam-travel {
+  to {
+    --hc-beam: 360deg;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-connect {
+    animation: none;
+  }
+}
+.hero-connect-kicker {
+  margin: 0 0 6px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--t3);
+}
+.hero-connect h2 {
+  margin: 0 0 6px;
+  font-size: 16px;
+}
+.hero-connect-inner > p {
+  margin: 0 0 18px;
+  font-size: 13px;
+  color: var(--t2, var(--t3));
+}
+.hcl {
+  display: block;
+  margin-bottom: 4px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--t3);
+}
+/* Client switcher: hidden radios drive which panel shows - pure CSS, no script,
+   so the same server can be added from any agent, not just Claude Code. */
+.hc-switch {
+  position: relative;
+}
+.hc-radio {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+.hc-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-bottom: 14px;
+}
+.hc-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 9px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font-size: 12px;
+  color: var(--t2);
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 140ms var(--ease), color 140ms var(--ease),
+    border-color 140ms var(--ease);
+}
+.hc-tab svg {
+  width: 13px;
+  height: 13px;
+  flex: none;
+}
+.hc-tab:hover {
+  background: var(--bg-hover);
+  color: var(--t1);
+}
+.hc-panel {
+  display: none;
+}
+.hc-panel .hcl:not(:first-child) {
+  margin-top: 12px;
+}
+#hc-cc:checked ~ .hc-tabs label[for="hc-cc"],
+#hc-codex:checked ~ .hc-tabs label[for="hc-codex"],
+#hc-cursor:checked ~ .hc-tabs label[for="hc-cursor"],
+#hc-windsurf:checked ~ .hc-tabs label[for="hc-windsurf"],
+#hc-vscode:checked ~ .hc-tabs label[for="hc-vscode"],
+#hc-cline:checked ~ .hc-tabs label[for="hc-cline"],
+#hc-zed:checked ~ .hc-tabs label[for="hc-zed"] {
+  background: var(--t1);
+  color: var(--bg);
+  border-color: var(--t1);
+}
+#hc-cc:focus-visible ~ .hc-tabs label[for="hc-cc"],
+#hc-codex:focus-visible ~ .hc-tabs label[for="hc-codex"],
+#hc-cursor:focus-visible ~ .hc-tabs label[for="hc-cursor"],
+#hc-windsurf:focus-visible ~ .hc-tabs label[for="hc-windsurf"],
+#hc-vscode:focus-visible ~ .hc-tabs label[for="hc-vscode"],
+#hc-cline:focus-visible ~ .hc-tabs label[for="hc-cline"],
+#hc-zed:focus-visible ~ .hc-tabs label[for="hc-zed"] {
+  outline: 2px solid var(--t1);
+  outline-offset: 2px;
+}
+#hc-cc:checked ~ .hc-panels .p-cc,
+#hc-codex:checked ~ .hc-panels .p-codex,
+#hc-cursor:checked ~ .hc-panels .p-cursor,
+#hc-windsurf:checked ~ .hc-panels .p-windsurf,
+#hc-vscode:checked ~ .hc-panels .p-vscode,
+#hc-cline:checked ~ .hc-panels .p-cline,
+#hc-zed:checked ~ .hc-panels .p-zed {
+  display: block;
+}
+/* A copyable command block, reusing the .code copy affordance in a compact form:
+   no bar, the copy button in the corner. The command WRAPS instead of scrolling,
+   so a long `claude mcp add ...` is fully readable with no cut-off or scrollbar. */
+.hc-cmd {
+  position: relative;
+  margin: 0;
+  background: var(--bg-code);
+}
+.hc-cmd + .hc-cmd {
+  margin-top: 6px;
+}
+.hc-cmd pre {
+  padding: 9px 34px 9px 11px;
+  overflow: visible;
+}
+.hc-cmd code {
+  font-size: 12px;
+  line-height: 1.55;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.hc-cmd .code-copy {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 24px;
+  height: 24px;
+  background: var(--bg-code);
+}
+.hc-cmd .code-copy:hover {
+  background: var(--bg-hover);
+}
+@media (max-width: 1024px) {
+  .hero-split {
+    grid-template-columns: 1fr;
+    gap: 28px;
+    align-items: start;
+  }
+  .hero-connect {
+    max-width: 760px;
+  }
+}
+
+.band-body {
+  max-width: 62ch;
+}
+
+.band-kicker {
+  margin: 0 0 8px;
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--t3);
+}
+
+.band h2 {
+  margin: 0 0 10px;
+  padding: 0;
+  border: 0;
+  font-family: var(--font-display);
+  font-size: 24px;
+  line-height: 1.25;
+}
+
+.band p {
+  color: var(--t2);
+}
+
+.band .cta {
+  margin-top: 12px;
+}
+
+.hero h1 {
+  max-width: 20ch;
+}
+
+.hero .lede {
+  margin-bottom: 24px;
+}
+
+.section-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 0 0 16px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+}
+
+.section-head h2 {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.section-head h2 svg {
+  color: var(--t3);
+}
+
+/* The home page is the one surface with no measure cap; keep its prose readable
+   even though the grid lets the section run the full width. */
+html[data-layout="wide"] .hero .lede {
+  max-width: 68ch;
+}
+
+.section-count {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--t3);
+}
+
+.section-more {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--t2);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.section-more:hover {
+  color: var(--t1);
+}
+
+/* --- the taxonomy, set as an index ---------------------------------------- */
+
+.ranks {
+  margin: 0 0 8px;
+}
+
+.rank {
+  display: grid;
+  grid-template-columns: 132px minmax(0, 1fr);
+  gap: 0 32px;
+  padding: 22px 0 6px;
+  border-top: 1px solid var(--line);
+}
+
+.rank:first-child {
+  border-top: 0;
+  padding-top: 4px;
+}
+
+/* Same gutter label as a callout: one pattern for "this names what follows". */
+.rank-axis {
+  margin: 0;
+  padding-top: 11px;
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--t3);
+}
+
+.rank-rows {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 40px;
+}
+
+.rank-rows li {
+  margin: 0;
+}
+
+.rank-rows a {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto 14px;
+  align-items: center;
+  gap: 14px;
+  padding: 11px 4px;
+  border-bottom: 1px solid var(--line);
+  font-size: 14px;
+  color: var(--t1);
+  text-decoration: none;
+  transition: padding-left 240ms var(--ease), background-color 200ms var(--ease);
+}
+
+/* The marketing surface's drill-down gesture: the row steps aside and its arrow
+   advances. Both properties move the same way, which is the point. */
+@media (hover: hover) and (pointer: fine) {
+  .rank-rows a:hover {
+    padding-left: 12px;
+    background: linear-gradient(90deg, var(--accent-wash), transparent 85%);
+  }
+
+  .rank-rows a:hover .rank-go {
+    transform: translateX(3px);
+    color: var(--t1);
+  }
+
+  .rank-rows a:hover .rank-count {
+    color: var(--t2);
+  }
+}
+
+.rank-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.rank-count {
+  font-family: var(--mono);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  color: var(--t3);
+  transition: color 200ms var(--ease);
+}
+
+.rank-go {
+  display: grid;
+  place-items: center;
+  color: var(--t3);
+  transition: transform 220ms var(--ease), color 200ms var(--ease);
+}
+
+/* ========================================================================== */
+/* footer                                                                     */
+/* ========================================================================== */
+
+.sitefoot {
+  border-top: 1px solid var(--line);
+  background: var(--bg-sunken);
+}
+
+.foot-in {
+  display: grid;
+  grid-template-columns: minmax(240px, 320px) 1fr;
+  gap: 40px;
+  max-width: none;
+  padding: 48px var(--gutter) 32px;
+}
+
+.foot-brand p {
+  margin: 12px 0 0;
+  font-size: 13px;
+  color: var(--t2);
+  max-width: 44ch;
+}
+
+.foot-cols {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 28px;
+}
+
+.foot-head {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin: 0 0 10px;
+  font-size: 12px;
+  color: var(--t3);
+}
+
+.foot-col ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.foot-col li {
+  margin-bottom: 7px;
+}
+
+.foot-col a {
+  font-size: 13px;
+  color: var(--t2);
+  text-decoration: none;
+}
+
+.foot-col a:hover {
+  color: var(--t1);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.foot-base {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 20px;
+  max-width: none;
+  padding: 16px var(--gutter) 32px;
+  border-top: 1px solid var(--line);
+  font-size: 12px;
+  color: var(--t3);
+}
+
+.foot-base code {
+  font-size: 12px;
+  color: var(--t2);
+}
+
+/* ========================================================================== */
+/* responsive                                                                 */
+/* ========================================================================== */
+
+@media (max-width: 1180px) {
+  /* The rail is the first track to go: it is a convenience, the side nav is
+     the way through the module. */
+  .shell {
+    grid-template-columns: var(--w-side) minmax(0, 1fr);
+  }
+  .rail {
+    display: none;
+  }
+}
+
+@media (max-width: 900px) {
+  :root {
+    --gutter: 20px;
+  }
+
+  .topnav {
+    display: none;
+  }
+
+  .topbar-burger {
+    display: inline-grid;
+  }
+
+  .shell {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  html:not([data-layout="wide"]) .shell-nosidenav > .content {
+    grid-column: auto;
+  }
+
+  .sidenav {
+    position: fixed;
+    inset: var(--chrome-h) 0 0;
+    z-index: 40;
+    background: var(--bg);
+    border-right: 0;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 160ms var(--ease), visibility 160ms var(--ease);
+  }
+
+  .sidenav.is-open {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  .sidenav-in {
+    position: static;
+    max-height: none;
+    height: 100%;
+    padding: 24px var(--gutter) 48px;
+  }
+
+  .content {
+    max-width: none;
+    padding-bottom: 64px;
+  }
+
+  .search-field {
+    width: 140px;
+  }
+
+  .search-field:focus-within {
+    width: 200px;
+  }
+
+  .foot-in {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 32px;
+    padding-top: 36px;
+  }
+
+  .pager {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  /* The gutter costs too much of the measure on a phone; the label stacks. */
+  .alert {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 8px;
+  }
+
+  .alert-warning .alert-label,
+  .alert-caution .alert-label {
+    justify-self: start;
+  }
+
+  .hero {
+    padding-top: 36px;
+  }
+}
+
+@media (max-width: 1040px) {
+  .lcards {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 860px) {
+  .cards,
+  html[data-layout="wide"] .cards {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .hero-lead {
+    padding: 44px 0 36px;
+  }
+
+  .band {
+    padding: 28px 20px;
+  }
+}
+
+@media (max-width: 560px) {
+  .search-key {
+    display: none;
+  }
+
+  .card a {
+    grid-template-columns: auto 1fr;
+  }
+
+  .card-go {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
+
+@media print {
+  .topbar,
+  .sidenav,
+  .rail,
+  .sitefoot,
+  .pager,
+  .skip {
+    display: none;
+  }
+  .shell {
+    display: block;
+    max-width: none;
+  }
+  .content {
+    max-width: none;
+  }
+}

@@ -1,0 +1,12 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.configuration-management.the-configuration-model
+title: The configuration model
+metadata:
+  title: The configuration model
+  description: Classify every value as a constant, a deployment parameter, or a secret; assemble config through the ordered precedence chain; and parse it once at the boundary into one typed, immutable value that fails closed on invalid or missing input.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: unit
+durationInMinutes: 7
+content: |
+  [!include[](includes/2-the-configuration-model.md)]

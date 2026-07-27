@@ -1,0 +1,12 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.diyar-safety-and-evidence.de-energize-to-trip
+title: "De-energize-to-trip: the safety model"
+metadata:
+  title: "De-energize-to-trip: the safety model"
+  description: "How Diyar's four-layer, hardware-first de-energize-to-trip design keeps a kilowatt-class heater safe, and why networked heat outputs require a comms-loss watchdog."
+  ms.date: 2026-07-27
+  author: cogitave
+  ms.topic: unit
+durationInMinutes: 7
+content: |
+  [!include[](includes/1-de-energize-to-trip.md)]

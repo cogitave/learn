@@ -1,0 +1,12 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.install-the-massar-agent.remove-the-agent
+title: "Remove the agent cleanly"
+metadata:
+  title: "Remove the agent cleanly"
+  description: "How to remove the Massar agent cleanly on Linux (uninstall.sh) or Windows (Settings > Apps or uninstall.ps1), how the release pipeline proves its own install path, and what removal does not erase."
+  ms.date: 2026-07-27
+  author: cogitave
+  ms.topic: unit
+durationInMinutes: 6
+content: |
+  [!include[](includes/5-remove-the-agent.md)]

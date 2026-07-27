@@ -1,0 +1,12 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.inherit-the-project-baseline.what-the-baseline-gives-you
+title: What the baseline gives you
+metadata:
+  title: What the baseline gives you
+  description: The planes a repo inherits along - the floor, the two-tier standards, the scaffold born from templates/base, and the lifecycle and Definition of Done it runs under - and how to read always-on versus conditional standards.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: unit
+durationInMinutes: 6
+content: |
+  [!include[](includes/2-what-the-baseline-gives-you.md)]

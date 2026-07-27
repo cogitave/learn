@@ -1,0 +1,12 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.understand-diyar.what-diyar-solves
+title: "What Diyar solves: proof without a network"
+metadata:
+  title: "What Diyar solves: proof without a network"
+  description: "Why regulated, unattended field processes like ISPM-15 heat treatment need to keep running and keep proving what they did with no network, and how Diyar's edge-autonomous model makes the device the sole authority over safety and evidence."
+  ms.date: 2026-07-27
+  author: cogitave
+  ms.topic: unit
+durationInMinutes: 6
+content: |
+  [!include[](includes/1-what-diyar-solves.md)]

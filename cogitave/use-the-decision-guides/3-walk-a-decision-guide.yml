@@ -1,0 +1,12 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.use-the-decision-guides.walk-a-decision-guide
+title: Walk a decision guide
+metadata:
+  title: Walk a decision guide
+  description: Walk the database-selection, infrastructure-selection, and model-selection decision trees for real workloads to their prescribed, justified answers, and see what a deviation must record.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: unit
+durationInMinutes: 8
+content: |
+  [!include[](includes/3-walk-a-decision-guide.md)]

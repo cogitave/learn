@@ -1,0 +1,39 @@
+### YamlMime:Module
+uid: cogitave.learn.inherit-the-project-baseline
+metadata:
+  title: Inherit the project baseline
+  description: How a new Cogitave repository inherits its complete ruleset automatically - the floor, the standards, the scaffold, the lifecycle, and the identity - instead of re-deciding the rules per repo, and how to discover an existing pattern before you generate any code.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: module
+title: Inherit the project baseline
+summary: How a new repository is born on the paved road with its whole ruleset already inherited, how to tell always-on standards from the ones a product type pulls in, and how to find an existing pattern before writing anything new.
+abstract: |
+  By the end of this module, you'll be able to:
+  - Explain how a new repository inherits its complete ruleset automatically - the floor, the standards, the scaffold, the lifecycle, and the identity - instead of re-deciding the rules.
+  - Scaffold a repo from `templates/base` plus its per-type template so the baseline is baked in from birth.
+  - Distinguish always-on standards from the conditional standards a product type additionally pulls in.
+  - Apply reuse-first / discover-before-generate: query the patterns catalog and start from a named artifact before writing new code.
+  - State honestly what is enforced today versus what turns on at cutover.
+prerequisites: |
+  - Familiarity with the org's non-negotiable rules (the AGENTS floor).
+  - Basic familiarity with Git and the command line.
+iconUrl: /learn/achievements/inherit-the-project-baseline.svg
+ratingEnabled: true
+levels:
+  - beginner
+roles:
+  - developer
+  - solution-architect
+products:
+  - cogitave-core
+subjects:
+  - software-engineering
+units:
+  - cogitave.learn.inherit-the-project-baseline.introduction
+  - cogitave.learn.inherit-the-project-baseline.what-the-baseline-gives-you
+  - cogitave.learn.inherit-the-project-baseline.reuse-first-discover-before-you-build
+  - cogitave.learn.inherit-the-project-baseline.knowledge-check
+  - cogitave.learn.inherit-the-project-baseline.summary
+badge:
+  uid: cogitave.learn.inherit-the-project-baseline.badge

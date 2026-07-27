@@ -1,0 +1,12 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.reliability-and-sre.operating-for-reliability
+title: Operating for reliability
+metadata:
+  title: Operating for reliability
+  description: What the error budget buys operationally - the freeze/thaw policy and its one named owner, sustainable on-call, the toil cap and automation mandate, tested resilience through capacity planning and chaos game-days, and why the SLA is always looser than the SLO.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: unit
+durationInMinutes: 9
+content: |
+  [!include[](includes/3-operating-for-reliability.md)]

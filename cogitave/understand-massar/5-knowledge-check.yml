@@ -1,0 +1,69 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.understand-massar.knowledge-check
+title: "Knowledge check"
+metadata:
+  title: "Knowledge check"
+  description: "Check your understanding of why Massar dials out, how the broker, control frames, and terminal bytes fit together, how authorization and audit are split between the device and Diyar, and what is shipped versus preview."
+  ms.date: 2026-07-27
+  author: cogitave
+  ms.topic: unit
+  module_assessment: true
+durationInMinutes: 4
+quiz:
+  title: "Check your knowledge"
+  questions:
+    - content: "Why does Massar's agent only ever dial out to the Diyar broker, rather than listening for inbound connections?"
+      choices:
+        - content: "Dial-out needs no inbound port and no VPN - it fits how most firewalls already default (deny-inbound, allow-outbound) and works regardless of the device's network position."
+          isCorrect: true
+          explanation: "Correct. This is the same posture as AWS SSM and Azure Arc: the device calls the cloud, never the other way around, so nothing has to be opened inbound on the device's network."
+        - content: "Because listening sockets are not supported on the platforms Massar targets."
+          isCorrect: false
+          explanation: "Incorrect. Windows and Linux both support listening sockets fine; dial-out is a deliberate security choice, not a technical limitation of the platform."
+        - content: "Because an outbound connection is always faster than an inbound one."
+          isCorrect: false
+          explanation: "Incorrect. Speed is not the reason given for the design - the reason is that it removes the need for an inbound port or a VPN on the device."
+    - content: "What role does the Diyar console broker play once a session is open?"
+      choices:
+        - content: "It relays WebSocket frames between the agent and the operator's browser terminal - it does not interpret terminal control logic itself, which is owned entirely by the agent."
+          isCorrect: true
+          explanation: "Correct. The agent's own source describes the broker as \"a dumb frame pipe; the agent interprets control and owns the PTY.\""
+        - content: "It runs the PTY and the shell on behalf of the device."
+          isCorrect: false
+          explanation: "Incorrect. The PTY and shell run on the device, inside the agent's process - the broker never touches terminal state."
+        - content: "It stores the device's per-device token so the agent does not have to send it."
+          isCorrect: false
+          explanation: "Incorrect. The agent presents its own token as an Authorization: Bearer header on every connection; the broker does not hold it on the agent's behalf."
+    - content: "On the wire between the agent and the operator's browser, what distinguishes a WS Text frame from a WS Binary frame?"
+      choices:
+        - content: "Text frames carry control messages as JSON (open/resize/close/exit); Binary frames carry raw terminal bytes (PTY stdin/stdout)."
+          isCorrect: true
+          explanation: "Correct. This split is symmetric on both hops through the broker: it is how the agent tells a control instruction apart from the shell's actual output."
+        - content: "Text frames carry the shell's output; Binary frames carry the operator's keystrokes."
+          isCorrect: false
+          explanation: "Incorrect. Both directions of terminal data - keystrokes in, shell output out - travel as Binary frames. Text frames are reserved for control messages, not terminal content."
+        - content: "Text and Binary frames carry the same content; the distinction is only cosmetic."
+          isCorrect: false
+          explanation: "Incorrect. The agent parses Text frames as control JSON and would not attempt to parse terminal bytes as JSON - the two frame types carry structurally different payloads."
+    - content: "What authorizes an operator to open a session on a given device, and what does the device itself present to authenticate?"
+      choices:
+        - content: "The operator is gated by Diyar RBAC (operator rank on the device's workspace) and the session is recorded there; the device presents its own per-device secret as an Authorization: Bearer header."
+          isCorrect: true
+          explanation: "Correct. These are two separate boundaries: Diyar RBAC and audit authorize and record the operator; the per-device token authenticates the device to the broker."
+        - content: "The device and the operator share the same per-device token, so either side can authenticate as the other."
+          isCorrect: false
+          explanation: "Incorrect. The token belongs to the device alone. Operator authorization is a completely separate mechanism, enforced by Diyar's RBAC."
+        - content: "Massar's agent maintains its own list of authorized operators and checks it before opening a PTY."
+          isCorrect: false
+          explanation: "Incorrect. Massar holds no user directory and makes no authorization decision of its own - that decision is made entirely on the Diyar side."
+    - content: "Which statement about Massar's enrollment and platform support is accurate today?"
+      choices:
+        - content: "The shipped enrollment path is a pre-issued static per-device token passed to the installer; a graphical device-code/QR enrollment wizard exists in the frontend, but its backend commands are not implemented."
+          isCorrect: true
+          explanation: "Correct. The wizard is a preview of where enrollment is headed, not a working alternative to the token flag today."
+        - content: "Massar supports Windows, Linux, and macOS installers today."
+          isCorrect: false
+          explanation: "Incorrect. Only Windows and Linux have a working install path. macOS is deferred - there is no installer or service definition for it, even though a macOS binary is cross-built in CI."
+        - content: "The device-code/QR enrollment flow is the primary, fully working way to enroll a device today."
+          isCorrect: false
+          explanation: "Incorrect. That flow is UI and mocks only; the Tauri backend commands behind it are unimplemented. The static per-device token is the real, shipped path."

@@ -1,0 +1,61 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.open-your-first-pull-request.knowledge-check
+title: Knowledge check
+metadata:
+  title: Knowledge check
+  description: Check that you can write a Conventional Commit, sign it correctly, read the hook-versus-CI relationship, and satisfy the docs-as-code gate before opening a pull request.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: unit
+  module_assessment: true
+durationInMinutes: 3
+quiz:
+  title: Check your knowledge
+  questions:
+    - content: "You fixed a bug in the capability-grant parser. Which commit subject is a correctly-formed Conventional Commit?"
+      choices:
+        - content: "fix(parser): reject empty capability grant"
+          isCorrect: true
+          explanation: "Correct. It follows `<type>[scope]: <desc>` - type `fix` for a bug, an optional scope in parentheses, and a short imperative summary. commitlint accepts it."
+        - content: "Fixed the parser so empty grants are rejected"
+          isCorrect: false
+          explanation: "Incorrect. There is no Conventional Commit type prefix, so commitlint rejects it in both the commit-msg hook and CI."
+        - content: "feature(parser)!: reject empty capability grant"
+          isCorrect: false
+          explanation: "Incorrect on two counts: the type is `feat`, not `feature`, and a bug fix is not a breaking change, so the `!` is wrong here. Both fail the check."
+        - content: "parser: reject empty capability grant"
+          isCorrect: false
+          explanation: "Incorrect. `parser` is a scope, not a type. A valid message needs a type such as `fix` before the optional scope: `fix(parser): ...`."
+    - content: "Your commit keeps getting rejected when you push. Which action is consistent with the estate's rules?"
+      choices:
+        - content: "Configure SSH commit signing so the commit is Verified, because the org ruleset requires signed commits."
+          isCorrect: true
+          explanation: "Correct. SSH signing is mandatory and the branch ruleset requires signed commits; configuring signing is the fix, and it gives the commit non-repudiation lineage."
+        - content: "Disable signing with commit.gpgsign false to get the push through."
+          isCorrect: false
+          explanation: "Incorrect. Never disable signing - it is a non-negotiable floor rule, and the ruleset rejects the unsigned push anyway. This does not unblock you."
+        - content: "Pass --no-gpg-sign on this one commit as a temporary workaround."
+          isCorrect: false
+          explanation: "Incorrect. Bypassing signing, even once, violates the floor and still fails the ruleset. Fix the signing configuration instead."
+    - content: "A teammate skipped the local pre-commit hook with --no-verify and pushed. What is the effect on their pull request?"
+      choices:
+        - content: "The same checks run again in CI and block the merge if they fail - the hook is a bypassable convenience, but CI is the real gate."
+          isCorrect: true
+          explanation: "Correct. Lefthook runs the same commands CI does; skipping the local hook only defers the checks. The PR still has to pass them, and the secret scan is deeper in CI."
+        - content: "Nothing is checked, because skipping the hook skips the checks entirely."
+          isCorrect: false
+          explanation: "Incorrect. The hook is a convenience; CI re-runs formatters, linters, commitlint, and secret scanning on the PR regardless of what ran locally."
+        - content: "The push is impossible - Git refuses to push when the hook was skipped."
+          isCorrect: false
+          explanation: "Incorrect. The push can succeed; the enforcement is at CI and the merge gate, not at push time for the hook itself."
+    - content: "Your pull request changes code but touches no documentation. What happens, and what is the intended response?"
+      choices:
+        - content: "The docs-required CI gate fails; update docs/, a *.md file, or the CHANGELOG in the same PR, because if code changes, docs change."
+          isCorrect: true
+          explanation: "Correct. The gate fails a code-only PR by design. The intended fix is to add the doc change that a reader needs; a docs-exempt label exists only for genuine exceptions."
+        - content: "Nothing happens - documentation is a follow-up task after the code merges."
+          isCorrect: false
+          explanation: "Incorrect. Docs-as-code is enforced at the PR, not deferred. A code-only PR fails the docs-required gate before it can merge."
+        - content: "The PR is auto-merged because the code passed its tests."
+          isCorrect: false
+          explanation: "Incorrect. Nothing auto-merges here - merge is a human gate - and a failing docs-required check blocks it regardless of the tests."

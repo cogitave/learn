@@ -1,0 +1,12 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.apply-naming-standards.summary
+title: Summary
+metadata:
+  title: Summary
+  description: Recap the keyword-first naming rules and the codename discipline, and continue the engineering-standards path with commits and versioning.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: unit
+durationInMinutes: 3
+content: |
+  [!include[](includes/5-summary.md)]

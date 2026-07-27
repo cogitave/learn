@@ -2,21 +2,21 @@
 uid: cogitave.learn.build-your-first-agent-with-namzu
 metadata:
   title: Build your first agent with Namzu
-  description: Build a minimal MCP-native agent with the Namzu kernel, declare its identity and capabilities, and run it on the Yuva agent operating system.
-  ms.date: 2026-06-27
+  description: Install the Namzu agent kernel, register a model provider, make your first call, and declare a tool with a typed input schema and an explicit authority. Runs locally on Node with no account required.
+  ms.date: 2026-07-26
   author: cogitave
   ms.topic: module
 title: Build your first agent with Namzu
-summary: Build a minimal MCP-native agent with the Namzu kernel — one tool, one resource, a declared capability boundary — and run it on Yuva.
+summary: Install the Namzu kernel, register a provider, make your first model call, and declare a tool with a typed schema and an explicit authority - locally, with no account.
 abstract: |
   By the end of this module, you'll be able to:
-  - Explain how the Namzu agent kernel relates to the Yuva agent operating system.
-  - Build a minimal Namzu agent that exposes an MCP tool and resource.
-  - Declare an agent's identity, capabilities, and sandbox boundaries.
-  - Run your agent on Yuva over stdio or Streamable HTTP, and gate it with evals.
+  - Explain what an agent kernel owns and what it deliberately refuses to own.
+  - Register a model provider, and change vendor without touching your agent code.
+  - Read the uniform response shape every provider driver returns.
+  - Declare a tool with `defineTool` - its schema, permissions, and safety properties.
 prerequisites: |
-  - Completion of the "Get started with Yuva" module.
-  - Basic familiarity with TypeScript.
+  - Node.js 20 or later, and TypeScript 5.5 or later.
+  - Basic familiarity with TypeScript. No prior agent experience required.
 iconUrl: /learn/achievements/build-your-first-agent-with-namzu.svg
 ratingEnabled: true
 levels:

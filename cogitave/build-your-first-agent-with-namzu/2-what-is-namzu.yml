@@ -3,8 +3,8 @@ uid: cogitave.learn.build-your-first-agent-with-namzu.what-is-namzu
 title: What is the Namzu agent kernel?
 metadata:
   title: What is the Namzu agent kernel?
-  description: How Namzu (kernel, TypeScript, build-time) relates to Yuva (operating system, Rust, serve-time), and why agents are MCP-native.
-  ms.date: 2026-06-27
+  description: What an agent kernel owns and what it deliberately refuses to own, why model vendors are drivers in separate packages, and what a tool declaration actually asserts.
+  ms.date: 2026-07-26
   author: cogitave
   ms.topic: unit
 durationInMinutes: 5

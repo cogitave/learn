@@ -1,0 +1,58 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.apply-the-agents-floor.knowledge-check
+title: Knowledge check
+metadata:
+  title: Knowledge check
+  description: Check your grasp of the seven non-negotiable rules, what enforces each one, how the human gate fires, and how to apply the floor to your own first change.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: unit
+  module_assessment: true
+durationInMinutes: 4
+quiz:
+  title: Check your knowledge
+  questions:
+    - content: "A teammate's commit is rejected before it lands because its message reads `updated stuff`. Which rule did it break, and what rejected it?"
+      choices:
+        - content: "Conventional Commits (rule 2); commitlint in the `commit-msg` hook and in CI requires `<type>[scope][!]: <desc>`."
+          isCorrect: true
+          explanation: "Correct. `updated stuff` has no type prefix, so commitlint - which runs both in the local commit-msg hook and in CI - rejects it. See the commits-versioning standard."
+        - content: "Signed commits (rule 3); the org ruleset rejects any commit whose message is lowercase."
+          isCorrect: false
+          explanation: "Incorrect. The signing ruleset rejects unsigned commits, not lowercase ones. Message shape is enforced by commitlint, not by the signing rule."
+        - content: "Docs-as-code (rule 4); the docs-required gate blocks commits with short messages."
+          isCorrect: false
+          explanation: "Incorrect. The docs-required gate fails a code change that updates no docs; it does not inspect the commit message's wording."
+    - content: "Your task fails a check because it lacks a capability. The fastest fix is to broaden your grant to include it. What does the floor say?"
+      choices:
+        - content: "Do not broaden the grant. Least privilege (rule 5) is default-deny; request only what the task needs and never widen a grant to make a step easier - if you truly need more, ask a human to change the grant."
+          isCorrect: true
+          explanation: "Correct. Broadening a grant to turn a red check green is exactly what rule 5 forbids. Capability changes go through a human, and the boundary is not something you work around."
+        - content: "Broaden the grant, since the check passing is evidence the extra capability was needed."
+          isCorrect: false
+          explanation: "Incorrect. A passing check after a widened grant proves nothing about need; it just removed the guardrail. The floor treats broadening a grant to pass a check as a violation."
+        - content: "Disable the check locally so the task can proceed, then re-enable it later."
+          isCorrect: false
+          explanation: "Incorrect. Silencing a guardrail is the same anti-pattern as widening a grant. The floor's answer is to fix the change, never to weaken the rule."
+    - content: "Under the AGENTS floor, when is a human summoned to approve an agent's action?"
+      choices:
+        - content: "On an exception: a failed check, low confidence or novelty, detected drift or a policy violation, or an action in the minimal always-human set (rule 7). In-spec, in-grant, reversible work runs unattended."
+          isCorrect: true
+          explanation: "Correct. Rules 6 and 7 make autonomy within the rails the default and the human gate an exception handler - not a routine checkpoint over every correct action."
+        - content: "On every consequential action, because a human must approve anything that changes the world."
+          isCorrect: false
+          explanation: "Incorrect. That blanket 'human on every consequence' framing is exactly what the autonomy-and-oversight doctrine supersedes; standing over every correct action is approval fatigue, not safety."
+        - content: "Never; once an agent has a grant it is fully autonomous with no human gate at all."
+          isCorrect: false
+          explanation: "Incorrect. The gate still fires on the rule-7 triggers, and the always-human set - apply, merge, release, secret rotation, org settings, and the irreversible-catastrophic actions - stays reserved to humans at Day 0."
+    - content: "You are about to open your first change and want to apply the floor correctly. Which approach matches AGENTS.md?"
+      choices:
+        - content: "Sign the commit, name it as a Conventional Commit, update the affected docs in the same change, stay inside your grant, and follow AGENTS.md to the owning standard when you need the detail."
+          isCorrect: true
+          explanation: "Correct. That applies rules 2, 3, 4, and 5 together, and treats AGENTS.md as the floor that points you to the canonical standard rather than something to paraphrase from memory."
+        - content: "Write the commit message in whichever language is fastest for you, then translate the docs later."
+          isCorrect: false
+          explanation: "Incorrect. Rule 1 is English only - for code, comments, commits, docs, identifiers, and PR text - with no 'translate later' exception anywhere."
+        - content: "Skip the docs update to keep the change small, and add the `docs-exempt` label so CI passes."
+          isCorrect: false
+          explanation: "Incorrect. Using the escape label to dodge a real docs need violates docs-as-code (rule 4); the label exists for genuinely doc-less changes, not to make a code change smaller."

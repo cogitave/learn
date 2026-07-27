@@ -1,0 +1,37 @@
+### YamlMime:Module
+uid: cogitave.learn.query-the-estate-with-cogitave-query
+metadata:
+  title: Query the estate with Cogitave Query
+  description: How Cogitave Query resolves a request against Core's canonical graph - lexical BM25, dense HNSW vectors, and graph-aware reranking fused by reciprocal rank fusion, plus the bounded query_graph profile agents call directly.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: module
+title: Query the estate with Cogitave Query
+summary: Learn how Cogitave Query resolves a request against the canonical graph - lexical BM25 and dense HNSW vectors fused by Reciprocal Rank Fusion, a graph-aware rerank and ranking signals, and the bounded, read-only query_graph profile agents call directly.
+abstract: |
+  By the end of this module, you'll be able to:
+  - Explain why Cogitave Query fuses lexical, dense, and graph signals instead of relying on any one retriever alone.
+  - Trace a query through the pipeline: BM25 recall, HNSW dense recall, Reciprocal Rank Fusion, and graph-aware rerank.
+  - State why Reciprocal Rank Fusion was chosen over a weighted linear combination of retriever scores.
+  - Read the bounded `query_graph` contract well enough to explain what makes it safe for an agent to call directly.
+prerequisites: |
+  - Familiarity with Cogitave Core's canonical property graph - the node/edge model every query resolves against - is assumed.
+  - Recommended: @cogitave.learn.core-model-fundamentals, the first module of this path, which covers that graph substrate directly.
+iconUrl: /learn/achievements/query-the-estate-with-cogitave-query.svg
+ratingEnabled: true
+levels:
+  - intermediate
+roles:
+  - developer
+products:
+  - cogitave-core
+subjects:
+  - software-engineering
+units:
+  - cogitave.learn.query-the-estate-with-cogitave-query.introduction
+  - cogitave.learn.query-the-estate-with-cogitave-query.cogitave-query
+  - cogitave.learn.query-the-estate-with-cogitave-query.hybrid-retrieval
+  - cogitave.learn.query-the-estate-with-cogitave-query.knowledge-check
+  - cogitave.learn.query-the-estate-with-cogitave-query.summary
+badge:
+  uid: cogitave.learn.query-the-estate-with-cogitave-query.badge

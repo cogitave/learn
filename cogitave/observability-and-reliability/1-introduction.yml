@@ -1,0 +1,12 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.observability-and-reliability.introduction
+title: Introduction
+metadata:
+  title: Introduction
+  description: Why measurement and reliability are two halves of one discipline at Cogitave, which standards own each half, and what you will be able to do after this module.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: unit
+durationInMinutes: 4
+content: |
+  [!include[](includes/1-introduction.md)]

@@ -1,0 +1,12 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.apply-the-agents-floor.introduction
+title: Introduction
+metadata:
+  title: Introduction
+  description: Why Cogitave has a single, machine- and human-readable floor that every contributor and agent inherits, where it lives, and what you will be able to do after this module.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: unit
+durationInMinutes: 4
+content: |
+  [!include[](includes/1-introduction.md)]

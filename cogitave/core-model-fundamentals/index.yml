@@ -1,0 +1,37 @@
+### YamlMime:Module
+uid: cogitave.learn.core-model-fundamentals
+metadata:
+  title: Core model fundamentals
+  description: The one-model thesis behind Cogitave Core - a single typed property graph that docs, IDP, governance, infra, and agents all project from - and why that substrate is a labeled property graph rather than a relational, RDF, or federated store.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: module
+title: Core model fundamentals
+summary: Explain why Cogitave Core is one canonical property graph that humans and agents both query, what its node/edge model and identity scheme actually are, and why ADR-0001 chose a labeled property graph as the substrate.
+abstract: |
+  By the end of this module, you'll be able to:
+  - Explain the one-model thesis: why Cogitave Core is a single canonical graph that docs, the IDP, governance, infra, and agents all project from, instead of one store per domain.
+  - Describe the canonical graph itself: its node and edge types, its two orthogonal identifiers (`uid` and `contentHash`), and the three materializations served from it.
+  - Explain why the substrate is a labeled property graph specifically - what ADR-0001 decided, and why the relational, RDF, and federated alternatives were rejected.
+  - State accurately what is decided today versus what is architecture to build against, without overstating a running product.
+prerequisites: |
+  - No prior Cogitave Core experience required.
+  - Helpful, but not required: completion of the "Contributor onboarding" path.
+iconUrl: /learn/achievements/core-model-fundamentals.svg
+ratingEnabled: true
+levels:
+  - intermediate
+roles:
+  - developer
+products:
+  - cogitave-core
+subjects:
+  - software-engineering
+units:
+  - cogitave.learn.core-model-fundamentals.introduction
+  - cogitave.learn.core-model-fundamentals.the-one-model
+  - cogitave.learn.core-model-fundamentals.the-property-graph-substrate
+  - cogitave.learn.core-model-fundamentals.knowledge-check
+  - cogitave.learn.core-model-fundamentals.summary
+badge:
+  uid: cogitave.learn.core-model-fundamentals.badge

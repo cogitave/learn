@@ -1,0 +1,58 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.inherit-the-project-baseline.knowledge-check
+title: Knowledge check
+metadata:
+  title: Knowledge check
+  description: Check your understanding of how a repo inherits its ruleset, how the scaffold bakes it in, how always-on and conditional standards differ, and what discover-before-generate asks of you.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: unit
+  module_assessment: true
+durationInMinutes: 4
+quiz:
+  title: Check your knowledge
+  questions:
+    - content: "Why does a new Cogitave repository not re-declare the org's non-negotiable rules in its own `AGENTS.md`?"
+      choices:
+        - content: "The floor is inherited automatically through nearest-file precedence, and a leaf `AGENTS.md` can only ADD project specifics - it must not restate or override the floor."
+          isCorrect: true
+          explanation: "Correct. Inheriting the floor is free and overriding it is impossible; a leaf file can only add, so restating it is redundant and forbidden."
+        - content: "Each repo is free to pick which of the org rules apply to it."
+          isCorrect: false
+          explanation: "Incorrect. The seven non-negotiables are a floor, not a menu - they apply the moment the repo exists, and a leaf file cannot relax them."
+        - content: "`AGENTS.md` is optional, so small repos simply omit the rules."
+          isCorrect: false
+          explanation: "Incorrect. The floor is inherited whether or not the leaf file adds anything; the file exists to add project specifics, not to opt out."
+    - content: "A repo is classified as a hosted service. Which standards apply to it?"
+      choices:
+        - content: "The always-on standards apply to every repo, and because its product type is a service it additionally inherits conditional standards such as product-core-baseline."
+          isCorrect: true
+          explanation: "Correct. Standards inherit in two tiers: always-on unconditionally, plus a conditional set switched on by the product type."
+        - content: "Only the standards the author chooses to list in the repo's config."
+          isCorrect: false
+          explanation: "Incorrect. Standards are inherited by tier and product type, not hand-picked per repo."
+        - content: "Every standard in the index applies equally to every repo regardless of type."
+          isCorrect: false
+          explanation: "Incorrect. The always-on tier is universal, but the conditional tier is switched on by product type - an OSS library and a SaaS service inherit different conditional standards."
+    - content: "How does a new repo get the baseline 'baked in from birth' rather than assembled later?"
+      choices:
+        - content: "It is created by copying `templates/base` - the toolchain, the quality gate CI also runs, the CI/CD wiring, and the pinned `.claude` plugins - then layered with its per-type template."
+          isCorrect: true
+          explanation: "Correct. The repo is born from the template with the ruleset already present, so it never has to assemble its own toolchain."
+        - content: "A CI job installs the rules automatically after the first push to GitHub."
+          isCorrect: false
+          explanation: "Incorrect. The scaffold is present from the first commit via the template; and at Day 0 nothing has been pushed to GitHub yet - enforcement turns on at cutover."
+        - content: "Each contributor configures the hooks, commitlint, and CI by hand in every repo."
+          isCorrect: false
+          explanation: "Incorrect. That per-repo hand-assembly is exactly what the scaffold removes - `templates/base` ships the same checks CI runs."
+    - content: "You need a background job in a new service. What does discover-before-generate tell you to do first?"
+      choices:
+        - content: "Query the patterns catalog for the canonical pattern, follow its governing standard and reusable artifact, and only author something new after a recorded 'no fit' - then contribute it back."
+          isCorrect: true
+          explanation: "Correct. Reuse is the default; building from scratch is the justified exception, and a genuinely new pattern is contributed back so the next project finds it."
+        - content: "Write it from scratch, since every repo's needs are different anyway."
+          isCorrect: false
+          explanation: "Incorrect. Building from scratch is the exception that must be justified and recorded, not the default starting move."
+        - content: "Copy the closest-looking code you can find and move on without recording anything."
+          isCorrect: false
+          explanation: "Incorrect. Going off-road is allowed, but it is a decision with a cost: you record the rationale, own the maintenance, and still satisfy the Definition of Done."

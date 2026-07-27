@@ -1,0 +1,12 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.apply-naming-standards.keywords-and-codenames
+title: Keywords and codenames
+metadata:
+  title: Keywords and codenames
+  description: Keyword-first naming versus product codenames - the Roots lexicon, codename versus public name versus repo name, why you never concatenate the two, and when a codename is allowed versus codename-exempt.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: unit
+durationInMinutes: 7
+content: |
+  [!include[](includes/3-keywords-and-codenames.md)]

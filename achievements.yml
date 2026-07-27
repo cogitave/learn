@@ -1,17 +1,192 @@
 ### YamlMime:Achievements
 achievements:
-  - uid: cogitave.learn.get-started-with-yuva.badge
+  - uid: cogitave.learn.api-design.badge
     type: badge
-    title: Get started with Yuva
-    summary: You learned what the Yuva agent operating system is and ran your first agent.
-    iconUrl: /learn/achievements/get-started-with-yuva.svg
+    title: Design and version a Cogitave API
+    summary: You can shape a clean, consistent API against the Cogitave API design standard - resources, standard methods, typed errors, cursor pagination, idempotency - then version and deprecate it under the versioning policy so no consumer is ever broken without consent.
+    iconUrl: /learn/achievements/api-design.svg
+  - uid: cogitave.learn.apply-naming-standards.badge
+    type: badge
+    title: Apply the naming standards
+    summary: You can name a new identifier, file, repo, or branch the way the estate does - keyword-first, no redundant prefix, cased by role - and tell a functional keyword apart from a product codename, so your first artifact passes the naming gate by default.
+    iconUrl: /learn/achievements/apply-naming-standards.svg
+  - uid: cogitave.learn.apply-the-agents-floor.badge
+    type: badge
+    title: Apply the AGENTS floor
+    summary: You can state the seven non-negotiable rules every Cogitave contributor and agent obeys, say what enforces each one - a hook, a CI gate, an org ruleset, or policy-as-code - and apply them to your own first change.
+    iconUrl: /learn/achievements/apply-the-agents-floor.svg
   - uid: cogitave.learn.build-your-first-agent-with-namzu.badge
     type: badge
     title: Build your first agent with Namzu
-    summary: You built a minimal MCP-native agent with the Namzu kernel, declared its capabilities, and ran it on Yuva.
+    summary: You can install the Namzu kernel, register a provider, make your first model call, and declare a tool with a typed schema and an explicit authority - locally, with no account.
     iconUrl: /learn/achievements/build-your-first-agent-with-namzu.svg
+  - uid: cogitave.learn.ci-cd-pipelines.badge
+    type: badge
+    title: Read the pipeline that ships your change
+    summary: You can follow a change from a pull request through the canonical CI stage set to a gated production deploy - the ordered gates a pipeline runs, why CI is the real gate, and how the deployment model promotes one signed artifact dev to staging to prod.
+    iconUrl: /learn/achievements/ci-cd-pipelines.svg
+  - uid: cogitave.learn.commits-and-versioning.badge
+    type: badge
+    title: Commits and versioning
+    summary: You can write Conventional Commits whose type, scope, and breaking marker drive Semantic Versioning; see how release-please turns merged commits into a human-approved Release-PR, changelog, and tag; and how the trunk-based, protected-main model gates every release.
+    iconUrl: /learn/achievements/commits-and-versioning.svg
+  - uid: cogitave.learn.configuration-management.badge
+    type: badge
+    title: Manage configuration and secrets
+    summary: You can classify every value as a constant, a deployment parameter, or a secret; load configuration through the standard precedence chain, parsed once and fail-closed; and keep secrets out of git by referencing them at runtime and committing only encrypted-at-rest .env files.
+    iconUrl: /learn/achievements/configuration-management.svg
+  - uid: cogitave.learn.core-model-fundamentals.badge
+    type: badge
+    title: Core model fundamentals
+    summary: You can explain why Cogitave Core is one canonical property graph that humans and agents both query, what its node/edge model and identity scheme actually are, and why ADR-0001 chose a labeled property graph as the substrate.
+    iconUrl: /learn/achievements/core-model-fundamentals.svg
+  - uid: cogitave.learn.inherit-the-project-baseline.badge
+    type: badge
+    title: Inherit the project baseline
+    summary: You can how a new repository is born on the paved road with its whole ruleset already inherited, how to tell always-on standards from the ones a product type pulls in, and how to find an existing pattern before writing anything new.
+    iconUrl: /learn/achievements/inherit-the-project-baseline.svg
+  - uid: cogitave.learn.native-mcp-interface.badge
+    type: badge
+    title: The native MCP interface to Core
+    summary: You can read Core's MCP interface as the source of truth for how an agent queries the estate - why the surface is native rather than adapted, the protocol contract it commits to, and the tools and resources you call.
+    iconUrl: /learn/achievements/native-mcp-interface.svg
+  - uid: cogitave.learn.navigate-the-patterns-catalog.badge
+    type: badge
+    title: Navigate the patterns catalog
+    summary: You can find the canonical answer to "how does Cogitave do X" in the patterns catalog, read an entry's five fixed sections without confusing the pointer for the policy, and run the discover-before-you-build loop so you start every new piece of work from a named artifact instead of a blank file.
+    iconUrl: /learn/achievements/navigate-the-patterns-catalog.svg
+  - uid: cogitave.learn.observability-and-reliability.badge
+    type: badge
+    title: Observability and reliability
+    summary: You can instrument a service with OpenTelemetry-spec traces, metrics, and logs, understand why agent traces are kept as evidence, and reason about reliability through SLIs, SLOs, error budgets, and the policy that turns a spent budget into a release freeze.
+    iconUrl: /learn/achievements/observability-and-reliability.svg
+  - uid: cogitave.learn.open-your-first-pull-request.badge
+    type: badge
+    title: Open your first pull request
+    summary: You can apply the floor, the baseline, and the lifecycle in one hands-on contribution - a signed, Conventional-Commit, docs-complete pull request that passes the gates and stops for human review.
+    iconUrl: /learn/achievements/open-your-first-pull-request.svg
+  - uid: cogitave.learn.operate-from-day-1.badge
+    type: badge
+    title: Operate from Day 1
+    summary: You can describe the Day 1 operating model - the pinned inner loop and the flow-based outer loop - state the parity contract that keeps the inner loop honest, name Cogitave's flow-based ways of working and why ADR-0025 chose it over Scrum, and explain why the human gate stays an exception inside the flow.
+    iconUrl: /learn/achievements/operate-from-day-1.svg
+  - uid: cogitave.learn.project-products-into-core.badge
+    type: badge
+    title: Project products into Core
+    summary: You can see how content projects into Cogitave Core as typed, content-addressed nodes rather than separate silos, and how the fact registry's cite-not-restate rule and fact-drift scanner keep one owner per fact across the estate.
+    iconUrl: /learn/achievements/project-products-into-core.svg
+  - uid: cogitave.learn.query-the-estate-with-cogitave-query.badge
+    type: badge
+    title: Query the estate with Cogitave Query
+    summary: You can learn how Cogitave Query resolves a request against the canonical graph - lexical BM25 and dense HNSW vectors fused by Reciprocal Rank Fusion, a graph-aware rerank and ranking signals, and the bounded, read-only query_graph profile agents call directly.
+    iconUrl: /learn/achievements/query-the-estate-with-cogitave-query.svg
+  - uid: cogitave.learn.reliability-and-sre.badge
+    type: badge
+    title: Reliability and SRE
+    summary: You can reason about a service's reliability targets the way the reliability standard does - set an SLO from the user's journey, compute the error budget it buys, and operate the service against that budget with burn-rate alerts, sustainable on-call, a toil cap, and the freeze that stops shipping when the budget runs out.
+    iconUrl: /learn/achievements/reliability-and-sre.svg
+  - uid: cogitave.learn.respond-to-incidents.badge
+    type: badge
+    title: Respond to incidents
+    summary: You can walk the incident-response flow end to end - detection, severity declaration, single-commander roles, containment through a runbook, communication, recovery, and the blameless postmortem - and see how business continuity and disaster recovery extend the same discipline to a region loss or a destructive event.
+    iconUrl: /learn/achievements/respond-to-incidents.svg
+  - uid: cogitave.learn.reuse-first-engineering.badge
+    type: badge
+    title: Reuse-first engineering
+    summary: You can explain why AI-assisted development diverges without a counter-force, state the discover-before-generate hard rule and what enforces it, and justify a from-scratch decision the way ADR-0003 requires - as a reasoned exception, not a default.
+    iconUrl: /learn/achievements/reuse-first-engineering.svg
+  - uid: cogitave.learn.run-agentic-operations.badge
+    type: badge
+    title: Run agentic operations
+    summary: You can explain what agentic operations means at Cogitave, state the draft-vs-act rule that decides when an agent acts unattended versus when it stops for a human, and name the real fleet of scheduled and operations agents that run the estate.
+    iconUrl: /learn/achievements/run-agentic-operations.svg
+  - uid: cogitave.learn.secure-sdlc.badge
+    type: badge
+    title: Build with the secure SDLC
+    summary: You can state the security baseline - threat modeling, least privilege, and IAM - and follow the secure development lifecycle that shifts security left, so each stage of a change carries its own security gate instead of a check bolted on at the end.
+    iconUrl: /learn/achievements/secure-sdlc.svg
+  - uid: cogitave.learn.testing-and-quality.badge
+    type: badge
+    title: Test to the standard and pass the quality gate
+    summary: You can learn how Cogitave tests a change - the pyramid/trophy shape, the diff-coverage and mutation gates, flaky-test quarantine, the runnable harness, and the craftsmanship review bar - so you can test your own change and get it through the gate.
+    iconUrl: /learn/achievements/testing-and-quality.svg
+  - uid: cogitave.learn.understand-yuva.badge
+    type: badge
+    title: Understand Yuva, the sovereign kernel
+    summary: You can why an agent platform builds its own kernel, what a fail-closed boot and formally verified leaves actually prove, and an honest account of Yuva's current status.
+    iconUrl: /learn/achievements/understand-yuva.svg
+  - uid: cogitave.learn.use-the-decision-guides.badge
+    type: badge
+    title: Use the decision guides
+    summary: You can learn the shared shape behind Cogitave's database-selection, infrastructure-selection, and model-selection guides - a default, a decision tree, and an ADR-gated deviation rule - and walk a real workload to a justified, recorded choice.
+    iconUrl: /learn/achievements/use-the-decision-guides.svg
+  - uid: cogitave.learn.work-the-request-lifecycle.badge
+    type: badge
+    title: Work the request lifecycle
+    summary: You can move a change through the seven-stage request lifecycle, understand why the write tools only propose, and read the Definition of Done that decides when a request is actually done rather than merely worked on.
+    iconUrl: /learn/achievements/work-the-request-lifecycle.svg
   - uid: cogitave.learn.paths.agent-platform-fundamentals.trophy
     type: trophy
     title: Agent platform fundamentals
-    summary: You completed both halves of the Cogitave agent platform — running agents on Yuva and building them with Namzu.
+    summary: You built with the Namzu kernel, and you understand the sovereign kernel being built underneath it - the layer you use today and the layer meant to enforce it.
     iconUrl: /learn/achievements/agent-platform-fundamentals.svg
+  - uid: cogitave.learn.paths.build-on-core.trophy
+    type: trophy
+    title: Build on Cogitave Core
+    summary: You can explain the one Cogitave Core model - the property-graph substrate, how you query it, its MCP-native interface, and how content projects into it as typed nodes.
+    iconUrl: /learn/achievements/build-on-core.svg
+  - uid: cogitave.learn.paths.engineering-standards.trophy
+    type: trophy
+    title: Cogitave engineering standards
+    summary: You can apply Cogitave's engineering standards end to end - naming, commits and versioning, testing and quality, API design, configuration, the secure SDLC, CI/CD, and observability and reliability.
+    iconUrl: /learn/achievements/engineering-standards.svg
+  - uid: cogitave.learn.paths.contributor-onboarding.trophy
+    type: trophy
+    title: Contributor onboarding
+    summary: You applied the non-negotiable floor, inherited the project baseline, worked the propose-only request lifecycle, and opened your first signed pull request. You are ready to contribute.
+    iconUrl: /learn/achievements/contributor-onboarding.svg
+  - uid: cogitave.learn.paths.operate-the-estate.trophy
+    type: trophy
+    title: Operate the estate
+    summary: You can operate the estate: run agentic operations under least privilege, hold reliability and SLOs, respond to incidents, and run the day-1 operating model.
+    iconUrl: /learn/achievements/operate-the-estate.svg
+  - uid: cogitave.learn.paths.patterns-golden-paths.trophy
+    type: trophy
+    title: Patterns and golden paths
+    summary: You work reuse-first: you find an existing pattern in the catalog before writing new code, and you walk the decision guides to a justified technology choice.
+    iconUrl: /learn/achievements/patterns-golden-paths.svg
+  - uid: cogitave.learn.understand-massar.badge
+    type: badge
+    title: "Understand Cogitave Massar"
+    summary: "Can explain how Massar's dial-out agent, its control/data wire protocol, and Diyar-gated authorization combine to give an operator an audited remote terminal without exposing an inbound port on the device."
+    iconUrl: /learn/achievements/understand-massar.svg
+  - uid: cogitave.learn.install-the-massar-agent.badge
+    type: badge
+    title: "Install and operate the Massar agent"
+    summary: "Installs, verifies, runs, and cleanly removes the Cogitave Massar remote-console agent on both a Linux and a Windows device."
+    iconUrl: /learn/achievements/install-the-massar-agent.svg
+  - uid: cogitave.learn.understand-diyar.badge
+    type: badge
+    title: "Cogitave Diyar Fundamentals"
+    summary: "Explains Diyar's edge-autonomous model, its platform/solution split, and its architecture accurately enough to evaluate whether it fits a regulated field deployment."
+    iconUrl: /learn/achievements/understand-diyar.svg
+  - uid: cogitave.learn.diyar-safety-and-evidence.badge
+    type: badge
+    title: "Cogitave Diyar: Safety and Evidence Fundamentals"
+    summary: "Can explain Diyar's de-energize-to-trip safety layers, why cloud requests can never force actuation, and how its tamper-evident evidence chain proves what a device actually did."
+    iconUrl: /learn/achievements/diyar-safety-and-evidence.svg
+  - uid: cogitave.learn.build-a-diyar-solution.badge
+    type: badge
+    title: "Diyar Edge Architecture Foundations"
+    summary: "Explains, with the actual mechanisms named, how a Diyar edge is configured by a signed profile, certified by a fail-closed engine registry, and authorized by an offline three-document permission intersection - rather than by custom code."
+    iconUrl: /learn/achievements/build-a-diyar-solution.svg
+  - uid: cogitave.learn.paths.get-started-with-massar.trophy
+    type: trophy
+    title: "Get started with Cogitave Massar"
+    summary: "You can explain the dial-out remote-console model, install and verify the Massar agent on Linux and Windows, prove the relay works locally, and remove the agent cleanly."
+    iconUrl: /learn/achievements/get-started-with-massar.svg
+  - uid: cogitave.learn.paths.introduction-to-diyar.trophy
+    type: trophy
+    title: "Introduction to Cogitave Diyar"
+    summary: "You can explain Diyar's edge-autonomous model, its de-energize-to-trip safety design and tamper-evident evidence, and how a signed profile, a certified verdict engine, and an app package turn a device into a Diyar solution."
+    iconUrl: /learn/achievements/introduction-to-diyar.svg

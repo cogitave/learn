@@ -1,0 +1,12 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.work-the-request-lifecycle.introduction
+title: Introduction
+metadata:
+  title: Introduction
+  description: Why a change is a first-class Request that humans and agents drive through the same stages over MCP, and why every write in that process only proposes.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: unit
+durationInMinutes: 4
+content: |
+  [!include[](includes/1-introduction.md)]

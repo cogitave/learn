@@ -1,0 +1,12 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.work-the-request-lifecycle.the-definition-of-done
+title: The Definition of Done
+metadata:
+  title: The Definition of Done
+  description: The machine-checkable gate the review stage enforces - what DoD == 100% means, why Core items cannot be waived, and why a green DoD plus a separate CODEOWNER approval are both required before a Request is done.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: unit
+durationInMinutes: 6
+content: |
+  [!include[](includes/3-the-definition-of-done.md)]

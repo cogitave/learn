@@ -1,0 +1,360 @@
+/* ========================================================================== */
+/* cards and page furniture                                                   */
+/* ========================================================================== */
+
+.cards {
+  list-style: none;
+  margin: 0 0 32px;
+  padding: 0;
+  display: grid;
+  /* A fixed rank, not auto-fit or auto-fill: a single card must stay card-sized
+     instead of stretching across the page, and it must not leave phantom empty
+     tracks either. Two across is the default because most card grids sit inside
+     an article, where the measure is capped. */
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+/* The home page has no measure cap, so it carries a third column. */
+html[data-layout="wide"] .cards {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.card-summary {
+  /* Summaries are written for the detail page; on a card they are a promise,
+     not the content. Three lines, then the card stops growing. */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  overflow: hidden;
+}
+
+.card a {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: start;
+  gap: 16px;
+  height: 100%;
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  background: var(--bg-raised);
+  text-decoration: none;
+  color: var(--t1);
+  transition: border-color 160ms var(--ease), box-shadow 200ms var(--ease);
+}
+
+/* A card lifting off the page is the reflex every template has; on a reading
+   surface it is motion for its own sake. The border tightening and a single
+   soft shadow say "this is the target" without moving the text under the
+   cursor. */
+.card a:hover {
+  border-color: var(--line-strong);
+  box-shadow: 0 1px 2px rgb(0 0 0 / 4%), 0 8px 24px rgb(0 0 0 / 6%);
+}
+
+/* A drop shadow does nothing on a near-black surface; the raise is a tone step. */
+:root[data-theme="dark"] .card a:hover {
+  box-shadow: none;
+  background: var(--bg-sunken);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .card a:hover {
+    box-shadow: none;
+    background: var(--bg-sunken);
+  }
+}
+
+.card-icon {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-sm);
+  color: var(--t2);
+}
+
+.card a:hover .card-icon {
+  color: var(--t1);
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.card-title {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.card-summary {
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--t2);
+}
+
+.card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 4px;
+  font-size: 12px;
+  color: var(--t2);
+}
+
+.card-go {
+  display: grid;
+  place-items: center;
+  height: 36px;
+  color: var(--t3);
+  transition: transform 160ms var(--ease), color 160ms var(--ease);
+}
+
+.card a:hover .card-go {
+  color: var(--t1);
+  transform: translateX(2px);
+}
+
+/* --- fact strip ---------------------------------------------------------- */
+
+.facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 28px;
+  margin: 0 0 24px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--line);
+}
+
+/* Centre, not baseline: the key carries an icon, which drags a baseline-aligned
+   row out of true against its own value. */
+.fact {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+}
+
+.fact-key {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--t3);
+}
+
+.fact-value {
+  color: var(--t2);
+}
+
+/* The strip already closes with a rule; a heading straight after it must not
+   open with a second one 20px below. */
+.facts + h2 {
+  margin-top: 24px;
+  padding-top: 0;
+  border-top: 0;
+}
+
+/* --- unit rank on a module page ------------------------------------------ */
+
+.unit-list {
+  list-style: none;
+  margin: 0 0 32px;
+  padding: 0;
+  border-top: 1px solid var(--line);
+}
+
+.unit-list a {
+  display: grid;
+  grid-template-columns: 28px 1fr auto;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 8px;
+  border-bottom: 1px solid var(--line);
+  text-decoration: none;
+  color: var(--t1);
+  transition: background-color 140ms var(--ease), padding-left 200ms var(--ease);
+}
+
+.unit-list a:hover {
+  background: var(--bg-sunken);
+  padding-left: 14px;
+}
+
+.unit-no {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--t3);
+}
+
+.unit-main {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.unit-title {
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.unit-summary {
+  font-size: 13px;
+  color: var(--t2);
+}
+
+.unit-dur {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--t3);
+  white-space: nowrap;
+}
+
+/* --- award --------------------------------------------------------------- */
+
+.award {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  margin: 0 0 32px;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  background: var(--bg-sunken);
+}
+
+.award-icon {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  flex: none;
+  border-radius: var(--r-pill);
+  background: var(--accent);
+  color: var(--accent-on);
+}
+
+.award-body {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.award-label {
+  font-size: 12px;
+  color: var(--t3);
+}
+
+.award-title {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.award-summary {
+  font-size: 13px;
+  color: var(--t2);
+}
+
+/* --- calls to action ------------------------------------------------------ */
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border: 1px solid var(--accent);
+  border-radius: var(--r-pill);
+  background: var(--accent);
+  color: var(--accent-on);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: var(--tracking);
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 140ms var(--ease), opacity 140ms var(--ease);
+}
+
+.cta:hover {
+  opacity: 0.88;
+}
+
+.cta:active {
+  transform: scale(0.98);
+}
+
+.cta-ghost {
+  background: none;
+  color: var(--t1);
+  border-color: var(--line-strong);
+}
+
+.cta-ghost:hover {
+  opacity: 1;
+  background: var(--bg-hover);
+}
+
+.cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 0 0 32px;
+}
+
+/* --- pager ---------------------------------------------------------------- */
+
+.pager {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 48px;
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
+}
+
+.pager-link {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  text-decoration: none;
+  color: var(--t1);
+  transition: border-color 160ms var(--ease), background-color 160ms var(--ease);
+}
+
+.pager-link:hover {
+  border-color: var(--line-strong);
+  background: var(--bg-sunken);
+}
+
+.pager-next {
+  text-align: right;
+}
+
+.pager-dir {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--t3);
+}
+
+.pager-next .pager-dir {
+  flex-direction: row-reverse;
+}
+
+.pager-title {
+  font-size: 13px;
+  line-height: 1.45;
+}
+

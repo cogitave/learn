@@ -23,3 +23,16 @@ dist/
 build/
 target/
 coverage/
+
+# knowledge-platform build output - the emit targets declared in
+# docs.config.json (build.incremental.manifest + build.output.*). Anchored to
+# the content root so an authored llms.txt elsewhere in the tree still tracks.
+/_site/
+/_api/
+/_pagefind/
+/llms.txt
+/llms-full.txt
+/manifest.json
+
+# wrangler local state
+.wrangler/

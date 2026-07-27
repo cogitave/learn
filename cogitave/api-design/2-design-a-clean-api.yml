@@ -1,0 +1,12 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.api-design.design-a-clean-api
+title: Design a clean API
+metadata:
+  title: Design a clean API
+  description: Apply the API design standard - contract-first, resource-oriented modeling and naming, standard versus custom methods, the RFC 9457 error model, cursor pagination, and idempotency - and know which rules are non-deviable MUSTs.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: unit
+durationInMinutes: 8
+content: |
+  [!include[](includes/2-design-a-clean-api.md)]

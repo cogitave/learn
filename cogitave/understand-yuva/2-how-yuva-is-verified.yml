@@ -1,0 +1,12 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.understand-yuva.how-yuva-is-verified
+title: What "verified" actually means
+metadata:
+  title: What "verified" actually means
+  description: Unsafe code confined to one audited crate, Kani-proved leaves with harness counts pinned in CI, a dual-architecture boot on every push, a boot that fails closed, and status tokens that report what is not live.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: unit
+durationInMinutes: 6
+content: |
+  [!include[](includes/2-how-yuva-is-verified.md)]

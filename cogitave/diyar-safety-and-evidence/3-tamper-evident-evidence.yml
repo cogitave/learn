@@ -1,0 +1,12 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.diyar-safety-and-evidence.tamper-evident-evidence
+title: "Tamper-evident evidence and store-and-forward"
+metadata:
+  title: "Tamper-evident evidence and store-and-forward"
+  description: "How a reading becomes tamper-evident evidence: journal-before-publish, the SHA-256 hash chain, the per-session Merkle history tree, and cloud-side reconciliation and quarantine."
+  ms.date: 2026-07-27
+  author: cogitave
+  ms.topic: unit
+durationInMinutes: 6
+content: |
+  [!include[](includes/3-tamper-evident-evidence.md)]

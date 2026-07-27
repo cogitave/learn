@@ -1,93 +1,99 @@
-In this exercise you'll build a minimal Namzu agent — one tool, one resource, a declared identity — and run it on Yuva. Everything here is a self-contained TypeScript snippet you can paste into a `templates/agent` scaffold.
+In this exercise you install the kernel, make a real model call, and declare a
+tool with a typed input schema. It runs locally and needs no account.
 
-## 1. Scaffold the agent
+Every snippet below uses a symbol `@namzu/sdk` actually exports. The tool
+examples are pulled by reference from the snippet registry
+(`snippets/greeter/agent.ts`) so they stay compile-checked and cannot rot.
 
-A Namzu agent starts as an MCP server. Create the server, declaring the capabilities it will support:
+## Before you start
 
-```ts
-import { Agent } from "@cogitave/namzu";
+- **Node.js 20 or later**, and a package manager. The commands use `pnpm`.
+- **TypeScript 5.5 or later**.
+- Optional, for the local model path: [Ollama](https://ollama.com) running on
+  `http://localhost:11434` with one model pulled.
 
-export const agent = new Agent({
-  name: "greeter",
-  version: "0.1.0",
-  // Identity: how the agent authenticates and what it is authorized for.
-  identity: { subject: "agent:greeter", audience: "yuva" },
-  // Capabilities are an allow-list. The agent can do exactly this and no more.
-  capabilities: { tools: {}, resources: {} },
-});
-```
+## 1. Install the kernel and one driver
 
-## 2. Define a tool
+The kernel and the vendor drivers are separate packages, so you install exactly
+one vendor:
 
-A tool is an action with typed input and output. Namzu validates the input against the schema *before* your handler runs, so the handler only ever sees well-formed arguments. This example is pulled by reference from the snippet registry (`snippets/greeter/agent.ts`) so it stays compile-checked and never rots:
-
-:::code language="typescript" source="snippets/greeter/agent.ts" id="snippet_tool":::
-
-## 3. Define a resource
-
-A resource is an addressable, read-only surface. Here the agent exposes its own manifest under a custom URI scheme so that other agents — and humans — can discover what it is:
-
-```ts
-agent.resource({
-  uri: "greeter://manifest",
-  name: "Agent manifest",
-  mimeType: "application/json",
-  async read() {
-    return { text: JSON.stringify(agent.describe(), null, 2) };
-  },
-});
+```bash
+pnpm add @namzu/sdk @namzu/ollama zod
 ```
 
 > [!TIP]
-> Resources can be *subscribed* to. If the underlying data changes, Yuva emits a `notifications/resources/updated` message to every subscriber — no polling required.
+> If Ollama is not running, install only `@namzu/sdk` and skip ahead. The kernel
+> carries a pre-registered `MockLLMProvider`, so every step below still executes —
+> it simply answers from the mock instead of a model.
 
-## 4. Choose a transport
+## 2. Register a provider
 
-Namzu agents speak MCP over JSON-RPC 2.0. Local development uses `stdio`; remote deployments use Streamable HTTP (the Nov-2025 transport that replaced SSE). Select the tab for your target.
+Registration happens once, at startup. It is the only vendor-specific code in
+your program:
 
-# [stdio (local)](#tab/stdio)
+:::code language="typescript" source="snippets/greeter/agent.ts" id="snippet_register":::
 
-```ts
-import { StdioTransport } from "@cogitave/namzu/transport";
+## 3. Send your first call
 
-await agent.serve(new StdioTransport());
+:::code language="typescript" source="snippets/greeter/agent.ts" id="snippet_chat":::
+
+Run it. The response shape is the same for every driver:
+
+```typescript
+{ id, model, message: { role, content, toolCalls? }, finishReason, usage }
 ```
 
-# [Streamable HTTP (remote)](#tab/http)
+That is the contract the kernel guarantees. A driver that cannot satisfy it is a
+bug in the driver, not something your code has to work around.
 
-```ts
-import { HttpTransport } from "@cogitave/namzu/transport";
+## 4. Declare a tool
 
-await agent.serve(new HttpTransport({ port: 8787, path: "/mcp" }));
-```
+A tool is an action with a typed input schema and a declared authority. Note what
+`defineTool` makes you state explicitly — this is the least-privilege model in
+practice, not a slogan:
 
----
+:::code language="typescript" source="snippets/greeter/agent.ts" id="snippet_tool":::
 
-## 5. Run on Yuva
+Four of those fields are declarations *about* the tool rather than behaviour of
+it:
 
-Hand the built artifact to the operating system. Yuva verifies the declared identity, enforces the capability allow-list, isolates the agent, and starts routing MCP traffic to it:
+| Field | What you are asserting |
+| --- | --- |
+| `permissions` | Exactly what the tool may reach. `[]` means it computes and reaches nothing. |
+| `readOnly` | Whether running it can change anything. |
+| `destructive` | Whether it can destroy something. May be a function of the input. |
+| `concurrencySafe` | Whether two invocations may overlap. |
 
-```bash
-yuva run ./dist/greeter.js
-```
+The kernel uses these to decide what it is allowed to do on your behalf — for
+example whether it may run a call in parallel, or whether it must stop and defer
+to a person.
 
-::: moniker range=">=yuva-2.0"
-On Yuva 2.0 and later you can attach the agent to a named capability profile, so the OS applies an org policy bundle on top of the agent's own declarations:
+## 5. Register it, offer it, and execute the result
 
-```bash
-yuva run --profile least-privilege ./dist/greeter.js
-```
-:::
+A `ToolRegistry` owns your tools. It converts them into the provider-neutral wire
+format with `toLLMTools()`, and it is what executes them - so validating the
+model's arguments is not your job:
 
-## 6. Gate on evals
+:::code language="typescript" source="snippets/greeter/agent.ts" id="snippet_toolcalls":::
 
-Before an agent is promoted, its behavior is validated against scenarios for **accuracy, coverage, safety, and latency** — including red-team cases. Adding a capability means adding a scenario:
+Three things worth noticing:
 
-```bash
-namzu eval ./evals
-```
-
-If you completed @cogitave.learn.get-started-with-yuva, you've now seen both halves of the platform: the OS that runs agents, and the kernel that builds them.
+- `toolCalls` is the model's **request**, not an execution. Nothing runs until you
+  ask the registry to run it.
+- The registry validates arguments against your schema *before* invoking
+  `execute`, so it never has to defend against malformed input.
+- The `ToolContext` is where authority actually arrives at run time - the working
+  directory, the environment, the abort signal. A real runtime supplies it; the
+  snippet builds the minimum a standalone script needs.
 
 > [!CAUTION]
-> Never widen an agent's capabilities to make a failing eval pass. Capabilities follow the behavior you can prove safe, not the other way around.
+> Do not widen a tool's `permissions` to make a call succeed. If a tool needs
+> more authority, that is a decision to make deliberately — and to record —
+> not a value to bump until an error stops appearing.
+
+## Where to go deeper
+
+The kernel also covers sandboxing (`@namzu/sandbox`), telemetry over OTLP
+(`@namzu/telemetry`), file registry contracts, and a set of built-in tools such
+as `ReadFileTool`, `GrepTool`, and `BashTool`. The
+[packages reference](/docs/packages/) lists the published surface.

@@ -1,0 +1,12 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.operate-from-day-1.flow-based-ways-of-working
+title: Flow-based ways of working
+metadata:
+  title: Flow-based ways of working
+  description: Cogitave's outer-loop method - WIP-limited continuous flow plus Shape-Up-style betting - why ADR-0025 rejected Scrum for a small autonomy-by-default team, the deviation rule, the internal feedback loops, and why the human gate stays an exception.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: unit
+durationInMinutes: 7
+content: |
+  [!include[](includes/3-flow-based-ways-of-working.md)]

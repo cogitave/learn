@@ -1,0 +1,37 @@
+### YamlMime:Module
+uid: cogitave.learn.navigate-the-patterns-catalog
+metadata:
+  title: Navigate the patterns catalog
+  description: How the patterns catalog answers "how does Cogitave do X" - the five-section entry shape, the machine-readable catalog.yaml, and the four-step discover-before-you-build loop for finding a named pattern and starting from it.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: module
+title: Navigate the patterns catalog
+summary: Find the canonical answer to "how does Cogitave do X" in the patterns catalog, read an entry's five fixed sections without confusing the pointer for the policy, and run the discover-before-you-build loop so you start every new piece of work from a named artifact instead of a blank file.
+abstract: |
+  By the end of this module, you'll be able to:
+  - Explain what problem the patterns catalog solves and why it references standards instead of restating them.
+  - Read a pattern entry's five sections - Problem, The Cogitave way, Governing standard(s), Reusable artifact, Anti-pattern - in both the human doc and the machine-readable catalog.yaml.
+  - Find the pattern for a given task and follow its two links: the standard that owns the rules and the artifact you start from.
+  - Run the four-step discover-before-you-build loop, including what to do when no pattern fits.
+prerequisites: |
+  - The first module in this path, "Reuse-first engineering", or equivalent familiarity with ADR-0013's discover-before-generate rule.
+  - Basic familiarity with Git and the command line.
+iconUrl: /learn/achievements/navigate-the-patterns-catalog.svg
+ratingEnabled: true
+levels:
+  - beginner
+roles:
+  - developer
+products:
+  - cogitave-core
+subjects:
+  - software-engineering
+units:
+  - cogitave.learn.navigate-the-patterns-catalog.introduction
+  - cogitave.learn.navigate-the-patterns-catalog.the-patterns-catalog
+  - cogitave.learn.navigate-the-patterns-catalog.discover-before-you-build
+  - cogitave.learn.navigate-the-patterns-catalog.knowledge-check
+  - cogitave.learn.navigate-the-patterns-catalog.summary
+badge:
+  uid: cogitave.learn.navigate-the-patterns-catalog.badge

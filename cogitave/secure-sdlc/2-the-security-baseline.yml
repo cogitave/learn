@@ -1,0 +1,12 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.secure-sdlc.the-security-baseline
+title: The security baseline
+metadata:
+  title: The security baseline
+  description: The controls a Cogitave product is built on - secure-by-design and secure-by-default, STRIDE-style threat modeling, least privilege, identity and access management for humans, workloads, and agents, secrets and PKI, and the in-repo controls that enforce them.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: unit
+durationInMinutes: 7
+content: |
+  [!include[](includes/2-the-security-baseline.md)]

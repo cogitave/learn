@@ -1,0 +1,12 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.observability-and-reliability.reliability-and-slos
+title: Reliability and SLOs
+metadata:
+  title: Reliability and SLOs
+  description: The reliability thesis - reliability as a budgeted feature - and the mechanics that make it real: SLOs from the user journey, the error-budget math, burn-rate alerting, the error-budget policy that freezes velocity, and why the SLA is looser than the SLO.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: unit
+durationInMinutes: 8
+content: |
+  [!include[](includes/3-reliability-and-slos.md)]

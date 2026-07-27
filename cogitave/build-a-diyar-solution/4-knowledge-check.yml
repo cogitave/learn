@@ -1,0 +1,69 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.build-a-diyar-solution.knowledge-check
+title: "Knowledge check"
+metadata:
+  title: "Knowledge check"
+  description: "Check what you learned about the signed device profile, the fail-closed verdict-engine registry, the generic engines, and the app package's permission model."
+  ms.date: 2026-07-27
+  author: cogitave
+  ms.topic: unit
+  module_assessment: true
+durationInMinutes: 5
+quiz:
+  title: "Check your knowledge"
+  questions:
+    - content: "What does the signed device profile configure, and what happens at boot if it is invalid or unsigned?"
+      choices:
+        - content: "It configures channels, actuators, safety limits, process parameters, and the verdict-engine binding; the edge refuses to boot rather than run with an unverified or mismatched configuration."
+          isCorrect: true
+          explanation: "Correct. The profile is Ed25519-signed and parsed with deny_unknown_fields; an unverifiable or invalid profile is a loud refuse-to-start, the same posture as the DIYAR_HAL=real gate."
+        - content: "It configures the address of the cloud dashboard; an invalid profile just leaves the device in a local-only mode."
+          isCorrect: false
+          explanation: "Incorrect. The profile has nothing to do with dashboard connectivity - it configures hardware wiring, safety limits, and process parameters, and an invalid one stops boot entirely."
+        - content: "It is optional metadata; the edge falls back to hardcoded defaults if the profile is missing or unsigned."
+          isCorrect: false
+          explanation: "Incorrect. This is the opposite of the documented behavior - a real hardware backend requires a valid signed profile to start at all, and an unsigned profile is only ever accepted behind an explicit, loud insecure-dev escape hatch, never silently."
+    - content: "Why can a validly signed profile not, by itself, introduce a new verdict/process rule?"
+      choices:
+        - content: "Because the named engine id must also appear in the firmware-compiled CERTIFIED_ENGINES table; an id this build does not recognize is rejected at load regardless of the signature."
+          isCorrect: true
+          explanation: "Correct. Onboarding a rule is three separate acts - an entry in CERTIFIED_ENGINES, a VerdictEngine implementation, and the product's own certification evidence - and a signature alone satisfies none of them."
+        - content: "Because profiles do not support a verdict_binding field at all."
+          isCorrect: false
+          explanation: "Incorrect. The profile does carry a verdict_binding naming an engine - the gate is that the named id must match a compiled-in registry entry, not that the field is missing."
+        - content: "Because only one team is ever allowed to hold a profile-signing key."
+          isCorrect: false
+          explanation: "Incorrect. The gate taught here is the fail-closed CERTIFIED_ENGINES registry compiled into the binary, not a restriction on who may hold a signing key."
+    - content: "pressure-hold, coldroom-hold, and steam-sterilizer-f0 are used in this module to demonstrate what, and what should you NOT conclude from them?"
+      choices:
+        - content: "That a genuinely different product can be onboarded as pure signed data against an already-certified generic engine with no new code - but they are internal test/example fixtures proving the pattern, not customer case studies or field-proven deployments."
+          isCorrect: true
+          explanation: "Correct. Each is a signed profile plus an app package run through a real session loop and evidence store as a proof fixture - not a customer deployment."
+        - content: "That Diyar has three production customers running these solutions unattended in the field today."
+          isCorrect: false
+          explanation: "Incorrect. The module states plainly these are internal proof fixtures for the generic-engine claim, not customer case studies."
+        - content: "That any new product, regardless of its process rule, can always be onboarded as pure data with zero engineering work."
+          isCorrect: false
+          explanation: "Incorrect. Pure-data onboarding works only when an existing generic engine's parameter space already fits the new rule; a genuinely new kind of rule still needs a new CERTIFIED_ENGINES entry - a firmware event."
+    - content: "What are the three documents in a Diyar app package, and how is a device's effective authority computed?"
+      choices:
+        - content: "manifest.json (publisher-signed capability request), grant.json (Diyar-signed authority, a separate key), and profile.json (the device profile); authority is the offline intersection of the manifest, the grant, and the firmware-compiled certified-actuations table."
+          isCorrect: true
+          explanation: "Correct. Three documents, three distinct keys, and a pure offline function computing manifest n grant n the certified-actuations table."
+        - content: "A single signed bundle - the device profile - which also carries the app's requested and granted permissions in one document."
+          isCorrect: false
+          explanation: "Incorrect. The package is exactly three separate signed documents, each under its own key; the profile does not carry permission data."
+        - content: "manifest.json and grant.json signed by the same publisher key, plus profile.json; authority is whatever capabilities the manifest requests."
+          isCorrect: false
+          explanation: "Incorrect. The grant is signed by a separate, Diyar-held key precisely so a manifest cannot grant itself more authority than it requests - the manifest is a ceiling, never a grant."
+    - content: "An app holds ACTUATE in both its manifest and its grant. What else must be true before it can command hazardous energy?"
+      choices:
+        - content: "Its exact (app_id, role, index) must appear in the firmware-compiled CERTIFIED_ACTUATIONS allowlist - adding an entry is a firmware release and a certification event."
+          isCorrect: true
+          explanation: "Correct. Tier C is a const table linked into the signed binary; the production authority computation reads it directly and takes no wider table as a parameter."
+        - content: "Nothing more - a matching manifest and grant are sufficient to actuate any actuator the profile declares."
+          isCorrect: false
+          explanation: "Incorrect. A requested-and-granted actuation absent from CERTIFIED_ACTUATIONS is a hard ActuationNotCertified refusal, not a silent allow."
+        - content: "A higher-tier OPERATE grant, since ACTUATE implies OPERATE once both are held."
+          isCorrect: false
+          explanation: "Incorrect. The three tiers are explicitly non-implicative - holding ACTUATE grants nothing in OBSERVE or OPERATE."

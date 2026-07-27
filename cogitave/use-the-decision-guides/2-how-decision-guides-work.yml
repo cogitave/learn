@@ -1,0 +1,12 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.use-the-decision-guides.how-decision-guides-work
+title: How decision guides work
+metadata:
+  title: How decision guides work
+  description: The three-layer guidance model from ADR-0021 - selection, radar, domain - and the shared shape every decision guide follows - a default, a decision tree, a machine-readable matrix, and an ADR-gated deviation rule.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: unit
+durationInMinutes: 7
+content: |
+  [!include[](includes/2-how-decision-guides-work.md)]

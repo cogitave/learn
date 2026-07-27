@@ -1,0 +1,37 @@
+### YamlMime:Module
+uid: cogitave.learn.native-mcp-interface
+metadata:
+  title: The native MCP interface to Core
+  description: Why Cogitave Core's tools and resources over the Model Context Protocol are the canonical query surface (not an adapter), the protocol baseline the server commits to, and the tools, resources, and propose-only governance calls an agent actually uses.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: module
+title: The native MCP interface to Core
+summary: Read Core's MCP interface as the source of truth for how an agent queries the estate - why the surface is native rather than adapted, the protocol contract it commits to, and the tools and resources you call.
+abstract: |
+  By the end of this module, you'll be able to:
+  - Explain why MCP is Core's canonical query surface rather than an adapter bolted onto REST, per ADR-0003.
+  - State the protocol baseline Core's MCP server commits to: spec revision, transports, schema dialect, and how tool errors are reported.
+  - Name Core's MCP tools and resources, what each returns, and how `query_graph` is bounded so it cannot become a general escape hatch.
+  - Distinguish the read tools from the propose-only request-lifecycle tools, and explain why writes never mutate protected state directly.
+prerequisites: |
+  - Familiarity with Cogitave Core as a single canonical property graph is helpful.
+  - No prior Model Context Protocol experience required.
+iconUrl: /learn/achievements/native-mcp-interface.svg
+ratingEnabled: true
+levels:
+  - intermediate
+roles:
+  - developer
+products:
+  - cogitave-core
+subjects:
+  - software-engineering
+units:
+  - cogitave.learn.native-mcp-interface.introduction
+  - cogitave.learn.native-mcp-interface.the-mcp-surface
+  - cogitave.learn.native-mcp-interface.tools-and-resources
+  - cogitave.learn.native-mcp-interface.knowledge-check
+  - cogitave.learn.native-mcp-interface.summary
+badge:
+  uid: cogitave.learn.native-mcp-interface.badge

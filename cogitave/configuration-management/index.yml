@@ -1,0 +1,37 @@
+### YamlMime:Module
+uid: cogitave.learn.configuration-management
+metadata:
+  title: Manage configuration and secrets
+  description: How Cogitave externalizes configuration as typed, schema-validated data selected per environment by an ordered precedence chain, and keeps secrets out of git - references resolved at runtime and encrypted-at-rest .env files via dotenvx - so you can configure a service and its secrets safely.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: module
+title: Manage configuration and secrets
+summary: Classify every value as a constant, a deployment parameter, or a secret; load configuration through the standard precedence chain, parsed once and fail-closed; and keep secrets out of git by referencing them at runtime and committing only encrypted-at-rest .env files.
+abstract: |
+  By the end of this module, you'll be able to:
+  - Classify any value as a domain invariant (a code constant), a deployment parameter (typed config), or a secret (a runtime reference), using the 12-Factor litmus test.
+  - Load configuration through the Cogitave precedence chain, parsed once at the boundary into one typed, immutable value that fails closed on invalid or missing input.
+  - Select an environment by which overlay file loads, not by branching on `dev`/`prod` in code.
+  - Keep secrets out of git: hold a `SecretRef` in config, resolve it at runtime, and commit only encrypted-at-rest `.env` files with the private key held in the secret store.
+prerequisites: |
+  - Basic familiarity with environment variables and a service's startup configuration.
+  - Helpful but not required: the AGENTS floor (least privilege, docs-as-code).
+iconUrl: /learn/achievements/configuration-management.svg
+ratingEnabled: true
+levels:
+  - intermediate
+roles:
+  - developer
+products:
+  - cogitave-core
+subjects:
+  - software-engineering
+units:
+  - cogitave.learn.configuration-management.introduction
+  - cogitave.learn.configuration-management.the-configuration-model
+  - cogitave.learn.configuration-management.secrets-and-environments
+  - cogitave.learn.configuration-management.knowledge-check
+  - cogitave.learn.configuration-management.summary
+badge:
+  uid: cogitave.learn.configuration-management.badge

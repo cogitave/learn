@@ -1,0 +1,12 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.inherit-the-project-baseline.reuse-first-discover-before-you-build
+title: Reuse first - discover before you build
+metadata:
+  title: Reuse first - discover before you build
+  description: The discover-before-generate doctrine made concrete - how to query the patterns catalog, read an entry's five sections, start from the named artifact instead of a blank file, and own the cost when you go off-road.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: unit
+durationInMinutes: 6
+content: |
+  [!include[](includes/3-reuse-first-discover-before-you-build.md)]

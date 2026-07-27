@@ -1,0 +1,58 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.api-design.knowledge-check
+title: Knowledge check
+metadata:
+  title: Knowledge check
+  description: Check your grasp of contract-first resource modeling, the non-deviable design invariants, per-surface versioning schemes, and the deprecation lifecycle.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: unit
+  module_assessment: true
+durationInMinutes: 5
+quiz:
+  title: Check your knowledge
+  questions:
+    - content: "You are adding a way to archive a work item - a reversible state transition. Under the API design standard, what is the preferred shape?"
+      choices:
+        - content: "Prefer a `state` field updated by a standard `PATCH`; reach for a custom method (`POST /v1/work-items/{id}:archive`) only after confirming the action cannot be modeled as state."
+          isCorrect: true
+          explanation: "Correct. The standard says to prefer state over verbs when the state is itself a first-class, queryable fact; `:archive` is better as a `state` PATCH when archival is reversible and queryable. Custom methods are the fallback for genuinely non-CRUD actions."
+        - content: "Add a bespoke `PUT /v1/work-items/{id}/archive-it` endpoint outside the standard method set, since archiving is domain-specific."
+          isCorrect: false
+          explanation: "Incorrect. Bespoke CRUD-shaped endpoints are exactly what the resource model rejects; the standard methods plus colon-notation custom methods are the only two shapes, and a reversible state is best modeled as state, not a bespoke verb."
+        - content: "Use `GET /v1/work-items/{id}?archive=true`, because a query parameter avoids adding a new route."
+          isCorrect: false
+          explanation: "Incorrect. `GET` is a safe, idempotent read and must not cause a side effect; tunneling a state change through a query parameter on a read violates HTTP method semantics."
+    - content: "Which of these is an estate-wide MUST invariant that a single repository cannot deviate from with just a local ADR?"
+      choices:
+        - content: "The RFC 9457 typed-error shape with the stable `code` enum on every surface."
+          isCorrect: true
+          explanation: "Correct. The standard names the RFC 9457 error shape and `code` taxonomy among the MUST/REQUIRED items that are not deviable per repo - they are estate-wide invariants, alongside contract-first, pagination bounds, idempotency on creating writes, and the MCP projection."
+        - content: "Using offset/limit pagination instead of cursors on a large collection."
+          isCorrect: false
+          explanation: "Incorrect. Cursor pagination is the DEFAULT; offset/limit is an allowed *deviation* for small, bounded, stable collections when backed by a recorded ADR - so it is deviable, not a non-deviable invariant."
+        - content: "Choosing full replace (`PUT`) instead of partial update (`PATCH`) for updates."
+          isCorrect: false
+          explanation: "Incorrect. Partial update is the default, but `PUT` full replace is explicitly allowed as a recorded deviation - so it is a deviable SHOULD, not an unbreakable MUST."
+    - content: "A public HTTP API needs a breaking change to a response body. How does the versioning standard keep live consumers from breaking?"
+      choices:
+        - content: "Date-based, consumer-pinned versions: a consumer stays on the frozen contract for the date it pinned (supported 24 months) while the server transforms responses forward - no server-side cutover."
+          isCorrect: true
+          explanation: "Correct. HTTP defaults to date-based versions pinned per consumer with no hard cutover; each integration upgrades deliberately by bumping one date, and pinned consumers are supported for 24 months. That is the never-break-userspace doctrine in practice."
+        - content: "Duplicate every route under a new `/v2` path prefix and redirect old clients to it after 30 days."
+          isCorrect: false
+          explanation: "Incorrect. The standard explicitly rejects putting the version in the path - a version is not a URL - and forbids a forced server-side cutover; the version belongs in a header via content negotiation."
+        - content: "Ship the change immediately and rely on clients being tolerant readers that ignore the difference."
+          isCorrect: false
+          explanation: "Incorrect. Tolerant reading covers new *optional* fields; a breaking change to an existing shape is subtractive or semantics-altering and must start a new contract version with a deprecation of the old one - never a silent break."
+    - content: "You are announcing the deprecation of a gRPC field. What does the standard require before it can be retired?"
+      choices:
+        - content: "An Accepted RFC, a manifest entry driving every deprecation signal, `reserved` on removal, and retirement gated by BOTH `sunsetAt` passing AND usage telemetry proving traffic has drained."
+          isCorrect: true
+          explanation: "Correct. Deprecation is a design-class change needing an RFC; the single manifest generates the signals; a field number is `reserved` forever on removal; and removal is gated by both the calendar and observed usage - you may not retire a contract you cannot prove is unused."
+        - content: "Just set `deprecated = true` on the field and delete it in the next release once CI is green."
+          isCorrect: false
+          explanation: "Incorrect. `deprecated = true` is one required signal, but deletion needs an Accepted RFC, the minimum window, drained usage telemetry, and `reserved` on the field number and name - never an immediate delete on the next release."
+        - content: "Reuse the retired field's number for the replacement field to keep the proto compact."
+          isCorrect: false
+          explanation: "Incorrect. A field number is forever: reusing a retired number silently corrupts data in already-deployed clients. The number and name must be `reserved` so they can never be reused."

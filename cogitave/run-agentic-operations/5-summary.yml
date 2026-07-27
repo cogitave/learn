@@ -1,0 +1,12 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.run-agentic-operations.summary
+title: Summary
+metadata:
+  title: Summary
+  description: Recap what agentic operations means, the draft-vs-act rule, and the real fleet of scheduled and operations agents, and continue the Operate the estate path.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: unit
+durationInMinutes: 3
+content: |
+  [!include[](includes/5-summary.md)]

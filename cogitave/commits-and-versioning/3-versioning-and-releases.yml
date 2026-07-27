@@ -1,0 +1,12 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.commits-and-versioning.versioning-and-releases
+title: Versioning and releases
+metadata:
+  title: Versioning and releases
+  description: How commit types drive Semantic Versioning 2.0.0, how release-please turns merged commits into a human-approved Release-PR, changelog, and tag, which engines the exceptions use, and how the trunk-based, protected-main branching model gates every release.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: unit
+durationInMinutes: 8
+content: |
+  [!include[](includes/3-versioning-and-releases.md)]

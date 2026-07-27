@@ -1,0 +1,12 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.query-the-estate-with-cogitave-query.summary
+title: Summary
+metadata:
+  title: Summary
+  description: Recap the hybrid retrieval pipeline, why Reciprocal Rank Fusion was chosen, what the graph-aware rerank and ranking signals add, and the bounded query_graph contract - and where to go to read the sources directly.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: unit
+durationInMinutes: 3
+content: |
+  [!include[](includes/5-summary.md)]

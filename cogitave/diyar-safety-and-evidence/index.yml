@@ -1,0 +1,42 @@
+### YamlMime:Module
+uid: cogitave.learn.diyar-safety-and-evidence
+metadata:
+  title: "Safety and evidence in Diyar"
+  description: "Cogitave Diyar drives real industrial heat-treatment equipment without depending on a network connection, and this module explains the three mechanisms that let it do so safely and provably. First, a layered, hardware-first fail-safe design where every failure path — a wedged CPU, a blind senso"
+  ms.date: 2026-07-27
+  author: cogitave
+  ms.topic: module
+title: "Safety and evidence in Diyar"
+summary: |
+  Cogitave Diyar drives real industrial heat-treatment equipment without depending on a network connection, and this module explains the three mechanisms that let it do so safely and provably. First, a layered, hardware-first fail-safe design where every failure path — a wedged CPU, a blind sensor, a power cut, a lost serial cable — falls back to the heater being off, never the reverse. Second, a request model where the cloud and any remote client can only ask the edge to start a run; the edge alone verifies and can refuse, and there is no primitive anywhere in the system that lets a remote party force actuation. Third, an evidence pipeline that journals every reading locally before it is ever published, chains it so tampering becomes detectable, layers a Merkle history tree on top so completeness can be proven without shipping an entire run's history, and lets the cloud independently reconcile what it received rather than trusting the edge's word. Throughout, the module states plainly which parts of this are built and verified today versus named, not-yet-shipped follow-ups.
+abstract: |
+  By the end of this module, you will be able to:
+
+  - Explain the de-energize-to-trip rule and identify which of Diyar's four safety layers are hardware-mandatory versus software defense-in-depth.
+  - Describe why a comms-loss watchdog is required before any heat output can be driven over a field bus such as Modbus.
+  - Explain why a remote start from the cloud is a signed, vetoable request rather than a command, and what "config-class only" means for a device shadow's desired state.
+  - Trace how a reading becomes tamper-evident evidence: journal-before-publish, the SHA-256 hash chain, the per-session Merkle history tree, and cloud-side reconciliation.
+  - State, in each case, what Diyar has actually built and verified today versus what is a named, not-yet-shipped follow-up.
+prerequisites: |
+  - Comfort reading systems terminology (typestates, watchdogs, hash chains) at a conceptual level — no Rust code is required.
+  - Basic familiarity with industrial control concepts: relays, field buses such as Modbus, sensor and actuator channels.
+  - Completion of this path's introductory module on Cogitave Diyar's operating model is recommended but not required.
+iconUrl: /learn/achievements/diyar-safety-and-evidence.svg
+ratingEnabled: true
+levels:
+  - intermediate
+roles:
+  - developer
+  - solution-architect
+products:
+  - diyar
+subjects:
+  - device-management
+  - compliance
+units:
+  - cogitave.learn.diyar-safety-and-evidence.de-energize-to-trip
+  - cogitave.learn.diyar-safety-and-evidence.the-cloud-cannot-actuate
+  - cogitave.learn.diyar-safety-and-evidence.tamper-evident-evidence
+  - cogitave.learn.diyar-safety-and-evidence.knowledge-check
+badge:
+  uid: cogitave.learn.diyar-safety-and-evidence.badge

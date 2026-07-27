@@ -1,0 +1,12 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.query-the-estate-with-cogitave-query.cogitave-query
+title: How Cogitave Query resolves a request
+metadata:
+  title: How Cogitave Query resolves a request
+  description: The pipeline a query actually travels through - BM25 lexical recall, HNSW dense recall, Reciprocal Rank Fusion, the same surfaces for humans and agents, and the bounded query_graph profile agents call directly.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: unit
+durationInMinutes: 7
+content: |
+  [!include[](includes/2-cogitave-query.md)]

@@ -1,0 +1,36 @@
+### YamlMime:Module
+uid: cogitave.learn.understand-yuva
+metadata:
+  title: Understand Yuva, the sovereign kernel
+  description: Why Cogitave is building an agent-native kernel from scratch in no_std Rust, how a fail-closed boot and formally verified leaves make its guarantees checkable, and exactly which parts are not switched on yet.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: module
+title: Understand Yuva, the sovereign kernel
+summary: Why an agent platform builds its own kernel, what a fail-closed boot and formally verified leaves actually prove, and an honest account of Yuva's current status.
+abstract: |
+  By the end of this module, you'll be able to:
+  - Explain why an isolation guarantee is only as strong as the layer enforcing it.
+  - Describe how Yuva is built: no_std Rust, unsafe confined to one audited crate, formally verified leaves, dual-architecture boot.
+  - Explain what a fail-closed boot proves, and what it does not.
+  - State Yuva's current status accurately, including what is not live yet.
+prerequisites: |
+  - No prior kernel or Rust experience required.
+  - Helpful, but not required: the "Build your first agent with Namzu" module.
+iconUrl: /learn/achievements/understand-yuva.svg
+ratingEnabled: true
+levels:
+  - beginner
+roles:
+  - developer
+  - solution-architect
+products:
+  - yuva
+subjects:
+  - artificial-intelligence
+units:
+  - cogitave.learn.understand-yuva.introduction
+  - cogitave.learn.understand-yuva.how-yuva-is-verified
+  - cogitave.learn.understand-yuva.knowledge-check
+badge:
+  uid: cogitave.learn.understand-yuva.badge

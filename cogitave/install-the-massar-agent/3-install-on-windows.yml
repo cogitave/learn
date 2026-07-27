@@ -1,0 +1,12 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.install-the-massar-agent.install-on-windows
+title: "Install the agent on Windows"
+metadata:
+  title: "Install the agent on Windows"
+  description: "Run install.ps1 as Administrator with -BrokerUrl and -Token, and see how it verifies, replaces any prior install, registers a Windows service, and lists itself in Settings > Apps."
+  ms.date: 2026-07-27
+  author: cogitave
+  ms.topic: unit
+durationInMinutes: 7
+content: |
+  [!include[](includes/3-install-on-windows.md)]

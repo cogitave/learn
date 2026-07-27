@@ -1,0 +1,12 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.apply-the-agents-floor.summary
+title: Summary
+metadata:
+  title: Summary
+  description: Recap the seven non-negotiable rules and what enforces each, and continue the contributor-onboarding path with inheriting a repository's project baseline.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: unit
+durationInMinutes: 3
+content: |
+  [!include[](includes/5-summary.md)]

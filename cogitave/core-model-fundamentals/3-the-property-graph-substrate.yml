@@ -1,0 +1,12 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.core-model-fundamentals.the-property-graph-substrate
+title: The property-graph substrate
+metadata:
+  title: The property-graph substrate
+  description: Why ADR-0001 chose a labeled property graph over relational, RDF, and federated stores, and how the physical substrate serves it - one Rust binary co-locating BM25, HNSW, and the graph behind a native MCP server.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: unit
+durationInMinutes: 7
+content: |
+  [!include[](includes/3-the-property-graph-substrate.md)]

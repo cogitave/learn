@@ -1,0 +1,12 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.secure-sdlc.summary
+title: Summary
+metadata:
+  title: Summary
+  description: Recap the security baseline and the secure development lifecycle - the controls-versus-process split, when a threat model is mandatory, the two Definition-of-Done gates, and exploit-aware remediation SLAs - and where to go next.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: unit
+durationInMinutes: 3
+content: |
+  [!include[](includes/5-summary.md)]

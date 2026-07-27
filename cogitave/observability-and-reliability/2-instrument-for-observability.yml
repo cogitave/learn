@@ -1,0 +1,12 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.observability-and-reliability.instrument-for-observability
+title: Instrument for observability
+metadata:
+  title: Instrument for observability
+  description: Cogitave's telemetry model - OpenTelemetry-spec traces, metrics, and logs under one correlation, bound to the Core model and queryable from MCP - and what AI/agent observability adds on top.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: unit
+durationInMinutes: 7
+content: |
+  [!include[](includes/2-instrument-for-observability.md)]

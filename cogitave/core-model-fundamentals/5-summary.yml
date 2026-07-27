@@ -1,0 +1,12 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.core-model-fundamentals.summary
+title: Summary
+metadata:
+  title: Summary
+  description: Recap the one-model thesis, the canonical graph's identity scheme, and why ADR-0001 chose a labeled property graph as the substrate, with pointers to the source docs and what comes next in this path.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: unit
+durationInMinutes: 3
+content: |
+  [!include[](includes/5-summary.md)]

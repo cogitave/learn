@@ -1,0 +1,41 @@
+### YamlMime:Module
+uid: cogitave.learn.build-a-diyar-solution
+metadata:
+  title: "How a device becomes a Diyar solution"
+  description: "Diyar turns a physical device into a certified solution through layered signed documents and firmware-compiled registries, not through custom code written per customer. A signed device profile configures the edge's hardware at boot; a certified verdict engine - the frozen ISPM-15 oracle or one "
+  ms.date: 2026-07-27
+  author: cogitave
+  ms.topic: module
+title: "How a device becomes a Diyar solution"
+summary: |
+  Diyar turns a physical device into a certified solution through layered signed documents and firmware-compiled registries, not through custom code written per customer. A signed device profile configures the edge's hardware at boot; a certified verdict engine - the frozen ISPM-15 oracle or one of the generic function blocks - decides pass or fail; and a three-document app package computes, offline, exactly what a device is authorized to observe, operate, or actuate. This module walks through each of these three layers as they exist in the Diyar edge platform today (backend/crates/domain, edge-measurement-engine, edge-app), and states plainly where a capability is proven only against internal example fixtures rather than a field deployment - because that distinction is part of what you need to evaluate the product honestly.
+abstract: |
+  By the end of this module, you will be able to:
+  - Describe what a signed device profile configures at boot, and explain why the edge refuses to start on an invalid, unsigned, or mismatched profile.
+  - Explain how the HAL seam (`TempSource` / `RelayBank` / `MonotonicClock`) lets the same platform drive local hardware or a Modbus (TCP or RTU) field device without touching the safety-critical core.
+  - Explain why the `CERTIFIED_ENGINES` registry, not a valid signature alone, is what lets a new process rule run - and how the generic engines let a genuinely new product ship as pure signed data.
+  - Describe the three documents in a Diyar app package and how their offline intersection (A ∩ B ∩ C) computes a device's effective authority.
+  - Distinguish deploying an app (signing three documents) from certifying its ability to actuate hazardous output (a firmware release and certification event).
+prerequisites: |
+  - Comfort reading a Rust trait signature and a JSON object; no Rust programming experience is required.
+  - Familiarity with the general idea of signed/verified artifacts (code signing, detached signatures) is helpful but not assumed.
+  - No Diyar license, account, or deployment access is required - this module is architectural and conceptual.
+iconUrl: /learn/achievements/build-a-diyar-solution.svg
+ratingEnabled: true
+levels:
+  - intermediate
+roles:
+  - developer
+  - solution-architect
+products:
+  - diyar
+subjects:
+  - device-management
+  - compliance
+units:
+  - cogitave.learn.build-a-diyar-solution.the-device-profile
+  - cogitave.learn.build-a-diyar-solution.verdict-engines
+  - cogitave.learn.build-a-diyar-solution.the-app-package
+  - cogitave.learn.build-a-diyar-solution.knowledge-check
+badge:
+  uid: cogitave.learn.build-a-diyar-solution.badge

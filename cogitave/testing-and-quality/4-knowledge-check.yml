@@ -1,0 +1,58 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.testing-and-quality.knowledge-check
+title: Knowledge check
+metadata:
+  title: Knowledge check
+  description: Check your grasp of the test-shape override rule, the blocking coverage gate, the flaky-test policy, and the anti-dogma rule of the code-craftsmanship bar.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: unit
+  module_assessment: true
+durationInMinutes: 4
+quiz:
+  title: Check your knowledge
+  questions:
+    - content: "Your PR changes a Rust function whose new behavior is fully observable in a single pure-function unit test. A reviewer asks you to also add an end-to-end test for it. What does the Testing & Quality Standard say?"
+      choices:
+        - content: "Test at the lowest tier that can observe the behavior; a bug provable by a unit test must not require an e2e test. The unit test is the right tier."
+          isCorrect: true
+          explanation: "Correct. This is the rule that overrides the pyramid/trophy ratios - ratios are a smell detector, not a target, and forcing a higher tier for a unit-observable behavior is tier confusion."
+        - content: "Add the e2e test, because every changed behavior needs coverage at all three tiers to be safe."
+          isCorrect: false
+          explanation: "Incorrect. The standard explicitly rejects this: e2e is reserved for few, critical cross-boundary flows, and a bug provable at the unit tier must not require an e2e test."
+        - content: "Add the e2e test to raise the repo's e2e share toward the ~10% guideline."
+          isCorrect: false
+          explanation: "Incorrect. The ~10% e2e figure is an order-of-magnitude guide, not a quota, and the standard forbids writing tests to hit a percentage."
+    - content: "A change touches a large legacy file with low overall coverage. Which coverage check is the blocking gate on the PR?"
+      choices:
+        - content: "Patch (diff) coverage - at least 90% of the lines the PR changed - which is what makes the gate fair on legacy code and strict on new code."
+          isCorrect: true
+          explanation: "Correct. Diff coverage is the primary gate; the repo total is a trend guarded by a no-regression ratchet, not the blocking number."
+        - content: "Repo overall coverage must reach the 90% target before the PR can merge."
+          isCorrect: false
+          explanation: "Incorrect. The repo total is a trend (90% target, 85% hard floor) with a ratchet, not the blocking check - gating legacy PRs on the whole-repo number would be unfair and is not the policy."
+        - content: "Per-file coverage of every file in the repo must be at least 70%."
+          isCorrect: false
+          explanation: "Incorrect. The 70% per-file floor warns generally and only blocks on a new or changed file; it is not the primary gate, and it does not apply to untouched files."
+    - content: "CI reports that one of your tests passed on one run and failed on a rerun of the same commit. What does the standard require?"
+      choices:
+        - content: "Treat it as a bug: quarantine it immediately so it reports but does not block merge, and file a tracked defect with an owner and a deadline (default 7 days)."
+          isCorrect: true
+          explanation: "Correct. A flaky test is a bug, not 'just retry'. Quarantine is a holding cell with a timer; past the deadline it blocks the owning team's merges."
+        - content: "Add an automatic retry so the test passes on the second attempt and move on."
+          isCorrect: false
+          explanation: "Incorrect. Retries may detect flakiness but may never be the remedy - a green-after-retry result is recorded as flaky, not fixed."
+        - content: "Comment the test out until someone has time to look at it."
+          isCorrect: false
+          explanation: "Incorrect. Quarantining is automatic or one-click and keeps the test running and reporting - 'comment it out' removes the evidence and is explicitly not the mechanism."
+    - content: "In review, a teammate insists you extract an interface (a port) for a component that has exactly one implementation and no test-double need, citing Dependency Inversion. How should this be resolved under the Code Craftsmanship Standard?"
+      choices:
+        - content: "Do not add the seam yet - YAGNI wins over a speculative port; introduce the abstraction when a real second implementation or a genuine test-double need appears. Dogmatic principle application is itself an anti-pattern."
+          isCorrect: true
+          explanation: "Correct. The standard's arbitration table resolves OCP/DIP vs YAGNI in YAGNI's favor for a single implementation, and demanding an interface for one implementation is named as causing the damage the principles exist to prevent."
+        - content: "Add the interface, because Dependency Inversion is a SOLID principle and SOLID is mandatory on every component."
+          isCorrect: false
+          explanation: "Incorrect. SOLID letters are heuristics with costs, introduced when a real second case forces them - not laws to apply preemptively to every component."
+        - content: "Add the interface to be safe, since more abstraction is always easier to change later."
+          isCorrect: false
+          explanation: "Incorrect. Speculative abstraction costs complexity now for flexibility you may never use, and a premature abstraction is more expensive to unwind than the duplication it was meant to prevent."

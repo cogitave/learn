@@ -1,0 +1,58 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.reliability-and-sre.knowledge-check
+title: Knowledge check
+metadata:
+  title: Knowledge check
+  description: Check your grasp of the reliability thesis, how to set an SLO and compute its error budget and burn rate, the error-budget policy's freeze rule, and what operating for reliability buys - on-call, the toil cap, and the SLA-vs-SLO margin.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: unit
+  module_assessment: true
+durationInMinutes: 5
+quiz:
+  title: Check your knowledge
+  questions:
+    - content: "A Tier-1 service targets 99.9% availability over a 30-day rolling window. What is its error budget, and what does that number mean operationally?"
+      choices:
+        - content: "0.1% of the window, about 43 minutes of allowed downtime - the currency the error-budget policy spends before it freezes feature velocity."
+          isCorrect: true
+          explanation: "Correct. Error budget = (1 - SLO) x valid events in the window; at 99.9% that is 0.1%, which the reliability standard's worked example puts at about 43 minutes over 30 days."
+        - content: "99.9% of the window, because the budget is the SLO target itself, not its complement."
+          isCorrect: false
+          explanation: "Incorrect. The budget is the allowed unreliability, `(1 - SLO)`, not the SLO target. Reporting the SLO itself as the budget inverts the math."
+        - content: "Zero, because a Tier-1 service is not allowed any downtime under the standard."
+          isCorrect: false
+          explanation: "Incorrect. The standard's whole thesis is that 100% is the wrong target - it is unaffordable and unnecessary. Every tier, including Tier-1, ships with a nonzero, computed budget."
+    - content: "Which SLI is the right basis for a service's SLO, per the reliability standard?"
+      choices:
+        - content: "A user-facing SLI drawn from the critical user journey - the thing a customer would open a ticket about - not an infrastructure metric."
+          isCorrect: true
+          explanation: "Correct. The standard requires SLOs to be defined from user-facing SLIs on the critical journey; an infrastructure metric like CPU usage tells you nothing about whether a user succeeded."
+        - content: "CPU and memory utilization, since they are the earliest warning of a coming failure."
+          isCorrect: false
+          explanation: "Incorrect. Infrastructure metrics may be useful internal signals, but the standard is explicit that an SLI measured on infrastructure does not tell you whether a user succeeded, so it is not the SLO basis."
+        - content: "Whichever metric is easiest to instrument first, since any SLO is better than none."
+          isCorrect: false
+          explanation: "Incorrect. An SLO chosen for instrumentation convenience rather than the user's journey produces a number nobody can act on - the standard ties the SLO to the journey specifically so it operates as a real contract."
+    - content: "A service's monthly error budget is exhausted and burn is still climbing. Per the error-budget policy, what happens?"
+      choices:
+        - content: "The service enters a feature freeze - only reliability fixes, rollbacks, and security/critical patches may deploy - and reliability work moves to the top of the backlog until the budget recovers."
+          isCorrect: true
+          explanation: "Correct. This is the governing rule of section 3: budget exhausted or projected to exhaust triggers a per-service freeze, enforced in the deployment pipeline, not by good intentions."
+        - content: "The whole estate freezes deployments until every service's budget is healthy again."
+          isCorrect: false
+          explanation: "Incorrect. The freeze is explicitly per-service - one service's blown budget does not freeze unrelated services."
+        - content: "Product can override the freeze at will, since the SLA is a product-owned commitment."
+          isCorrect: false
+          explanation: "Incorrect. Product owns the SLA but does not get to override a freeze by fiat - overriding the policy is itself a logged, RFC-class decision with an accountable approver."
+    - content: "What operating practice does the error budget's freeze policy sit alongside, according to the standard's on-call and toil rules?"
+      choices:
+        - content: "A sustainable primary/secondary on-call rotation scoped to user-facing SLO symptoms, plus a toil cap of about 50% with a rule-of-three that turns repeated manual work into automation."
+          isCorrect: true
+          explanation: "Correct. Section 4 requires a bounded, humane on-call rotation paging only on SLO symptoms, and section 5 caps toil at ~50% of reliability time, converting a third manual repeat into an automation ticket or runbook."
+        - content: "A single on-call engineer who owns the pager permanently, since consistency reduces incident response time."
+          isCorrect: false
+          explanation: "Incorrect. A pool of one is explicitly called out as a standing incident to escalate, not an acceptable rotation - the standard requires at least two people in the pool with a primary and secondary."
+        - content: "Paging on any infrastructure anomaly, so nothing goes unnoticed even if it isn't in a user's SLO."
+          isCorrect: false
+          explanation: "Incorrect. The anti-fatigue rule forbids paging on a metric that is not in a user's SLO; cause-based anomalies are tickets or dashboards unless they themselves burn the budget."

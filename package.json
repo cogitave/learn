@@ -1,0 +1,16 @@
+{
+  "name": "@cogitave/learn",
+  "private": true,
+  "type": "module",
+  "description": "Content source and v0 build for learn.cogitave.com. Zero runtime dependencies by design (ADR-0003: build from scratch, reference not dependency).",
+  "license": "CC-BY-4.0",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "build": "node tools/build.mjs",
+    "check": "node tools/build.mjs --out .cache/check --quiet",
+    "mcp": "node tools/mcp/server.mjs",
+    "mcp:http": "node tools/mcp/server.mjs --http"
+  }
+}

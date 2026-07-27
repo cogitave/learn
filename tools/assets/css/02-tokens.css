@@ -1,0 +1,105 @@
+/* ========================================================================== */
+/* tokens                                                                     */
+/* ========================================================================== */
+
+:root {
+  color-scheme: light;
+
+  /* surfaces */
+  --bg: #ffffff;
+  --bg-sunken: #fafafa;
+  --bg-raised: #ffffff;
+  --bg-code: #f7f7f7;
+  --bg-hover: #f4f4f4;
+
+  /* the text ramp - the whole hierarchy lives here */
+  --t1: #292929;
+  --t2: #5d5d5d;
+  --t3: #9e9e9e;
+
+  /* hairlines */
+  --line: #e8e8e8;
+  --line-strong: #d8d8d8;
+
+  /* the single accent */
+  --accent: #292929;
+  --accent-on: #ffffff;
+  --accent-wash: #f0f0f0;
+
+  /* alert hues - desaturated so they sit inside a monochrome page */
+  --note: #3a5a8c;
+  --tip: #2f6b4f;
+  --important: #5c4a86;
+  --warning: #8a6420;
+  --caution: #9b3b34;
+
+  /* type - the fallbacks only cover the window before the face loads */
+  --font: "CG Pro", -apple-system, BlinkMacSystemFont, "Segoe UI Variable Text",
+    "Segoe UI", system-ui, sans-serif;
+  --font-display: "CG Pro Display", var(--font);
+  --mono: "CG Mono", ui-monospace, SFMono-Regular, "Cascadia Mono", Menlo,
+    Consolas, monospace;
+  --tracking: -0.15px;
+
+  /* radii */
+  --r-sm: 8px;
+  --r-lg: 16px;
+  --r-pill: 999px;
+
+  /* metrics */
+  --bar-h: 56px;
+  --chrome-h: 56px;
+  --w-side: 288px;
+  --w-rail: 256px;
+  --measure: 860px;
+  --gutter: 32px;
+
+  --ease: cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: #0f0f11;
+    --bg-sunken: #131315;
+    --bg-raised: #17171a;
+    --bg-code: #161619;
+    --bg-hover: #1c1c20;
+    --t1: #ecebe4;
+    --t2: #a3a29c;
+    --t3: #6f6e6a;
+    --line: #232327;
+    --line-strong: #2f2f34;
+    --accent: #e6e2d4;
+    --accent-on: #0a0a0f;
+    --accent-wash: #1e1e21;
+    --note: #8fb0e0;
+    --tip: #6fc296;
+    --important: #b39ce0;
+    --warning: #d6a344;
+    --caution: #e08a83;
+  }
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #0f0f11;
+  --bg-sunken: #131315;
+  --bg-raised: #17171a;
+  --bg-code: #161619;
+  --bg-hover: #1c1c20;
+  --t1: #ecebe4;
+  --t2: #a3a29c;
+  --t3: #6f6e6a;
+  --line: #232327;
+  --line-strong: #2f2f34;
+  --accent: #e6e2d4;
+  --accent-on: #0a0a0f;
+  --accent-wash: #1e1e21;
+  --note: #8fb0e0;
+  --tip: #6fc296;
+  --important: #b39ce0;
+  --warning: #d6a344;
+  --caution: #e08a83;
+}
+

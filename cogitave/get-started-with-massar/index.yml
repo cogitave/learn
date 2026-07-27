@@ -1,0 +1,32 @@
+### YamlMime:LearningPath
+uid: cogitave.learn.paths.get-started-with-massar
+metadata:
+  title: "Get started with Cogitave Massar"
+  description: "Massar is the guardian agent that lets an authorized Cogitave operator open an audited terminal session on a customer device with no inbound port and no VPN. Understand the dial-out security model and how a session is bridged, then install, verify, and cleanly remove the agent on Linux and Wind"
+  ms.date: 2026-07-27
+  author: cogitave
+  ms.topic: learning-path
+title: "Get started with Cogitave Massar"
+summary: |
+  Massar is the guardian agent that lets an authorized Cogitave operator open an audited terminal session on a customer device with no inbound port and no VPN. Understand the dial-out security model and how a session is bridged, then install, verify, and cleanly remove the agent on Linux and Windows using the real installers.
+prerequisites: |
+  - Comfort with a Linux or Windows command line and administering a host.
+  - No prior Cogitave, Rust, or agent experience required.
+iconUrl: /learn/achievements/get-started-with-massar.svg
+levels:
+  - beginner
+  - intermediate
+roles:
+  - administrator
+  - developer
+  - solution-architect
+products:
+  - massar
+subjects:
+  - remote-access
+  - security
+modules:
+  - cogitave.learn.understand-massar
+  - cogitave.learn.install-the-massar-agent
+trophy:
+  uid: cogitave.learn.paths.get-started-with-massar.trophy

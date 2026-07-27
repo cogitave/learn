@@ -1,0 +1,37 @@
+### YamlMime:Module
+uid: cogitave.learn.reuse-first-engineering
+metadata:
+  title: Reuse-first engineering
+  description: Why Cogitave requires discover-before-generate before any UI or code is authored - the convergent, tokens-to-golden-components single source of truth, the MCP-native registry, the anti-duplication gates, and why building from scratch is the justified exception, not the default.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: module
+title: Reuse-first engineering
+summary: Explain why AI-assisted development diverges without a counter-force, state the discover-before-generate hard rule and what enforces it, and justify a from-scratch decision the way ADR-0003 requires - as a reasoned exception, not a default.
+abstract: |
+  By the end of this module, you'll be able to:
+  - Explain why AI-assisted development diverges without a deliberate counter-force, and what discover-before-generate does about it.
+  - State the order of operations - discover, compose, justify + author, contribute back - and the tokens-to-golden-components single source of truth it protects.
+  - Name the anti-duplication gates that keep a needless re-author out of `main`.
+  - Justify a from-scratch decision using ADR-0003's port-best-in-class, rebuild-native stance, and say when reinventing is actually earned.
+prerequisites: |
+  - Basic familiarity with Git and the command line.
+  - No prior Cogitave experience required.
+iconUrl: /learn/achievements/reuse-first-engineering.svg
+ratingEnabled: true
+levels:
+  - beginner
+roles:
+  - developer
+products:
+  - cogitave-core
+subjects:
+  - software-engineering
+units:
+  - cogitave.learn.reuse-first-engineering.introduction
+  - cogitave.learn.reuse-first-engineering.why-reuse-first
+  - cogitave.learn.reuse-first-engineering.build-from-scratch-as-the-exception
+  - cogitave.learn.reuse-first-engineering.knowledge-check
+  - cogitave.learn.reuse-first-engineering.summary
+badge:
+  uid: cogitave.learn.reuse-first-engineering.badge

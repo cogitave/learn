@@ -1,0 +1,37 @@
+### YamlMime:Module
+uid: cogitave.learn.commits-and-versioning
+metadata:
+  title: Commits and versioning
+  description: Write Conventional Commits that version and release code correctly - how type, scope, and the breaking marker drive Semantic Versioning, how release-please turns merged commits into a human-approved Release-PR, changelog, and tag, and how trunk-based, protected-main gates every release.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: module
+title: Commits and versioning
+summary: Write Conventional Commits whose type, scope, and breaking marker drive Semantic Versioning; see how release-please turns merged commits into a human-approved Release-PR, changelog, and tag; and how the trunk-based, protected-main model gates every release.
+abstract: |
+  By the end of this module, you'll be able to:
+  - Write a Conventional Commits 1.0.0 message - `<type>[scope][!]: <desc>` - and choose the type, scope, and breaking marker deliberately.
+  - Explain how commit types drive Semantic Versioning: `feat` to MINOR, `fix` to PATCH, a break to MAJOR, and how pre-1.0 changes that rule.
+  - Describe how release-please turns merged commits into a human-approved Release-PR, a Keep a Changelog entry, and a SemVer tag - and which repos use release-plz, goreleaser, or Changesets instead.
+  - Place a commit inside the trunk-based, protected-main branching and release flow, from feature branch to gated release.
+prerequisites: |
+  - Basic familiarity with Git commits, branches, and pull requests.
+  - Helpful: the AGENTS floor module, which introduces Conventional Commits as rule 2.
+iconUrl: /learn/achievements/commits-and-versioning.svg
+ratingEnabled: true
+levels:
+  - intermediate
+roles:
+  - developer
+products:
+  - cogitave-core
+subjects:
+  - software-engineering
+units:
+  - cogitave.learn.commits-and-versioning.introduction
+  - cogitave.learn.commits-and-versioning.conventional-commits-in-depth
+  - cogitave.learn.commits-and-versioning.versioning-and-releases
+  - cogitave.learn.commits-and-versioning.knowledge-check
+  - cogitave.learn.commits-and-versioning.summary
+badge:
+  uid: cogitave.learn.commits-and-versioning.badge

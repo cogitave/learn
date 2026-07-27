@@ -1,0 +1,12 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.understand-massar.how-a-session-works
+title: "How a session works: agent, broker, and the PTY bridge"
+metadata:
+  title: "How a session works: agent, broker, and the PTY bridge"
+  description: "The three parties in a Massar session - agent, broker, operator terminal - and the wire protocol that splits control messages from terminal bytes across a real PTY."
+  ms.date: 2026-07-27
+  author: cogitave
+  ms.topic: unit
+durationInMinutes: 7
+content: |
+  [!include[](includes/3-how-a-session-works.md)]

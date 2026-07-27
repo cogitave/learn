@@ -2,28 +2,29 @@
 uid: cogitave.learn.paths.agent-platform-fundamentals
 metadata:
   title: Agent platform fundamentals
-  description: Learn the two halves of the Cogitave agent platform — the Yuva operating system that runs agents and the Namzu kernel that builds them — and ship your first agent.
-  ms.date: 2026-06-27
+  description: Build with the Namzu agent kernel, then understand the sovereign kernel Cogitave is building underneath it - the layer you can use today and the layer meant to enforce its guarantees.
+  ms.date: 2026-07-26
   author: cogitave
   ms.topic: learning-path
 title: Agent platform fundamentals
 summary: |
-  Learn the two halves of the Cogitave agent platform: the Yuva operating system that runs agents and the Namzu kernel that builds them. By the end you'll understand the runtime, build a minimal MCP-native agent, and run it under a least-privilege capability model.
+  Start where you can build: install the Namzu agent kernel, register a model provider, make your first call, and declare a tool with an explicit authority. Then step down a layer to Yuva, the sovereign kernel Cogitave is building to enforce those declarations on hardware it controls - including an honest account of what Yuva cannot do yet.
 prerequisites: |
   - Basic familiarity with the command line and TypeScript.
-  - No prior agent experience required.
+  - Node.js 20 or later, if you want to run the exercise rather than read it.
+  - No prior agent, kernel, or Rust experience required.
 iconUrl: /learn/achievements/agent-platform-fundamentals.svg
 levels:
   - beginner
 roles:
   - developer
 products:
-  - yuva
   - namzu
+  - yuva
 subjects:
   - artificial-intelligence
 modules:
-  - cogitave.learn.get-started-with-yuva
   - cogitave.learn.build-your-first-agent-with-namzu
+  - cogitave.learn.understand-yuva
 trophy:
   uid: cogitave.learn.paths.agent-platform-fundamentals.trophy

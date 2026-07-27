@@ -1,0 +1,12 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.project-products-into-core.the-fact-registry
+title: The fact registry
+metadata:
+  title: The fact registry
+  description: Why linked references are not the whole propagation story, the cite-not-restate rule that gives every load-bearing fact exactly one owner, the fact-drift scanner, temporal invalidation, and the Day-0 honesty about what is running today.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: unit
+durationInMinutes: 7
+content: |
+  [!include[](includes/3-the-fact-registry.md)]

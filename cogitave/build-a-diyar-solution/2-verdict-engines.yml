@@ -1,0 +1,12 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.build-a-diyar-solution.verdict-engines
+title: "Verdict engines and the certified registry"
+metadata:
+  title: "Verdict engines and the certified registry"
+  description: "How the VerdictEngine trait lets a process rule plug into the session loop without touching the frozen safety typestate, why the fail-closed CERTIFIED_ENGINES registry - not a signature - decides what may run, and how the generic engines let a new product ship as data."
+  ms.date: 2026-07-27
+  author: cogitave
+  ms.topic: unit
+durationInMinutes: 8
+content: |
+  [!include[](includes/2-verdict-engines.md)]

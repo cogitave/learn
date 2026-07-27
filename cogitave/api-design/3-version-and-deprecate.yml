@@ -1,0 +1,12 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.api-design.version-and-deprecate
+title: Version and deprecate without breaking consumers
+metadata:
+  title: Version and deprecate without breaking consumers
+  description: Pick the right versioning scheme per surface, evolve contracts additively under the never-break-userspace doctrine and the N-version window, and move a contract through the deprecation lifecycle with the manifest keeping API, docs, and changelog in lockstep.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: unit
+durationInMinutes: 8
+content: |
+  [!include[](includes/3-version-and-deprecate.md)]

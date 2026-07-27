@@ -1,0 +1,12 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.run-agentic-operations.the-agent-fleet
+title: The agent fleet
+metadata:
+  title: The agent fleet
+  description: The real fleet - five scheduled engineering agents under agents/scheduled/ and six operations business agents under agents/operations/ - what each one proposes, who holds its human gate, and why none of them can publish, send, or apply on its own.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: unit
+durationInMinutes: 8
+content: |
+  [!include[](includes/3-the-agent-fleet.md)]

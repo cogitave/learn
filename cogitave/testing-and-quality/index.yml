@@ -1,0 +1,37 @@
+### YamlMime:Module
+uid: cogitave.learn.testing-and-quality
+metadata:
+  title: Test to the standard and pass the quality gate
+  description: How Cogitave treats a test as release-blocking evidence - the test-shape stance, required test types by surface, diff-coverage and mutation gates, flaky-test quarantine, the runnable harness, and the code-craftsmanship bar that review enforces.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: module
+title: Test to the standard and pass the quality gate
+summary: Learn how Cogitave tests a change - the pyramid/trophy shape, the diff-coverage and mutation gates, flaky-test quarantine, the runnable harness, and the craftsmanship review bar - so you can test your own change and get it through the gate.
+abstract: |
+  By the end of this module, you'll be able to:
+  - Choose the right test shape and tier for a change, and apply the rule that overrides the ratios.
+  - Explain why coverage is a floor, why diff coverage is the blocking gate, and why mutation testing is the real adequacy gate for critical modules.
+  - Use the test harness - the runners, the inner and outer loop, and the gate-to-DoD map - to run the right tier and read the gate.
+  - Pass the code-craftsmanship review bar, favoring correctness by construction and never applying a principle dogmatically.
+prerequisites: |
+  - Basic familiarity with writing and running automated tests.
+  - Helpful, but not required: the "Apply the AGENTS floor" module.
+iconUrl: /learn/achievements/testing-and-quality.svg
+ratingEnabled: true
+levels:
+  - intermediate
+roles:
+  - developer
+products:
+  - cogitave-core
+subjects:
+  - software-engineering
+units:
+  - cogitave.learn.testing-and-quality.introduction
+  - cogitave.learn.testing-and-quality.the-testing-standard
+  - cogitave.learn.testing-and-quality.the-test-harness-and-quality-bar
+  - cogitave.learn.testing-and-quality.knowledge-check
+  - cogitave.learn.testing-and-quality.summary
+badge:
+  uid: cogitave.learn.testing-and-quality.badge

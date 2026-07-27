@@ -1,0 +1,12 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.build-a-diyar-solution.the-device-profile
+title: "The signed device profile"
+metadata:
+  title: "The signed device profile"
+  description: "How one Ed25519-signed document configures channels, actuators, safety limits, and process parameters at edge boot, why the edge refuses to start on an invalid one, and how the HAL seam reaches different field hardware."
+  ms.date: 2026-07-27
+  author: cogitave
+  ms.topic: unit
+durationInMinutes: 8
+content: |
+  [!include[](includes/1-the-device-profile.md)]

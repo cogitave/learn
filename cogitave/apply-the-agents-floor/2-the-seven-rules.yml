@@ -1,0 +1,12 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.apply-the-agents-floor.the-seven-rules
+title: The seven non-negotiable rules
+metadata:
+  title: The seven non-negotiable rules
+  description: The seven rules of the AGENTS floor stated in order - English only, Conventional Commits, signed commits, docs-as-code, least privilege, autonomy within the rails, and the human gate as an exception handler.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: unit
+durationInMinutes: 7
+content: |
+  [!include[](includes/2-the-seven-rules.md)]

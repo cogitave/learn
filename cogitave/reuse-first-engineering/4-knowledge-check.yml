@@ -1,0 +1,58 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.reuse-first-engineering.knowledge-check
+title: Knowledge check
+metadata:
+  title: Knowledge check
+  description: Check your grasp of the discover-before-generate hard rule, the tokens-to-golden-components single source of truth, the anti-duplication gates, and when a from-scratch build is actually justified.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: unit
+  module_assessment: true
+durationInMinutes: 4
+quiz:
+  title: Check your knowledge
+  questions:
+    - content: "You are about to write a new date-formatter utility for a feature. Per the discover-before-generate hard rule, what do you do first?"
+      choices:
+        - content: "Query the registry and design system for an existing component, primitive, pattern, or utility that fits (`component_search` / `pattern_search` / `find_similar` over MCP), and only author something new if nothing fits - with a recorded 'no fit' justification."
+          isCorrect: true
+          explanation: "Correct. The AI-Native Development standard makes discovery the default and authoring new the privileged, justified exception - the development-time analogue of capability default-deny."
+        - content: "Write the utility, since a small formatter is unlikely to already exist somewhere in the estate."
+          isCorrect: false
+          explanation: "Incorrect. This is exactly the failure mode the standard names: an LLM generates by statistical prediction, so 'probably doesn't exist' is not a discovery step, and a fourth date formatter is the textbook example the standard calls out."
+        - content: "Ask a teammate informally whether they remember a similar utility, and proceed based on their answer."
+          isCorrect: false
+          explanation: "Incorrect. Discovery is a registry/MCP query - `component_search` / `pattern_search` / `find_similar` - not a memory check with a colleague; the registry is the single source, not anyone's recollection of it."
+    - content: "A component's styles hard-code a hex color instead of pointing at a semantic token. Which layer of the single source of truth does this break, and why does it matter?"
+      choices:
+        - content: "The tokens layer. Components must consume `semantic.*` tokens only - never a literal hex or px value - so a re-theme is a re-point of the alias layer, not a hunt through every component for a literal value."
+          isCorrect: true
+          explanation: "Correct. The tokens -> primitives -> golden-components layering only works if there is exactly one canonical thing to reuse at each layer; a literal value bypasses that single source and cannot be re-themed by re-pointing an alias."
+        - content: "The golden-components layer, because every UI concept needs its own hard-coded color to stay visually distinct."
+          isCorrect: false
+          explanation: "Incorrect. A golden component is the one sanctioned, token-driven implementation of a concept; visual distinctness comes from composing tokens and primitives, not from a component escaping the token layer."
+        - content: "The registry, because a hard-coded color means the MCP catalog has not indexed the component yet."
+          isCorrect: false
+          explanation: "Incorrect. Whether a component is indexed in the registry is a separate concern from whether its styling is token-driven; a registered component can still violate the tokens-only styling rule."
+    - content: "A team wants to build a fully custom job scheduler from a blank file instead of studying an existing best-in-class scheduler first. What does ADR-0003 say?"
+      choices:
+        - content: "Port the best-in-class reference and study its shape first; rebuild it native (harmonic with Cogitave Core, closest to the machine) only where the team can materially beat the reference - otherwise keep the reference as an explicit, time-boxed bootstrap crutch behind a stable interface."
+          isCorrect: true
+          explanation: "Correct. ADR-0003's decision is 'port best-in-class references and rebuild them better; do not reinvent blindly' - reinvention is earned by being materially faster, more integrated, more correct, or more secure, not assumed by default."
+        - content: "Build it from a blank file immediately, since 'from scratch' means no external tool may ever be studied or ported."
+          isCorrect: false
+          explanation: "Incorrect. The ADR explicitly corrects this misreading: 'from scratch' does not mean blind reinvention of solved problems - best-in-class shapes (schedulers, parsers, permission models, and more) are studied and ported, not ignored."
+        - content: "Adopt the existing scheduler as a permanent runtime dependency and never revisit it."
+          isCorrect: false
+          explanation: "Incorrect. References are explicitly 'not dependencies' - the reference is the spec and reference implementation studied and ported, kept only as a scheduled-for-replacement bootstrap crutch, never a hidden forever-dependency."
+    - content: "A pull request adds a new UI component that duplicates an existing golden component. What actually stops it from landing on `main`?"
+      choices:
+        - content: "The required `no-duplication` CI gate (jscpd + similarity-ts detecting the clone or near-clone), the reuse-review PR expectation that the author cite the registry query that justified new code, and the eval/red-team harness's reuse metric - any one of which can fail the change."
+          isCorrect: true
+          explanation: "Correct. These are the anti-duplication gates named in the AI-Native Development standard and ADR-0013: CI catches literal and semantic duplication, reuse review makes 'I regenerated a Button' a change request, and the eval gate scores an agent that regenerates over reusing as a release-gating failure."
+        - content: "Nothing automated - a reviewer has to personally remember every existing component and catch the duplicate by inspection."
+          isCorrect: false
+          explanation: "Incorrect. The standard is explicit that most AI review tooling only sees the diff and cannot catch this by inspection alone; that is precisely why a dedicated `no-duplication` CI gate and an eval-harness reuse metric exist."
+        - content: "The design token linter, because duplicated components are treated purely as a token-naming issue."
+          isCorrect: false
+          explanation: "Incorrect. Token consumption (`semantic.*` only) is a separate rule from component duplication; catching a duplicated or near-duplicate component is the job of the `no-duplication` gate and reuse review, not the token linter."

@@ -1,0 +1,69 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.understand-yuva.knowledge-check
+title: Knowledge check
+metadata:
+  title: Knowledge check
+  description: Check your understanding of why sovereignty at the kernel layer matters, what Yuva's verification actually proves, and what its status tokens are telling you.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: unit
+  module_assessment: true
+durationInMinutes: 3
+quiz:
+  title: Check your knowledge
+  questions:
+    - content: "Why does Cogitave build its own kernel instead of running agents on an existing operating system?"
+      choices:
+        - content: "Because an isolation or audit guarantee is only as strong as the layer enforcing it, and a rented layer cannot be verified or attested to."
+          isCorrect: true
+          explanation: "Correct. If you do not control the enforcing layer, every guarantee above it is an assumption about somebody else's system."
+        - content: "Because writing a kernel is faster than configuring an existing one."
+          isCorrect: false
+          explanation: "Incorrect, and nobody claims it. Building a kernel is the expensive path; it is chosen for what it makes verifiable, not for speed."
+        - content: "Because existing operating systems cannot run TypeScript."
+          isCorrect: false
+          explanation: "Incorrect. They run TypeScript perfectly well - that is exactly how Namzu runs today, on Node."
+    - content: "Yuva has zero `unsafe` blocks above one audited HAL crate. Why is confinement the goal rather than elimination?"
+      choices:
+        - content: "A kernel must talk to hardware, so some unsafe code is unavoidable - but confined to one crate it can be reviewed as a unit and re-reviewed when it changes."
+          isCorrect: true
+          explanation: "Correct. Auditing has a budget. Unsafe code spread through a codebase cannot be reviewed as a whole; unsafe code in one place can."
+        - content: "Unsafe code is faster, so the kernel keeps as much of it as possible."
+          isCorrect: false
+          explanation: "Incorrect. The design minimises and isolates unsafe code; it is a review-surface decision, not a performance one."
+        - content: "It is eliminated entirely - there is no unsafe code anywhere in Yuva."
+          isCorrect: false
+          explanation: "Incorrect, and the project does not claim it. One audited HAL crate contains it."
+    - content: "Yuva pins its Kani harness counts in CI. What does that pin buy?"
+      choices:
+        - content: "The proof set cannot silently shrink - if a verification disappears, the build fails."
+          isCorrect: true
+          explanation: "Correct. A verification claim that can quietly get smaller is not a claim; the pin is what makes it hold over time."
+        - content: "It makes the proofs run faster."
+          isCorrect: false
+          explanation: "Incorrect. The pin is about coverage not regressing, not about speed."
+        - content: "It proves the entire kernel is correct."
+          isCorrect: false
+          explanation: "Incorrect. Selected leaves are proved, because that is where model checking is tractable. Nobody proves a whole kernel."
+    - content: "Yuva's boot does not report success unless the full self-test marker chain prints. Why does that matter?"
+      choices:
+        - content: "It fails closed: a check that does not run is treated as a broken guarantee rather than an assumed one, so gaps surface in CI instead of accumulating silently."
+          isCorrect: true
+          explanation: "Correct. Fail-open systems collect small missing checks until nobody knows what is actually enforced."
+        - content: "It makes the boot faster by skipping checks that are not needed."
+          isCorrect: false
+          explanation: "Incorrect. The opposite: no check may be skipped, and a missing marker is a failure."
+        - content: "It lets the kernel boot in a degraded mode when a check fails."
+          isCorrect: false
+          explanation: "Incorrect. There is no degraded success. A missing marker is a failed boot."
+    - content: "Yuva's status tokens currently report that live inference is MOCK and learning is DORMANT. How should you read that?"
+      choices:
+        - content: "Literally. Yuva cannot host an agent workload today, and the tokens are the signal that changes when it can."
+          isCorrect: true
+          explanation: "Correct. A system that reports only its successes cannot be reasoned about. Take the tokens at face value and use Namzu on Node to run agents now."
+        - content: "As a conservative disclaimer - inference works in practice."
+          isCorrect: false
+          explanation: "Incorrect. The tokens are a factual status report, not legal caution. MOCK means mock."
+        - content: "As a sign the project is abandoned."
+          isCorrect: false
+          explanation: "Incorrect. The kernel boots on two architectures on every push. The tokens report which capabilities are gated, not that work has stopped."

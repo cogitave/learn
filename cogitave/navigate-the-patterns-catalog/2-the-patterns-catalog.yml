@@ -1,0 +1,12 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.navigate-the-patterns-catalog.the-patterns-catalog
+title: The patterns catalog
+metadata:
+  title: The patterns catalog
+  description: The catalog's fixed five-section entry shape in patterns/README.md, the machine-readable catalog.yaml index projected into Core, and a worked example - the service-scaffold pattern - read end to end.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: unit
+durationInMinutes: 8
+content: |
+  [!include[](includes/2-the-patterns-catalog.md)]

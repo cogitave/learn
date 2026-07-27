@@ -1,0 +1,37 @@
+### YamlMime:Module
+uid: cogitave.learn.ci-cd-pipelines
+metadata:
+  title: Read the pipeline that ships your change
+  description: The canonical CI stage set that runs on every pull request, why CI - not the local hook - is the real Definition-of-Done gate, and the deployment-and-delivery model that promotes a signed artifact dev to staging to prod under GitOps, progressive delivery, and a human prod gate.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: module
+title: Read the pipeline that ships your change
+summary: Follow a change from a pull request through the canonical CI stage set to a gated production deploy - the ordered gates a pipeline runs, why CI is the real gate, and how the deployment model promotes one signed artifact dev to staging to prod.
+abstract: |
+  By the end of this module, you'll be able to:
+  - Read the canonical CI stage set - the ordered, fail-fast gates every repository runs on every pull request - and name the mandatory floor.
+  - Explain why CI is the machine half of the Definition of Done, and why the local hook is only its fast mirror, not the gate.
+  - Reason about the deployment model: one signed artifact promoted dev to staging to prod by pull-based GitOps, with a human gate on prod.
+  - Follow the pipeline to its owning standards for the detail, instead of paraphrasing a gate from memory.
+prerequisites: |
+  - Basic familiarity with Git, pull requests, and the command line.
+  - Helpful: the AGENTS floor (least privilege, the human gate) from the contributor-onboarding path.
+iconUrl: /learn/achievements/ci-cd-pipelines.svg
+ratingEnabled: true
+levels:
+  - intermediate
+roles:
+  - developer
+products:
+  - cogitave-core
+subjects:
+  - software-engineering
+units:
+  - cogitave.learn.ci-cd-pipelines.introduction
+  - cogitave.learn.ci-cd-pipelines.the-ci-pipeline
+  - cogitave.learn.ci-cd-pipelines.deploy-and-deliver
+  - cogitave.learn.ci-cd-pipelines.knowledge-check
+  - cogitave.learn.ci-cd-pipelines.summary
+badge:
+  uid: cogitave.learn.ci-cd-pipelines.badge

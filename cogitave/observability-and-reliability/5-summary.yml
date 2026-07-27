@@ -1,0 +1,12 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.observability-and-reliability.summary
+title: Summary
+metadata:
+  title: Summary
+  description: Recap Cogitave's telemetry model and reliability discipline, and complete the engineering-standards path to earn its trophy.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: unit
+durationInMinutes: 3
+content: |
+  [!include[](includes/5-summary.md)]

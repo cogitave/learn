@@ -1,0 +1,12 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.apply-the-agents-floor.how-the-floor-is-enforced
+title: How the floor is enforced
+metadata:
+  title: How the floor is enforced
+  description: What actually enforces each of the seven rules - a commit-msg hook and CI, an org ruleset, the docs-required CI gate, capability grants and rulesets, and the correctness-by-construction rails - so the floor holds without a human watching.
+  ms.date: 2026-07-26
+  author: cogitave
+  ms.topic: unit
+durationInMinutes: 7
+content: |
+  [!include[](includes/3-how-the-floor-is-enforced.md)]
