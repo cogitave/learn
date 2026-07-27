@@ -1,0 +1,12 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.build-a-diyar-solution.the-ispm15-solution
+title: "The ISPM-15 solution"
+metadata:
+  title: "The ISPM-15 solution"
+  description: "ISPM-15 - the phytosanitary heat treatment that holds a wood core at 56 C for 30 continuous minutes - explained as one certified solution on Diyar's generic profile, verdict-engine, and app-package machinery: how it plugs in, why its engine is byte-parity frozen, and its honest limits."
+  ms.date: 2026-07-27
+  author: cogitave
+  ms.topic: unit
+durationInMinutes: 6
+content: |
+  [!include[](includes/4-the-ispm15-solution.md)]

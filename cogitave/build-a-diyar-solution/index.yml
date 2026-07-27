@@ -2,13 +2,13 @@
 uid: cogitave.learn.build-a-diyar-solution
 metadata:
   title: "How a device becomes a Diyar solution"
-  description: "Diyar turns a physical device into a certified solution through layered signed documents and firmware-compiled registries, not through custom code written per customer. A signed device profile configures the edge's hardware at boot; a certified verdict engine - the frozen ISPM-15 oracle or one "
+  description: "Diyar turns a device into a certified solution through signed documents and firmware-compiled registries, not per-customer code: a signed profile configures the edge at boot, a certified verdict engine decides pass or fail, and a three-document app package computes a device's authority offline."
   ms.date: 2026-07-27
   author: cogitave
   ms.topic: module
 title: "How a device becomes a Diyar solution"
 summary: |
-  Diyar turns a physical device into a certified solution through layered signed documents and firmware-compiled registries, not through custom code written per customer. A signed device profile configures the edge's hardware at boot; a certified verdict engine - the frozen ISPM-15 oracle or one of the generic function blocks - decides pass or fail; and a three-document app package computes, offline, exactly what a device is authorized to observe, operate, or actuate. This module walks through each of these three layers as they exist in the Diyar edge platform today (backend/crates/domain, edge-measurement-engine, edge-app), and states plainly where a capability is proven only against internal example fixtures rather than a field deployment - because that distinction is part of what you need to evaluate the product honestly.
+  Diyar turns a physical device into a certified solution through layered signed documents and firmware-compiled registries, not through custom code written per customer. A signed device profile configures the edge's hardware at boot; a certified verdict engine - a frozen product engine or one of the generic function blocks - decides pass or fail; and a three-document app package computes, offline, exactly what a device is authorized to observe, operate, or actuate. The module walks each of these three layers as they exist in the Diyar edge platform today, closes with one worked solution (ISPM-15) built entirely on that machinery, and states plainly where a capability is proven only against internal example fixtures rather than a field deployment - because that distinction is part of what you need to evaluate the product honestly.
 abstract: |
   By the end of this module, you will be able to:
   - Describe what a signed device profile configures at boot, and explain why the edge refuses to start on an invalid, unsigned, or mismatched profile.
@@ -36,6 +36,7 @@ units:
   - cogitave.learn.build-a-diyar-solution.the-device-profile
   - cogitave.learn.build-a-diyar-solution.verdict-engines
   - cogitave.learn.build-a-diyar-solution.the-app-package
+  - cogitave.learn.build-a-diyar-solution.the-ispm15-solution
   - cogitave.learn.build-a-diyar-solution.knowledge-check
 badge:
   uid: cogitave.learn.build-a-diyar-solution.badge

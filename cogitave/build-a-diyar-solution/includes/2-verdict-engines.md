@@ -1,4 +1,4 @@
-The process rule that decides pass or fail - ISPM-15's core-temperature hold, a pressure band, a lethality integral - is not welded into the session loop. It plugs in through a narrow trait, and only a fixed, firmware-compiled list of engines may ever be named by a signed profile.
+The process rule that decides pass or fail - a threshold hold, a pressure band, a cumulative-lethality integral - is not welded into the session loop. It plugs in through a narrow trait, and only a fixed, firmware-compiled list of engines may ever be named by a signed profile.
 
 ## The problem a profile alone could not solve
 
@@ -15,7 +15,7 @@ pub trait VerdictEngine {
 }
 ```
 
-`VerdictEngine` lives in `edge-measurement-engine` - the orchestrator that needs it - not in the frozen, byte-parity `compliance-engine` crate. That placement is deliberate: a local trait can be implemented for a foreign type, so the ISPM-15 engine gets a pure forwarding `impl VerdictEngine for ComplianceEngine`, and the frozen crate is untouched by the change. Putting the trait the other way around - inside `compliance-engine`, with the orchestrator depending on it - was considered and rejected: it would grow the zero-dependency, byte-parity crate an abstraction shaped by a future consumer's needs, and it would couple every future engine to the certified one's own crate.
+`VerdictEngine` lives in `edge-measurement-engine` - the orchestrator that needs it - not in a frozen, byte-parity engine crate. That placement is deliberate: a local trait can be implemented for a foreign type, so a frozen, byte-parity product engine sitting in its own crate gets a pure forwarding `impl VerdictEngine`, and that frozen crate is untouched by the change. Putting the trait the other way around - inside the frozen crate, with the orchestrator depending on it - was considered and rejected: it would grow a zero-dependency, byte-parity crate an abstraction shaped by a future consumer's needs, and it would couple every future engine to that crate.
 
 The engine is handed in as a **factory**, not a shared instance - it carries per-session state (step and hold counters), and each session gets a fresh one so no run's progress leaks into the next.
 
@@ -28,29 +28,29 @@ Signing a profile is not enough to introduce a new rule. Profile validation chec
 ```rust
 pub const CERTIFIED_ENGINES: &[EngineSpec] = &[
     EngineSpec {
-        id: "diyar:engine:ispm15-parity;1",
-        exact_channels: Some(CHANNEL_COUNT), // the frozen 15-wide input
+        id: "diyar:engine:threshold-hold;1",
+        exact_channels: None, // a generic engine binds its inputs by name
         // ...
     },
-    // generic engines follow, see below
+    // more certified engines follow, each with a stable id
 ];
 ```
 
-A signed profile naming an id this build does not recognize is rejected at load, and an engine's required input width (`exact_channels`) is checked along with its id. Onboarding a new process rule is therefore three separate, explicit acts:
+A signed profile naming an id this build does not recognize is rejected at load, and where an engine declares a required input width (`exact_channels`), that too is checked along with its id. Onboarding a new process rule is therefore three separate, explicit acts:
 
 1. an entry in `CERTIFIED_ENGINES`,
 2. a `VerdictEngine` implementation,
-3. that product's own certification evidence - its own parity oracle, the way ISPM-15 has one.
+3. that product's own certification evidence - its own parity oracle.
 
 A compromised or over-eager signer cannot put an uncertified verdict rule into production by signing a profile alone; the registry is compiled into the binary, and adding to it is a firmware release.
 
-## The frozen ISPM-15 oracle
+## Product engines: a frozen rule in its own crate
 
-`diyar:engine:ispm15-parity;1` is the certified regulatory rule: a fixed 15-wide reading is checked against a byte-parity-frozen oracle whose profile-carried process parameters hold a core target temperature of 56.0°C for 30 (minutes), alongside its own difference-threshold and interval settings. This lives in its own crate, `solution-ispm15`, separate from the generic engine library below, because it wraps a frozen regulatory oracle rather than a reusable function block. The verdict trace, the canonical evidence bytes, and the chain head for this engine are unchanged by the socketing described above; a test asserts the certified path yields identical outcomes through both the old direct-construction entry point and the new socketed one.
+Some `CERTIFIED_ENGINES` entries are **product engines**. Each wraps one industry's own rule - often a frozen regulatory oracle it must reproduce byte for byte - and lives in its own crate, separate from the generic library below, because it exists to preserve one specific certified behavior rather than to be reused. A product engine's verdict trace, canonical evidence bytes, and chain head are held stable, and socketing it in behind the trait must not perturb them: a test asserts the certified path yields identical outcomes through both the old direct-construction entry point and the new socketed one. Diyar's first product engine is the ISPM-15 phytosanitary rule, worked through end to end in its own dedicated unit rather than here.
 
-## The generic engines: a second product with no new code
+## The generic engines: a product with no new code
 
-Alongside the certified regulatory rule, the registry carries a small library of **generic** engines - certified code, compiled into the same protected crate, parameterized entirely by typed profile data:
+Alongside any product engines, the registry carries a small library of **generic** engines - certified code, compiled into the same protected crate, parameterized entirely by typed profile data:
 
 | Engine | What it does |
 | --- | --- |
@@ -67,6 +67,6 @@ A parameterized engine is still not an escape hatch for an arbitrary rule: every
 
 ## The reserved-id rule against laundering
 
-Because a generic engine serves many products, the evidence identity it stamps into its own records (`solution_id`) has to come from profile data, not a compiled constant. That opens a path a fixed-id engine never had to worry about: a signed profile could name the generic threshold engine and stamp an id like `"ispm15"` into its own evidence, producing records a downstream verifier might mistake for certified ISPM-15 output.
+Because a generic engine serves many products, the evidence identity it stamps into its own records (`solution_id`) has to come from profile data, not a compiled constant. That opens a path a fixed-id engine never had to worry about: a signed profile could name a generic engine and stamp a reserved product id into its own evidence, producing records a downstream verifier might mistake for a certified product engine's output.
 
-The registry closes this in both directions: every **fixed** id in `CERTIFIED_ENGINES` - such as `diyar:engine:ispm15-parity;1` - is reserved, and a generic profile that claims it is refused at load. Symmetrically, a product engine owns its id and no profile may rename it. A regulator reading a solution id in the evidence chain can trust it names what it says it names.
+The registry closes this in both directions: every **fixed** id in `CERTIFIED_ENGINES` - a product engine's own id - is reserved, and a generic profile that claims one is refused at load. Symmetrically, a product engine owns its id and no profile may rename it. A regulator reading a solution id in the evidence chain can trust it names what it says it names.

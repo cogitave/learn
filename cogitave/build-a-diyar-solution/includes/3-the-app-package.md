@@ -57,12 +57,17 @@ This function is pure - no I/O, no network, no clock of its own (the time is inj
 Holding ACTUATE in both the manifest and the grant is still not enough to reach hazardous energy. A third table, compiled into the signed binary, has to name the exact pairing:
 
 ```rust
-pub const CERTIFIED_ACTUATIONS: &[ActuationEntry] = &[ActuationEntry {
-    app_id: "diyar.app.ispm15", role: ActuatorRole::HeatSource, index: 0,
-}];
+pub const CERTIFIED_ACTUATIONS: &[ActuationEntry] = &[
+    // one row per (app id, actuator role, index) permitted to command hazardous energy
+    ActuationEntry {
+        app_id: "diyar.app.<certified-actuating-app>",
+        role: ActuatorRole::HeatSource,
+        index: 0,
+    },
+];
 ```
 
-This table is linked into the binary as constant data - there is no file, environment variable, profile field, manifest field, grant field, or cloud message that can add to it, because the device has no loader and no plugin path for it to travel through. The production authority computation takes no allowlist parameter at all; it reads the constant directly, so no caller can pass it a wider table. An actuation that is requested and granted but is not in this table is a hard `ActuationNotCertified` refusal at activation - deliberately not a silent drop, because an app that looks installed but cannot do its job is the worse failure.
+Today this table has a single real entry - the first certified heat-treatment solution, covered in its own dedicated unit; every other product onboarded so far is non-actuating and never appears here. This table is linked into the binary as constant data - there is no file, environment variable, profile field, manifest field, grant field, or cloud message that can add to it, because the device has no loader and no plugin path for it to travel through. The production authority computation takes no allowlist parameter at all; it reads the constant directly, so no caller can pass it a wider table. An actuation that is requested and granted but is not in this table is a hard `ActuationNotCertified` refusal at activation - deliberately not a silent drop, because an app that looks installed but cannot do its job is the worse failure.
 
 The table is keyed by app id alone, not by app id and version - a deliberate choice: version-pinning here would turn every app patch into a firmware release. Version-level control belongs to the grant instead, which is revocable, expiring, and sequence-floored.
 
@@ -74,7 +79,7 @@ The table is keyed by app id alone, not by app id and version - a deliberate cho
 | OPERATE | HTTP/kiosk request handling | checked at request time |
 | ACTUATE | construction of the safety typestate | a value that does not exist |
 
-ACTUATE's enforcement is structural rather than a runtime branch: without a granted, certified actuation handle, the composition root simply never constructs the armed safety state and never hands over the relay bank - there is nothing to check because there is nothing to actuate with. An app that holds only OBSERVE/OPERATE authority is, on this build, a device that will not start a session at all - an honest refusal rather than a session that silently never heats while still writing evidence.
+ACTUATE's enforcement is structural rather than a runtime branch: without a granted, certified actuation handle, the composition root simply never constructs the armed safety state and never hands over the relay bank - there is nothing to check because there is nothing to actuate with. An app that holds only OBSERVE/OPERATE authority is, on this build, a device that will not start a session at all - an honest refusal rather than a session that silently never actuates while still writing evidence.
 
 ## What "deploying" means versus what "enabling actuation" means
 

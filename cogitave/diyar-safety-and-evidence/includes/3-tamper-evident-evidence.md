@@ -2,7 +2,7 @@ Every temperature reading Diyar records becomes evidence before it becomes a ver
 
 ## Journal before publish
 
-The edge's legal store is a local SQLite database running in WAL mode with `synchronous=FULL`. A reading is written into this journal **before** it is published anywhere else — so a power cut or a dropped uplink never costs evidence; the record already exists on disk by the time anything is transmitted. The same table doubles as the store-and-forward outbox: the row that proves a treatment happened is the same row queued to ship, not a separate copy created later.
+The edge's legal store is a local SQLite database running in WAL mode with `synchronous=FULL`. A reading is written into this journal **before** it is published anywhere else — so a power cut or a dropped uplink never costs evidence; the record already exists on disk by the time anything is transmitted. The same table doubles as the store-and-forward outbox: the row that proves a run happened is the same row queued to ship, not a separate copy created later.
 
 ## The hash chain: tamper-evident by construction
 
