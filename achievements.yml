@@ -43,7 +43,7 @@ achievements:
   - uid: cogitave.learn.inherit-the-project-baseline.badge
     type: badge
     title: Inherit the project baseline
-    summary: You can how a new repository is born on the paved road with its whole ruleset already inherited, how to tell always-on standards from the ones a product type pulls in, and how to find an existing pattern before writing anything new.
+    summary: You can explain how a new repository is born on the paved road with its whole ruleset already inherited, tell always-on standards from the ones a product type pulls in, and find an existing pattern before writing anything new.
     iconUrl: /learn/achievements/inherit-the-project-baseline.svg
   - uid: cogitave.learn.native-mcp-interface.badge
     type: badge
@@ -113,7 +113,7 @@ achievements:
   - uid: cogitave.learn.understand-yuva.badge
     type: badge
     title: Understand Yuva, the sovereign kernel
-    summary: You can why an agent platform builds its own kernel, what a fail-closed boot and formally verified leaves actually prove, and an honest account of Yuva's current status.
+    summary: You can explain why an agent platform builds its own kernel, say what a fail-closed boot and formally verified leaves actually prove, and give an honest account of Yuva's current status.
     iconUrl: /learn/achievements/understand-yuva.svg
   - uid: cogitave.learn.use-the-decision-guides.badge
     type: badge
