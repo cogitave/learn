@@ -42,7 +42,11 @@ const attr = (s) => escapeHtml(String(s ?? ''))
 /** Strip tags from rendered inline HTML so it is safe as a plain-text label.
  * The removal is repeated to a fixed point: a single pass over `<[^>]*>` can
  * leave a tag behind when one is nested inside another (`<<b>script>`), so loop
- * until nothing more matches before decoding the one entity we re-expand. */
+ * until nothing more matches. Then decode the entities the renderer escaped, so
+ * the result is genuinely plain text - a heading like `What "sovereign" means`
+ * must reach the rail as `"`, not a literal `&quot;` that a downstream
+ * escapeHtml would double-escape. `&amp;` is decoded last, so `&amp;lt;` (an
+ * escaped `&lt;`) survives as text rather than turning into a `<`. */
 export const stripTags = (html) => {
   let s = String(html)
   let prev
@@ -50,7 +54,13 @@ export const stripTags = (html) => {
     prev = s
     s = s.replace(/<[^>]*>/g, '')
   } while (s !== prev)
-  return s.replace(/&amp;/g, '&').trim()
+  return s
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/&amp;/g, '&')
+    .trim()
 }
 
 /**
