@@ -30,10 +30,11 @@ import { acquire } from './lib/acquire.mjs';
 import { parseAll } from './lib/parse.mjs';
 import { link } from './lib/link.mjs';
 import { validate } from './lib/validate.mjs';
+import { setAssets } from './lib/layout.mjs';
 import { buildViewModel } from './lib/render/site.mjs';
 import { renderLanding } from './lib/render/landing.mjs';
 import { renderPages } from './lib/render/pages.mjs';
-import { emitProjections } from './lib/projections.mjs';
+import { emitProjections, hashAssets } from './lib/projections.mjs';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(HERE, '..'); // the learn content root
@@ -66,10 +67,14 @@ function main() {
 
   rmSync(outDir, { recursive: true, force: true });
   mkdirSync(outDir, { recursive: true });
+  // Hash the changing assets first: the shell must reference the hashed names
+  // as it renders, and emitProjections writes the same bytes under them.
+  const assets = hashAssets(HERE);
+  setAssets({ css: `/assets/${assets.css.name}`, js: `/assets/${assets.js.name}` });
   const vm = buildViewModel({ docs, byUid: graph.byUid, achievements: graph.achievements, ROOT, reporter });
   renderLanding(vm, outDir);
   renderPages(vm, outDir, { ROOT, err });
-  emitProjections(vm, { outDir, ROOT, HERE });
+  emitProjections(vm, { outDir, ROOT, HERE, assets });
   const counts = {
     paths: vm.paths.length,
     modules: vm.modules.length,

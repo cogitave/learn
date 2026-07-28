@@ -1,14 +1,38 @@
 import { join, dirname, relative, sep } from 'node:path';
 import { readFileSync, writeFileSync, mkdirSync, readdirSync, statSync, existsSync, copyFileSync } from 'node:fs';
+import { createHash } from 'node:crypto';
 
 import { dedent } from './includes.mjs';
+
+/**
+ * Content-hash the two assets whose bytes change build to build - the assembled
+ * stylesheet and the script - so each deploy serves them under a new URL and a
+ * CDN never hands back a stale copy of a stable name. Called before rendering
+ * (the shell must reference the hashed names) and reused by emitProjections to
+ * write the bytes, so the name in the HTML and the file on disk cannot diverge.
+ */
+export function hashAssets(HERE) {
+  const cssDir = join(HERE, 'assets', 'css');
+  const cssBytes = Buffer.concat(
+    readdirSync(cssDir)
+      .filter((f) => f.endsWith('.css'))
+      .sort()
+      .map((f) => readFileSync(join(cssDir, f))),
+  );
+  const jsBytes = readFileSync(join(HERE, 'assets', 'app.js'));
+  const digest = (buf) => createHash('sha256').update(buf).digest('hex').slice(0, 10);
+  return {
+    css: { name: `style.${digest(cssBytes)}.css`, bytes: cssBytes },
+    js: { name: `app.${digest(jsBytes)}.js`, bytes: jsBytes },
+  };
+}
 
 /**
  * The machine- and asset-side emission: healthz, the copied assets, the search
  * index, the per-node `_api/*.json`, the corpus/code-samples/index aggregates,
  * and llms.txt / llms-full.txt. Same corpus, same build pass, many shapes.
  */
-export function emitProjections(vm, { outDir, ROOT, HERE }) {
+export function emitProjections(vm, { outDir, ROOT, HERE, assets }) {
   const { index, api } = vm;
 
   // --- healthz: the synthetics probe in infra targets /docs/healthz ---
@@ -16,17 +40,15 @@ export function emitProjections(vm, { outDir, ROOT, HERE }) {
   writeFileSync(join(outDir, 'docs', 'healthz'), 'ok\n', 'utf8');
 
   // --- assets ---
-  // style.css is assembled from the ordered partials in assets/css/ so no single
-  // file carries the whole stylesheet; the concatenation is byte-exact and ships
-  // as one served file (one request, no cascade surprises).
+  // The stylesheet is assembled from the ordered partials in assets/css/ (no
+  // single file carries the whole sheet) and the script is copied as-is; both
+  // ship under a content-hashed name (hashAssets), so the bytes and the URL the
+  // shell references change together and a deploy is never masked by a cached
+  // copy of a stable name. favicon and og.png keep fixed names - stable bytes.
   mkdirSync(join(outDir, 'assets'), { recursive: true });
-  const cssDir = join(HERE, 'assets', 'css');
-  const cssParts = readdirSync(cssDir)
-    .filter((f) => f.endsWith('.css'))
-    .sort()
-    .map((f) => readFileSync(join(cssDir, f)));
-  writeFileSync(join(outDir, 'assets', 'style.css'), Buffer.concat(cssParts));
-  for (const f of ['app.js', 'favicon.svg', 'og.png']) {
+  writeFileSync(join(outDir, 'assets', assets.css.name), assets.css.bytes);
+  writeFileSync(join(outDir, 'assets', assets.js.name), assets.js.bytes);
+  for (const f of ['favicon.svg', 'og.png']) {
     copyFileSync(join(HERE, 'assets', f), join(outDir, 'assets', f));
   }
 
@@ -232,9 +254,17 @@ export function emitProjections(vm, { outDir, ROOT, HERE }) {
       '/_api/*.md\n' +
       '  Content-Type: text/plain; charset=utf-8\n' +
       // Fonts are content-stable (fixed names, bytes never change) - cache hard.
-      // The hashless CSS/JS change on deploy, so revalidate rather than pin.
       '/assets/fonts/*\n' +
       '  Cache-Control: public, max-age=31536000, immutable\n' +
+      // The stylesheet and script now carry a content hash in their name, so a
+      // byte change is a new URL: pin them forever. The old name is simply no
+      // longer referenced, which is what fixes the stale-asset-after-deploy bug.
+      '/assets/style.*.css\n' +
+      '  Cache-Control: public, max-age=31536000, immutable\n' +
+      '/assets/app.*.js\n' +
+      '  Cache-Control: public, max-age=31536000, immutable\n' +
+      // Everything else under /assets (favicon, og.png, vendored libs) keeps a
+      // fixed name, so revalidate rather than pin.
       '/assets/*\n' +
       '  Cache-Control: public, max-age=3600, must-revalidate\n',
     'utf8',
