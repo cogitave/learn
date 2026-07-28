@@ -127,6 +127,23 @@
     })
   })
 
+  // -------------------------------------------------------- "view as" dropdown
+  // The dropdown is a native <details>, so it opens without this. This only adds
+  // the conventional niceties a disclosure does not: close on an outside click
+  // or Escape, so it behaves like the menu a reader expects.
+  document.querySelectorAll('.view-as').forEach(function (d) {
+    document.addEventListener('click', function (e) {
+      if (d.open && !d.contains(e.target)) d.open = false
+    })
+    d.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && d.open) {
+        d.open = false
+        var s = d.querySelector('summary')
+        if (s) s.focus()
+      }
+    })
+  })
+
   // --------------------------------------------------------------- on-page rail
   var railLinks = Array.prototype.slice.call(document.querySelectorAll('[data-toc]'))
   if (railLinks.length && 'IntersectionObserver' in window) {
