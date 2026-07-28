@@ -46,7 +46,7 @@ layer is one Cogitave wrote, can verify, and can attest to - not one it rents.
   self-test marker chain prints over serial. A missing marker is a failed boot,
   not a warning.
 
-That last property is the one worth internalising: correctness is enforced by
+That last property is the one worth internalizing: correctness is enforced by
 construction and checked on every push, so a regression cannot ship quietly.
 
 ## Current status - read this before planning against it

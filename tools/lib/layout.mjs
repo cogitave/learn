@@ -259,9 +259,9 @@ function sidenav(model) {
     }
     ${
       model.progress && done
-        ? `<div class="progress" role="img" aria-label="${done} of ${flat.length}">
+        ? `<div class="progress" role="img" aria-label="Unit ${done} of ${flat.length} in this module">
       <div class="progress-track"><div class="progress-fill" style="width:${pct}%"></div></div>
-      <p class="progress-label">${done} of ${flat.length}</p>
+      <p class="progress-label">Unit ${done} of ${flat.length}</p>
     </div>`
         : ''
     }
