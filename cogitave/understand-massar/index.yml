@@ -37,5 +37,6 @@ units:
   - cogitave.learn.understand-massar.how-a-session-works
   - cogitave.learn.understand-massar.the-security-model
   - cogitave.learn.understand-massar.knowledge-check
+  - cogitave.learn.understand-massar.summary
 badge:
   uid: cogitave.learn.understand-massar.badge

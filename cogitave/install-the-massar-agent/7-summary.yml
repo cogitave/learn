@@ -1,0 +1,12 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.install-the-massar-agent.summary
+title: Summary
+metadata:
+  title: Summary
+  description: Recap installing, verifying, proving, and cleanly removing the Massar agent on Linux and Windows - and how to complete the get-started-with-massar path.
+  ms.date: 2026-07-27
+  author: cogitave
+  ms.topic: unit
+durationInMinutes: 3
+content: |
+  [!include[](includes/7-summary.md)]

@@ -39,5 +39,6 @@ units:
   - cogitave.learn.install-the-massar-agent.a-session-and-local-proof
   - cogitave.learn.install-the-massar-agent.remove-the-agent
   - cogitave.learn.install-the-massar-agent.knowledge-check
+  - cogitave.learn.install-the-massar-agent.summary
 badge:
   uid: cogitave.learn.install-the-massar-agent.badge

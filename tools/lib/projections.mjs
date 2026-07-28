@@ -213,7 +213,13 @@ export function emitProjections(vm, { outDir, ROOT, HERE }) {
       '  X-Content-Type-Options: nosniff\n' +
       '  Referrer-Policy: strict-origin-when-cross-origin\n' +
       '  Permissions-Policy: geolocation=(), microphone=(), camera=()\n' +
-      '  Strict-Transport-Security: max-age=63072000; includeSubDomains; preload\n',
+      '  Strict-Transport-Security: max-age=63072000; includeSubDomains; preload\n' +
+      // Fonts are content-stable (fixed names, bytes never change) - cache hard.
+      // The hashless CSS/JS change on deploy, so revalidate rather than pin.
+      '/assets/fonts/*\n' +
+      '  Cache-Control: public, max-age=31536000, immutable\n' +
+      '/assets/*\n' +
+      '  Cache-Control: public, max-age=3600, must-revalidate\n',
     'utf8',
   );
 }

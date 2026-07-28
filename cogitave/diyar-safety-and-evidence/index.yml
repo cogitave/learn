@@ -38,5 +38,6 @@ units:
   - cogitave.learn.diyar-safety-and-evidence.the-cloud-cannot-actuate
   - cogitave.learn.diyar-safety-and-evidence.tamper-evident-evidence
   - cogitave.learn.diyar-safety-and-evidence.knowledge-check
+  - cogitave.learn.diyar-safety-and-evidence.summary
 badge:
   uid: cogitave.learn.diyar-safety-and-evidence.badge

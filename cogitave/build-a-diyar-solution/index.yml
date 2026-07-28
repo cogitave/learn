@@ -38,5 +38,6 @@ units:
   - cogitave.learn.build-a-diyar-solution.the-app-package
   - cogitave.learn.build-a-diyar-solution.the-ispm15-solution
   - cogitave.learn.build-a-diyar-solution.knowledge-check
+  - cogitave.learn.build-a-diyar-solution.summary
 badge:
   uid: cogitave.learn.build-a-diyar-solution.badge

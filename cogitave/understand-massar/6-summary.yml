@@ -1,0 +1,12 @@
+### YamlMime:ModuleUnit
+uid: cogitave.learn.understand-massar.summary
+title: Summary
+metadata:
+  title: Summary
+  description: Recap Massar's dial-out model, the agent-broker-operator session protocol, and the device-token/RBAC security model - and what's next in the path.
+  ms.date: 2026-07-27
+  author: cogitave
+  ms.topic: unit
+durationInMinutes: 3
+content: |
+  [!include[](includes/6-summary.md)]

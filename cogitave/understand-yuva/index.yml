@@ -32,5 +32,6 @@ units:
   - cogitave.learn.understand-yuva.introduction
   - cogitave.learn.understand-yuva.how-yuva-is-verified
   - cogitave.learn.understand-yuva.knowledge-check
+  - cogitave.learn.understand-yuva.summary
 badge:
   uid: cogitave.learn.understand-yuva.badge
