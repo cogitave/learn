@@ -19,11 +19,41 @@ export const SITE_ORIGIN = 'https://learn.cogitave.com';
  * once, uniformly, without threading the URL through every renderer. Title and
  * description are already in the head; reuse them.
  */
+const OG_IMAGE = SITE_ORIGIN + '/assets/og.png';
+// Decode the handful of HTML entities the corpus uses, so a value lifted from an
+// escaped head tag reads correctly inside JSON-LD (where it is plain text).
+const decodeEntities = (s) =>
+  s
+    .replace(/&amp;/g, '&')
+    .replace(/&mdash;/g, '—')
+    .replace(/&ndash;/g, '–')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/&rsquo;/g, '’');
+
 function withDiscoveryTags(href, html) {
   const url = SITE_ORIGIN + href;
   const rawTitle = (html.match(/<title>([^<]*)<\/title>/) || [])[1] || 'Cogitave Learn';
   const title = rawTitle.replace(/ \| Cogitave Learn$/, '').replace(/"/g, '&quot;');
   const desc = (html.match(/<meta name="description" content="([^"]*)"/) || [])[1] || '';
+  // A learning path or module is a Course; emit structured data so search engines
+  // can surface it as one. Values are decoded from the (escaped) head tags.
+  let jsonLd = '';
+  // A path or a MODULE index page is a Course; a unit page (one level deeper) is
+  // not - it is part of its module's course, so it carries no Course of its own.
+  if (/^\/paths\/[^/]+\/$/.test(href) || /^\/modules\/[^/]+\/$/.test(href)) {
+    const ld = {
+      '@context': 'https://schema.org',
+      '@type': 'Course',
+      name: decodeEntities(rawTitle.replace(/ \| Cogitave Learn$/, '')),
+      description: decodeEntities(desc),
+      url,
+      provider: { '@type': 'Organization', name: 'Cogitave', url: SITE_ORIGIN + '/' },
+    };
+    jsonLd = `<script type="application/ld+json">${JSON.stringify(ld)}</script>`;
+  }
   const tags =
     `<link rel="canonical" href="${url}" />` +
     `<meta property="og:type" content="website" />` +
@@ -31,9 +61,12 @@ function withDiscoveryTags(href, html) {
     `<meta property="og:title" content="${title}" />` +
     (desc ? `<meta property="og:description" content="${desc}" />` : '') +
     `<meta property="og:url" content="${url}" />` +
-    `<meta name="twitter:card" content="summary" />` +
+    `<meta property="og:image" content="${OG_IMAGE}" />` +
+    `<meta name="twitter:card" content="summary_large_image" />` +
     `<meta name="twitter:title" content="${title}" />` +
-    (desc ? `<meta name="twitter:description" content="${desc}" />` : '');
+    (desc ? `<meta name="twitter:description" content="${desc}" />` : '') +
+    `<meta name="twitter:image" content="${OG_IMAGE}" />` +
+    jsonLd;
   return html.replace('</head>', tags + '</head>');
 }
 

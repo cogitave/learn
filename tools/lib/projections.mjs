@@ -26,7 +26,7 @@ export function emitProjections(vm, { outDir, ROOT, HERE }) {
     .sort()
     .map((f) => readFileSync(join(cssDir, f)));
   writeFileSync(join(outDir, 'assets', 'style.css'), Buffer.concat(cssParts));
-  for (const f of ['app.js', 'favicon.svg']) {
+  for (const f of ['app.js', 'favicon.svg', 'og.png']) {
     copyFileSync(join(HERE, 'assets', f), join(outDir, 'assets', f));
   }
 
