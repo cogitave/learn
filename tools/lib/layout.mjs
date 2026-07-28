@@ -414,28 +414,36 @@ const LEARN_REPO = 'https://github.com/cogitave/learn'
 /**
  * The page-meta strip that closes a content page: where this page comes from and
  * how to act on it. Every item is a link to the source of record - the file on
- * GitHub, the same node as JSON, the issue tracker - so "one corpus, many
- * shapes" is checkable rather than asserted, and a reader can fix what they read.
+ * GitHub, the same node as markdown or JSON, the issue tracker - so "one corpus,
+ * many shapes" is checkable rather than asserted, and a reader can fix what they
+ * read.
+ *
+ * Two pairs, split by one hairline: the human actions (edit, report) and the
+ * machine shapes (markdown, JSON). Hierarchy is carried by that rule and by
+ * space, not by a weight or a second colour - the design language's core law.
+ * The Updated stamp is a record, not a link: monospace, demoted to the far edge.
  */
-export function colophon({ editRel, uid, reviewed, title } = {}) {
-  const links = []
+export function colophon({ editRel, uid, mdHref, reviewed, title } = {}) {
+  const act = []
   if (editRel)
-    links.push(
+    act.push(
       `<a class="colophon-link" href="${LEARN_REPO}/blob/main/${attr(editRel)}">${icon('pencil')}Edit this page</a>`,
     )
-  if (uid)
-    links.push(
-      `<a class="colophon-link" href="/_api/${attr(uid)}.json">${icon('braces')}View as JSON</a>`,
-    )
-  links.push(
+  act.push(
     `<a class="colophon-link" href="${LEARN_REPO}/issues/new?title=${encodeURIComponent(`Docs feedback: ${title ?? uid ?? ''}`)}">${icon('comment')}Report an issue</a>`,
   )
-  const stamp = reviewed
-    ? `<span class="colophon-date">${icon('calendar')}Updated ${attr(reviewed)}</span>`
-    : ''
+  const data = []
+  if (mdHref)
+    data.push(`<a class="colophon-link" href="${attr(mdHref)}">${icon('markdown')}View as Markdown</a>`)
+  if (uid)
+    data.push(`<a class="colophon-link" href="/_api/${attr(uid)}.json">${icon('braces')}View as JSON</a>`)
+  const stamp = reviewed ? `<span class="colophon-stamp">Updated ${attr(reviewed)}</span>` : ''
   return (
     `<aside class="colophon" aria-label="Page information">` +
-    `<div class="colophon-links">${links.join('')}</div>` +
+    `<div class="colophon-group">${act.join('')}</div>` +
+    (data.length
+      ? `<span class="colophon-sep" aria-hidden="true"></span><div class="colophon-group">${data.join('')}</div>`
+      : '') +
     stamp +
     `</aside>`
   )

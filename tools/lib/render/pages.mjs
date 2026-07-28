@@ -331,7 +331,13 @@ export function renderPages(vm, outDir, { ROOT, err }) {
               })),
             }
           : null,
-        colophon: colophon({ editRel, uid: uidOf(u), reviewed: reviewedOf(u), title: title(u) }),
+        colophon: colophon({
+          editRel,
+          uid: uidOf(u),
+          mdHref: source ? `/_api/${uidOf(u)}.md` : undefined,
+          reviewed: reviewedOf(u),
+          title: title(u),
+        }),
       }),
     );
   }
@@ -367,7 +373,13 @@ export function renderPages(vm, outDir, { ROOT, err }) {
         ],
         toc,
         sidenav: docsSidenav(d.href),
-        colophon: colophon({ editRel: d.rel, uid: uidOf(d), reviewed: reviewedOf(d), title: title(d) }),
+        colophon: colophon({
+          editRel: d.rel,
+          uid: uidOf(d),
+          mdHref: `/_api/${uidOf(d)}.md`,
+          reviewed: reviewedOf(d),
+          title: title(d),
+        }),
       }),
     );
   }
