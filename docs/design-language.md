@@ -37,7 +37,7 @@ carries over unchanged.
 | One accent, never two | A single accent token; hue does no work that weight or a rule can do |
 | Hairline structure | 1px rules separate sections; no shadows outside overlays |
 | Tight tracking | -0.15px, set once and inherited |
-| Restraint over ornament | No gradients, no illustration, no decorative colour |
+| Restraint over ornament | No gradients, no illustration, no decorative color |
 | Hairline icons, `currentColor` | One 16-unit grid, stroke 1.5, round caps |
 
 What deliberately does **not** carry over is the marketing surface's squared
@@ -89,7 +89,7 @@ Nothing is fetched from a third party at run time. Two faces are preloaded
 a docs page is readable before the face arrives. The fallback chain
 (`-apple-system`, Segoe UI Variable, `system-ui`) only covers that window.
 
-## 3. Colour
+## 3. Color
 
 The hierarchy is monochrome. Three text steps do all of it:
 
@@ -157,7 +157,7 @@ exactly one region.
 |---|---|---|
 | Documentation | `/documentation/` | Reference material, grouped by Diataxis type - what a page is *for*, not what it is *about* |
 | Training | `/training/` | Learning paths, modules, units |
-| Browse | `/browse/` | The taxonomy, plus the full catalogue |
+| Browse | `/browse/` | The taxonomy, plus the full catalog |
 
 **The taxonomy is generated, never hand-kept.** Every path, module, and doc
 already declares `products`, `roles`, `levels`, and `subjects`; the build turns
@@ -180,7 +180,7 @@ Two rules keep that honest:
   "... learn.cogitave.com in sync with the estate" is left exactly as written.
 
 The home page states what each region is for and hands over. It does not
-reprint the catalogue: a landing page that lists everything teaches a reader
+reprint the catalog: a landing page that lists everything teaches a reader
 nothing about the shape of what they are looking at.
 
 ## 7. Layout
@@ -236,10 +236,12 @@ component means adding it here first.
 | Index rank | `layout.mjs` | The taxonomy set as a directory: axis in a fixed gutter, values as ruled two-column rows with the count set right. Replaced a pill cloud, which gave every value the same weight and left half the page empty |
 | Diagram | `markdown.mjs` | A mermaid figure that may outgrow the measure and scrolls inside its own frame |
 | Fact strip | `layout.mjs` | Units, duration, level - key/value pairs under a title |
+| Taxonomy chips | `layout.mjs` | Product/role/subject tags under a path or module title; each links to its `/browse` facet, and only tags that have a facet page are rendered |
 | Unit rank | `build.mjs` | The ordered unit list on a module page |
 | Award | `layout.mjs` | Badge or trophy, at the end of a module or path |
 | Call to action | `style.css` | Solid pill, plus a ghost variant; one solid CTA per view |
 | Pager | `layout.mjs` | Previous / next within a module |
+| Colophon | `layout.mjs` | The page-meta strip that closes a content page: edit-on-GitHub, view-as-markdown / view-as-JSON, report-an-issue, and an Updated stamp. Two pairs - human actions and machine shapes - split by one hairline; the stamp is a monospace record demoted to the far edge |
 | Alert | `markdown.mjs` | The five learn-pr kinds |
 | Code frame | `markdown.mjs` | Language, source path when pulled by reference, copy control |
 | Table | `markdown.mjs` | Bordered, sunken header, scrolls inside its own container |
@@ -249,7 +251,7 @@ component means adding it here first.
 
 ## 9. Motion
 
-Motion confirms a state change and nothing else. 140-160ms on colour and
+Motion confirms a state change and nothing else. 140-160ms on color and
 background, 200ms on layout shifts, easing `cubic-bezier(0.23, 1, 0.32, 1)` -
 the marketing surface's curve. There are no entrance animations, no parallax,
 and no scroll-triggered reveals. `prefers-reduced-motion: reduce` collapses
@@ -264,7 +266,7 @@ every duration to nil.
 - Icons are `aria-hidden`; the label beside them carries the meaning.
 - `--t3` is never used for text a reader must read (section 3).
 - The page is complete without JavaScript. `app.js` is deferred and only
-  upgrades behaviour that already has a static fallback: without it the
+  upgrades behavior that already has a static fallback: without it the
   knowledge check shows every explanation at once and says so, tabs render as
   the first panel, the copy control is inert, and search is absent rather than
   broken.

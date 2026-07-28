@@ -61,7 +61,20 @@ export function emitProjections(vm, { outDir, ROOT, HERE }) {
 
   const apiDir = join(outDir, '_api');
   mkdirSync(apiDir, { recursive: true });
-  for (const node of api) writeFileSync(join(apiDir, `${node.uid}.json`), JSON.stringify(node, null, 2), 'utf8');
+  for (const node of api) {
+    writeFileSync(join(apiDir, `${node.uid}.json`), JSON.stringify(node, null, 2), 'utf8');
+    // Raw-markdown projection for the full-prose pages (units and docs): the
+    // authored source, served as text/markdown so a reader - or an agent - can
+    // read or copy the page as markdown, the way the "View as Markdown"
+    // affordance on modern docs surfaces does. Structural nodes (paths,
+    // modules) have no prose body of their own, so they get no `.md`.
+    if ((node.kind === 'moduleUnit' || node.kind === 'doc') && node.source) {
+      const md = /^#\s/.test(node.source.trimStart())
+        ? node.source
+        : `# ${node.title}\n\n${node.source}`;
+      writeFileSync(join(apiDir, `${node.uid}.md`), md, 'utf8');
+    }
+  }
 
   /*
    * Two aggregates the /mcp Pages Function reads at cold start.
@@ -214,6 +227,10 @@ export function emitProjections(vm, { outDir, ROOT, HERE }) {
       '  Referrer-Policy: strict-origin-when-cross-origin\n' +
       '  Permissions-Policy: geolocation=(), microphone=(), camera=()\n' +
       '  Strict-Transport-Security: max-age=63072000; includeSubDomains; preload\n' +
+      // The raw-markdown projection is served as plain text so "View as Markdown"
+      // opens it in the browser to read and copy, rather than downloading a file.
+      '/_api/*.md\n' +
+      '  Content-Type: text/plain; charset=utf-8\n' +
       // Fonts are content-stable (fixed names, bytes never change) - cache hard.
       // The hashless CSS/JS change on deploy, so revalidate rather than pin.
       '/assets/fonts/*\n' +

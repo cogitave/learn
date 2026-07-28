@@ -62,10 +62,14 @@ own shell.
 
 Every content page (path, module, unit, doc) closes with a **colophon**: an
 "Edit this page" deep-link to the source file on GitHub (the include markdown for
-a unit, the YAML for a module or path), a "View as JSON" link to the same node's
-`/_api/<uid>.json` - so the one-corpus claim is checkable, not asserted - a
+a unit, the YAML for a module or path), "View as Markdown" and "View as JSON"
+links to the same node's raw markdown (`/_api/<uid>.md`) and structured JSON
+(`/_api/<uid>.json`) - so the one-corpus claim is checkable, not asserted - a
 "Report an issue" link, and an "Updated" stamp from `lastReviewed` / `ms.date`.
-Path and module overviews also carry **taxonomy chips**: each product, role, and
+The two pairs (human actions, machine shapes) are split by one hairline. The
+raw-markdown projection is emitted only for the full-prose pages (units and docs);
+a structural node (path, module) has no prose body, so it shows JSON only. Path
+and module overviews also carry **taxonomy chips**: each product, role, and
 subject tag links to its `/browse/<axis>/<value>/` facet, and only tags that have
 a facet page are shown, so a chip never lands on a 404.
 
