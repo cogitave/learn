@@ -68,10 +68,14 @@ links to the same node's raw markdown (`/_api/<uid>.md`) and structured JSON
 "Report an issue" link, and an "Updated" stamp from `lastReviewed` / `ms.date`.
 The two pairs (human actions, machine shapes) are split by one hairline. The
 raw-markdown projection is emitted only for the full-prose pages (units and docs);
-a structural node (path, module) has no prose body, so it shows JSON only. Path
-and module overviews also carry **taxonomy chips**: each product, role, and
-subject tag links to its `/browse/<axis>/<value>/` facet, and only tags that have
-a facet page are shown, so a chip never lands on a 404.
+a structural node (path, module) has no prose body, so it shows JSON only. Those
+same pages carry a **"Copy page"** control above the title that fetches the
+markdown and writes it to the clipboard for handing to an agent - script-only, so
+it is hidden without JavaScript, and the markdown stays a plain link in the
+colophon regardless. Section headings (`h2`/`h3`) carry a **hover-revealed anchor**
+to that section. Path and module overviews also carry **taxonomy chips**: each
+product, role, and subject tag links to its `/browse/<axis>/<value>/` facet, and
+only tags that have a facet page are shown, so a chip never lands on a 404.
 
 ## Validation rules: 7 of 11 enforced
 

@@ -516,6 +516,116 @@ blockquote {
   color: var(--t1);
 }
 
+/* --- page actions (copy page) -------------------------------------------- */
+
+/*
+ * A right-aligned "Copy page" control above the title. It fetches the page's
+ * markdown and writes the clipboard, so it is script-only: hidden until app.js
+ * marks the document scripted, since an inert copy button at the top of the page
+ * would be worse than none. The page reads fine without it - the same markdown
+ * is a plain link in the colophon.
+ */
+.page-actions {
+  display: none;
+}
+
+html.js .page-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin: -4px 0 16px;
+}
+
+.copy-page {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 11px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-sm);
+  background: none;
+  font: inherit;
+  font-size: 12px;
+  letter-spacing: var(--tracking);
+  color: var(--t2);
+  cursor: pointer;
+  transition: border-color 140ms var(--ease), background-color 140ms var(--ease),
+    color 140ms var(--ease);
+}
+
+.copy-page:hover {
+  border-color: var(--line-strong);
+  background: var(--bg-hover);
+  color: var(--t1);
+}
+
+.copy-page:focus-visible {
+  outline: 2px solid var(--t1);
+  outline-offset: 2px;
+}
+
+.copy-page-mark {
+  display: inline-grid;
+  place-items: center;
+  color: var(--t3);
+}
+
+.copy-page:hover .copy-page-mark {
+  color: var(--t2);
+}
+
+/* Binary state - a completed copy - is one of the few places a hue token earns
+   its keep (design language, section 3). */
+.copy-page .i-check {
+  display: none;
+}
+
+.copy-page.is-done,
+.copy-page.is-done .copy-page-mark {
+  color: var(--tip);
+  border-color: var(--line-strong);
+}
+
+.copy-page.is-done .i-copy {
+  display: none;
+}
+
+.copy-page.is-done .i-check {
+  display: block;
+}
+
+/* --- heading anchors ----------------------------------------------------- */
+
+/*
+ * A grab-handle link to a section, revealed on hover of the heading or on focus
+ * for a keyboard reader. The heading text carries the meaning; the mark is the
+ * affordance, so it stays out of the way until wanted.
+ */
+.h-anchor {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 8px;
+  color: var(--t3);
+  opacity: 0;
+  transition: opacity 140ms var(--ease), color 140ms var(--ease);
+}
+
+h2:hover .h-anchor,
+h3:hover .h-anchor,
+.h-anchor:focus-visible {
+  opacity: 1;
+}
+
+.h-anchor:hover {
+  color: var(--t1);
+}
+
+.h-anchor:focus-visible {
+  outline: 2px solid var(--t1);
+  outline-offset: 2px;
+  border-radius: var(--r-sm);
+  opacity: 1;
+}
+
 /* --- colophon: the page-meta strip --------------------------------------- */
 
 /*
