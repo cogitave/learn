@@ -38,5 +38,6 @@ units:
   - cogitave.learn.understand-diyar.platform-and-solution
   - cogitave.learn.understand-diyar.the-architecture
   - cogitave.learn.understand-diyar.knowledge-check
+  - cogitave.learn.understand-diyar.summary
 badge:
   uid: cogitave.learn.understand-diyar.badge

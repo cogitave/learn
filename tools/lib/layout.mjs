@@ -422,10 +422,12 @@ export function shell(o) {
 <title>${escapeHtml(o.title)} | ${SITE}</title>
 ${o.description ? `<meta name="description" content="${attr(o.description)}" />` : ''}
 <meta name="color-scheme" content="light dark" />
+<link rel="preload" href="/assets/fonts/cg-pro-display-500.woff2" as="font" type="font/woff2" crossorigin />
 <link rel="preload" href="/assets/fonts/cg-pro-text-400.woff2" as="font" type="font/woff2" crossorigin />
 <link rel="preload" href="/assets/fonts/cg-pro-text-500.woff2" as="font" type="font/woff2" crossorigin />
 <link rel="stylesheet" href="/assets/style.css" />
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","name":"Cogitave","url":"https://learn.cogitave.com/"},{"@type":"WebSite","name":"Cogitave Learn","url":"https://learn.cogitave.com/"}]}</script>
 <script>
 /* Resolve the stored theme before first paint so the page never flashes, and
    mark the document as scripted so progressive-enhancement fallbacks retract. */

@@ -153,7 +153,13 @@ export const TOOLS = [
         content: { type: 'string', description: 'Authored markdown.' },
         products: { type: 'array', items: { type: 'string' } },
         roles: { type: 'array', items: { type: 'string' } },
+        levels: { type: 'array', items: { type: 'string' } },
+        subjects: { type: 'array', items: { type: 'string' } },
         headings: { type: 'array', items: { type: 'string' } },
+        partOf: { type: 'string', description: 'UID of the parent (a unit\'s module, a module\'s path).' },
+        units: { type: 'array', items: { type: 'string' }, description: 'Child unit UIDs, for a module.' },
+        modules: { type: 'array', items: { type: 'string' }, description: 'Child module UIDs, for a learning path.' },
+        quiz: { type: 'object', description: 'The knowledge-check questions, for an assessment unit.' },
       },
     },
   },
@@ -184,6 +190,39 @@ export const TOOLS = [
               region: { type: 'string' },
               language: { type: 'string' },
               code: { type: 'string' },
+            },
+          },
+        },
+      },
+    },
+  },
+  {
+    name: 'list_catalogue',
+    title: 'List the catalogue',
+    description:
+      'Enumerate the corpus - every learning path, module, unit, and doc - so a tools-only client can browse without a search query. Optionally filter by kind or product.',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        kind: { type: 'string', description: 'Filter: learningPath | module | moduleUnit | doc.' },
+        product: { type: 'string', description: 'Filter to nodes tagged with this product.' },
+      },
+    },
+    outputSchema: {
+      type: 'object',
+      required: ['count', 'nodes'],
+      properties: {
+        count: { type: 'number' },
+        nodes: {
+          type: 'array',
+          items: {
+            type: 'object',
+            properties: {
+              uid: { type: 'string' },
+              kind: { type: 'string' },
+              title: { type: 'string' },
+              url: { type: 'string' },
+              products: { type: 'array', items: { type: 'string' } },
             },
           },
         },
@@ -228,6 +267,8 @@ export function callTool(state, name, args = {}) {
       content: node.source ?? '',
       products: node.products ?? [],
       roles: node.roles ?? [],
+      levels: node.levels ?? [],
+      subjects: node.subjects ?? [],
       headings: node.headings ?? [],
     }
     if (node.quiz) out.quiz = node.quiz
@@ -257,6 +298,23 @@ export function callTool(state, name, args = {}) {
         ? results.map((r) => `${r.source}#${r.region}\n\n${r.code}`).join('\n\n---\n\n')
         : `No code sample matches "${args.query}".`,
     )
+  }
+
+  if (name === 'list_catalogue') {
+    let nodes = [...state.corpus.values()];
+    if (typeof args.kind === 'string') nodes = nodes.filter((n) => n.kind === args.kind);
+    if (typeof args.product === 'string') nodes = nodes.filter((n) => (n.products ?? []).includes(args.product));
+    const list = nodes.map((n) => ({
+      uid: n.uid,
+      kind: n.kind,
+      title: n.title,
+      url: SITE_URL + n.href,
+      products: n.products ?? [],
+    }));
+    const text = list.length
+      ? list.map((n) => `- [${n.kind}] ${n.title} (${n.uid})`).join('\n')
+      : 'No nodes match that filter.';
+    return toolOk({ count: list.length, nodes: list }, text);
   }
 
   return toolError(`Unknown tool "${name}".`)
