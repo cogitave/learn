@@ -20,7 +20,7 @@ import { createServer } from 'node:http'
 import { spawn } from 'node:child_process'
 import { readFile, stat } from 'node:fs/promises'
 import { watch, existsSync } from 'node:fs'
-import { join, extname, normalize, dirname, resolve } from 'node:path'
+import { join, extname, dirname, resolve, relative, isAbsolute } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const HERE = dirname(fileURLToPath(import.meta.url))
@@ -109,11 +109,31 @@ function startWatching() {
 // ---------------------------------------------------------------------------
 
 createServer(async (req, res) => {
-  const url = decodeURIComponent((req.url ?? '/').split('?')[0])
-  let path = normalize(join(SITE, url))
+  // A malformed escape makes decodeURIComponent throw, which would take the
+  // handler down rather than return a status.
+  let url
+  try {
+    url = decodeURIComponent((req.url ?? '/').split('?')[0])
+  } catch {
+    res.writeHead(400, { 'content-type': 'text/plain' }).end('bad request')
+    return
+  }
 
-  // Never serve outside `_site`, whatever the request path claims.
-  if (!path.startsWith(normalize(SITE))) {
+  // A NUL truncates the path in some syscalls, so the string checked is not the
+  // string opened. Refuse rather than normalise it away.
+  if (url.includes('\0')) {
+    res.writeHead(400, { 'content-type': 'text/plain' }).end('bad request')
+    return
+  }
+
+  let path = resolve(SITE, `.${url}`)
+
+  // Containment is a PATH relationship, not a string prefix. `startsWith(SITE)`
+  // also accepts a sibling whose name merely begins with the same characters -
+  // `_site` would admit `_sitemap`. `relative` answers the real question: a path
+  // inside the root never has to climb out of it.
+  const rel = relative(SITE, path)
+  if (rel.startsWith('..') || isAbsolute(rel)) {
     res.writeHead(403, { 'content-type': 'text/plain' }).end('forbidden')
     return
   }
