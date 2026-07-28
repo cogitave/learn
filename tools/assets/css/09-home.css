@@ -498,6 +498,28 @@ html[data-layout="wide"] .hero .lede {
   transition: transform 220ms var(--ease), color 200ms var(--ease);
 }
 
+/* On a phone the 132px axis label plus a two-column facet list overruns the
+   measure and the right column runs off-screen. Stack the label above the rows
+   and drop to a single column: the index reads as one plain ruled list, which
+   is what fits. Two columns return on wider screens. */
+@media (max-width: 640px) {
+  .rank {
+    grid-template-columns: 1fr;
+    gap: 2px 0;
+    padding-top: 18px;
+  }
+  .rank:first-child {
+    padding-top: 2px;
+  }
+  .rank-axis {
+    padding-top: 0;
+  }
+  .rank-rows {
+    grid-template-columns: 1fr;
+    column-gap: 0;
+  }
+}
+
 /* ========================================================================== */
 /* footer                                                                     */
 /* ========================================================================== */
