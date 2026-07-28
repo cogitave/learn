@@ -107,6 +107,7 @@ export function renderPages(vm, outDir, { ROOT, err }) {
     checkBookmarks(prereq, p.rel, err);
 
     const body =
+      pageActions({ jsonHref: `/_api/${uidOf(p)}.json` }) +
       `<article class="path">` +
       `<h1>${escapeHtml(title(p))}</h1>` +
       `<p class="lede">${escapeHtml(summary(p))}</p>` +
@@ -160,7 +161,7 @@ export function renderPages(vm, outDir, { ROOT, err }) {
         ],
         toc: extractToc(body),
         sidenav: trainingSidenav(p.href),
-        colophon: colophon({ editRel: p.rel, uid: uidOf(p), reviewed: reviewedOf(p), title: title(p) }),
+        colophon: colophon({ uid: uidOf(p), reviewed: reviewedOf(p), title: title(p) }),
       }),
     );
   }
@@ -177,6 +178,7 @@ export function renderPages(vm, outDir, { ROOT, err }) {
     checkBookmarks(abstract + prereq, m.rel, err);
 
     const body =
+      pageActions({ jsonHref: `/_api/${uidOf(m)}.json` }) +
       `<article class="module">` +
       `<h1>${escapeHtml(title(m))}</h1>` +
       `<p class="lede">${escapeHtml(summary(m))}</p>` +
@@ -244,7 +246,7 @@ export function renderPages(vm, outDir, { ROOT, err }) {
             current: false,
           })),
         },
-        colophon: colophon({ editRel: m.rel, uid: uidOf(m), reviewed: reviewedOf(m), title: title(m) }),
+        colophon: colophon({ uid: uidOf(m), reviewed: reviewedOf(m), title: title(m) }),
       }),
     );
   }
@@ -256,16 +258,12 @@ export function renderPages(vm, outDir, { ROOT, err }) {
     // Keep the authored markdown: it is what the JSON API and llms-full.txt
     // serve, so an agent reads the source rather than de-tagged HTML.
     let source = '';
-    // The prose a reader edits is the include, not the unit's YAML wrapper, so
-    // the colophon deep-links there; a unit with inline content edits its YAML.
-    let editRel = u.rel;
     if (u.data.content) {
       const inc = /\[!include\[[^\]]*\]\(([^)]+)\)\]/.exec(String(u.data.content));
       if (inc) {
         const text = loadInclude(u, inc[1], { ROOT, err });
         source = text ?? '';
         inner = text == null ? '' : renderMarkdown(text, ctx);
-        editRel = `${u.rel.slice(0, u.rel.lastIndexOf('/'))}/${inc[1]}`;
       } else {
         source = String(u.data.content);
         inner = renderMarkdown(source, ctx);
@@ -281,7 +279,7 @@ export function renderPages(vm, outDir, { ROOT, err }) {
 
     const mdHref = source ? `/_api/${uidOf(u)}.md` : undefined;
     const body =
-      pageActions(mdHref) +
+      pageActions({ mdHref, jsonHref: `/_api/${uidOf(u)}.json` }) +
       `<article class="unit"><h1>${escapeHtml(title(u))}</h1>${inner}</article>` +
       pager(
         prev ? { href: prev.href, title: title(prev) } : null,
@@ -344,13 +342,7 @@ export function renderPages(vm, outDir, { ROOT, err }) {
               })),
             }
           : null,
-        colophon: colophon({
-          editRel,
-          uid: uidOf(u),
-          mdHref,
-          reviewed: reviewedOf(u),
-          title: title(u),
-        }),
+        colophon: colophon({ uid: uidOf(u), reviewed: reviewedOf(u), title: title(u) }),
       }),
     );
   }
@@ -365,7 +357,9 @@ export function renderPages(vm, outDir, { ROOT, err }) {
     // source body, so gate the affordance on the same condition rather than
     // pointing "Copy page" / "View as Markdown" at a file that was not written.
     const mdHref = d.body ? `/_api/${uidOf(d)}.md` : undefined;
-    const body = pageActions(mdHref) + `<article class="doc">${rendered}${relatedSection(d)}</article>`;
+    const body =
+      pageActions({ mdHref, jsonHref: `/_api/${uidOf(d)}.json` }) +
+      `<article class="doc">${rendered}${relatedSection(d)}</article>`;
     const toc = extractToc(rendered);
     indexEntry('Platform doc', d, toc.map((t) => t.text));
     apiEntry(d, {
@@ -390,13 +384,7 @@ export function renderPages(vm, outDir, { ROOT, err }) {
         ],
         toc,
         sidenav: docsSidenav(d.href),
-        colophon: colophon({
-          editRel: d.rel,
-          uid: uidOf(d),
-          mdHref,
-          reviewed: reviewedOf(d),
-          title: title(d),
-        }),
+        colophon: colophon({ uid: uidOf(d), reviewed: reviewedOf(d), title: title(d) }),
       }),
     );
   }

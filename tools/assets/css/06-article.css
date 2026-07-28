@@ -516,30 +516,32 @@ blockquote {
   color: var(--t1);
 }
 
-/* --- page actions (copy page) -------------------------------------------- */
+/* --- page actions (copy page / view as) ---------------------------------- */
 
 /*
- * A right-aligned "Copy page" control above the title. It fetches the page's
- * markdown and writes the clipboard, so it is script-only: hidden until app.js
- * marks the document scripted, since an inert copy button at the top of the page
- * would be worse than none. The page reads fine without it - the same markdown
- * is a plain link in the colophon.
+ * A right-aligned toolbar above the title, where a reader looks for the page's
+ * machine shapes: "Copy page" (the markdown to the clipboard) and a "View as"
+ * dropdown (Markdown / JSON). "Copy page" fetches and writes the clipboard, so
+ * it is script-only and hidden without JavaScript; "View as" is a native
+ * <details>, so it works either way. A structural node with no prose shows a
+ * single "View as JSON" link instead.
  */
 .page-actions {
-  display: none;
-}
-
-html.js .page-actions {
   display: flex;
   justify-content: flex-end;
+  align-items: center;
+  gap: 8px;
   margin: -4px 0 16px;
 }
 
-.copy-page {
+/* Shared chrome for the three ghost controls in the toolbar. */
+.copy-page,
+.view-as-btn,
+.view-as-single {
   display: inline-flex;
   align-items: center;
-  gap: 7px;
-  padding: 6px 11px;
+  gap: 6px;
+  padding: 6px 10px;
   border: 1px solid var(--line);
   border-radius: var(--r-sm);
   background: none;
@@ -548,19 +550,34 @@ html.js .page-actions {
   letter-spacing: var(--tracking);
   color: var(--t2);
   cursor: pointer;
+  text-decoration: none;
   transition: border-color 140ms var(--ease), background-color 140ms var(--ease),
     color 140ms var(--ease);
 }
 
-.copy-page:hover {
+.copy-page:hover,
+.view-as-single:hover,
+.view-as-btn:hover,
+.view-as[open] .view-as-btn {
   border-color: var(--line-strong);
   background: var(--bg-hover);
   color: var(--t1);
 }
 
-.copy-page:focus-visible {
+.copy-page:focus-visible,
+.view-as-btn:focus-visible,
+.view-as-single:focus-visible {
   outline: 2px solid var(--t1);
   outline-offset: 2px;
+}
+
+/* Copy page: script-only, since the clipboard write needs JS. */
+.copy-page {
+  display: none;
+}
+
+html.js .copy-page {
+  display: inline-flex;
 }
 
 .copy-page-mark {
@@ -591,6 +608,70 @@ html.js .page-actions {
 
 .copy-page.is-done .i-check {
   display: block;
+}
+
+/* View as: a native <details> disclosure, so it opens without JavaScript. */
+.view-as {
+  position: relative;
+}
+
+.view-as-btn {
+  list-style: none;
+}
+
+.view-as-btn::-webkit-details-marker {
+  display: none;
+}
+
+.view-as-caret {
+  color: var(--t3);
+  transition: transform 160ms var(--ease);
+}
+
+.view-as[open] .view-as-caret {
+  transform: rotate(180deg);
+}
+
+.view-as-single svg,
+.view-as-item svg {
+  flex: none;
+  color: var(--t3);
+}
+
+.view-as-single:hover svg {
+  color: var(--t2);
+}
+
+.view-as-menu {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 6px);
+  z-index: 30;
+  min-width: 152px;
+  padding: 5px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  background: var(--bg-raised);
+  box-shadow: 0 12px 32px rgb(0 0 0 / 12%), 0 2px 6px rgb(0 0 0 / 6%);
+}
+
+.view-as-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border-radius: var(--r-sm);
+  font-size: 13px;
+  color: var(--t1);
+  text-decoration: none;
+}
+
+.view-as-item:hover {
+  background: var(--bg-hover);
+}
+
+.view-as-item:hover svg {
+  color: var(--t2);
 }
 
 /* --- heading anchors ----------------------------------------------------- */
@@ -629,12 +710,11 @@ h3:hover .h-anchor,
 /* --- colophon: the page-meta strip --------------------------------------- */
 
 /*
- * Where this page comes from and how to act on it. Two pairs - human actions
- * (edit, report) and machine shapes (markdown, JSON) - split by a single
- * hairline, with the Updated stamp demoted to the far edge as a record. The
- * grouping is carried by that rule and by space, never by a weight or a hue:
- * the design language's central law, applied to the page foot. Provenance, not
- * prose - so it recedes below the pager and award it sits beneath.
+ * A minimal footer to a content page: a way to flag a problem, and when the
+ * page was last updated. The machine shapes moved to the toolbar at the top,
+ * where a reader looks for them. The Updated stamp is a record, not a link:
+ * monospace, demoted to the far edge. Provenance, not prose - so it recedes
+ * below the pager and award it sits beneath.
  */
 .colophon {
   display: flex;
@@ -644,25 +724,6 @@ h3:hover .h-anchor,
   margin-top: 48px;
   padding-top: 24px;
   border-top: 1px solid var(--line);
-}
-
-/* Each pair is one unit; the intra-pair gap (16px) is tighter than the gap
-   around the divider (24px, from the parent), so the group break is the largest
-   gap in the row and the pairing reads even before the eye finds the rule. */
-.colophon-group {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-/* A real rule spanning the link line-box, not a floating tick. --line is the
-   structural hairline; --line-strong stays reserved for hover and focus. */
-.colophon-sep {
-  flex: none;
-  width: 1px;
-  align-self: stretch;
-  min-height: 14px;
-  background: var(--line);
 }
 
 .colophon-link {
@@ -711,12 +772,9 @@ h3:hover .h-anchor,
   white-space: nowrap;
 }
 
-/* At the article measure the pairs stack: drop the divider and un-pin the stamp
-   so nothing crushes at the overflow width. */
+/* On a narrow measure, un-pin the stamp so it flows under the report link
+   rather than being stranded at the right. */
 @media (max-width: 720px) {
-  .colophon-sep {
-    display: none;
-  }
   .colophon-stamp {
     margin-left: 0;
   }

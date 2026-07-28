@@ -420,63 +420,51 @@ export function chipRow(chips) {
 }
 
 /**
- * The page toolbar: a "Copy page" control that copies the page's authored
- * markdown to the clipboard, so a reader can paste the whole page into an agent
- * - the affordance modern AI-docs surfaces lead with. It is script-only (it must
- * fetch and write the clipboard), so it is hidden until `app.js` marks the
- * document scripted; the page reads fine without it. Emitted only where a raw
- * markdown projection exists (units and docs).
+ * The page toolbar, above the title, the way modern AI-docs surfaces put it:
+ *   - "Copy page" copies the page's authored markdown to the clipboard, to paste
+ *     the whole page into an agent. It must fetch and write the clipboard, so it
+ *     is script-only and hidden until app.js marks the document scripted.
+ *   - "View as" opens the same page in a machine shape. With two formats it is a
+ *     native <details> dropdown (works without JavaScript); with only JSON - a
+ *     structural node with no prose body - it is a single link.
+ * The page reads fine without either. Provenance that used to sit in the
+ * colophon (edit-on-GitHub) is gone; feedback stays as "Report an issue" below.
  */
-export function pageActions(mdHref) {
-  if (!mdHref) return ''
-  return (
-    `<div class="page-actions">` +
-    `<button class="copy-page" type="button" data-md="${attr(mdHref)}" aria-label="Copy this page as Markdown">` +
-    `<span class="copy-page-mark">${icon('copy', { class: 'i-copy' })}${icon('check', { class: 'i-check' })}</span>` +
-    `<span class="copy-page-label">Copy page</span>` +
-    `</button>` +
-    `</div>`
-  )
+export function pageActions({ mdHref, jsonHref } = {}) {
+  if (!mdHref && !jsonHref) return ''
+  const copy = mdHref
+    ? `<button class="copy-page" type="button" data-md="${attr(mdHref)}" aria-label="Copy this page as Markdown">` +
+      `<span class="copy-page-mark">${icon('copy', { class: 'i-copy' })}${icon('check', { class: 'i-check' })}</span>` +
+      `<span class="copy-page-label">Copy page</span></button>`
+    : ''
+  let viewAs = ''
+  if (mdHref && jsonHref) {
+    viewAs =
+      `<details class="view-as">` +
+      `<summary class="view-as-btn">View as${icon('chevronDown', { class: 'view-as-caret' })}</summary>` +
+      `<div class="view-as-menu">` +
+      `<a class="view-as-item" href="${attr(mdHref)}">${icon('markdown')}Markdown</a>` +
+      `<a class="view-as-item" href="${attr(jsonHref)}">${icon('braces')}JSON</a>` +
+      `</div></details>`
+  } else if (jsonHref) {
+    viewAs = `<a class="view-as-single" href="${attr(jsonHref)}">${icon('braces')}View as JSON</a>`
+  }
+  return `<div class="page-actions">${copy}${viewAs}</div>`
 }
 
 const LEARN_REPO = 'https://github.com/cogitave/learn'
 
 /**
- * The page-meta strip that closes a content page: where this page comes from and
- * how to act on it. Every item is a link to the source of record - the file on
- * GitHub, the same node as markdown or JSON, the issue tracker - so "one corpus,
- * many shapes" is checkable rather than asserted, and a reader can fix what they
- * read.
- *
- * Two pairs, split by one hairline: the human actions (edit, report) and the
- * machine shapes (markdown, JSON). Hierarchy is carried by that rule and by
- * space, not by a weight or a second colour - the design language's core law.
+ * The page-meta strip that closes a content page - kept deliberately minimal: a
+ * way to flag a problem, and when the page was last updated. The machine shapes
+ * (markdown, JSON) live in the page toolbar at the top now, where a reader looks
+ * for them; an edit link is not the pattern a polished product surface uses.
  * The Updated stamp is a record, not a link: monospace, demoted to the far edge.
  */
-export function colophon({ editRel, uid, mdHref, reviewed, title } = {}) {
-  const act = []
-  if (editRel)
-    act.push(
-      `<a class="colophon-link" href="${LEARN_REPO}/blob/main/${attr(editRel)}">${icon('pencil')}Edit this page</a>`,
-    )
-  act.push(
-    `<a class="colophon-link" href="${LEARN_REPO}/issues/new?title=${encodeURIComponent(`Docs feedback: ${title ?? uid ?? ''}`)}">${icon('comment')}Report an issue</a>`,
-  )
-  const data = []
-  if (mdHref)
-    data.push(`<a class="colophon-link" href="${attr(mdHref)}">${icon('markdown')}View as Markdown</a>`)
-  if (uid)
-    data.push(`<a class="colophon-link" href="/_api/${attr(uid)}.json">${icon('braces')}View as JSON</a>`)
+export function colophon({ uid, reviewed, title } = {}) {
+  const report = `<a class="colophon-link" href="${LEARN_REPO}/issues/new?title=${encodeURIComponent(`Docs feedback: ${title ?? uid ?? ''}`)}">${icon('comment')}Report an issue</a>`
   const stamp = reviewed ? `<span class="colophon-stamp">Updated ${attr(reviewed)}</span>` : ''
-  return (
-    `<aside class="colophon" aria-label="Page information">` +
-    `<div class="colophon-group">${act.join('')}</div>` +
-    (data.length
-      ? `<span class="colophon-sep" aria-hidden="true"></span><div class="colophon-group">${data.join('')}</div>`
-      : '') +
-    stamp +
-    `</aside>`
-  )
+  return `<aside class="colophon" aria-label="Page information">${report}${stamp}</aside>`
 }
 
 // ---------------------------------------------------------------------------
