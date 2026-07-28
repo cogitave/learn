@@ -71,7 +71,16 @@ export function renderPages(vm, outDir, { ROOT, err }) {
     paths, modules, units, achievements, modulesOf, unitsOf, duration, pathOf,
     title, summary, ctxFor, indexEntry, apiEntry, byUid, nav, trainingSidenav,
     docsSidenav, docTypes, AXES, label, axisValues, facetHref, facets, uidOf,
+    relatedOf, catalogueCards,
   } = vm;
+
+  // A "Related" section of shared-taxonomy neighbours, rendered from the same
+  // scorer the /mcp get_related tool uses. Empty string when a node has none,
+  // so a page never shows an empty heading.
+  const relatedSection = (node) => {
+    const rel = relatedOf(node);
+    return rel.length ? `<h2 id="related">Related</h2>${cardGrid(catalogueCards(rel))}` : '';
+  };
 
   // Clickable taxonomy: every audience/product tag the node carries that has a
   // browse page becomes a chip. Level is left out - the fact row already shows
@@ -122,6 +131,7 @@ export function renderPages(vm, outDir, { ROOT, err }) {
         ),
       ) +
       (trophy ? awardNote('trophy', trophy.title, trophy.summary) : '') +
+      relatedSection(p) +
       `</article>`;
 
     indexEntry('Learning path', p);
@@ -193,6 +203,7 @@ export function renderPages(vm, outDir, { ROOT, err }) {
         )
         .join('')}</ol>` +
       (badge ? awardNote('badge', badge.title, badge.summary) : '') +
+      relatedSection(m) +
       `</article>`;
 
     indexEntry('Module', m, extractToc(abstract).map((t) => t.text));
@@ -354,7 +365,7 @@ export function renderPages(vm, outDir, { ROOT, err }) {
     // source body, so gate the affordance on the same condition rather than
     // pointing "Copy page" / "View as Markdown" at a file that was not written.
     const mdHref = d.body ? `/_api/${uidOf(d)}.md` : undefined;
-    const body = pageActions(mdHref) + `<article class="doc">${rendered}</article>`;
+    const body = pageActions(mdHref) + `<article class="doc">${rendered}${relatedSection(d)}</article>`;
     const toc = extractToc(rendered);
     indexEntry('Platform doc', d, toc.map((t) => t.text));
     apiEntry(d, {
