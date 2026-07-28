@@ -8,6 +8,7 @@
     "node": ">=22"
   },
   "scripts": {
+    "dev": "node tools/dev.mjs",
     "build": "node tools/build.mjs",
     "check": "node tools/build.mjs --out .cache/check --quiet",
     "mcp": "node tools/mcp/server.mjs",

@@ -65,6 +65,19 @@ reserved UIDs; the wider role/product/topic map there stays the forward target.
 - [`docs/design-language.md`](docs/design-language.md) — the visual contract the build emits: the four-step type scale, the monochrome ramp and single accent, radii, icons, the three-track layout, and the component inventory.
 - [`docs/build-v0.md`](docs/build-v0.md) — what the v0 build actually implements, and every recorded deviation from the contract above.
 
+### Running it
+
+```bash
+npm run dev      # build, serve on :4173, rebuild on change
+npm run build    # emit _site/ once
+npm run check    # build to a scratch dir; gates only, no output kept
+npm run mcp      # MCP over stdio (see tools/mcp/README.md)
+```
+
+`npm run dev` is how you preview. Opening `_site/index.html` from disk does not
+work: asset URLs are absolute, so the stylesheet and fonts 404. A failed rebuild
+keeps serving the previous output and says so, rather than blanking the site.
+
 ### Build config
 - [`docs.config.json`](docs.config.json) — content roots, metadata defaults, moniker registry, validation rules (schema + broken-xref/link = **blocking**), output targets (HTML + JSON content API + MCP + `llms.txt`).
 
