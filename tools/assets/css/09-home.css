@@ -616,6 +616,12 @@ html[data-layout="wide"] .hero .lede {
     border-top: 1px solid var(--line);
     overflow-x: auto;
     scrollbar-width: none;
+    /* On its own row the desktop `margin-left: 20px` (a gap after the brand)
+       becomes an indent that misaligns this row from the brand above and the
+       contextual tier below. Pull it back to the gutter, offsetting the first
+       item's 10px pad so its text sits on the same x as "Cogitave" and the
+       subbar title. */
+    margin-left: -10px;
   }
   .topnav::-webkit-scrollbar {
     display: none;
