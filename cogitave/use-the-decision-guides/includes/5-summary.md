@@ -5,21 +5,16 @@ taste, and never guessed from memory.
 
 In this module, you:
 
-- Learned the **three-layer guidance model** from
-  [ADR-0021](../../../../standards/docs/decisions/0021-technology-selection-guidance.md):
-  selection guides say *which* family for *which* workload, the
-  [technology radar](../../../../standards/docs/standards/technology-radar.md)
-  says *what* is adopted, and the domain standards say *how* to build with the
-  choice.
+- Learned the **three-layer guidance model** from ADR-0021: selection guides
+  say *which* family for *which* workload, the technology radar says *what*
+  is adopted, and the domain standards say *how* to build with the choice.
 - Learned the **shared shape** every decision guide follows - a default, a
   walkable decision tree, a machine-readable matrix an agent can query, and a
   deviation rule that requires a measured ceiling recorded in an ADR (or, for
   model selection, an eval).
-- Walked the [database selection](../../../../standards/docs/standards/database-selection.md)
-  tree to Cogitave Core's query layer for a full-text search need, the
-  [infrastructure selection](../../../../standards/docs/standards/infrastructure-selection.md)
-  tree to a container on managed Kubernetes for a long-running service, and
-  the [model selection](../../../../standards/docs/standards/model-selection.md)
+- Walked the database selection tree to Cogitave Core's query layer for a
+  full-text search need, the infrastructure selection tree to a container on
+  managed Kubernetes for a long-running service, and the model selection
   posture to the most capable tier for a new, correctness-critical task.
 - Learned that landing on the default needs **nothing recorded**; only leaving
   it does, and you now know exactly what that record must state.
@@ -33,8 +28,8 @@ technology choice.
 
 - @cogitave.learn.paths.patterns-golden-paths - return to the path to claim
   your trophy.
-- [ADR-0021](../../../../standards/docs/decisions/0021-technology-selection-guidance.md) -
-  re-read the full decision that governs all three guides.
-- [Model selection](../../../../standards/docs/standards/model-selection.md) -
-  revisit the cost levers and the eval-gated routing rule before your next
-  production model choice.
+- **ADR-0021** is the full decision that governs all three guides, worth a
+  re-read.
+- The **model selection** standard, in the estate's standards repository, has
+  the cost levers and the eval-gated routing rule; revisit it before your
+  next production model choice.

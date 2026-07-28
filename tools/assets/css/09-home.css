@@ -595,7 +595,23 @@ html[data-layout="wide"] .hero .lede {
     --gutter: 20px;
   }
 
+  /* Keep the top-level nav reachable on mobile: drop it to a scrollable second
+     row instead of hiding it. The burger only opens SECTION nav, and index pages
+     have no burger at all, so hiding this left the global nav unreachable. */
+  .topbar-in {
+    flex-wrap: wrap;
+    row-gap: 6px;
+  }
   .topnav {
+    order: 3;
+    flex-basis: 100%;
+    gap: 4px;
+    padding-top: 7px;
+    border-top: 1px solid var(--line);
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .topnav::-webkit-scrollbar {
     display: none;
   }
 

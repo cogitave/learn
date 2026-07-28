@@ -147,7 +147,9 @@
           if (choice.dataset.correct === 'true') right += 1
 
           choices.forEach(function (c) {
-            c.disabled = true
+            // aria-disabled, not disabled: disabling the just-clicked button drops
+            // focus to <body>; the dataset.answered guard already blocks re-answer.
+            c.setAttribute('aria-disabled', 'true')
             c.classList.add('is-answered')
             // Reveal the reader's pick and, when it was wrong, the right one.
             if (c === choice) c.classList.add(c.dataset.correct === 'true' ? 'is-correct' : 'is-wrong')
@@ -155,6 +157,18 @@
               c.classList.add('is-correct')
             }
           })
+
+          // A class reveal is silent to assistive tech, so announce the outcome.
+          var live = document.createElement('p')
+          live.className = 'sr-only'
+          live.setAttribute('aria-live', 'polite')
+          if (choice.dataset.correct === 'true') {
+            live.textContent = 'Correct.'
+          } else {
+            var correctEl = question.querySelector('.choice.is-correct .choice-text')
+            live.textContent = 'Incorrect.' + (correctEl ? ' The correct answer is: ' + correctEl.textContent : '')
+          }
+          question.appendChild(live)
 
           if (score && answered === questions.length) {
             score.hidden = false
@@ -292,12 +306,18 @@
   var index = null
   var loading = false
 
-  searches.forEach(function (root) {
+  searches.forEach(function (root, sidx) {
     var input = root.querySelector('input')
     var panel = root.querySelector('.search-results')
     if (!input || !panel) return
     var hits = []
     var cursor = -1
+    // Combobox/listbox wiring so arrow-key highlighting is announced to AT.
+    if (!panel.id) panel.id = 'search-results-' + sidx
+    panel.setAttribute('role', 'listbox')
+    input.setAttribute('role', 'combobox')
+    input.setAttribute('aria-controls', panel.id)
+    input.setAttribute('aria-autocomplete', 'list')
 
     function load() {
       if (index || loading) return
@@ -350,14 +370,18 @@
       cursor = -1
       panel.innerHTML = hits.length
         ? hits
-            .map(function (e) {
+            .map(function (e, i) {
               return (
-                '<a class="search-hit" role="option" href="' +
-                e.u +
+                '<a class="search-hit" role="option" id="' +
+                panel.id +
+                '-o' +
+                i +
+                '" href="' +
+                escapeText(e.u) +
                 '"><span class="search-hit-kind">' +
-                e.k +
+                escapeText(e.k) +
                 '</span><span class="search-hit-title">' +
-                e.t +
+                escapeText(e.t) +
                 '</span></a>'
               )
             })
@@ -365,6 +389,7 @@
         : '<p class="search-empty">No match for &ldquo;' + escapeText(input.value) + '&rdquo;.</p>'
       panel.hidden = false
       input.setAttribute('aria-expanded', 'true')
+      input.removeAttribute('aria-activedescendant')
     }
 
     function escapeText(s) {
@@ -376,6 +401,7 @@
     function close() {
       panel.hidden = true
       input.setAttribute('aria-expanded', 'false')
+      input.removeAttribute('aria-activedescendant')
       cursor = -1
     }
 
@@ -387,6 +413,7 @@
         n.classList.toggle('is-active', i === cursor)
       })
       nodes[cursor].scrollIntoView({ block: 'nearest' })
+      input.setAttribute('aria-activedescendant', nodes[cursor].id)
     }
 
     input.addEventListener('focus', load)

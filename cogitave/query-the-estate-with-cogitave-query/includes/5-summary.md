@@ -10,5 +10,5 @@ In this module, you:
 ## Next steps
 
 - @cogitave.learn.native-mcp-interface - the next module in this path, which takes the surfaces this one only named - the native MCP tools and `cogitave://` resources - and teaches the interface itself.
-- [Cogitave Query](../../../../core/docs/query.md) - reread the source directly; this module followed its section order.
-- [ADR-0002 - Hybrid retrieval](../../../../core/docs/decisions/0002-hybrid-retrieval.md) - the decision record behind the fusion choice, with the options that were rejected and why.
+- The **Cogitave Query** doc, in the estate's core repository, is worth a reread directly; this module followed its section order.
+- **ADR-0002 - Hybrid retrieval** is the decision record behind the fusion choice, with the options that were rejected and why.

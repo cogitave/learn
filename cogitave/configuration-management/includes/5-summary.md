@@ -22,9 +22,12 @@ than fail deep in production.
 
 ## Next steps
 
-- [Configuration standard](../../../../standards/docs/standards/configuration.md) -
-  the full conformance checklist, feature flags via OpenFeature, and config-as-code
-  drift control.
-- [Secrets & environment standard](../../../../standards/docs/standards/secrets-and-env.md)
-  and [ADR-0008](../../../../standards/docs/decisions/0008-secrets-management-and-dotenvx.md) -
-  the secret store, rotation policy, and dev-env handling in full.
+- @cogitave.learn.secure-sdlc - the next module in **Cogitave engineering
+  standards**, on the controls and lifecycle gates a product carries beyond
+  configuration.
+- The **configuration standard** is the canonical reference, in the estate's
+  standards repository, for the full conformance checklist, feature flags via
+  OpenFeature, and config-as-code drift control.
+- The **secrets & environment standard** and **ADR-0008** are the estate's
+  canonical references for the secret store, rotation policy, and dev-env
+  handling in full.

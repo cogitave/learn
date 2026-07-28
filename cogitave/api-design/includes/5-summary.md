@@ -4,12 +4,9 @@ people and agents that depend on it.
 In this module, you:
 
 - Separated the two questions Cogitave keeps apart: how a contract is **shaped**
-  ([API design standard](../../../../standards/docs/standards/api-design.md)) and
-  how it **changes over time**
-  ([versioning-and-deprecation standard](../../../../standards/docs/standards/api-versioning-and-deprecation.md)),
-  settled by [ADR-0019](../../../../standards/docs/decisions/0019-api-design-and-design-system.md)
-  (design) and [ADR-0015](../../../../standards/docs/decisions/0015-api-versioning-deprecation-and-product-core-baseline.md)
-  (versioning) respectively.
+  (the API design standard) and how it **changes over time** (the
+  versioning-and-deprecation standard), settled by ADR-0019 (design) and
+  ADR-0015 (versioning) respectively.
 - Designed **contract-first**, modeling resources with standard methods, one
   canonical casing per place, and a custom method only when an action is not CRUD.
 - Applied the non-deviable invariants - the **RFC 9457** error model with a
@@ -23,13 +20,15 @@ In this module, you:
 
 ## Next steps
 
-- [API design standard](../../../../standards/docs/standards/api-design.md) - the
-  canonical detail on modeling, errors, pagination, idempotency, and per-protocol
-  conventions; read it before you author a surface.
-- [Versioning and deprecation standard](../../../../standards/docs/standards/api-versioning-and-deprecation.md) -
-  the full lifecycle, the N-version window, and the deprecation manifest schema.
-- [ADR-0019](../../../../standards/docs/decisions/0019-api-design-and-design-system.md) -
-  the design decision and the alternatives it rejected, if you want the reasoning
-  behind one shape across four protocols.
-- [ADR-0015](../../../../standards/docs/decisions/0015-api-versioning-deprecation-and-product-core-baseline.md) -
-  the versioning-and-deprecation decision that governs how a contract changes.
+- @cogitave.learn.configuration-management - the next module in **Cogitave
+  engineering standards**, on classifying config from secrets and keeping both
+  out of git.
+- The **API design standard** is the canonical detail on modeling, errors,
+  pagination, idempotency, and per-protocol conventions - the source of truth
+  in the estate's standards repository; read it before you author a surface.
+- The **versioning-and-deprecation standard** is the canonical reference for
+  the full lifecycle, the N-version window, and the deprecation manifest
+  schema, in the same repository.
+- **ADR-0019** and **ADR-0015** are the estate's recorded decisions: ADR-0019
+  settled one shape across four protocols, and ADR-0015 settled how a
+  contract changes over time.

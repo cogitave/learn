@@ -28,7 +28,7 @@ Where you go next depends on your path:
   request (the final module of that path; completing it earns the trophy).
 - **Operate the estate** → @cogitave.learn.run-agentic-operations - see how agents
   run this same lifecycle across the estate under least privilege.
-- [`LIFECYCLE.md`](../../../../agents/lifecycle/LIFECYCLE.md) - the authority on
+- The **`LIFECYCLE.md`** doc, in the estate's agents tree, is the authority on
   the seven stages; keep it open when you work a real Request.
-- [`definition-of-done.md`](../../../../agents/lifecycle/definition-of-done.md) -
-  the full checklist the review gate enforces.
+- The **`definition-of-done.md`** doc has the full checklist the review gate
+  enforces.

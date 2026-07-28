@@ -142,7 +142,7 @@ export function renderLanding(vm, outDir) {
           `<input class="hc-radio" type="radio" name="hcclient" id="hc-${c.id}"${i === 0 ? ' checked' : ''}>`,
       )
       .join('') +
-    `<div class="hc-tabs" role="tablist">` +
+    `<div class="hc-tabs" role="radiogroup" aria-label="Choose your agent to add the MCP server">` +
     clients
       .map((c) => `<label class="hc-tab" for="hc-${c.id}">${icon(c.icon)}<span>${c.name}</span></label>`)
       .join('') +

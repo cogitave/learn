@@ -5,15 +5,12 @@ named artifact."
 In this module, you:
 
 - Saw the gap the catalog closes: reuse-first stated the principle, and the
-  [patterns catalog](../../../../standards/docs/patterns/README.md) is the
-  artifact that turns it into a one-hop answer to "how does Cogitave do X",
-  recorded in
-  [ADR-0022](../../../../standards/docs/decisions/0022-patterns-catalog-and-project-inheritance.md).
+  patterns catalog is the artifact that turns it into a one-hop answer to
+  "how does Cogitave do X", recorded in ADR-0022.
 - Read the **five-section entry shape** - Problem, The Cogitave way, Governing
   standard(s), Reusable artifact, Anti-pattern - in both the human doc and the
-  machine-readable
-  [`catalog.yaml`](../../../../standards/docs/patterns/catalog.yaml), and saw
-  several task-level intents share one `canonical_pattern` doc.
+  machine-readable `catalog.yaml`, and saw several task-level intents share
+  one `canonical_pattern` doc.
 - Learned that **the authority always lives in the governing standard** - a
   pattern that disagrees with its standard is a bug, never the other way round.
 - Ran the **four-step discover-before-you-build loop**: query before you
@@ -26,7 +23,7 @@ In this module, you:
 - @cogitave.learn.inherit-the-project-baseline - how a repo scaffolded from a
   pattern's reusable artifact inherits the floor, the standards, the lifecycle,
   and the identity automatically.
-- [Patterns catalog](../../../../standards/docs/patterns/README.md) - go back to
-  the source and query it for your next real task.
-- [ADR-0022](../../../../standards/docs/decisions/0022-patterns-catalog-and-project-inheritance.md) -
-  the decision record behind both the catalog and the project baseline.
+- The **patterns catalog**, in the estate's standards repository, is the
+  source - go back and query it for your next real task.
+- **ADR-0022** is the decision record behind both the catalog and the
+  project baseline.

@@ -1,4 +1,4 @@
-import { join, relative, sep } from 'node:path';
+import { join, dirname, relative, sep } from 'node:path';
 import { readFileSync, writeFileSync, mkdirSync, readdirSync, statSync, existsSync, copyFileSync } from 'node:fs';
 
 import { dedent } from './includes.mjs';
@@ -176,6 +176,44 @@ export function emitProjections(vm, { outDir, ROOT, HERE }) {
             (n.source ? `\n${n.source.trim()}\n` : ''),
         )
         .join(''),
+    'utf8',
+  );
+
+  // --- sitemap.xml + robots.txt: crawler discovery over every emitted page ---
+  const pageUrls = [];
+  const walkPages = (dir) => {
+    for (const entry of readdirSync(dir)) {
+      const full = join(dir, entry);
+      if (statSync(full).isDirectory()) walkPages(full);
+      else if (entry === 'index.html') {
+        const rel = relative(outDir, dirname(full)).split(sep).join('/');
+        pageUrls.push(rel ? `/${rel}/` : '/');
+      }
+    }
+  };
+  walkPages(outDir);
+  pageUrls.sort();
+  writeFileSync(
+    join(outDir, 'sitemap.xml'),
+    '<?xml version="1.0" encoding="UTF-8"?>\n' +
+      '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
+      pageUrls.map((u) => `  <url><loc>${SITE_URL}${u}</loc></url>`).join('\n') +
+      '\n</urlset>\n',
+    'utf8',
+  );
+  writeFileSync(join(outDir, 'robots.txt'), `User-agent: *\nAllow: /\n\nSitemap: ${SITE_URL}/sitemap.xml\n`, 'utf8');
+
+  // --- _headers: security headers applied by Cloudflare Pages to every path.
+  // Inline theme resolver + mermaid's injected SVG styles need 'unsafe-inline';
+  // everything else is same-origin only, framing and object embeds are denied. ---
+  writeFileSync(
+    join(outDir, '_headers'),
+    '/*\n' +
+      "  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'\n" +
+      '  X-Content-Type-Options: nosniff\n' +
+      '  Referrer-Policy: strict-origin-when-cross-origin\n' +
+      '  Permissions-Policy: geolocation=(), microphone=(), camera=()\n' +
+      '  Strict-Transport-Security: max-age=63072000; includeSubDomains; preload\n',
     'utf8',
   );
 }

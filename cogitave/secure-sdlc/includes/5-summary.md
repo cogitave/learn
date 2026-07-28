@@ -4,11 +4,9 @@ stage.
 
 In this module, you:
 
-- Separated the **controls** the
-  [Security Standard](../../../../standards/docs/standards/security.md) owns -
-  IAM for humans, workloads, and agents, secrets and PKI, security operations,
-  and threat modeling - from the **process** the
-  [Secure Development Lifecycle Standard](../../../../standards/docs/standards/secure-development-lifecycle.md)
+- Separated the **controls** the Security Standard owns - IAM for humans,
+  workloads, and agents, secrets and PKI, security operations, and threat
+  modeling - from the **process** the Secure Development Lifecycle Standard
   owns.
 - Learned the baseline: **secure-by-design and secure-by-default**, least
   privilege, and IAM, enforced by in-repo controls (CODEOWNERS, rulesets,
@@ -23,9 +21,12 @@ In this module, you:
 
 ## Next steps
 
-- [Secure Development Lifecycle Standard](../../../../standards/docs/standards/secure-development-lifecycle.md) -
-  the canonical process, including the full SDL-to-lifecycle table, the testing
-  tiers, and the OWASP LLM Top 10 coverage.
-- [ADR 0020](../../../../standards/docs/decisions/0020-reliability-and-secure-sdlc.md) -
-  why security-by-design with STRIDE as the default was chosen over a
-  security-as-team model, if you want the reasoning behind the defaults.
+- @cogitave.learn.ci-cd-pipelines - the next module in **Cogitave
+  engineering standards**, on the pipeline that carries these gates from pull
+  request to production.
+- The **Secure Development Lifecycle Standard** is the canonical process, in
+  the estate's standards repository, including the full SDL-to-lifecycle
+  table, the testing tiers, and the OWASP LLM Top 10 coverage.
+- **ADR 0020** is the estate's decision behind why security-by-design with
+  STRIDE as the default was chosen over a security-as-team model, if you want
+  the reasoning.

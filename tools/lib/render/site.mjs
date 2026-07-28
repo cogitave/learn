@@ -10,10 +10,37 @@ import { makeSnippetResolver } from '../includes.mjs';
 // EMIT
 // ---------------------------------------------------------------------------
 
+// The production origin, used for canonical + Open Graph absolute URLs.
+export const SITE_ORIGIN = 'https://learn.cogitave.com';
+
+/**
+ * Inject the per-page discovery tags into the head at the one choke point every
+ * page passes through, so canonical + Open Graph + Twitter cards are emitted
+ * once, uniformly, without threading the URL through every renderer. Title and
+ * description are already in the head; reuse them.
+ */
+function withDiscoveryTags(href, html) {
+  const url = SITE_ORIGIN + href;
+  const rawTitle = (html.match(/<title>([^<]*)<\/title>/) || [])[1] || 'Cogitave Learn';
+  const title = rawTitle.replace(/ \| Cogitave Learn$/, '').replace(/"/g, '&quot;');
+  const desc = (html.match(/<meta name="description" content="([^"]*)"/) || [])[1] || '';
+  const tags =
+    `<link rel="canonical" href="${url}" />` +
+    `<meta property="og:type" content="website" />` +
+    `<meta property="og:site_name" content="Cogitave Learn" />` +
+    `<meta property="og:title" content="${title}" />` +
+    (desc ? `<meta property="og:description" content="${desc}" />` : '') +
+    `<meta property="og:url" content="${url}" />` +
+    `<meta name="twitter:card" content="summary" />` +
+    `<meta name="twitter:title" content="${title}" />` +
+    (desc ? `<meta name="twitter:description" content="${desc}" />` : '');
+  return html.replace('</head>', tags + '</head>');
+}
+
 export function writePage(outDir, href, html) {
   const dir = join(outDir, href.replace(/^\//, '').replace(/\/$/, ''));
   mkdirSync(dir, { recursive: true });
-  writeFileSync(join(dir, 'index.html'), html, 'utf8');
+  writeFileSync(join(dir, 'index.html'), withDiscoveryTags(href, html), 'utf8');
 }
 
 /**
@@ -64,6 +91,9 @@ export function buildViewModel({ docs, byUid, achievements, ROOT, reporter }) {
     resolveSnippet: makeSnippetResolver(doc, { ROOT, err }),
     resolveXref: (uid) => {
       const t = byUid.get(uid);
+      // A UID-shaped @ref that resolves to nothing used to ship as literal text;
+      // gate it so a broken cross-reference fails the build instead of hiding.
+      if (!t) err('broken-xref', doc.rel, `unresolved cross-reference @${uid}`);
       return t ? { href: t.href, title: t.data?.title ?? uid } : null;
     },
     resolveLink: linkResolverFor(doc),

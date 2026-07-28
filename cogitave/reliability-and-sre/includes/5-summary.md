@@ -17,10 +17,9 @@ In this module, you:
 
 ## Next steps
 
-- [reliability.md](../../../../standards/docs/standards/reliability.md) - keep
-  it open whenever you set or review a real service's SLO.
-- [ADR-0020](../../../../standards/docs/decisions/0020-reliability-and-secure-sdlc.md) -
-  the governance decision behind the error-budget policy.
-- Continue the @cogitave.learn.paths.operate-the-estate path with **Respond to
-  incidents**, where a burn-rate page becomes a declared incident under the
+- @cogitave.learn.respond-to-incidents - continue the **Operate the estate**
+  path here, where a burn-rate page becomes a declared incident under the
   severity matrix.
+- The **reliability.md** standard, in the estate's standards repository, is
+  worth keeping open whenever you set or review a real service's SLO.
+- **ADR-0020** is the governance decision behind the error-budget policy.
