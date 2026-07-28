@@ -5,6 +5,7 @@ import { slugify } from '../markdown.mjs';
 import { icon } from '../icons.mjs';
 import { card, minutes } from '../layout.mjs';
 import { makeSnippetResolver } from '../includes.mjs';
+import { related } from '../../mcp/protocol.mjs';
 
 // ---------------------------------------------------------------------------
 // EMIT
@@ -390,6 +391,37 @@ export function buildViewModel({ docs, byUid, achievements, ROOT, reporter }) {
     });
   };
 
+  // The on-page "Related" section and the /mcp `get_related` tool share one
+  // scorer (protocol.mjs), so a reader and an agent see the same neighbours.
+  // The catalogue is projected to the same shape the corpus has, and only
+  // paths/modules/docs are related - a unit inherits its module's taxonomy, so
+  // relating at the unit level just echoes the module.
+  const relApiKind = (d) =>
+    d.kind === 'LearningPath' ? 'learningPath' : d.kind === 'Module' ? 'module' : 'doc';
+  const relIndex = catalogue.map((d) => ({
+    uid: uidOf(d),
+    kind: relApiKind(d),
+    title: title(d),
+    href: d.href,
+    summary: summary(d),
+    products: axisValues(d, AXES[0]),
+    roles: axisValues(d, AXES[1]),
+    levels: axisValues(d, AXES[2]),
+    subjects: axisValues(d, AXES[3]),
+    partOf: d.kind === 'Module' ? (pathOf(d)?.data.uid ?? null) : null,
+    // A path's own modules share its taxonomy verbatim; give the scorer the
+    // child edge so it excludes them, exactly as the corpus node lets the
+    // get_related tool exclude them - otherwise a path's "Related" section would
+    // just echo the "Modules in this path" list directly above it. (Units are
+    // never in the catalogue, so a module needs no child edge here.)
+    modules: d.kind === 'LearningPath' ? modulesOf(d).map((m) => uidOf(m)) : undefined,
+  }));
+  const relDocByUid = new Map(catalogue.map((d) => [uidOf(d), d]));
+  const relatedOf = (node, topK = 3) =>
+    related(relIndex, uidOf(node), { topK, kinds: ['learningPath', 'module', 'doc'] })
+      .map((r) => relDocByUid.get(r.uid))
+      .filter(Boolean);
+
   return {
     byUid,
     achievements,
@@ -421,6 +453,7 @@ export function buildViewModel({ docs, byUid, achievements, ROOT, reporter }) {
     docsSidenav,
     trainingSidenav,
     catalogueCards,
+    relatedOf,
     index,
     indexEntry,
     api,

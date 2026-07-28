@@ -233,6 +233,7 @@ component means adding it here first.
 | Progress | `layout.mjs` | Position within a module, expressed as a 2px track and a count |
 | On-page rail | `layout.mjs` | `h2`/`h3` extracted from rendered HTML; scroll-spied |
 | Card | `layout.mjs` | 20px mark, title, three-line clamped summary, metadata row |
+| Related | `layout.mjs` | Shared-taxonomy neighbours as a card grid closing a path, module, or doc; the same scorer (`mcp/protocol.mjs`) backs the `/mcp` `get_related` tool, so a reader and an agent get the same neighbours |
 | Index rank | `layout.mjs` | The taxonomy set as a directory: axis in a fixed gutter, values as ruled two-column rows with the count set right. Replaced a pill cloud, which gave every value the same weight and left half the page empty |
 | Diagram | `markdown.mjs` | A mermaid figure that may outgrow the measure and scrolls inside its own frame |
 | Fact strip | `layout.mjs` | Units, duration, level - key/value pairs under a title |

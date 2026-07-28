@@ -597,10 +597,16 @@ html[data-layout="wide"] .hero .lede {
 
   /* Keep the top-level nav reachable on mobile: drop it to a scrollable second
      row instead of hiding it. The burger only opens SECTION nav, and index pages
-     have no burger at all, so hiding this left the global nav unreachable. */
+     have no burger at all, so hiding this left the global nav unreachable.
+     The bar must GROW for that second row: the desktop `height: var(--bar-h)` is
+     a fixed box, so a wrapped topnav overflowed it and collided with the
+     contextual tier below. min-height lets the bar take the height it needs. */
   .topbar-in {
+    height: auto;
+    min-height: var(--bar-h);
     flex-wrap: wrap;
     row-gap: 6px;
+    padding-bottom: 8px;
   }
   .topnav {
     order: 3;

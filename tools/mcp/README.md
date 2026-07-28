@@ -30,7 +30,7 @@ what follows is the honest delta.
 | Transports: stdio + Streamable HTTP | **Both.** No legacy HTTP+SSE. |
 | `403` on invalid `Origin` | **Yes** - the DNS-rebinding defence for a locally bound server. |
 | GET stream, resumption, event IDs | **No.** Nothing here pushes, so there is no stream to open; `GET` returns `405`. |
-| Tools declare `inputSchema` + `outputSchema`, return structured content | **Yes**, all three tools. |
+| Tools declare `inputSchema` + `outputSchema`, return structured content | **Yes**, every tool. |
 | Input-validation failures as tool errors (`isError: true`), not protocol errors | **Yes** - so a model can self-correct. |
 | Capabilities `tools`, `resources` | **Advertised.** |
 | `subscribe`, `listChanged`, `logging`, `completions` | **Not advertised**, because they are not implemented. This server reads a static build and cannot notice a change; claiming `subscribe` would be a promise a client acts on. |
@@ -43,6 +43,8 @@ what follows is the honest delta.
 | `docs_search` | Lexical search over title, summary, headings, and authored source, with saturating per-field weights. Filters on `product` and node `types`. Returns UIDs. |
 | `docs_fetch` | One node by UID: authored markdown, taxonomy, graph edges (`partOf`, `units`, `modules`), and the quiz as structured data. On an unknown UID it suggests the closest matches instead of failing blind. |
 | `code_sample_search` | The named regions of `snippets/` - the code the corpus pulls by reference, so a sample returned here is the sample a reader sees. |
+| `list_catalogue` | Enumerate the corpus so a tools-only client can browse without a query. Optional `kind` / `product` filter. |
+| `get_related` | Given a UID, the shared-taxonomy neighbours - the same scorer that renders the on-page "Related" section, so a reader and an agent get the same result. Excludes the node, its parent, and its children. |
 
 > **Retrieval is lexical, not hybrid.** The contract specifies BM25 plus vectors
 > plus a graph rerank. There is no embedding store in this repository, so the

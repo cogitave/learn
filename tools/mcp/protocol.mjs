@@ -91,6 +91,53 @@ export function search(corpus, { query, topK = 10, product, types }) {
 }
 
 // ---------------------------------------------------------------------------
+// relatedness
+//
+// Two nodes are related when they teach the same things. Products and subjects
+// are the strong signal - what a page is about; roles and levels are weaker -
+// who it is for and how hard. A shared parent path is a small proximity nudge.
+// The node itself and the edges already one click away (its parent, its
+// children) are excluded, so "related" surfaces what navigation does not.
+//
+// One scorer, two callers: the /mcp `get_related` tool passes the corpus, and
+// the build passes the same-shaped catalogue to render the on-page "Related"
+// section - so the reader and an agent see the same neighbours.
+// ---------------------------------------------------------------------------
+
+const REL_WEIGHT = { products: 5, subjects: 4, roles: 1, levels: 1 }
+
+export function related(nodes, uid, { topK = 6, kinds } = {}) {
+  const target = nodes.find((n) => n.uid === uid)
+  if (!target) return []
+  const exclude = new Set([uid])
+  if (target.partOf) exclude.add(target.partOf)
+  for (const u of target.units ?? []) exclude.add(u)
+  for (const m of target.modules ?? []) exclude.add(m)
+
+  const tset = {}
+  for (const axis of Object.keys(REL_WEIGHT)) tset[axis] = new Set(target[axis] ?? [])
+  const wanted = Array.isArray(kinds) && kinds.length ? new Set(kinds) : null
+  const limit = Math.max(1, Math.min(MAX_TOP_K, Number(topK) || 6))
+
+  return nodes
+    .filter((n) => !exclude.has(n.uid) && (!wanted || wanted.has(n.kind)))
+    .map((n) => {
+      let s = 0
+      for (const [axis, w] of Object.entries(REL_WEIGHT)) {
+        let overlap = 0
+        for (const v of n[axis] ?? []) if (tset[axis].has(v)) overlap += 1
+        s += w * overlap
+      }
+      if (target.partOf && n.partOf && n.partOf === target.partOf) s += 2
+      return { n, s }
+    })
+    .filter((r) => r.s > 0)
+    .sort((a, b) => b.s - a.s || a.n.uid.localeCompare(b.n.uid))
+    .slice(0, limit)
+    .map(({ n, s }) => ({ uid: n.uid, title: n.title, kind: n.kind, href: n.href, summary: n.summary, score: s }))
+}
+
+// ---------------------------------------------------------------------------
 // tools
 // ---------------------------------------------------------------------------
 
@@ -229,6 +276,45 @@ export const TOOLS = [
       },
     },
   },
+  {
+    name: 'get_related',
+    title: 'Find related content',
+    description:
+      'Given a UID, return the nodes that teach the same products and subjects - the neighbours a reader would want next, ranked by shared taxonomy. The node itself, its parent, and its children are excluded, since navigation already reaches those.',
+    inputSchema: {
+      type: 'object',
+      required: ['uid'],
+      properties: {
+        uid: { type: 'string', description: 'The node to find neighbours for.' },
+        topK: { type: 'integer', minimum: 1, maximum: MAX_TOP_K, default: 6 },
+        kinds: {
+          type: 'array',
+          items: { enum: ['doc', 'moduleUnit', 'module', 'learningPath'] },
+          description: 'Restrict the neighbours to these kinds.',
+        },
+      },
+    },
+    outputSchema: {
+      type: 'object',
+      required: ['results'],
+      properties: {
+        results: {
+          type: 'array',
+          items: {
+            type: 'object',
+            required: ['uid', 'title', 'uri', 'score'],
+            properties: {
+              uid: { type: 'string' },
+              title: { type: 'string' },
+              uri: { type: 'string' },
+              kind: { type: 'string' },
+              score: { type: 'number' },
+            },
+          },
+        },
+      },
+    },
+  },
 ]
 
 /** Input validation failures are tool errors, not protocol errors (SEP-1303). */
@@ -315,6 +401,26 @@ export function callTool(state, name, args = {}) {
       ? list.map((n) => `- [${n.kind}] ${n.title} (${n.uid})`).join('\n')
       : 'No nodes match that filter.';
     return toolOk({ count: list.length, nodes: list }, text);
+  }
+
+  if (name === 'get_related') {
+    if (typeof args.uid !== 'string') return toolError('get_related requires a string "uid".')
+    if (!state.corpus.has(args.uid)) {
+      const near = search(state.corpus, { query: args.uid, topK: 3 }).map((r) => r.uid)
+      return toolError(
+        `Unknown uid "${args.uid}".` + (near.length ? ` Closest: ${near.join(', ')}.` : ' Use docs_search first.'),
+      )
+    }
+    const results = related([...state.corpus.values()], args.uid, {
+      topK: args.topK,
+      kinds: args.kinds,
+    }).map((r) => ({ uid: r.uid, title: r.title, uri: URI_SCHEME + r.uid, kind: r.kind, score: r.score }))
+    return toolOk(
+      { results },
+      results.length
+        ? results.map((r) => `${r.uid}\n  ${r.title} (${r.kind}, score ${r.score})`).join('\n\n')
+        : `No related nodes for "${args.uid}".`,
+    )
   }
 
   return toolError(`Unknown tool "${name}".`)
