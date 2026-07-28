@@ -47,7 +47,7 @@ subset of each stage.
 | ACQUIRE | Walks the three content roots in `docs.config.json`, honoring `files` and `exclude` globs (`**`, `*`, `?`). |
 | PARSE | `tools/lib/yaml.mjs` - a YAML subset parser covering exactly the constructs the corpus uses. `tools/lib/markdown.mjs` - a CommonMark subset plus the Learn extension set. |
 | LINK | Builds a UID index, resolves `Module.units[]`, `LearningPath.modules[]`, badge/trophy, and assigns URLs. |
-| VALIDATE | 6 of 11 blocking rules (below). |
+| VALIDATE | 7 of 11 blocking rules (below). |
 | EMIT | HTML only, to `_site/`. |
 
 Extensions rendered: alerts, `[!include]`, fenced code, `:::code` snippet
@@ -56,10 +56,20 @@ by reference (with `id` region and `range` selection), `::: moniker range`,
 pipe tables.
 
 The emitted chrome - masthead, section navigation, on-page rail, cards, pager,
-footer - is defined once in `tools/lib/layout.mjs` and specified in
-[design-language](design-language.md). A page kind cannot invent its own shell.
+taxonomy chips, colophon, footer - is defined once in `tools/lib/layout.mjs` and
+specified in [design-language](design-language.md). A page kind cannot invent its
+own shell.
 
-## Validation rules: 6 of 11 enforced
+Every content page (path, module, unit, doc) closes with a **colophon**: an
+"Edit this page" deep-link to the source file on GitHub (the include markdown for
+a unit, the YAML for a module or path), a "View as JSON" link to the same node's
+`/_api/<uid>.json` - so the one-corpus claim is checkable, not asserted - a
+"Report an issue" link, and an "Updated" stamp from `lastReviewed` / `ms.date`.
+Path and module overviews also carry **taxonomy chips**: each product, role, and
+subject tag links to its `/browse/<axis>/<value>/` facet, and only tags that have
+a facet page are shown, so a chip never lands on a 404.
+
+## Validation rules: 7 of 11 enforced
 
 | Rule | v0 |
 |---|---|
@@ -70,7 +80,7 @@ footer - is defined once in `tools/lib/layout.mjs` and specified in
 | `broken-link` | **enforced** - includes and `:::code` sources resolve on disk |
 | `quiz-shape` | **partial** - choice count, exactly-one-correct, explanation present |
 | `broken-xref` | **enforced** - an unresolvable `@uid` fails the build instead of rendering as literal text |
-| `broken-bookmark` | deferred - `#anchor` targets are not checked |
+| `broken-bookmark` | **enforced (same-page)** - every `#anchor` in a rendered body resolves to an `id` in that body; checked on the emitted HTML, so it is tab-aware. Cross-page `/other/#x` targets are a two-pass check and stay deferred. |
 | `code-snippet-resolves` | **partial** - the region is resolved, but **not compile-checked** |
 | `alt-text` | deferred - `:::image` is not implemented at all |
 | `stale-content` | deferred - `lastReviewed` is not evaluated; see [content-lifecycle](content-lifecycle.md) for the intended window |

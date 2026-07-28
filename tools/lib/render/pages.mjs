@@ -1,7 +1,7 @@
 import { renderMarkdown, renderInline, escapeHtml } from '../markdown.mjs';
 import { icon } from '../icons.mjs';
 import {
-  shell, card, cardGrid, awardNote, factRow, extractToc, minutes, pager,
+  shell, card, cardGrid, awardNote, factRow, extractToc, minutes, pager, chipRow, colophon,
 } from '../layout.mjs';
 import { loadInclude } from '../includes.mjs';
 import { writePage } from './site.mjs';
@@ -45,6 +45,23 @@ function renderQuiz(quiz) {
 }
 
 /**
+ * broken-bookmark: every same-page `#anchor` in the rendered body must resolve
+ * to an `id` in that same body. Working on the emitted HTML rather than the
+ * source makes it robust and tab-aware - an anchor into a heading inside a tab
+ * panel resolves because that panel's id is in the markup - and reuses the ids
+ * the renderer already stamps on headings. Cross-page bookmarks (`/other/#x`)
+ * are a different, two-pass check and stay deferred (see docs/build-v0.md); the
+ * `href="#..."` shape here matches only same-page anchors, so those are skipped.
+ */
+function checkBookmarks(html, rel, err) {
+  const ids = new Set();
+  for (const m of html.matchAll(/\bid="([^"]+)"/g)) ids.add(m[1]);
+  for (const m of html.matchAll(/href="#([^"]+)"/g)) {
+    if (!ids.has(m[1])) err('broken-bookmark', rel, `in-page link #${m[1]} has no matching id`);
+  }
+}
+
+/**
  * The node page renderers: learning paths, modules, units, and diataxis docs.
  * Each pushes its search-index and api entries in emission order, so this runs
  * after the landings have seeded the facet entries.
@@ -53,8 +70,23 @@ export function renderPages(vm, outDir, { ROOT, err }) {
   const {
     paths, modules, units, achievements, modulesOf, unitsOf, duration, pathOf,
     title, summary, ctxFor, indexEntry, apiEntry, byUid, nav, trainingSidenav,
-    docsSidenav, docTypes,
+    docsSidenav, docTypes, AXES, label, axisValues, facetHref, facets, uidOf,
   } = vm;
+
+  // Clickable taxonomy: every audience/product tag the node carries that has a
+  // browse page becomes a chip. Level is left out - the fact row already shows
+  // it - so the chips complement the facts rather than repeat them.
+  const taxo = (node) =>
+    AXES.filter((axis) => axis.key !== 'level').flatMap((axis) =>
+      axisValues(node, axis)
+        .filter((v) => facets.has(`${axis.key}/${v}`))
+        .map((v) => ({ label: label(v), href: facetHref(axis.key, v) })),
+    );
+
+  // The colophon's freshness stamp: docs carry lastReviewed in front-matter,
+  // learn-pr nodes carry ms.date in metadata. Absent on nodes that have neither.
+  const reviewedOf = (node) =>
+    node.kind === 'doc' ? node.meta?.lastReviewed : node.data?.metadata?.['ms.date'];
 
   // --- learning paths -------------------------------------------------------
   for (const p of paths) {
@@ -63,6 +95,7 @@ export function renderPages(vm, outDir, { ROOT, err }) {
     const prereq = p.data.prerequisites
       ? `<h2 id="prerequisites">Prerequisites</h2>${renderMarkdown(String(p.data.prerequisites), ctxFor(p))}`
       : '';
+    checkBookmarks(prereq, p.rel, err);
 
     const body =
       `<article class="path">` +
@@ -73,6 +106,7 @@ export function renderPages(vm, outDir, { ROOT, err }) {
         { key: 'Duration', value: minutes(mods.reduce((n, m) => n + duration(m), 0)), icon: 'clock' },
         { key: 'Level', value: (p.data.levels ?? [])[0] ?? '', icon: 'path' },
       ]) +
+      chipRow(taxo(p)) +
       (mods.length ? `<div class="cta-row"><a class="cta" href="${mods[0].href}">Start path ${icon('arrowRight')}</a></div>` : '') +
       prereq +
       `<h2 id="modules-in-this-path">Modules in this path</h2>` +
@@ -116,6 +150,7 @@ export function renderPages(vm, outDir, { ROOT, err }) {
         ],
         toc: extractToc(body),
         sidenav: trainingSidenav(p.href),
+        colophon: colophon({ editRel: p.rel, uid: uidOf(p), reviewed: reviewedOf(p), title: title(p) }),
       }),
     );
   }
@@ -126,6 +161,10 @@ export function renderPages(vm, outDir, { ROOT, err }) {
     const badge = achievements.get(m.data.badge?.uid);
     const parentPath = pathOf(m);
     const abstract = m.data.abstract ? renderMarkdown(String(m.data.abstract), ctxFor(m)) : '';
+    const prereq = m.data.prerequisites
+      ? `<h2 id="prerequisites">Prerequisites</h2>${renderMarkdown(String(m.data.prerequisites), ctxFor(m))}`
+      : '';
+    checkBookmarks(abstract + prereq, m.rel, err);
 
     const body =
       `<article class="module">` +
@@ -136,8 +175,10 @@ export function renderPages(vm, outDir, { ROOT, err }) {
         { key: 'Duration', value: minutes(duration(m)), icon: 'clock' },
         { key: 'Level', value: (m.data.levels ?? [])[0] ?? '', icon: 'module' },
       ]) +
+      chipRow(taxo(m)) +
       (us.length ? `<div class="cta-row"><a class="cta" href="${us[0].href}">Start module ${icon('arrowRight')}</a></div>` : '') +
       abstract +
+      prereq +
       `<h2 id="units">Units</h2>` +
       `<ol class="unit-list">${us
         .map(
@@ -192,6 +233,7 @@ export function renderPages(vm, outDir, { ROOT, err }) {
             current: false,
           })),
         },
+        colophon: colophon({ editRel: m.rel, uid: uidOf(m), reviewed: reviewedOf(m), title: title(m) }),
       }),
     );
   }
@@ -203,18 +245,23 @@ export function renderPages(vm, outDir, { ROOT, err }) {
     // Keep the authored markdown: it is what the JSON API and llms-full.txt
     // serve, so an agent reads the source rather than de-tagged HTML.
     let source = '';
+    // The prose a reader edits is the include, not the unit's YAML wrapper, so
+    // the colophon deep-links there; a unit with inline content edits its YAML.
+    let editRel = u.rel;
     if (u.data.content) {
       const inc = /\[!include\[[^\]]*\]\(([^)]+)\)\]/.exec(String(u.data.content));
       if (inc) {
         const text = loadInclude(u, inc[1], { ROOT, err });
         source = text ?? '';
         inner = text == null ? '' : renderMarkdown(text, ctx);
+        editRel = `${u.rel.slice(0, u.rel.lastIndexOf('/'))}/${inc[1]}`;
       } else {
         source = String(u.data.content);
         inner = renderMarkdown(source, ctx);
       }
     }
     if (u.data.quiz) inner += renderQuiz(u.data.quiz);
+    checkBookmarks(inner, u.rel, err);
 
     const siblings = u.parent ? (u.parent.data.units ?? []) : [];
     const idx = siblings.indexOf(u.data.uid);
@@ -284,6 +331,7 @@ export function renderPages(vm, outDir, { ROOT, err }) {
               })),
             }
           : null,
+        colophon: colophon({ editRel, uid: uidOf(u), reviewed: reviewedOf(u), title: title(u) }),
       }),
     );
   }
@@ -293,6 +341,7 @@ export function renderPages(vm, outDir, { ROOT, err }) {
   // all present documentation the way the landing page does.
   for (const d of docTypes.flatMap((t) => t.items)) {
     const rendered = renderMarkdown(d.body, ctxFor(d));
+    checkBookmarks(rendered, d.rel, err);
     const body = `<article class="doc">${rendered}</article>`;
     const toc = extractToc(rendered);
     indexEntry('Platform doc', d, toc.map((t) => t.text));
@@ -318,6 +367,7 @@ export function renderPages(vm, outDir, { ROOT, err }) {
         ],
         toc,
         sidenav: docsSidenav(d.href),
+        colophon: colophon({ editRel: d.rel, uid: uidOf(d), reviewed: reviewedOf(d), title: title(d) }),
       }),
     );
   }
