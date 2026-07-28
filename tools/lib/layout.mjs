@@ -395,6 +395,52 @@ export function factRow(facts) {
   return cells ? `<div class="facts">${cells}</div>` : ''
 }
 
+/**
+ * Clickable taxonomy chips under a title. Each value links to its `/browse`
+ * facet page. The caller passes only values that actually have a facet page, so
+ * a chip never lands on a 404 - the audience/product tags become navigation.
+ */
+export function chipRow(chips) {
+  if (!chips || !chips.length) return ''
+  return (
+    `<nav class="chips" aria-label="Topics">` +
+    chips.map((c) => `<a class="chip" href="${attr(c.href)}">${escapeHtml(c.label)}</a>`).join('') +
+    `</nav>`
+  )
+}
+
+const LEARN_REPO = 'https://github.com/cogitave/learn'
+
+/**
+ * The page-meta strip that closes a content page: where this page comes from and
+ * how to act on it. Every item is a link to the source of record - the file on
+ * GitHub, the same node as JSON, the issue tracker - so "one corpus, many
+ * shapes" is checkable rather than asserted, and a reader can fix what they read.
+ */
+export function colophon({ editRel, uid, reviewed, title } = {}) {
+  const links = []
+  if (editRel)
+    links.push(
+      `<a class="colophon-link" href="${LEARN_REPO}/blob/main/${attr(editRel)}">${icon('pencil')}Edit this page</a>`,
+    )
+  if (uid)
+    links.push(
+      `<a class="colophon-link" href="/_api/${attr(uid)}.json">${icon('braces')}View as JSON</a>`,
+    )
+  links.push(
+    `<a class="colophon-link" href="${LEARN_REPO}/issues/new?title=${encodeURIComponent(`Docs feedback: ${title ?? uid ?? ''}`)}">${icon('comment')}Report an issue</a>`,
+  )
+  const stamp = reviewed
+    ? `<span class="colophon-date">${icon('calendar')}Updated ${attr(reviewed)}</span>`
+    : ''
+  return (
+    `<aside class="colophon" aria-label="Page information">` +
+    `<div class="colophon-links">${links.join('')}</div>` +
+    stamp +
+    `</aside>`
+  )
+}
+
 // ---------------------------------------------------------------------------
 // document
 // ---------------------------------------------------------------------------
@@ -443,6 +489,7 @@ ${hasSide ? sidenav(o.sidenav) : ''}
 <main id="main" class="content" tabindex="-1">
 ${breadcrumbs(o.breadcrumb ?? [])}
 ${o.body}
+${o.colophon ?? ''}
 </main>
 ${layout === 'article' ? rail(toc) : ''}
 </div>

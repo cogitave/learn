@@ -9,10 +9,11 @@
  * docs.config.json. What is and is not implemented is recorded in
  * docs/build-v0.md; read that before assuming a rule is enforced.
  *
- * Implemented blocking rules (5 of 11):
- *   schema, metadata-required, unit-membership, achievement-resolves, broken-link
+ * Implemented blocking rules (7 of 11):
+ *   schema, metadata-required, unit-membership, achievement-resolves,
+ *   broken-link, broken-xref, broken-bookmark (same-page anchors)
  * Deferred (reported as warnings or not at all):
- *   broken-xref, broken-bookmark, code-snippet-resolves (compile check),
+ *   broken-bookmark (cross-page anchors), code-snippet-resolves (compile check),
  *   quiz-shape (partially checked), alt-text, stale-content
  *
  * Zero runtime dependencies, per ADR-0003 (build from scratch).

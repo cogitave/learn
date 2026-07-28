@@ -364,13 +364,17 @@ export function buildViewModel({ docs, byUid, achievements, ROOT, reporter }) {
    * Each entry keeps the authored markdown as `source` - that is what an agent
    * should read, not HTML it has to strip tags out of.
    */
+  // The authored UID is the identity; deriving one from a filename would invent
+  // a second name for the same node. One resolver so the emitted `_api/<uid>.json`
+  // path and any link that points at it (the colophon) cannot drift apart.
+  const uidOf = (node) =>
+    node.data?.uid ?? meta(node)?.uid ?? `cogitave.learn.docs.${slugify(node.srcRel ?? node.href)}`;
+
   const api = [];
   const apiEntry = (node, { kind, source = '', headings = [], extra = {} }) => {
     const m = meta(node) ?? {};
     api.push({
-      // The authored UID is the identity; deriving one from a filename would
-      // invent a second name for the same node.
-      uid: node.data?.uid ?? m.uid ?? `cogitave.learn.docs.${slugify(node.srcRel ?? node.href)}`,
+      uid: uidOf(node),
       kind,
       href: node.href,
       title: title(node),
@@ -411,6 +415,7 @@ export function buildViewModel({ docs, byUid, achievements, ROOT, reporter }) {
     facets,
     facetHref,
     facetsOf,
+    uidOf,
     docTypes,
     nav,
     docsSidenav,
