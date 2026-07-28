@@ -18,7 +18,7 @@
 
 import { createServer } from 'node:http'
 import { spawn } from 'node:child_process'
-import { readFile, stat } from 'node:fs/promises'
+import { readFile, stat, realpath } from 'node:fs/promises'
 import { watch, existsSync } from 'node:fs'
 import { join, extname, dirname, resolve, relative, isAbsolute } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -143,7 +143,18 @@ createServer(async (req, res) => {
     // Directories and extensionless paths are pretty URLs: `/x/` -> `/x/index.html`.
     if (found?.isDirectory() || (!found && !extname(path))) path = join(path, 'index.html')
 
-    const body = await readFile(path)
+    // The lexical check above proves the REQUESTED path is inside the root; it
+    // says nothing about where a symlink inside the root points. Resolve the
+    // real location and re-check, then read that - so the path opened is the
+    // path that was verified, not one that was merely spelled like it.
+    const real = await realpath(path)
+    const realRel = relative(SITE, real)
+    if (realRel.startsWith('..') || isAbsolute(realRel)) {
+      res.writeHead(403, { 'content-type': 'text/plain' }).end('forbidden')
+      return
+    }
+
+    const body = await readFile(join(SITE, realRel))
     res.writeHead(200, {
       'content-type': TYPES[extname(path)] ?? 'application/octet-stream',
       // A dev server that caches is a dev server that lies about your last edit.
