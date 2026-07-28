@@ -146,6 +146,18 @@
   color: var(--bg);
 }
 
+/* The dot shows a check for the right answer and a cross for a wrong pick -
+   never the same glyph for both. */
+.choice-dot .dot-no {
+  display: none;
+}
+.choice.is-wrong .choice-dot .dot-yes {
+  display: none;
+}
+.choice.is-wrong .choice-dot .dot-no {
+  display: block;
+}
+
 .quiz-score {
   margin-top: 24px;
   padding: 14px 16px;

@@ -21,12 +21,12 @@ In this module, you:
 
 ## Next steps
 
-- [agentic-operations](../../../../standards/docs/standards/agentic-operations.md) -
-  re-read the standard at the source for the full brand-safety, PII, and ISO
+- The **agentic-operations standard**, in the estate's standards repository,
+  is worth a re-read at the source for the full brand-safety, PII, and ISO
   42001 governance sections this module did not cover in depth.
-- [`agents/README.md`](../../../../agents/README.md) and
-  [`agents/operations/README.md`](../../../../agents/operations/README.md) -
-  the two catalog overviews, kept current as the fleet grows.
+- The **`agents/README.md`** and **`agents/operations/README.md`** docs are
+  the two catalog overviews, in the estate's agents tree, kept current as the
+  fleet grows.
 - @cogitave.learn.reliability-and-sre - the next module in **Operate the
   estate**, on SLOs, error budgets, and the policy that freezes velocity when
   the budget is spent.

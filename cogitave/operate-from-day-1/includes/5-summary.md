@@ -22,10 +22,12 @@ under least privilege with every action recorded as evidence.
 
 ## Next steps
 
-- [ways-of-working](../../../../standards/docs/standards/ways-of-working.md) - the
-  full outer-loop standard; keep it open when your squad stands up its board.
-- [development-process](../../../../standards/docs/standards/development-process.md) -
-  the full inner-loop contract, including the canonical `just` targets table.
-- [ADR-0025](../../../../standards/docs/decisions/0025-flow-based-ways-of-working.md) -
-  the decision record, if you want the full landscape survey and the rationale
-  behind the choice.
+- @cogitave.learn.paths.operate-the-estate - return to the path to claim
+  your trophy.
+- The **ways-of-working standard** is the full outer-loop standard, in the
+  estate's standards repository; keep it open when your squad stands up its
+  board.
+- The **development-process standard** is the full inner-loop contract,
+  including the canonical `just` targets table.
+- **ADR-0025** is the decision record, if you want the full landscape survey
+  and the rationale behind the choice.

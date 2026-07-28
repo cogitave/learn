@@ -20,7 +20,8 @@ three.
 
 - @cogitave.learn.paths.contributor-onboarding - return to the path to claim your
   trophy, then pick a role track that builds on this Tier-0 entry point.
-- [Commits & versioning standard](../../../../standards/docs/standards/commits-versioning.md) -
-  the full type list, SemVer, and how release automation reads your commits.
-- [Git hooks / pre-commit standard](../../../../standards/docs/standards/hooks-precommit.md) -
-  every check lefthook runs, and the local-CI parity behind it.
+- The **commits & versioning standard** is the canonical reference, in the
+  estate's standards repository, for the full type list, SemVer, and how
+  release automation reads your commits.
+- The **Git hooks / pre-commit standard** covers every check lefthook runs,
+  and the local-CI parity behind it.

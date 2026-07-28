@@ -19,12 +19,14 @@ In this module, you:
 
 ## Next steps
 
-- [CI/CD pipelines standard](../../../../standards/docs/standards/ci-cd-pipelines.md) -
-  the canonical stage set, the project-type matrix, and the reusable-workflow rules
-  at the source.
-- [Deployment and delivery standard](../../../../standards/docs/standards/deployment-and-delivery.md) -
-  environment topology, GitOps, progressive delivery, rollback, and the `deploy.yaml`
-  manifest.
-- [ADR 0017](../../../../standards/docs/decisions/0017-devops-cicd-and-deployment.md) -
-  the accepted decision behind the pipeline matrix, GitOps default, and the
-  change-management governance over every deploy.
+- @cogitave.learn.observability-and-reliability - the next module in
+  **Cogitave engineering standards**, on measuring a running system and the
+  error-budget policy that governs it.
+- The **CI/CD pipelines standard** is the canonical stage set, the
+  project-type matrix, and the reusable-workflow rules, at the source in the
+  estate's standards repository.
+- The **deployment and delivery standard** covers environment topology,
+  GitOps, progressive delivery, rollback, and the `deploy.yaml` manifest, in
+  the same repository.
+- **ADR 0017** is the estate's accepted decision behind the pipeline matrix,
+  the GitOps default, and the change-management governance over every deploy.

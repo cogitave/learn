@@ -19,7 +19,7 @@ function renderQuiz(quiz) {
         .map(
           (c) =>
             `<li><button class="choice" type="button" data-correct="${c.isCorrect === true}">` +
-            `<span class="choice-dot">${icon('check')}</span>` +
+            `<span class="choice-dot" aria-hidden="true">${icon('check', { class: 'dot-yes' })}${icon('close', { class: 'dot-no' })}</span>` +
             `<span class="choice-text">${renderInline(String(c.content))}</span>` +
             `<span class="choice-explain">${renderInline(String(c.explanation ?? ''))}</span>` +
             `</button></li>`,
@@ -39,7 +39,7 @@ function renderQuiz(quiz) {
     `<p class="quiz-lede">Choose an answer to see why it is right or wrong.</p>` +
     `<p class="quiz-noscript">JavaScript is off, so every explanation is shown at once.</p>` +
     `<ol class="questions">${qs}</ol>` +
-    `<p class="quiz-score" hidden></p>` +
+    `<p class="quiz-score" hidden role="status" aria-live="polite"></p>` +
     `</section>`
   );
 }
@@ -258,7 +258,7 @@ export function renderPages(vm, outDir, { ROOT, err }) {
       outDir,
       u.href,
       shell({
-        title: title(u),
+        title: u.parent ? `${title(u)} — ${title(u.parent)}` : title(u),
         description: u.data.metadata?.description,
         body,
         nav,
