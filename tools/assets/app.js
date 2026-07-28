@@ -20,17 +20,30 @@
   // the first click always flips what the reader is actually looking at.
   var themeBtn = document.querySelector('.theme-toggle')
   if (themeBtn) {
-    themeBtn.addEventListener('click', function () {
-      var current =
+    var resolvedTheme = function () {
+      return (
         root.dataset.theme ||
         (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
-      var next = current === 'dark' ? 'light' : 'dark'
+      )
+    }
+    // Name what the control will do, from the theme actually in effect, so a
+    // screen-reader user hears "Switch to dark theme" not a static "Switch theme".
+    var syncThemeLabel = function () {
+      themeBtn.setAttribute(
+        'aria-label',
+        resolvedTheme() === 'dark' ? 'Switch to light theme' : 'Switch to dark theme',
+      )
+    }
+    syncThemeLabel()
+    themeBtn.addEventListener('click', function () {
+      var next = resolvedTheme() === 'dark' ? 'light' : 'dark'
       root.dataset.theme = next
       try {
         localStorage.setItem('cogitave-theme', next)
       } catch (e) {
         /* private mode: the choice simply does not persist */
       }
+      syncThemeLabel()
     })
   }
 

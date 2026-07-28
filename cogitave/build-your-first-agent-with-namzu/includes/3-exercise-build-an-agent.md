@@ -54,7 +54,7 @@ practice, not a slogan:
 
 :::code language="typescript" source="snippets/greeter/agent.ts" id="snippet_tool":::
 
-Four of those fields are declarations *about* the tool rather than behaviour of
+Four of those fields are declarations *about* the tool rather than behavior of
 it:
 
 | Field | What you are asserting |

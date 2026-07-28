@@ -47,7 +47,7 @@ subset of each stage.
 | ACQUIRE | Walks the three content roots in `docs.config.json`, honoring `files` and `exclude` globs (`**`, `*`, `?`). |
 | PARSE | `tools/lib/yaml.mjs` - a YAML subset parser covering exactly the constructs the corpus uses. `tools/lib/markdown.mjs` - a CommonMark subset plus the Learn extension set. |
 | LINK | Builds a UID index, resolves `Module.units[]`, `LearningPath.modules[]`, badge/trophy, and assigns URLs. |
-| VALIDATE | 5 of 11 blocking rules (below). |
+| VALIDATE | 6 of 11 blocking rules (below). |
 | EMIT | HTML only, to `_site/`. |
 
 Extensions rendered: alerts, `[!include]`, fenced code, `:::code` snippet
@@ -59,7 +59,7 @@ The emitted chrome - masthead, section navigation, on-page rail, cards, pager,
 footer - is defined once in `tools/lib/layout.mjs` and specified in
 [design-language](design-language.md). A page kind cannot invent its own shell.
 
-## Validation rules: 5 of 11 enforced
+## Validation rules: 6 of 11 enforced
 
 | Rule | v0 |
 |---|---|
@@ -69,7 +69,7 @@ footer - is defined once in `tools/lib/layout.mjs` and specified in
 | `achievement-resolves` | **enforced** - every badge/trophy exists in `achievements.yml` |
 | `broken-link` | **enforced** - includes and `:::code` sources resolve on disk |
 | `quiz-shape` | **partial** - choice count, exactly-one-correct, explanation present |
-| `broken-xref` | deferred - unresolvable `@uid` renders as literal text, not an error |
+| `broken-xref` | **enforced** - an unresolvable `@uid` fails the build instead of rendering as literal text |
 | `broken-bookmark` | deferred - `#anchor` targets are not checked |
 | `code-snippet-resolves` | **partial** - the region is resolved, but **not compile-checked** |
 | `alt-text` | deferred - `:::image` is not implemented at all |
@@ -80,7 +80,7 @@ footer - is defined once in `tools/lib/layout.mjs` and specified in
 | Target | v0 |
 |---|---|
 | HTML (`_site/`) | **emitted** - home, the three region landings (`/documentation/`, `/training/`, `/browse/`), a generated page per taxonomy value (`/browse/<axis>/<value>/`), plus every path, module, unit, and doc |
-| JSON content API (`_api/`) | **emitted** - one JSON per node keyed by its authored UID, plus `_api/index.json` as the catalogue. Carries the authored markdown as `source`, the heading rank, the taxonomy, graph edges (`partOf`, `units`, `modules`), and quizzes as structured data rather than rendered buttons. |
+| JSON content API (`_api/`) | **emitted** - one JSON per node keyed by its authored UID, plus `_api/index.json` as the catalog. Carries the authored markdown as `source`, the heading rank, the taxonomy, graph edges (`partOf`, `units`, `modules`), and quizzes as structured data rather than rendered buttons. |
 | MCP (`cogitave-docs://`) | **served, not emitted.** MCP is a live JSON-RPC service, so it cannot be a static file. `tools/mcp/server.mjs` implements it over stdio and Streamable HTTP against spec `2025-11-25`, reading the `_api/` projection so it cannot drift from the site. Tools: `docs_search`, `docs_fetch`, `code_sample_search`; resources at `cogitave-docs://learn/{uid}`. Retrieval is **lexical, not hybrid** - there is no embedding store. Deploying it behind `learn.cogitave.com/mcp` is a human, gated step. See [`tools/mcp/README.md`](../tools/mcp/README.md) for the full delta against the Core contract. |
 | `llms.txt` / `llms-full.txt` | **emitted** - `llms.txt` is the curated index (title, URL, summary per node, grouped by kind, in reading order); `llms-full.txt` inlines the whole corpus with front-matter facts. |
 | Static search (`_pagefind/`) | **not** emitted - but `_site/search-index.json` is, and `assets/app.js` searches it client side over titles, summaries, and headings. This is a working search, not the specified one: no stemming, no fragment ranking, no pre-built index shards. |
@@ -115,9 +115,9 @@ specification - [design-language](design-language.md) - and
 `tools/assets/style.css` uses custom properties named after the semantic roles
 they will map onto when the package ships. No accessibility gate runs yet, which
 `accessibility.md` calls non-waivable - that is a real, open gap; the design
-language records the manual checks that stand in for it, including the one
-palette value (`--t3`) that fails AA for text and is therefore restricted to
-decoration.
+language records the manual checks that stand in for it. The muted `--t3` palette
+value, which used to fail AA for text, has since been raised to meet AA in both
+themes.
 
 **D4 - Moniker blocks render unconditionally.**
 A `::: moniker range=">=yuva-2.0"` block is rendered with a visible "Applies to"

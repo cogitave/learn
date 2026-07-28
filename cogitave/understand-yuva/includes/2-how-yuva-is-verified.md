@@ -32,7 +32,7 @@ continuously.
 
 ## 4. The boot fails closed
 
-This is the property worth internalising.
+This is the property worth internalizing.
 
 Yuva does not report a successful boot unless the **full cumulative self-test
 marker chain** prints over serial. A missing marker is a failed boot — not a

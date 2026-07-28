@@ -64,7 +64,7 @@ your `execute` function runs, so it only ever sees well-formed arguments.
 > [!IMPORTANT]
 > Permissions are an allow-list. A tool can reach exactly what it declares and
 > nothing more, and an empty permission set is a tool that may compute and reach
-> nothing. Adding a behaviour means declaring the authority it needs — never
+> nothing. Adding a behavior means declaring the authority it needs — never
 > widening a declaration to make a failing check pass.
 
 ## How it is licensed

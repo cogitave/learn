@@ -34,7 +34,7 @@ minimal always-human set (merge / apply / release and the irreversible actions).
 ## The two write tools only propose
 
 The whole lifecycle exposes exactly **two write tools**, and this is the property
-to internalise:
+to internalize:
 
 - `request_intake` - stage 1. Opens the GitHub issue and creates the draft
   Request node.

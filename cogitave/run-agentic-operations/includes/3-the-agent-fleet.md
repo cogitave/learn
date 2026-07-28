@@ -1,6 +1,6 @@
 Two named catalogs implement the contract from the previous unit. Both are
 Day-0 specs, paired as a human-authoritative `.md` and (for the scheduled
-catalog) a machine-authoritative `.yaml`, catalogued in
+catalog) a machine-authoritative `.yaml`, cataloged in
 [`agents/README.md`](../../../../agents/README.md) and
 [`agents/operations/README.md`](../../../../agents/operations/README.md).
 
