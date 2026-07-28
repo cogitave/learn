@@ -409,6 +409,26 @@ export function chipRow(chips) {
   )
 }
 
+/**
+ * The page toolbar: a "Copy page" control that copies the page's authored
+ * markdown to the clipboard, so a reader can paste the whole page into an agent
+ * - the affordance modern AI-docs surfaces lead with. It is script-only (it must
+ * fetch and write the clipboard), so it is hidden until `app.js` marks the
+ * document scripted; the page reads fine without it. Emitted only where a raw
+ * markdown projection exists (units and docs).
+ */
+export function pageActions(mdHref) {
+  if (!mdHref) return ''
+  return (
+    `<div class="page-actions">` +
+    `<button class="copy-page" type="button" data-md="${attr(mdHref)}" aria-label="Copy this page as Markdown">` +
+    `<span class="copy-page-mark">${icon('copy', { class: 'i-copy' })}${icon('check', { class: 'i-check' })}</span>` +
+    `<span class="copy-page-label">Copy page</span>` +
+    `</button>` +
+    `</div>`
+  )
+}
+
 const LEARN_REPO = 'https://github.com/cogitave/learn'
 
 /**

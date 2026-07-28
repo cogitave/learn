@@ -241,6 +241,8 @@ component means adding it here first.
 | Award | `layout.mjs` | Badge or trophy, at the end of a module or path |
 | Call to action | `style.css` | Solid pill, plus a ghost variant; one solid CTA per view |
 | Pager | `layout.mjs` | Previous / next within a module |
+| Page actions | `layout.mjs` | A right-aligned "Copy page" control above the title that copies the page's markdown to the clipboard for handing to an agent. Script-only (hidden without JS); on units and docs |
+| Heading anchor | `markdown.mjs` | A hover- and focus-revealed link on an `h2`/`h3` to that section, so a reader can grab a deep link to the part they mean |
 | Colophon | `layout.mjs` | The page-meta strip that closes a content page: edit-on-GitHub, view-as-markdown / view-as-JSON, report-an-issue, and an Updated stamp. Two pairs - human actions and machine shapes - split by one hairline; the stamp is a monospace record demoted to the far edge |
 | Alert | `markdown.mjs` | The five learn-pr kinds |
 | Code frame | `markdown.mjs` | Language, source path when pulled by reference, copy control |

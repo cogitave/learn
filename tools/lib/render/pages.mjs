@@ -1,7 +1,7 @@
 import { renderMarkdown, renderInline, escapeHtml } from '../markdown.mjs';
 import { icon } from '../icons.mjs';
 import {
-  shell, card, cardGrid, awardNote, factRow, extractToc, minutes, pager, chipRow, colophon,
+  shell, card, cardGrid, awardNote, factRow, extractToc, minutes, pager, chipRow, colophon, pageActions,
 } from '../layout.mjs';
 import { loadInclude } from '../includes.mjs';
 import { writePage } from './site.mjs';
@@ -268,7 +268,9 @@ export function renderPages(vm, outDir, { ROOT, err }) {
     const prev = idx > 0 ? byUid.get(siblings[idx - 1]) : null;
     const next = idx >= 0 && idx < siblings.length - 1 ? byUid.get(siblings[idx + 1]) : null;
 
+    const mdHref = source ? `/_api/${uidOf(u)}.md` : undefined;
     const body =
+      pageActions(mdHref) +
       `<article class="unit"><h1>${escapeHtml(title(u))}</h1>${inner}</article>` +
       pager(
         prev ? { href: prev.href, title: title(prev) } : null,
@@ -334,7 +336,7 @@ export function renderPages(vm, outDir, { ROOT, err }) {
         colophon: colophon({
           editRel,
           uid: uidOf(u),
-          mdHref: source ? `/_api/${uidOf(u)}.md` : undefined,
+          mdHref,
           reviewed: reviewedOf(u),
           title: title(u),
         }),
@@ -348,7 +350,11 @@ export function renderPages(vm, outDir, { ROOT, err }) {
   for (const d of docTypes.flatMap((t) => t.items)) {
     const rendered = renderMarkdown(d.body, ctxFor(d));
     checkBookmarks(rendered, d.rel, err);
-    const body = `<article class="doc">${rendered}</article>`;
+    // Mirror the unit branch: the `.md` is only emitted when the node has a
+    // source body, so gate the affordance on the same condition rather than
+    // pointing "Copy page" / "View as Markdown" at a file that was not written.
+    const mdHref = d.body ? `/_api/${uidOf(d)}.md` : undefined;
+    const body = pageActions(mdHref) + `<article class="doc">${rendered}</article>`;
     const toc = extractToc(rendered);
     indexEntry('Platform doc', d, toc.map((t) => t.text));
     apiEntry(d, {
@@ -376,7 +382,7 @@ export function renderPages(vm, outDir, { ROOT, err }) {
         colophon: colophon({
           editRel: d.rel,
           uid: uidOf(d),
-          mdHref: `/_api/${uidOf(d)}.md`,
+          mdHref,
           reviewed: reviewedOf(d),
           title: title(d),
         }),

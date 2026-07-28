@@ -175,7 +175,17 @@ export function renderMarkdown(text, ctx = {}) {
     if (heading) {
       const level = heading[1].length;
       const content = heading[2].replace(/\s+#+\s*$/, '');
-      out.push(`<h${level} id="${slugify(content)}">${renderInline(content, ctx)}</h${level}>`);
+      const slug = slugify(content);
+      // A hover-revealed anchor on section headings, so a reader can grab a link
+      // to exactly the part they mean. Only h2/h3 - the ranks the on-page rail
+      // lists; the h1 is the page and needs no fragment. The heading text is the
+      // label the aria-label restates, so the mark is an affordance beside a
+      // labelled heading, not meaning carried by an icon alone.
+      const anchor =
+        level === 2 || level === 3
+          ? `<a class="h-anchor" href="#${slug}" aria-label="Link to this section">${icon('hash')}</a>`
+          : '';
+      out.push(`<h${level} id="${slug}">${renderInline(content, ctx)}${anchor}</h${level}>`);
       i += 1;
       continue;
     }

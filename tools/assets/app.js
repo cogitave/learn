@@ -95,6 +95,38 @@
     })
   })
 
+  // --------------------------------------------------------- copy whole page
+  // "Copy page" pulls the page's authored markdown and writes it to the
+  // clipboard, so a reader can hand the whole page to an agent - the same corpus
+  // the colophon's "View as Markdown" links to, fetched on demand rather than
+  // inlined into every page.
+  document.querySelectorAll('.copy-page').forEach(function (btn) {
+    var label = btn.querySelector('.copy-page-label')
+    var idle = label ? label.textContent : ''
+    btn.addEventListener('click', function () {
+      var href = btn.getAttribute('data-md')
+      if (!href || !navigator.clipboard) return
+      fetch(href)
+        .then(function (r) {
+          return r.text()
+        })
+        .then(function (text) {
+          return navigator.clipboard.writeText(text)
+        })
+        .then(function () {
+          btn.classList.add('is-done')
+          if (label) label.textContent = 'Copied'
+          setTimeout(function () {
+            btn.classList.remove('is-done')
+            if (label) label.textContent = idle
+          }, 1600)
+        })
+        .catch(function () {
+          /* offline or clipboard blocked: the page and its /_api/*.md stay reachable */
+        })
+    })
+  })
+
   // --------------------------------------------------------------- on-page rail
   var railLinks = Array.prototype.slice.call(document.querySelectorAll('[data-toc]'))
   if (railLinks.length && 'IntersectionObserver' in window) {
