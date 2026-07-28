@@ -242,11 +242,18 @@ whole engine:
 | `lib/render/pages.mjs` | the learning-path, module, unit, and doc page renderers |
 | `lib/projections.mjs` | the `_api/*.json`, `llms.txt`, and search-index targets |
 
-The stylesheet is modular the same way: `tools/assets/style.css` was one 2700-line
-file, so it is split into ordered partials under `tools/assets/css/` (`01-faces`,
-`02-tokens`, `03-base`, `04-masthead`, `05-shell`, `06-article`, `07-cards`,
-`08-quiz`, `09-home`). `projections.mjs` concatenates them in filename order into a
-single served `assets/style.css` - one request, no cascade change.
+The stylesheet is modular the same way: the source was one 2700-line file, so it
+is split into ordered partials under `tools/assets/css/` (`01-faces`, `02-tokens`,
+`03-base`, `04-masthead`, `05-shell`, `06-article`, `07-cards`, `08-quiz`,
+`09-home`). `projections.mjs` concatenates them in filename order into a single
+served stylesheet - one request, no cascade change.
+
+The two changing assets - the assembled stylesheet and `app.js` - are emitted
+under a **content-hashed** name (`style.<hash>.css`, `app.<hash>.js`), and the
+shell references those names. A byte change is therefore a new URL, so a deploy
+is never masked by a CDN serving a stale copy of a stable name; the hashed files
+are pinned `immutable`. Fonts, favicon, and `og.png` keep fixed names - their
+bytes do not change build to build.
 
 Both splits are a pure structural refactor: the emitted `_site/` is byte-for-byte
 identical to the pre-split monolith, verified by hashing the full output tree.

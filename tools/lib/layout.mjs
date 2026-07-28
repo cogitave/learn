@@ -21,6 +21,16 @@ import { icon } from './icons.mjs'
 
 const SITE = 'Cogitave Learn'
 
+// The stylesheet and script are content-hashed at build time, so a deploy
+// serves a new URL rather than a stale cached copy of a stable name (a hashless
+// `style.css` sits in the CDN for hours after its bytes change). build.mjs fills
+// these in before rendering; fonts keep fixed names, since their bytes never
+// change.
+let ASSETS = { css: '/assets/style.css', js: '/assets/app.js' }
+export function setAssets(a) {
+  ASSETS = { ...ASSETS, ...a }
+}
+
 // ---------------------------------------------------------------------------
 // small helpers
 // ---------------------------------------------------------------------------
@@ -499,7 +509,7 @@ ${o.description ? `<meta name="description" content="${attr(o.description)}" />`
 <link rel="preload" href="/assets/fonts/cg-pro-display-500.woff2" as="font" type="font/woff2" crossorigin />
 <link rel="preload" href="/assets/fonts/cg-pro-text-400.woff2" as="font" type="font/woff2" crossorigin />
 <link rel="preload" href="/assets/fonts/cg-pro-text-500.woff2" as="font" type="font/woff2" crossorigin />
-<link rel="stylesheet" href="/assets/style.css" />
+<link rel="stylesheet" href="${ASSETS.css}" />
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","name":"Cogitave","url":"https://learn.cogitave.com/"},{"@type":"WebSite","name":"Cogitave Learn","url":"https://learn.cogitave.com/"}]}</script>
 <script>
@@ -522,7 +532,7 @@ ${o.colophon ?? ''}
 ${layout === 'article' ? rail(toc) : ''}
 </div>
 ${footer(o.nav)}
-<script src="/assets/app.js" defer></script>
+<script src="${ASSETS.js}" defer></script>
 </body>
 </html>
 `
