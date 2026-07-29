@@ -25,14 +25,17 @@ const OG_IMAGE = SITE_ORIGIN + '/assets/og.png';
 // escaped head tag reads correctly inside JSON-LD (where it is plain text).
 const decodeEntities = (s) =>
   s
-    .replace(/&amp;/g, '&')
     .replace(/&mdash;/g, '—')
     .replace(/&ndash;/g, '–')
     .replace(/&lt;/g, '<')
     .replace(/&gt;/g, '>')
     .replace(/&quot;/g, '"')
     .replace(/&#39;/g, "'")
-    .replace(/&rsquo;/g, '’');
+    .replace(/&rsquo;/g, '’')
+    // The escape character itself is decoded LAST: decoding `&amp;` first would
+    // turn `&amp;lt;` (a literal "&lt;") into `<` - a double-unescape. Now
+    // `&amp;lt;` correctly decodes to `&lt;`.
+    .replace(/&amp;/g, '&');
 
 function withDiscoveryTags(href, html) {
   const url = SITE_ORIGIN + href;
