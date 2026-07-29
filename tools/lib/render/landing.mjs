@@ -149,7 +149,10 @@ export function renderLanding(vm, outDir) {
     `</div>` +
     `<div class="hc-panels">` +
     clients.map((c) => `<div class="hc-panel p-${c.id}">${c.body}</div>`).join('') +
-    `</div></div></aside>`;
+    `</div>` +
+    `<p class="hero-connect-note">Speaks the current MCP spec &mdash; ` +
+    `<a href="https://modelcontextprotocol.io/specification/2026-07-28">2026-07-28</a>, stateless.</p>` +
+    `</div></aside>`;
 
   const home =
     `<div class="hero hero-lead hero-split">` +
