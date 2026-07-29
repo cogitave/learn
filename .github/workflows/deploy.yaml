@@ -103,19 +103,52 @@ jobs:
 
           # The edge /mcp Function takes a few seconds to propagate after a
           # deploy, so retry rather than false-fail on a propagation race.
-          probe() { # $1=json body, $2=grep pattern, $3=label
+          # The probes send exactly what the transport requires of a client:
+          # the mirrored headers, and the per-request `_meta`. A gate that
+          # skipped them would be a laxer client than any real one, so it would
+          # pass against a deploy that rejects real traffic.
+          V=2026-07-28
+          META='"_meta":{"io.modelcontextprotocol/protocolVersion":"2026-07-28","io.modelcontextprotocol/clientCapabilities":{}}'
+
+          probe() { # $1=json body, $2=grep pattern, $3=label, $4..=extra curl args
+            local body="$1" want="$2" label="$3"; shift 3
             local out=''
             for i in $(seq 1 6); do
-              out=$(curl -sS -X POST "$BASE/mcp" -H 'content-type: application/json' -d "$1" || true)
-              echo "$out" | grep -q "$2" && return 0
+              out=$(curl -sS -X POST "$BASE/mcp" \
+                -H 'content-type: application/json' \
+                -H "MCP-Protocol-Version: $V" \
+                "$@" -d "$body" || true)
+              echo "$out" | grep -q "$want" && return 0
               sleep 5
             done
-            echo "::error::/mcp $3 failed after retries: $out"; return 1
+            echo "::error::/mcp $label failed after retries: $out"; return 1
           }
 
           # MCP must answer server/discover (the stateless 2026-07-28 entry point)
           # and actually read the corpus it shipped with.
-          probe '{"jsonrpc":"2.0","id":1,"method":"server/discover"}' '"2026-07-28"' 'server/discover'
-          probe '{"jsonrpc":"2.0","id":2,"method":"tools/call","params":{"name":"docs_search","arguments":{"query":"agent","topK":1}}}' '"uid"' 'docs_search'
+          probe "{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"server/discover\"}" \
+            '"2026-07-28"' 'server/discover' -H 'Mcp-Method: server/discover'
+          probe "{\"jsonrpc\":\"2.0\",\"id\":2,\"method\":\"tools/call\",\"params\":{\"name\":\"docs_search\",\"arguments\":{\"query\":\"agent\",\"topK\":1},$META}}" \
+            '"uid"' 'docs_search' -H 'Mcp-Method: tools/call' -H 'Mcp-Name: docs_search'
+
+          # A deploy that serves the corpus but has stopped ENFORCING the
+          # transport is also a broken deploy, and nothing else would catch it:
+          # every check above passes on a server that validates nothing.
+          reject() { # $1=label, $2=expected status, $3..=curl args
+            local label="$1" want="$2"; shift 2
+            local code
+            code=$(curl -sS -o /dev/null -w '%{http_code}' -X POST "$BASE/mcp" \
+              -H 'content-type: application/json' "$@" || true)
+            test "$code" = "$want" || { echo "::error::$label returned $code, expected $want"; return 1; }
+          }
+
+          reject 'request with no protocol-version header' 400 \
+            -H 'Mcp-Method: tools/list' -d "{\"jsonrpc\":\"2.0\",\"id\":3,\"method\":\"tools/list\",\"params\":{$META}}"
+          reject 'header/body method mismatch' 400 \
+            -H "MCP-Protocol-Version: $V" -H 'Mcp-Method: tools/call' \
+            -d "{\"jsonrpc\":\"2.0\",\"id\":4,\"method\":\"tools/list\",\"params\":{$META}}"
+          reject 'unknown method' 404 \
+            -H "MCP-Protocol-Version: $V" -H 'Mcp-Method: no/such' \
+            -d "{\"jsonrpc\":\"2.0\",\"id\":5,\"method\":\"no/such\",\"params\":{$META}}"
 
           echo "health gate passed: site + /mcp both serving"
