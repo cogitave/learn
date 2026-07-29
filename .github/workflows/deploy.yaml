@@ -101,18 +101,21 @@ jobs:
           code=$(curl -sS -o /dev/null -w '%{http_code}' "$BASE/")
           test "$code" = "200" || { echo "::error::homepage returned $code"; exit 1; }
 
-          # MCP must answer server/discover (the stateless 2026-07-28 entry point), not just exist.
-          body=$(curl -sS -X POST "$BASE/mcp" \
-            -H 'content-type: application/json' \
-            -d '{"jsonrpc":"2.0","id":1,"method":"server/discover"}')
-          echo "$body" | grep -q '"2026-07-28"' \
-            || { echo "::error::/mcp did not answer server/discover: $body"; exit 1; }
+          # The edge /mcp Function takes a few seconds to propagate after a
+          # deploy, so retry rather than false-fail on a propagation race.
+          probe() { # $1=json body, $2=grep pattern, $3=label
+            local out=''
+            for i in $(seq 1 6); do
+              out=$(curl -sS -X POST "$BASE/mcp" -H 'content-type: application/json' -d "$1" || true)
+              echo "$out" | grep -q "$2" && return 0
+              sleep 5
+            done
+            echo "::error::/mcp $3 failed after retries: $out"; return 1
+          }
 
-          # And it must actually be able to read the corpus it shipped with.
-          hits=$(curl -sS -X POST "$BASE/mcp" \
-            -H 'content-type: application/json' \
-            -d '{"jsonrpc":"2.0","id":2,"method":"tools/call","params":{"name":"docs_search","arguments":{"query":"agent","topK":1}}}')
-          echo "$hits" | grep -q '"uid"' \
-            || { echo "::error::/mcp served an empty corpus: $hits"; exit 1; }
+          # MCP must answer server/discover (the stateless 2026-07-28 entry point)
+          # and actually read the corpus it shipped with.
+          probe '{"jsonrpc":"2.0","id":1,"method":"server/discover"}' '"2026-07-28"' 'server/discover'
+          probe '{"jsonrpc":"2.0","id":2,"method":"tools/call","params":{"name":"docs_search","arguments":{"query":"agent","topK":1}}}' '"uid"' 'docs_search'
 
           echo "health gate passed: site + /mcp both serving"
