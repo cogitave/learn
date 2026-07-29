@@ -134,12 +134,19 @@ jobs:
           # A deploy that serves the corpus but has stopped ENFORCING the
           # transport is also a broken deploy, and nothing else would catch it:
           # every check above passes on a server that validates nothing.
+          # Retry like probe(): during propagation an old, laxer edge node can
+          # still accept a request the new one rejects, so a negative assertion
+          # (a bad request MUST be refused) has to wait for the strict node too.
           reject() { # $1=label, $2=expected status, $3..=curl args
             local label="$1" want="$2"; shift 2
-            local code
-            code=$(curl -sS -o /dev/null -w '%{http_code}' -X POST "$BASE/mcp" \
-              -H 'content-type: application/json' "$@" || true)
-            test "$code" = "$want" || { echo "::error::$label returned $code, expected $want"; return 1; }
+            local code=''
+            for i in $(seq 1 6); do
+              code=$(curl -sS -o /dev/null -w '%{http_code}' -X POST "$BASE/mcp" \
+                -H 'content-type: application/json' "$@" || true)
+              test "$code" = "$want" && return 0
+              sleep 5
+            done
+            echo "::error::$label returned $code, expected $want after retries"; return 1
           }
 
           reject 'request with no protocol-version header' 400 \
