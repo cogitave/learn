@@ -134,12 +134,23 @@ jobs:
           # A deploy that serves the corpus but has stopped ENFORCING the
           # transport is also a broken deploy, and nothing else would catch it:
           # every check above passes on a server that validates nothing.
+          # Retried on the same schedule as the positive probes, and for a
+          # sharper reason. The positive probes pass against the PREVIOUS
+          # deployment too - it served the same corpus and simply ignored the
+          # headers these send - so they cannot tell "new code is live" from
+          # "old code is still answering". Only the negative probes can, which
+          # means they are the ones that race propagation, and a single-shot
+          # check here fails a deploy that was merely a few seconds early.
           reject() { # $1=label, $2=expected status, $3..=curl args
             local label="$1" want="$2"; shift 2
-            local code
-            code=$(curl -sS -o /dev/null -w '%{http_code}' -X POST "$BASE/mcp" \
-              -H 'content-type: application/json' "$@" || true)
-            test "$code" = "$want" || { echo "::error::$label returned $code, expected $want"; return 1; }
+            local code=''
+            for i in $(seq 1 6); do
+              code=$(curl -sS -o /dev/null -w '%{http_code}' -X POST "$BASE/mcp" \
+                -H 'content-type: application/json' "$@" || true)
+              test "$code" = "$want" && return 0
+              sleep 5
+            done
+            echo "::error::$label returned $code after retries, expected $want"; return 1
           }
 
           reject 'request with no protocol-version header' 400 \
