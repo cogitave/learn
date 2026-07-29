@@ -20,7 +20,7 @@ import { createServer } from 'node:http'
 import { spawn } from 'node:child_process'
 import { readFile, stat, realpath } from 'node:fs/promises'
 import { watch, existsSync } from 'node:fs'
-import { join, extname, dirname, resolve, sep } from 'node:path'
+import { join, extname, dirname, resolve, normalize, sep } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const HERE = dirname(fileURLToPath(import.meta.url))
@@ -139,29 +139,29 @@ createServer(async (req, res) => {
 
   const forbid = () => res.writeHead(403, { 'content-type': 'text/plain' }).end('forbidden')
 
-  // Both containment checks are written out in full rather than factored into a
-  // helper. Taint analysis recognises a guard it can see at the point of use; a
-  // predicate call is opaque to it, so extracting these reads as unguarded and
-  // the tool reports a path injection. Kept inline on purpose - the duplication
-  // is the price of the check being legible to something other than a human.
+  // Escaping is made impossible rather than detected. Two earlier attempts here
+  // guarded the join with a containment CHECK - first via `relative`, then via a
+  // `startsWith` prefix - and both were correct but stayed unrecognised as
+  // sanitizers, so the reader could not tell a real finding from a rejected
+  // one. Removing the capability is worth more than arguing about the check.
   //
-  // `resolve` collapses every `..` first, so what is checked is the path that
-  // would actually be opened rather than the one that was typed.
-  let path = resolve(SITE, `.${url}`)
-  if (path !== SITE && !path.startsWith(ROOT_PREFIX)) {
-    forbid()
-    return
-  }
+  // `normalize` collapses `.` and `..` textually, and because `url` always
+  // begins with `/` it is normalised AS AN ABSOLUTE PATH: a segment that would
+  // climb above the root is discarded there, not carried into the join. The
+  // regex then strips any leading `..` that a platform left behind. What
+  // reaches `join` therefore has no upward segment left to act on.
+  const relative = normalize(url).replace(/^([/\\]?\.\.([/\\]|$))+/, '')
+  let path = join(SITE, relative)
 
   try {
     const found = await stat(path).catch(() => null)
     // Directories and extensionless paths are pretty URLs: `/x/` -> `/x/index.html`.
     if (found?.isDirectory() || (!found && !extname(path))) path = join(path, 'index.html')
 
-    // The check above proves the REQUESTED path is inside the root; it says
-    // nothing about where a symlink INSIDE the root points. Resolve the real
-    // location, re-check that, and read the resolved path - so the file opened
-    // is the file that was verified, not one that was merely spelled like it.
+    // Everything above is textual, and text says nothing about where a symlink
+    // INSIDE the root points. Resolve the real location, check THAT, and read
+    // the resolved path - so the file opened is the file that was verified,
+    // not one that was merely spelled like it.
     const real = await realpath(path)
     if (real !== SITE && !real.startsWith(ROOT_PREFIX)) {
       forbid()
@@ -178,7 +178,10 @@ createServer(async (req, res) => {
   } catch {
     res.writeHead(404, { 'content-type': 'text/plain' }).end(`404 ${url}`)
   }
-}).listen(PORT, () => {
+  // Bound to loopback, not every interface. This serves an unauthenticated
+  // build directory; on a shared or untrusted network the default would hand it
+  // to anyone who can reach the host.
+}).listen(PORT, '127.0.0.1', () => {
   process.stdout.write(`\n  learn.cogitave.com dev server\n  http://localhost:${PORT}\n\n`)
   build()
   if (!args.includes('--no-watch')) startWatching()
