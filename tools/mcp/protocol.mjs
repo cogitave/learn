@@ -324,6 +324,58 @@ export const TOOLS = [
       },
     },
   },
+  {
+    name: 'resolve_xref',
+    title: 'Resolve a UID',
+    description:
+      'Resolve a UID to the node it names - its kind, title, and where to read it (uri + url) - without fetching the whole node. The lightweight step for following an @uid reference.',
+    inputSchema: { type: 'object', required: ['uid'], properties: { uid: { type: 'string' } } },
+    outputSchema: {
+      type: 'object',
+      required: ['uid', 'kind', 'title', 'uri', 'url'],
+      properties: {
+        uid: { type: 'string' },
+        kind: { type: 'string' },
+        title: { type: 'string' },
+        uri: { type: 'string' },
+        url: { type: 'string' },
+      },
+    },
+  },
+  {
+    name: 'get_learning_path',
+    title: 'Get the learning path to a competency',
+    description:
+      'Given a module, unit, or path UID, return the ordered learning path(s) that reach it - the module sequence to walk and where the target sits in it - so an agent (or a person) can plan how to acquire a competency.',
+    inputSchema: { type: 'object', required: ['uid'], properties: { uid: { type: 'string' } } },
+    outputSchema: {
+      type: 'object',
+      required: ['paths'],
+      properties: {
+        paths: {
+          type: 'array',
+          items: {
+            type: 'object',
+            required: ['path', 'modules'],
+            properties: {
+              path: {
+                type: 'object',
+                properties: { uid: { type: 'string' }, title: { type: 'string' }, uri: { type: 'string' } },
+              },
+              modules: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  properties: { uid: { type: 'string' }, title: { type: 'string' }, uri: { type: 'string' } },
+                },
+              },
+              targetIndex: { type: 'integer', description: 'Position of the target module in the sequence, or -1.' },
+            },
+          },
+        },
+      },
+    },
+  },
 ]
 
 /** Input validation failures are tool errors, not protocol errors (SEP-1303). */
@@ -432,6 +484,64 @@ export function callTool(state, name, args = {}) {
     )
   }
 
+  if (name === 'resolve_xref') {
+    if (typeof args.uid !== 'string') return toolError('resolve_xref requires a string "uid".')
+    const node = state.corpus.get(args.uid)
+    if (!node) {
+      const near = search(state.corpus, { query: args.uid, topK: 3 }).map((r) => r.uid)
+      return toolError(
+        `Unknown uid "${args.uid}".` + (near.length ? ` Closest: ${near.join(', ')}.` : ' Use docs_search first.'),
+      )
+    }
+    const out = {
+      uid: node.uid,
+      kind: node.kind,
+      title: node.title,
+      uri: URI_SCHEME + node.uid,
+      url: SITE_URL + node.href,
+    }
+    return toolOk(out, `${out.uid}\n  ${out.title} (${out.kind})\n  ${out.url}`)
+  }
+
+  if (name === 'get_learning_path') {
+    if (typeof args.uid !== 'string') return toolError('get_learning_path requires a string "uid".')
+    const node = state.corpus.get(args.uid)
+    if (!node) {
+      const near = search(state.corpus, { query: args.uid, topK: 3 }).map((r) => r.uid)
+      return toolError(
+        `Unknown uid "${args.uid}".` + (near.length ? ` Closest: ${near.join(', ')}.` : ' Use docs_search first.'),
+      )
+    }
+    // Resolve the target to the module the path orders by: a unit's parent module,
+    // a module as itself. A path input matches itself. A doc belongs to no path.
+    const targetModule = node.kind === 'moduleUnit' ? node.partOf : node.kind === 'module' ? node.uid : null
+    const ref = (uid) => {
+      const n = state.corpus.get(uid)
+      return n ? { uid: n.uid, title: n.title, uri: URI_SCHEME + n.uid } : { uid, title: uid, uri: URI_SCHEME + uid }
+    }
+    const paths = [...state.corpus.values()]
+      .filter(
+        (n) =>
+          n.kind === 'learningPath' &&
+          (n.uid === args.uid || (targetModule && (n.modules ?? []).includes(targetModule))),
+      )
+      .map((p) => ({
+        path: { uid: p.uid, title: p.title, uri: URI_SCHEME + p.uid },
+        modules: (p.modules ?? []).map(ref),
+        targetIndex: targetModule ? (p.modules ?? []).indexOf(targetModule) : -1,
+      }))
+    const text = paths.length
+      ? paths
+          .map(
+            (p) =>
+              `${p.path.title}\n` +
+              p.modules.map((m, i) => `  ${i === p.targetIndex ? '>' : ' '} ${i + 1}. ${m.title}`).join('\n'),
+          )
+          .join('\n\n')
+      : `No learning path reaches "${args.uid}".`
+    return toolOk({ paths }, text)
+  }
+
   return toolError(`Unknown tool "${name}".`)
 }
 
@@ -500,7 +610,7 @@ export function handle(state, msg) {
         capabilities: { tools: {}, resources: {}, extensions: {} },
         serverInfo: SERVER_INFO,
         instructions:
-          'Stateless MCP 2026-07-28: send requests directly, each carrying io.modelcontextprotocol/protocolVersion in _meta. Search with docs_search, read with docs_fetch by uid, get_related finds neighbours, code_sample_search returns the snippets the corpus pulls by reference.',
+          'Stateless MCP 2026-07-28: send requests directly, each carrying io.modelcontextprotocol/protocolVersion in _meta. Search with docs_search, read with docs_fetch by uid; resolve_xref resolves a uid to its node, get_learning_path returns the ordered path to a competency, get_related finds neighbours, code_sample_search returns the snippets the corpus pulls by reference, list_catalogue enumerates everything.',
       })
 
     case 'notifications/cancelled':

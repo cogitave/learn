@@ -50,6 +50,8 @@ follows is the honest delta.
 | `code_sample_search` | The named regions of `snippets/` - the code the corpus pulls by reference, so a sample returned here is the sample a reader sees. |
 | `list_catalogue` | Enumerate the corpus so a tools-only client can browse without a query. Optional `kind` / `product` filter. |
 | `get_related` | Given a UID, the shared-taxonomy neighbours - the same scorer that renders the on-page "Related" section, so a reader and an agent get the same result. Excludes the node, its parent, and its children. |
+| `resolve_xref` | Resolve a UID to its node's kind, title, and locations (`uri` + `url`) without fetching the whole node - the lightweight step for following an `@uid` reference. |
+| `get_learning_path` | Given a module, unit, or path UID, the ordered learning path(s) that reach it - the module sequence and where the target sits - so an agent (or a person) can plan how to acquire a competency. Finds every path a shared module belongs to. |
 
 > **Retrieval is lexical, not hybrid.** The contract specifies BM25 plus vectors
 > plus a graph rerank. There is no embedding store in this repository, so the
