@@ -9,12 +9,12 @@
  * docs.config.json. What is and is not implemented is recorded in
  * docs/build-v0.md; read that before assuming a rule is enforced.
  *
- * Implemented blocking rules (7 of 11):
+ * Implemented blocking rules (8 of 11):
  *   schema, metadata-required, unit-membership, achievement-resolves,
- *   broken-link, broken-xref, broken-bookmark (same-page anchors)
+ *   broken-link, broken-xref, broken-bookmark (same-page AND cross-page anchors)
  * Deferred (reported as warnings or not at all):
- *   broken-bookmark (cross-page anchors), code-snippet-resolves (compile check),
- *   quiz-shape (partially checked), alt-text, stale-content
+ *   code-snippet-resolves (compile check), quiz-shape (partially checked),
+ *   alt-text, stale-content
  *
  * Zero runtime dependencies, per ADR-0003 (build from scratch).
  *
@@ -35,6 +35,7 @@ import { buildViewModel } from './lib/render/site.mjs';
 import { renderLanding } from './lib/render/landing.mjs';
 import { renderPages } from './lib/render/pages.mjs';
 import { emitProjections, hashAssets } from './lib/projections.mjs';
+import { checkEmittedBookmarks } from './lib/validate-emitted.mjs';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(HERE, '..'); // the learn content root
@@ -75,6 +76,9 @@ function main() {
   renderLanding(vm, outDir);
   renderPages(vm, outDir, { ROOT, err });
   emitProjections(vm, { outDir, ROOT, HERE, assets });
+  // Two-pass anchor validation: cross-page bookmarks resolve only once every
+  // target page has been emitted, so this runs on the assembled site.
+  checkEmittedBookmarks(outDir, err);
   const counts = {
     paths: vm.paths.length,
     modules: vm.modules.length,
