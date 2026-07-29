@@ -28,15 +28,15 @@ const ROOT = resolve(HERE, '..')
 const SITE = join(ROOT, '_site')
 
 /**
- * Is an already-resolved absolute path inside the site root?
+ * The prefix an already-resolved path must carry to be inside the site root.
  *
  * The trailing separator is the whole point. A bare `startsWith(SITE)` also
  * accepts a SIBLING whose name merely begins with the same characters - with a
  * root of `_site`, the directory `_sitemap` passes. Comparing against
- * `_site<sep>` cannot, and the equality case keeps the root itself admissible.
+ * `_site<sep>` cannot; the root itself is admitted by an equality check
+ * alongside it.
  */
 const ROOT_PREFIX = SITE + sep
-const contained = (p) => p === SITE || p.startsWith(ROOT_PREFIX)
 
 const args = process.argv.slice(2)
 const flag = (name, fallback) => {
@@ -139,10 +139,16 @@ createServer(async (req, res) => {
 
   const forbid = () => res.writeHead(403, { 'content-type': 'text/plain' }).end('forbidden')
 
+  // Both containment checks are written out in full rather than factored into a
+  // helper. Taint analysis recognises a guard it can see at the point of use; a
+  // predicate call is opaque to it, so extracting these reads as unguarded and
+  // the tool reports a path injection. Kept inline on purpose - the duplication
+  // is the price of the check being legible to something other than a human.
+  //
   // `resolve` collapses every `..` first, so what is checked is the path that
   // would actually be opened rather than the one that was typed.
   let path = resolve(SITE, `.${url}`)
-  if (!contained(path)) {
+  if (path !== SITE && !path.startsWith(ROOT_PREFIX)) {
     forbid()
     return
   }
@@ -157,7 +163,7 @@ createServer(async (req, res) => {
     // location, re-check that, and read the resolved path - so the file opened
     // is the file that was verified, not one that was merely spelled like it.
     const real = await realpath(path)
-    if (!contained(real)) {
+    if (real !== SITE && !real.startsWith(ROOT_PREFIX)) {
       forbid()
       return
     }
