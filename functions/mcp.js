@@ -17,7 +17,7 @@
  * it serves a public documentation corpus that is already public as HTML.
  */
 
-import { handleBody, rpcError } from '../tools/mcp/protocol.mjs'
+import { checkHeaders, handle, httpStatusFor, rpcError } from '../tools/mcp/protocol.mjs'
 
 /** Cold-start cache. A warm isolate answers without re-fetching the corpus. */
 let cached = null
@@ -87,7 +87,8 @@ export async function onRequest({ request, env }) {
   }
 
   if (request.method !== 'POST') {
-    // Nothing here pushes, so there is no server-initiated stream to open.
+    // 2026-07-28 removed the GET stream and the DELETE session teardown, and
+    // 405 is the prescribed answer to an older client still trying either.
     return new Response('POST only', { status: 405, headers: { allow: 'POST' } })
   }
 
@@ -105,6 +106,25 @@ export async function onRequest({ request, env }) {
     return json(rpcError(null, -32600, 'Request body too large.'), 413)
   }
 
+  // Parsed here rather than inside handleBody, because header validation is a
+  // comparison against the body and needs the body already parsed.
+  let msg
+  try {
+    msg = JSON.parse(text)
+  } catch (e) {
+    return json(rpcError(null, -32700, `Parse error: ${e.message}`), 400)
+  }
+
+  // On this transport a POST body is a single request or notification. A batch
+  // has no single method or name to mirror into headers, so it cannot be
+  // validated - and the transport does not permit it in the first place.
+  if (Array.isArray(msg)) {
+    return json(rpcError(null, -32600, 'Streamable HTTP carries one JSON-RPC message per POST; batches are not accepted.'), 400)
+  }
+
+  const headerError = checkHeaders((n) => request.headers.get(n), msg)
+  if (headerError) return json(headerError, 400)
+
   let state
   try {
     state = await getState(env, request)
@@ -114,6 +134,6 @@ export async function onRequest({ request, env }) {
     return json(rpcError(null, -32603, `Corpus unavailable: ${e.message}`), 503)
   }
 
-  const reply = handleBody({ ...state, disabled: () => false }, text)
-  return reply ? json(reply) : new Response(null, { status: 202 })
+  const reply = handle({ ...state, disabled: () => false }, msg)
+  return reply ? json(reply, httpStatusFor(reply)) : new Response(null, { status: 202 })
 }

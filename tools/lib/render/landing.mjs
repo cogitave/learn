@@ -150,8 +150,13 @@ export function renderLanding(vm, outDir) {
     `<div class="hc-panels">` +
     clients.map((c) => `<div class="hc-panel p-${c.id}">${c.body}</div>`).join('') +
     `</div>` +
-    `<p class="hero-connect-note">Speaks the current MCP spec &mdash; ` +
-    `<a href="https://modelcontextprotocol.io/specification/2026-07-28">2026-07-28</a>, stateless.</p>` +
+    // Naming the revision is not the same as telling a reader what it costs
+    // them. This endpoint is modern-only, so a client still opening with the
+    // retired `initialize` handshake is refused - and the reader who hits that
+    // needs to know it is their client version, not a broken service.
+    `<p class="hero-connect-note">Speaks ` +
+    `<a href="https://modelcontextprotocol.io/specification/2026-07-28">MCP 2026-07-28</a>, stateless. ` +
+    `Needs a client on that revision; older ones are refused with a message saying so.</p>` +
     `</div></aside>`;
 
   const home =

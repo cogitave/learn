@@ -43,6 +43,9 @@ jobs:
       - name: Build + validate (all implemented gates; fails on any error)
         run: node tools/build.mjs --out _site
 
+      - name: MCP conformance - the 2026-07-28 MUST/SHOULD rules
+        run: npm test
+
       - name: MCP smoke - server answers server/discover over stdio (stateless 2026-07-28)
         run: >
           printf '%s\n'
