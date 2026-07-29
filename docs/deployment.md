@@ -92,7 +92,7 @@ points at, `https://mcp.cogitave.com/mcp`) is served through the
 gateway** (Envoy/Kong, `ext_authz`). The gateway, once, fail-closed:
 
 1. **Authenticates** the caller - `COGITAVE_API_KEY` at Day 0; OAuth 2.1
-   Resource-Server scopes are the target (MCP spec 2025-11-25).
+   Resource-Server scopes are the target (MCP spec 2026-07-28).
 2. **Resolves the tenant** and propagates the context immutably.
 3. **Enforces the entitlement + rate limit** - this is where the free-tier fence
    (section 6) lives. Tenants, entitlements, and evidence are **Cogitave Core
@@ -136,7 +136,7 @@ from local to production:
 
 | Level | How to disable | Effect | Reversible |
 |---|---|---|---|
-| **Local / self-host** | `COGITAVE_LEARN_MCP_ENABLED=false` (or the `--disabled` flag) at start | server starts but every data method returns a `-32001 "disabled"` error; HTTP returns `503`; the handshake (`initialize`/`ping`) still answers so probes learn it is intentionally down | restart with the flag off |
+| **Local / self-host** | `COGITAVE_LEARN_MCP_ENABLED=false` (or the `--disabled` flag) at start | server starts but every data method returns a `-32001 "disabled"` error; HTTP returns `503`; on stdio `server/discover` still answers so a probe learns it is intentionally down | restart with the flag off |
 | **Local / self-host, live** | create the file at `COGITAVE_LEARN_MCP_KILLFILE` (`touch`) | same, but flips **without a restart** - the server checks the file per request | `rm` the file |
 | **Production** | the **cogitave-cloud gateway** disables the `/mcp` route (and/or an OpenFeature kill-switch flag) | the hosted endpoint is off for everyone or per-tenant, at the edge, before any backend is hit | re-enable the route/flag |
 

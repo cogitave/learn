@@ -43,9 +43,9 @@ jobs:
       - name: Build + validate (all implemented gates; fails on any error)
         run: node tools/build.mjs --out _site
 
-      - name: MCP smoke - server serves the built corpus over stdio
+      - name: MCP smoke - server answers server/discover over stdio (stateless 2026-07-28)
         run: >
           printf '%s\n'
-          '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-11-25","capabilities":{},"clientInfo":{"name":"ci","version":"0"}}}'
-          | node tools/mcp/server.mjs --site _site 2>&1 >/dev/null
-          | grep -q 'MCP (stdio) ready'
+          '{"jsonrpc":"2.0","id":1,"method":"server/discover"}'
+          | node tools/mcp/server.mjs --site _site 2>/dev/null
+          | grep -q '"2026-07-28"'
