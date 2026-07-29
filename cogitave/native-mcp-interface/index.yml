@@ -3,7 +3,7 @@ uid: cogitave.learn.native-mcp-interface
 metadata:
   title: A native MCP interface to the canonical model
   description: Why a canonical model's tools and resources over the Model Context Protocol can be its query surface (not an adapter) so humans and agents share one surface, the protocol baseline the server commits to, and the tools and propose-only governance calls an agent uses. Cogitave's Core is the example.
-  ms.date: 2026-07-26
+  ms.date: 2026-07-29
   author: cogitave
   ms.topic: module
 title: A native MCP interface to the canonical model

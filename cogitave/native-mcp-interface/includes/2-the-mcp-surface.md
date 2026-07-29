@@ -24,13 +24,19 @@ second-class.
 pins the concrete contract Cogitave's Core server commits to - and it doubles as
 a checklist of the decisions any native MCP surface has to make:
 
-- **Spec revision 2025-11-25** - the `2026-07-28` release candidate is tracked
-  for a future upgrade, not adopted yet.
+- **Spec revision 2025-11-25**, pinned deliberately and still what Core ships
+  against. `2026-07-28` has since been **released** and is tracked for upgrade.
+  It is not a point release: it removed the session and the `initialize`
+  handshake outright, in favour of self-contained requests that carry their own
+  protocol version and capabilities. See [what a pinned revision is
+  for](#what-a-pinned-revision-is-for) below.
 - **Two transports**: stdio for local agents (namzu kernel, CI) and Streamable
   HTTP for edge/remote callers - no legacy HTTP+SSE. An invalid `Origin` gets
   HTTP 403; GET-stream polling and resumption use event IDs.
 - **JSON-RPC 2.0** over a stateful session, with capability negotiation
-  happening once, at `initialize`.
+  happening once, at `initialize`. This is the part `2026-07-28` replaced, and
+  it is the clearest illustration of why the revision is pinned rather than
+  followed.
 - **JSON Schema 2020-12** for every tool's input and output - the same dialect
   the property graph schema itself uses, so a tool's structured content and the
   model validate identically.
@@ -59,3 +65,30 @@ escape hatch.
 > When you evaluate any MCP surface, ask ADR-0003's own question back: is this
 > tool/resource set the canonical thing itself, or an adapter in front of
 > something else? Cogitave's answer for Core is the former.
+
+## What a pinned revision is for
+
+The site you are reading this on has its own MCP endpoint, and it runs
+**`2026-07-28`** - a different revision from the one Core pins. That is not an
+inconsistency anyone forgot to fix; it is what pinning is for, and it is worth
+sitting with, because it is the situation you will actually be in.
+
+`2026-07-28` did not add a feature to the protocol above. It removed the spine
+of it. There is no `initialize`, so there is no session, so capability
+negotiation cannot happen "once, at the start" - every request carries its own
+protocol version and capabilities, and the server is forbidden from inferring
+anything from a previous one. A server built for the older shape does not get
+there by upgrading a dependency.
+
+So a revision is pinned, and the difference between two surfaces becomes a
+visible, dated fact rather than an accident discovered when a client breaks.
+Each surface upgrades when its own constraints allow: a documentation endpoint
+serving a static corpus has almost nothing to lose by moving early, while a
+server holding subscriptions and live invalidation has considerably more to
+work through.
+
+The transferable point is not which revision is "right". It is that a
+fast-moving protocol is a **dependency with a version**, and the two honest
+positions are to pin it and say which pin you are on, or to float and accept
+that your callers find out when something stops working. "We use MCP" is not a
+statement of compatibility with anything.

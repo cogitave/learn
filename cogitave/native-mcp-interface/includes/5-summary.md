@@ -12,7 +12,9 @@ In this module, you:
   2025-11-25, stdio and Streamable HTTP transports, JSON-RPC 2.0 over a stateful
   session, JSON Schema 2020-12 for every tool's input and output, and tool
   input-validation failures returned as tool execution errors so a calling model
-  can self-correct.
+  can self-correct - and saw why the revision is **pinned and dated** rather
+  than followed, since `2026-07-28` has since removed the session and the
+  handshake entirely, and this site's own MCP endpoint already runs it.
 - Named the **tools and resources** such a surface exposes - `docs_search`
   through `describe_schema`, the `cogitave://{type}/{id}` resource template with
   `subscribe` and change notifications - and saw how `query_graph` is bounded
