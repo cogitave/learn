@@ -43,15 +43,15 @@ available because it happened to be reachable.
 
 - Capabilities are an **allow-list**, not a deny-list. An agent can do exactly
   what it declares and nothing more.
-- Adding a behaviour means adding a declared capability - and, because behaviour
-  changes are gated, a scenario that proves the new behaviour is safe.
+- Adding a behavior means adding a declared capability - and, because behavior
+  changes are gated, a scenario that proves the new behavior is safe.
 - If a task needs more authority than the grant carries, the correct move is to
   request a grant change through a human. Widening a grant to make a step easier
   is the failure mode this model exists to prevent.
 
 > [!CAUTION]
 > Never widen a capability to make a failing check pass. Capabilities follow the
-> behaviour you can prove safe, not the other way around. A grant widened to get
+> behavior you can prove safe, not the other way around. A grant widened to get
 > a green result has removed the only evidence that the result meant anything.
 
 ## 3. Execution is sandboxed
@@ -88,7 +88,7 @@ A human is summoned as an **exception**, not as a routine checkpoint:
 - confidence is low, or the case is novel;
 - drift, an anomaly, or a policy violation is detected;
 - or the action is in the small, explicit always-human set - applying,
-  merging, releasing, rotating a secret, changing organisation settings, and the
+  merging, releasing, rotating a secret, changing organization settings, and the
   irreversible-catastrophic actions such as mass data deletion, billing, and
   external publication.
 
