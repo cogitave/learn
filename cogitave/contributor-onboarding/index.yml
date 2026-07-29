@@ -1,17 +1,17 @@
 ### YamlMime:LearningPath
 uid: cogitave.learn.paths.contributor-onboarding
 metadata:
-  title: Contributor onboarding
-  description: The fast start for every new Cogitave contributor and agent - apply the AGENTS floor, inherit the project baseline, work the request lifecycle, and open your first pull request.
+  title: Onboard to an AI-native codebase
+  description: The fast start for anyone joining an AI-native codebase - apply the non-negotiable floor, inherit a repository's complete ruleset, work the request lifecycle, and open your first pull request. Cogitave's own codebase is the worked example.
   ms.date: 2026-06-28
   author: cogitave
   ms.topic: learning-path
-title: Contributor onboarding
+title: Onboard to an AI-native codebase
 summary: |
-  The fast start for everyone who joins Cogitave: apply the non-negotiable AGENTS floor, inherit a repository's complete ruleset through the project baseline, work the propose-only request lifecycle, and open your first signed, Conventional-Commit pull request. This is the Tier-0 entry point every role track builds on. Day 0: this path is scaffolded - the module bodies are authored in a later content phase.
+  The fast start for everyone joining an AI-native codebase: apply the non-negotiable floor every human and agent obeys, inherit a repository's complete ruleset through the project baseline, work the propose-only request lifecycle, and open your first signed, Conventional-Commit pull request. This is the Tier-0 entry point every role track builds on. Cogitave's own codebase is the worked example throughout.
 prerequisites: |
   - Basic familiarity with Git and the command line.
-  - No prior Cogitave experience required.
+  - No prior experience with an AI-native codebase required.
 iconUrl: /learn/achievements/contributor-onboarding.svg
 levels:
   - beginner

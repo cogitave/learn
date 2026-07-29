@@ -1,4 +1,4 @@
-Config can be committed and reviewed in the open. Secrets cannot. The
+Config can be committed and reviewed in the open. Secrets cannot. Cogitave's
 [secrets & environment standard](../../../../standards/docs/standards/secrets-and-env.md)
 and [ADR-0008](../../../../standards/docs/decisions/0008-secrets-management-and-dotenvx.md)
 draw a hard line, and the rule at the top of it is simple.
@@ -39,9 +39,9 @@ the app resolves the **value** at runtime.
 
 ## The dev-env approach: dotenvx
 
-Plaintext `.env` is the single largest source of leaks, so the standard mandates
-**[dotenvx](https://dotenvx.com/)**: encrypted `.env` files that are safe to
-commit.
+Plaintext `.env` is the single largest source of leaks, so Cogitave's standard
+mandates **[dotenvx](https://dotenvx.com/)**: encrypted `.env` files that are safe
+to commit.
 
 - A **`DOTENV_PUBLIC_KEY`** sits at the top of the encrypted `.env`, so anyone on
   the team can **add and encrypt** values.

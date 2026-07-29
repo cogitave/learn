@@ -8,7 +8,7 @@ states the loop as four steps.
    Core and reachable over MCP. Ask `docs_search` for the task - "add an HTTP
    endpoint", "emit a domain event" - or `query_graph` for `Pattern` nodes and
    their `governedBy` edges, before writing any code.
-2. **Read the entry, follow the two links.** Read *The Cogitave way* for
+2. **Read the entry, follow the two links.** Read *the canonical way* for
    orientation, then open the **governing standard** (the rules you must obey)
    and the **reusable artifact** (the code you start from). The entry itself is
    deliberately short - it is not where the authority lives.
@@ -29,13 +29,13 @@ states the loop as four steps.
 > The rule of thumb for anything new: query the catalog, compose from the named
 > artifact, and only author new after a recorded "no fit" - then contribute the
 > new pattern back, so the next project finds it. An industrial-standard
-> solution that stops at the catalog becomes *our* standard.
+> solution that stops at the catalog becomes *your* standard.
 
 ## Patterns stop here, once chosen
 
-[ADR-0022](../../../../standards/docs/decisions/0022-patterns-catalog-and-project-inheritance.md)
-(part A3) makes this explicit: once a golden path is chosen, the industry
-practice it ports **becomes** the Cogitave standard, and the estate does not
+Cogitave's [ADR-0022](../../../../standards/docs/decisions/0022-patterns-catalog-and-project-inheritance.md)
+(part A3) makes the principle explicit: once a golden path is chosen, the industry
+practice it ports **becomes** the standard, and your estate does not
 re-shop the same decision on the next task. New patterns enter at a `trial` or
 `assess` maturity and are promoted to `adopt`, per the same vocabulary as the
 [technology-radar](../../../../standards/docs/standards/technology-radar.md); a
@@ -47,7 +47,7 @@ against them last quarter.
 ## Day-0 honesty
 
 The catalog and the MCP query surface it is built on are the design this module
-teaches you to use; per ADR-0022's own consequences, the catalog seeds from the
-templates and standards already authored and grows as more patterns are proven
-in real use - it is not a promise that every conceivable task already has a
-polished entry. Where it is silent, step 4 is exactly what you do next.
+teaches you to use; per Cogitave's ADR-0022 and its own consequences, such a
+catalog seeds from the templates and standards already authored and grows as more
+patterns are proven in real use - it is not a promise that every conceivable task
+already has a polished entry. Where it is silent, step 4 is exactly what you do next.

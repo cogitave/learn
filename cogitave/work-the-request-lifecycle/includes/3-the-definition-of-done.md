@@ -1,13 +1,16 @@
-"Worked on" is not "done." Stage 6 (review) settles the difference with a
-machine-checkable gate: the **Definition of Done**, the operational form of the
+"Worked on" is not "done." The review stage settles the difference with a
+machine-checkable gate: a **Definition of Done**, the operational form of the
 floor's own "Definition of done." A Request advances `review -> done` only when
-**DoD == 100%** *and* a **CODEOWNER approves**. The canonical checklist is
-[`definition-of-done.md`](../../../../agents/lifecycle/definition-of-done.md).
+**DoD == 100%** *and* a **CODEOWNER approves**. Cogitave's canonical checklist is
+[`definition-of-done.md`](../../../../agents/lifecycle/definition-of-done.md); the
+shape of it - a scored checklist plus a separate human sign-off - is what carries
+to your own org.
 
 ## What DoD == 100% means
 
-The DoD is **scoped by request type**. Every Request runs the **Core** items;
-classification flags add **conditional** items on top:
+A good DoD is **scoped by request type**. Every Request runs a set of **Core**
+items; classification flags add **conditional** items on top. Cogitave's instance
+fills that shape out like this:
 
 - **Core (every Request)** - code review complete, tests green, evals green for
   any agent-behavior change, the `docs-required` gate satisfied, signed
@@ -31,17 +34,18 @@ The DoD score is the **machine** gate. The CODEOWNER approval is a **separate
 human** gate, computed independently. Both are required - this is separation of
 duties: propose is not approve.
 
-The `get_dod` tool returns the checklist as data, so the gate is queryable rather
-than a matter of opinion. Its `result` is `done` only when **no item fails, every
-applicable item passes or is validly waived, and `codeownerApproval.approved` is
-true**. A perfect automated score with no human approval is *not* done.
+Cogitave exposes the checklist as data through a `get_dod` tool, so the gate is
+queryable rather than a matter of opinion. Its `result` is `done` only when **no
+item fails, every applicable item passes or is validly waived, and
+`codeownerApproval.approved` is true**. A perfect automated score with no human
+approval is *not* done.
 
 ## Closing the loop
 
 The final stage (done / doc-update) closes it: draft the Keep a Changelog entry
 from the Conventional commits, sync `docs/`, reindex the UID graph, and write a
-**completion-evidence token** to Core. Only when doc-drift is clear and that
-evidence is recorded does the Request reach `done`.
+**completion-evidence token** to the canonical model. Only when doc-drift is clear
+and that evidence is recorded does the Request reach `done`.
 
 > [!TIP]
 > Before you call anything finished, ask the three questions this unit answers:

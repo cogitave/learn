@@ -1,10 +1,12 @@
-The canonical, company-wide plan is
-[`incident-response-plan.md`](../../../../ops/incident-response/docs/incident-response-plan.md).
-It models the lifecycle on **NIST SP 800-61r3** (2025), reframed around the six
-**CSF 2.0** Functions: the continuous readiness Functions - **Govern, Identify,
-Protect** - and the incident-time Functions - **Detect, Respond, Recover** -
-with **Learn** feeding findings back into readiness. This unit walks that live
-loop: detect, declare, command, contain, recover, learn.
+An AI-native org runs on one canonical, company-wide incident-response plan.
+Cogitave's is
+[`incident-response-plan.md`](../../../../ops/incident-response/docs/incident-response-plan.md),
+and this unit walks it as the worked example. It models the lifecycle on
+**NIST SP 800-61r3** (2025), reframed around the six **CSF 2.0** Functions: the
+continuous readiness Functions - **Govern, Identify, Protect** - and the
+incident-time Functions - **Detect, Respond, Recover** - with **Learn** feeding
+findings back into readiness. This unit walks that live loop: detect, declare,
+command, contain, recover, learn.
 
 ## Detection and declaration
 
@@ -19,9 +21,9 @@ severity and downgrade once the facts firm up.
 
 ## Severity: one scale, and the override that always wins
 
-Cogitave runs **one** severity scale, S1-S4, detailed in the
-[severity matrix](../../../../ops/incident-response/docs/severity-matrix.md). S1
-**always** declares a full-response incident; S2 declares when its blast radius
+Run **one** severity scale for the whole org. Cogitave's is S1-S4, detailed in
+the [severity matrix](../../../../ops/incident-response/docs/severity-matrix.md).
+S1 **always** declares a full-response incident; S2 declares when its blast radius
 is multi-tenant or growing, has no workaround with a fast-burning error budget,
 or is trending toward S1; S3/S4 are worked in the queue.
 

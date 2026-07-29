@@ -1,21 +1,21 @@
 ### YamlMime:Module
 uid: cogitave.learn.native-mcp-interface
 metadata:
-  title: The native MCP interface to Core
-  description: Why Cogitave Core's tools and resources over the Model Context Protocol are the canonical query surface (not an adapter), the protocol baseline the server commits to, and the tools, resources, and propose-only governance calls an agent actually uses.
+  title: A native MCP interface to the canonical model
+  description: Why a canonical model's tools and resources over the Model Context Protocol can be its query surface (not an adapter) so humans and agents share one surface, the protocol baseline the server commits to, and the tools and propose-only governance calls an agent uses. Cogitave's Core is the example.
   ms.date: 2026-07-26
   author: cogitave
   ms.topic: module
-title: The native MCP interface to Core
-summary: Read Core's MCP interface as the source of truth for how an agent queries the estate - why the surface is native rather than adapted, the protocol contract it commits to, and the tools and resources you call.
+title: A native MCP interface to the canonical model
+summary: Read a canonical model's native MCP interface as the source of truth for how humans and agents query one org's estate - why the surface is native rather than adapted, the protocol contract it commits to, and the tools and resources you call. Cogitave's Core is the worked example.
 abstract: |
   By the end of this module, you'll be able to:
-  - Explain why MCP is Core's canonical query surface rather than an adapter bolted onto REST, per ADR-0003.
-  - State the protocol baseline Core's MCP server commits to: spec revision, transports, schema dialect, and how tool errors are reported.
-  - Name Core's MCP tools and resources, what each returns, and how `query_graph` is bounded so it cannot become a general escape hatch.
+  - Explain why a canonical model's MCP tools and resources can be its query surface rather than an adapter bolted onto REST - the decision Cogitave recorded in ADR-0003.
+  - State the protocol baseline such an MCP server commits to: spec revision, transports, schema dialect, and how tool errors are reported - with Cogitave's Core as the worked instance.
+  - Name the MCP tools and resources such a surface exposes, what each returns, and how a bounded graph-query tool is kept from becoming a general escape hatch.
   - Distinguish the read tools from the propose-only request-lifecycle tools, and explain why writes never mutate protected state directly.
 prerequisites: |
-  - Familiarity with Cogitave Core as a single canonical property graph is helpful.
+  - Familiarity with a single canonical property graph (such as Cogitave's Core) is helpful.
   - No prior Model Context Protocol experience required.
 iconUrl: /learn/achievements/native-mcp-interface.svg
 ratingEnabled: true

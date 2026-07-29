@@ -8,7 +8,7 @@ retired through process. There is no silent break.
 ## 1. The right scheme per surface
 
 There is no single versioning scheme that fits a library, a wire protocol, and a
-graph. Cogitave picks per surface and makes the version **observable** so agents
+graph. An AI-native org picks per surface and makes the version **observable** so agents
 can negotiate it:
 
 | Surface | Scheme | Default |
@@ -33,7 +33,7 @@ for proto, the manifest and RFC for HTTP).
 
 Backward compatibility within a contract is **absolute** - additive change only.
 Any subtractive or semantics-altering change starts a new contract version and
-deprecates the old one. Cogitave supports the current contract plus the previous
+deprecates the old one. Cogitave's policy, for instance, supports the current contract plus the previous
 (N-1) for a **minimum of 12 months**, and date-pinned HTTP consumers for
 **24 months** from the date they pin. The exact window is declared in the
 deprecating RFC and encoded in the manifest - never implicit.

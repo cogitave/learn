@@ -1,7 +1,8 @@
-You now know that Cogitave answers "which database, which infrastructure,
-which model" the same way every time: a stated default, a real decision tree,
-and a deviation rule gated on a measured need and an ADR - never per-team
-taste, and never guessed from memory.
+You now know that an AI-native org can answer "which database, which
+infrastructure, which model" the same way every time: a stated default, a real
+decision tree, and a deviation rule gated on a measured need and an ADR - never
+per-team taste, and never guessed from memory. Cogitave's own decision guides,
+this module's worked example, do exactly that.
 
 In this module, you:
 

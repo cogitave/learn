@@ -1,6 +1,7 @@
-Two named catalogs implement the contract from the previous unit. Both are
-Day-0 specs, paired as a human-authoritative `.md` and (for the scheduled
-catalog) a machine-authoritative `.yaml`, cataloged in
+Cogitave's estate implements the contract from the previous unit as two named
+catalogs - a concrete example of the fleet you would build for your own org.
+Both are Day-0 specs, paired as a human-authoritative `.md` and (for the
+scheduled catalog) a machine-authoritative `.yaml`, cataloged in
 [`agents/README.md`](../../../../agents/README.md) and
 [`agents/operations/README.md`](../../../../agents/operations/README.md).
 
@@ -35,14 +36,17 @@ external and reputational rather than internal:
 
 ## Why the two catalogs read differently
 
-The [operations overview](../../../../agents/operations/README.md) names the
-gap directly: a scheduled agent's mistake is "mostly internal and reversible -
-a label, a comment, a PR suggestion." An operations agent's mistake can
-"mislead a customer, leak PII, overspend, or damage the brand" - so its default
-posture is **PROPOSE-only by construction**. No agent in either catalog holds a
-`publish`, `send`, `email`, or `apply` capability; those verbs are reserved for
-the human gate, and an attempt to reach them is a capability-boundary
-violation, denied and recorded as a security event.
+The split teaches a general lesson about blast radius. The
+[operations overview](../../../../agents/operations/README.md) names the gap
+directly: a scheduled agent's mistake is "mostly internal and reversible - a
+label, a comment, a PR suggestion." An operations agent's mistake can "mislead
+a customer, leak PII, overspend, or damage the brand" - so its default posture
+is **PROPOSE-only by construction**. In Cogitave's fleet, no agent in either
+catalog holds a `publish`, `send`, `email`, or `apply` capability; those verbs
+are reserved for the human gate, and an attempt to reach them is a
+capability-boundary violation, denied and recorded as a security event. That is
+the pattern to copy: the higher an agent's blast radius, the more of its verbs
+you reserve for a human.
 
 ## The kill-switch and the eval gate
 

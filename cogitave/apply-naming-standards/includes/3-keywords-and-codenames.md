@@ -5,9 +5,9 @@ keeps them apart.
 
 ## Keyword-first, no redundant prefix
 
-The estate names functional artifacts with **plain keywords** and drops the
-redundant `cogitave-` prefix, because the parent org or folder already provides
-the namespace. This is the decision recorded in
+An AI-native org names functional artifacts with **plain keywords** and drops the
+redundant org prefix, because the parent org or folder already provides
+the namespace. This is the decision Cogitave records in
 [ADR-0007](../../../../standards/docs/decisions/0007-keyword-naming.md): names are
 keyword-based and plain - `bootstrap`, `core`, `standards` - not
 `cogitave-bootstrap`. Where a GitHub org login must be globally unique, the

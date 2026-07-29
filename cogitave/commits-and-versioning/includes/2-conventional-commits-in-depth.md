@@ -1,7 +1,7 @@
-Conventional Commits 1.0.0 is a small, strict grammar. The
+Conventional Commits 1.0.0 is a small, strict grammar. Cogitave's
 [commits-versioning standard](../../../../standards/docs/standards/commits-versioning.md)
-states it in one line - `<type>[scope][!]: <desc>` - and everything you write in
-Cogitave follows it. This unit unpacks each part.
+states it in one line - `<type>[scope][!]: <desc>` - and every commit in its
+estate follows it. This unit unpacks each part.
 
 ## The type carries the meaning
 

@@ -18,14 +18,14 @@ In this module, you:
   readiness.
 - Traced the business-continuity chain - **BIA -> service tiers -> backup
   strategy and DR plan -> exercises -> WORM evidence** - and the dependency
-  order (identity, then secrets/PKI, then gateway and Core) the estate recovers
-  in when more than one service is down.
+  order an AI-native org recovers in when more than one service is down (in
+  Cogitave's estate: identity, then secrets/PKI, then gateway and Core).
 
 ## Next steps
 
-- @cogitave.learn.operate-from-day-1 - the next module in **Operate the
-  estate**, on the inner and outer loop that ships a change day to day.
-- The **`ops/README.md`** doc, in the estate's ops tree, is the entry point to
+- @cogitave.learn.operate-from-day-1 - the next module in **Operate your
+  AI-native estate**, on the inner and outer loop that ships a change day to day.
+- Cogitave's **`ops/README.md`** doc, in its ops tree, is the entry point to
   both trees; return there whenever you need to find the next document rather
   than paraphrasing it from memory.
 - The **incident-response plan** is the canonical source for the full

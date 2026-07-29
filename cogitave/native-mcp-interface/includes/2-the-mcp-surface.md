@@ -1,22 +1,28 @@
 ## Why native, not adapted
 
-[ADR-0003](../../../../core/docs/decisions/0003-mcp-native.md) frames the choice
-as three options: (1) **MCP-native** - tools and resources are the canonical
-surface, REST/GraphQL/`llms.txt` are generated; (2) REST/GraphQL-native with an
-MCP adapter bolted on; (3) a proprietary agent RPC. Cogitave is an agent
-company, and agents are the primary consumers of company knowledge, so option 2
-would make them second-class - "the opposite of the company thesis," in the
-ADR's own words - and option 3 forfeits ecosystem and standardization for no
-real gain. The stated decision drivers were: an agent-first AI maturity target
-(Level 4 - agent-first with human oversight), one model and one query so
-humans and agents cannot drift onto different data, standardized tool/resource
-semantics with subscriptions and change notifications, and a spec Cogitave can
-author against with a clear upgrade path. The chosen outcome is option 1.
+When an org decides how to serve its canonical model to humans and agents, it is
+really choosing among three shapes of query surface. Cogitave weighed exactly
+these in [ADR-0003](../../../../core/docs/decisions/0003-mcp-native.md): (1)
+**MCP-native** - tools and resources are the canonical surface, REST/GraphQL/`llms.txt`
+are generated; (2) REST/GraphQL-native with an MCP adapter bolted on; (3) a
+proprietary agent RPC. Cogitave is an agent company, and agents are the primary
+consumers of company knowledge, so option 2 would make them second-class - "the
+opposite of the company thesis," in the ADR's own words - and option 3 forfeits
+ecosystem and standardization for no real gain. The stated decision drivers
+were: an agent-first AI maturity target (Level 4 - agent-first with human
+oversight), one model and one query so humans and agents cannot drift onto
+different data, standardized tool/resource semantics with subscriptions and
+change notifications, and a spec Cogitave can author against with a clear upgrade
+path. The chosen outcome is option 1. The transferable point is the question,
+not Cogitave's particular answer: if agents are first-class consumers of your
+knowledge, an adapter in front of a human-first API quietly makes them
+second-class.
 
 ## The protocol baseline
 
 [mcp-interface.md §1](../../../../core/docs/mcp-interface.md#1-protocol-baseline)
-pins the concrete contract the server commits to:
+pins the concrete contract Cogitave's Core server commits to - and it doubles as
+a checklist of the decisions any native MCP surface has to make:
 
 - **Spec revision 2025-11-25** - the `2026-07-28` release candidate is tracked
   for a future upgrade, not adopted yet.

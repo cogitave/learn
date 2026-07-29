@@ -1,9 +1,9 @@
-You can now shape a Cogitave contract surface and evolve it without breaking the
+You can now shape a contract surface and evolve it without breaking the
 people and agents that depend on it.
 
 In this module, you:
 
-- Separated the two questions Cogitave keeps apart: how a contract is **shaped**
+- Separated the two questions an AI-native org keeps apart: how a contract is **shaped**
   (the API design standard) and how it **changes over time** (the
   versioning-and-deprecation standard), settled by ADR-0019 (design) and
   ADR-0015 (versioning) respectively.
@@ -20,8 +20,8 @@ In this module, you:
 
 ## Next steps
 
-- @cogitave.learn.configuration-management - the next module in **Cogitave
-  engineering standards**, on classifying config from secrets and keeping both
+- @cogitave.learn.configuration-management - the next module in **Engineering standards for an
+  AI-native org**, on classifying config from secrets and keeping both
   out of git.
 - The **API design standard** is the canonical detail on modeling, errors,
   pagination, idempotency, and per-protocol conventions - the source of truth

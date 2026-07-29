@@ -1,6 +1,8 @@
-A Request always carries exactly one `stage` from a fixed enum. The stages run in
-order, and each one **produces an artifact** and **passes a gate** before the next
-begins.
+A Request always carries exactly one `stage` from a fixed, ordered enum, and each
+stage **produces an artifact** and **passes a gate** before the next begins. That
+shape - draft, then a sequence of gated stages, then a human-gated apply - is the
+transferable pattern; the seven stages below are how Cogitave's lifecycle
+instantiates it.
 
 | # | Stage | Artifact it must produce | Gate that lets it advance |
 | --- | --- | --- | --- |
@@ -33,8 +35,8 @@ minimal always-human set (merge / apply / release and the irreversible actions).
 
 ## The two write tools only propose
 
-The whole lifecycle exposes exactly **two write tools**, and this is the property
-to internalize:
+The lifecycle's whole write surface is deliberately tiny - in Cogitave's estate
+it is exactly **two write tools** - and this is the property to internalize:
 
 - `request_intake` - stage 1. Opens the GitHub issue and creates the draft
   Request node.

@@ -1,6 +1,6 @@
 You cannot manage what you cannot measure, and you cannot promise a reliability
 number you never observe. This final module of the path is about both halves:
-how Cogitave **measures** a running system, and how it turns that measurement
+how an AI-native org **measures** a running system, and how it turns that measurement
 into an **engineered** reliability discipline instead of a hope.
 
 The two halves are owned by two standards, and they are deliberately kept
@@ -33,7 +33,7 @@ honestly: Yuva still marks live inference as MOCK and learning as DORMANT.
 ## What you will get from this module
 
 A working command of the telemetry model - what a trace, a metric, and a log are
-in Cogitave and why they are bound to one queryable Core model - plus the
+and why they are bound to one queryable canonical model - plus the
 vocabulary of reliability engineering: SLI, SLO, error budget, burn rate, and the
 policy that gives an SLO teeth. By the end you should be able to instrument a
 service and reason about whether it is reliable enough to keep shipping.

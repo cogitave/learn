@@ -1,8 +1,10 @@
-The [reliability standard](../../../../standards/docs/standards/reliability.md)
-(section 2) builds on the SLI menu that
+A reliability discipline builds on the SLI menu that
 [observability](../../../../standards/docs/standards/observability.md) already
 defines - latency, error rate, availability - and adds **how to set the SLO and
 how to alert on it** so it is an operable contract, not a vanity number.
+Cogitave's [reliability standard](../../../../standards/docs/standards/reliability.md)
+(section 2) is the worked reference for the mechanics below; any AI-native org
+applies the same pattern to its own services.
 
 ## Set the SLO from the user's journey
 
@@ -25,8 +27,9 @@ journey), and correctness/error-rate - at one of three inherited tier targets:
 ## Compute the error budget and the burn rate
 
 The **error budget** is `(1 - SLO) x valid events in the window`, tracked as
-budget remaining - a percentage and an absolute - and exposed as a queryable Core
-fact. Worked example: at **99.9% over 30 days**, the budget is 0.1%, or **~43
+budget remaining - a percentage and an absolute - and exposed as a queryable fact
+on the org's canonical model (Cogitave's Core, in its instance). Worked example:
+at **99.9% over 30 days**, the budget is 0.1%, or **~43
 minutes** of allowed downtime.
 
 The **burn rate** is how fast that budget is spent: rate `1.0` spends the whole

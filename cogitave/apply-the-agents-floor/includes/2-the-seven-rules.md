@@ -1,6 +1,9 @@
-The root [`AGENTS.md`](../../../../../AGENTS.md) lists seven non-negotiable rules
-under *"Non-negotiable rules (the floor)"*. Here they are in order, each with the
-one thing you must remember and the standard that owns the detail.
+Cogitave's root [`AGENTS.md`](../../../../../AGENTS.md) lists seven non-negotiable
+rules under *"Non-negotiable rules (the floor)"*. They are a worked example of
+what a floor contains: a few rules that are cheap to check, hard to argue with,
+and enforced the same way for a person and for an agent. Here they are in order,
+each with the one thing to remember and the standard that owns the detail - a
+template to adapt to your own org, not a law handed down.
 
 ## 1. English only
 

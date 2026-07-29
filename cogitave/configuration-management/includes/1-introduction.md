@@ -2,14 +2,14 @@ Misconfiguration is not a minor operational nuisance. Across two decades of
 empirical research, configuration errors are the largest category of operator
 error, and operator error is the largest single source of failure - yet the
 system's own handling of bad input is often the real defect, because it accepts
-a wrong value silently instead of refusing to run. Cogitave's response is a
-**cert-grade** rule: a service must **refuse to start** when it is misconfigured,
-rather than fail deep in production.
+a wrong value silently instead of refusing to run. The response an AI-native org
+needs is a **cert-grade** rule: a service must **refuse to start** when it is
+misconfigured, rather than fail deep in production.
 
-That rule has a governing document. The
+That rule deserves a governing document - Cogitave writes two. Its
 [configuration standard](../../../../standards/docs/standards/configuration.md)
 owns *how config works* - classification, precedence, typed schema-validated
-parsing, and config-as-code. The
+parsing, and config-as-code. Its
 [secrets & environment standard](../../../../standards/docs/standards/secrets-and-env.md)
 owns *secret material* - the store, rotation, and how developers manage local
 `.env` files. This module teaches you to **use both**; when you need the full

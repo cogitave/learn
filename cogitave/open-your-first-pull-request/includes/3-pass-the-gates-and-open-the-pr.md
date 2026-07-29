@@ -3,9 +3,10 @@ docs-complete, and open the pull request.
 
 ## Let the pre-commit hooks run
 
-When you commit, **lefthook** runs the standard set of checks against your staged
-files. Lefthook is the single polyglot runner for the estate; the same commands
-run in CI. The
+When you commit, a **pre-commit runner** runs a standard set of checks against
+your staged files, and the same commands run in CI so local and CI stay in
+parity. Cogitave uses **lefthook**, a single polyglot runner, across its estate;
+its
 [hooks-precommit standard](../../../../standards/docs/standards/hooks-precommit.md)
 defines the full set:
 
@@ -29,15 +30,17 @@ before you even see them.
 
 ## Satisfy docs-as-code
 
-Cogitave's rule is blunt: **if code changes, docs change.** The `docs-required`
-CI gate fails a pull request that touches code but does not touch `docs/`, a
-`*.md` file, or the `CHANGELOG`. This is the floor
-([AGENTS.md](../../../../../AGENTS.md), rule 4) and the
-[documentation standard](../../../../standards/docs/standards/documentation.md);
-there is a `docs-exempt` label for the genuine exceptions, but reaching for it is
-the exception, not the habit. Separately, schema validation and any broken
-xref, link, or bookmark are **blocking errors**, so the docs you write have to
-resolve, not just exist.
+Docs-as-code is the discipline: if code changes, docs change, and a gate enforces
+it mechanically rather than on the honor system. Cogitave's version of the rule
+is blunt - **if code changes, docs change** - and its `docs-required` CI gate
+fails a pull request that touches code but does not touch `docs/`, a `*.md` file,
+or the `CHANGELOG`. That is written into Cogitave's floor
+([AGENTS.md](../../../../../AGENTS.md), rule 4) and its
+[documentation standard](../../../../standards/docs/standards/documentation.md); a
+`docs-exempt` label exists for the genuine exceptions, but reaching for it is the
+exception, not the habit. Separately, schema validation and any broken xref,
+link, or bookmark are **blocking errors**, so the docs you write have to resolve,
+not just exist.
 
 Practically: before you open the PR, ask what a reader needs to know because of
 your change, and write that down in the same branch.

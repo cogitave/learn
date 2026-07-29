@@ -1,4 +1,4 @@
-You now know how a query actually resolves against Core's canonical graph.
+You now know how a query layer resolves a request against one canonical graph - with Cogitave Query as the worked example.
 
 In this module, you:
 

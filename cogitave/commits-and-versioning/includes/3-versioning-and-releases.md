@@ -1,15 +1,15 @@
 You now write the commit; this unit follows it all the way to a released version.
 The path is: commit types set the **version number**, an engine assembles a
 **Release-PR** and changelog, and the **branching model** gates when the release
-happens. All of it is grounded in the
+happens. All of it is grounded in Cogitave's
 [commits-versioning](../../../../standards/docs/standards/commits-versioning.md)
 and [branching-release](../../../../standards/docs/standards/branching-release.md)
 standards.
 
 ## Types drive Semantic Versioning
 
-Cogitave versions with **Semantic Versioning 2.0.0** - `MAJOR.MINOR.PATCH` - and
-your commit types decide which number moves:
+An AI-native org versions with **Semantic Versioning 2.0.0** - `MAJOR.MINOR.PATCH`
+- and your commit types decide which number moves:
 
 - a `fix` bumps **PATCH** (`1.4.2` to `1.4.3`);
 - a `feat` bumps **MINOR** (`1.4.2` to `1.5.0`);
@@ -24,9 +24,9 @@ does **not** produce a `1.0.0`; that first major is a deliberate decision.
 
 ## release-please assembles the release
 
-The org engine is **release-please in manifest mode**. It drives Rust, Go, and TS
-from a single config and, as commits with releasable types land on `main`, it
-opens a **Release-PR**: a pull request that proposes the next SemVer number and a
+Cogitave's release engine, for instance, is **release-please in manifest mode**.
+It drives Rust, Go, and TS from a single config and, as commits with releasable
+types land on `main`, it opens a **Release-PR**: a pull request that proposes the next SemVer number and a
 **Keep a Changelog 1.1.0** entry drained from the `[Unreleased]` section, grouped
 into Added / Changed / Deprecated / Removed / Fixed / Security with ISO-8601
 dates. The release is **human-approved** - merging that Release-PR is what cuts

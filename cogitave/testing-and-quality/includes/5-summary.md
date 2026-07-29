@@ -1,4 +1,4 @@
-You can now test a change to Cogitave's standard and reason about the gate it must
+You can now test a change to the standard and reason about the gate it must
 pass.
 
 In this module, you:
@@ -22,10 +22,10 @@ In this module, you:
 
 ## Next steps
 
-- @cogitave.learn.api-design - the next module in **Cogitave engineering
-  standards**, on shaping and versioning the contract surfaces these gates
+- @cogitave.learn.api-design - the next module in **Engineering standards for
+  an AI-native org**, on shaping and versioning the contract surfaces these gates
   protect.
-- The **Testing & Quality Standard**, in the estate's standards repository,
+- The **Testing & Quality Standard**, in your estate's standards repository,
   is worth a re-read at the source; the thresholds are the gate.
 - The **Test Harness Reference** has the exact commands and configs to wire
   the gates into a repo.

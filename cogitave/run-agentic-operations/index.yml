@@ -2,18 +2,18 @@
 uid: cogitave.learn.run-agentic-operations
 metadata:
   title: Run agentic operations
-  description: What "agentic operations" means at Cogitave - scheduled engineering agents and business-ops agents running the estate under least privilege, the draft-vs-act rule that decides when a human is gated in, and the real fleet of agents that do this work, Day-0 honest about what is spec versus what runs.
+  description: What "agentic operations" means - agents running an estate under least privilege with a human gate as an exception handler, the draft-vs-act rule that decides when a human is gated in, and Cogitave's scheduled and operations agent fleet as the example, Day-0 honest about spec versus what runs.
   ms.date: 2026-07-26
   author: cogitave
   ms.topic: module
 title: Run agentic operations
-summary: Explain what agentic operations means at Cogitave, state the draft-vs-act rule that decides when an agent acts unattended versus when it stops for a human, and name the real fleet of scheduled and operations agents that run the estate.
+summary: Explain what agentic operations means - agents running an estate unattended inside rails - state the draft-vs-act rule that decides when an agent acts unattended versus when it stops for a human, and study Cogitave's own fleet of scheduled and operations agents as the worked example of the fleet you would build.
 abstract: |
   By the end of this module, you'll be able to:
-  - Explain what "agentic operations" means at Cogitave: agents running the estate under least privilege, inside the request lifecycle, traced as evidence.
+  - Explain what "agentic operations" means: agents running your estate under least privilege, inside the request lifecycle, traced as evidence - with Cogitave's own agent fleet as the worked example.
   - State the draft-vs-act rule and read the loop-placement table that decides when an agent acts unattended and when it stops for a human.
-  - Name the real fleet - the five scheduled engineering agents and the six operations business agents - and say what each proposes and who holds its human gate.
-  - Read the Agentic Operations Standard as the source, and trace any specific agent claim to its paired spec under `agents/scheduled/` or `agents/operations/`.
+  - Name Cogitave's real fleet - five scheduled engineering agents and six operations business agents - and say what each proposes and who holds its human gate, as a model for the fleet you would build.
+  - Read an agentic-operations standard as the source, and trace any specific agent claim to its paired spec - in Cogitave's estate, under `agents/scheduled/` or `agents/operations/`.
 prerequisites: |
   - Completion of "Apply the AGENTS floor" and "Work the request lifecycle" is recommended.
   - Familiarity with the agent identity and capability model helps but is not required.

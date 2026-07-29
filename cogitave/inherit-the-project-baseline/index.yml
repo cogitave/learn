@@ -2,7 +2,7 @@
 uid: cogitave.learn.inherit-the-project-baseline
 metadata:
   title: Inherit the project baseline
-  description: How a new Cogitave repository inherits its complete ruleset automatically - the floor, the standards, the scaffold, the lifecycle, and the identity - instead of re-deciding the rules per repo, and how to discover an existing pattern before you generate any code.
+  description: How a new repository in an AI-native org inherits its complete ruleset automatically - the floor, the standards, the scaffold, the lifecycle, and the identity - instead of re-deciding the rules per repo, and how to discover an existing pattern before you generate any code.
   ms.date: 2026-07-26
   author: cogitave
   ms.topic: module
@@ -11,7 +11,7 @@ summary: How a new repository is born on the paved road with its whole ruleset a
 abstract: |
   By the end of this module, you'll be able to:
   - Explain how a new repository inherits its complete ruleset automatically - the floor, the standards, the scaffold, the lifecycle, and the identity - instead of re-deciding the rules.
-  - Scaffold a repo from `templates/base` plus its per-type template so the baseline is baked in from birth.
+  - Scaffold a repo from a base template plus its per-type template so the baseline is baked in from birth.
   - Distinguish always-on standards from the conditional standards a product type additionally pulls in.
   - Apply reuse-first / discover-before-generate: query the patterns catalog and start from a named artifact before writing new code.
   - State honestly what is enforced today versus what turns on at cutover.

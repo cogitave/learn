@@ -1,15 +1,18 @@
-Every change in the Cogitave estate - a feature, a fix, a doc, an infra tweak, a
-dependency bump - moves through **one** process. That process is not a habit or a
-team convention; it is written down, and it is the authority the automation
-implements.
+An AI-native org routes **every** change - a feature, a fix, a doc, an infra
+tweak, a dependency bump - through **one** process. That process is not a habit
+or a team convention; it is written down, and it is the authority the automation
+implements. Cogitave's own estate works this way, and this module uses its
+lifecycle as the worked example you can copy for your own org.
 
-A unit of change is a **Request**: a first-class Cogitave Core node
-(`cogitave://request/{id}`), just like an `Agent` or a `Doc`. Humans and agents
-drive the *same* Request through the *same* stages over MCP, so "what state is
-this change in, and why" is a single query an auditor can answer. The canonical
-description of those stages is
+A unit of change is a **Request**: a first-class node in the org's canonical
+model, addressed by a stable id, just like an `Agent` or a `Doc`. (In Cogitave's
+Core that node reads `cogitave://request/{id}`.) Humans and agents drive the
+*same* Request through the *same* stages over MCP, so "what state is this change
+in, and why" is a single query an auditor can answer. Cogitave records the
+canonical description of those stages in
 [`LIFECYCLE.md`](../../../../agents/lifecycle/LIFECYCLE.md) - this module teaches
-you to read and use it, not to memorise a paraphrase of it.
+you to read and use a lifecycle document like it, not to memorise a paraphrase of
+it.
 
 ## The one rule to carry in
 

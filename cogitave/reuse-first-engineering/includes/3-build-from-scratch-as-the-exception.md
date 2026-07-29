@@ -1,19 +1,19 @@
-The previous unit was about components inside the estate: discover an existing
+The previous unit was about components inside an estate: discover an existing
 golden component before authoring a rival. The same instinct applies one level
 up, to whole engines and tools, with its own decision:
 [ADR-0003, "Port best-in-class, rebuild native; references not dependencies"](../../../../standards/docs/decisions/0003-build-from-scratch-reference-not-dependency.md).
 
 ## "From scratch" does not mean blind reinvention
 
-Cogitave is an agent OS/kernel company, and stitched-together third-party tools
-cannot be harmonic - each ships its own data model, UX, and boundary - so the
-moat is vertical integration over one canonical model, Cogitave Core. That
-"full-scratch" stance was being misread as **blind reinvention**: rewriting
-solved problems for their own sake, slowly and worse. That is explicitly not the
-intent. The best engineering teams have already discovered the right shapes for
-schedulers, parsers, inference loops, and permission models. Cogitave wants those
-shapes - then wants them native and vertically integrated, inside the single
-model.
+For an AI-native org built over one canonical model - Cogitave's is Cogitave Core
+- stitched-together third-party tools cannot be harmonic: each ships its own data
+model, UX, and boundary, so the moat is vertical integration over that single
+model. That "full-scratch" stance is easily misread as **blind reinvention**:
+rewriting solved problems for their own sake, slowly and worse. That is explicitly
+not the intent. The best engineering teams have already discovered the right shapes
+for schedulers, parsers, inference loops, and permission models. An AI-native org
+wants those shapes - then wants them native and vertically integrated, inside the
+single model.
 
 ## The decision: port best-in-class, rebuild native
 
@@ -24,8 +24,8 @@ model.
 - **References, not dependencies.** Best-in-class tools - DocFX, Tauri, UniFFI,
   Candle, Base UI/Radix, lefthook, release-please, llama.cpp - are the **spec
   and reference implementation studied and ported**, not permanent runtime
-  dependencies. Cogitave adopts the *shape*, not the lock-in.
-- **Rebuild native, maximum speed.** The rebuild is harmonic (one Core model),
+  dependencies. You adopt the *shape*, not the lock-in.
+- **Rebuild native, maximum speed.** The rebuild is harmonic (one canonical model),
   closest to the machine, and measured against the reference.
 - **Reinvent only where you beat the reference.** If a team cannot do it
   materially better - faster, more integrated, more correct, more secure - it

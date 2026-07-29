@@ -2,17 +2,18 @@ Every product engineer eventually asks the same three questions: which data
 store, which compute shape, which model. Left to per-team taste, the answers
 drift - one service reaches for MongoDB because someone liked it last job,
 another stands up a Redis cluster "just in case," a third calls the frontier
-model for a task a fast tier would handle. Cogitave answers all three with a
-**directive guidance system** instead: a decision guide that tells you the
-default, walks you through a real decision tree, and states exactly when - and
-how - you are allowed to choose something else.
+model for a task a fast tier would handle. An AI-native org answers all three
+with a **directive guidance system** instead: a decision guide that tells you
+the default, walks you through a real decision tree, and states exactly when -
+and how - you are allowed to choose something else. Cogitave's own guides are
+this module's worked example.
 
 > [!IMPORTANT]
 > A decision guide **prescribes**, it does not merely describe. It is not a
 > list of options for you to weigh; it names the default and requires a
 > recorded, evidence-backed reason to land anywhere else.
 
-Three guides exist today, one per selection domain:
+In Cogitave's estate, three guides exist today, one per selection domain:
 
 - [Database selection](../../../../standards/docs/standards/database-selection.md) -
   which operational data store for a workload.

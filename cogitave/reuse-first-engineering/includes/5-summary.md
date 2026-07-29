@@ -1,8 +1,8 @@
 AI-assisted development diverges unless something deliberately counters it:
 similar problems yield similar-but-not-identical solutions, and diff-only review
-cannot see an already-existing helper. Cogitave's counter-force is
-**retrieval before generation**, stated as a hard rule in the AI-Native
-Development standard (decision: ADR-0013), in the estate's standards
+cannot see an already-existing helper. The counter-force is
+**retrieval before generation** - Cogitave states it as a hard rule in its
+AI-Native Development standard (decision: ADR-0013), in its standards
 repository: discover, compose, and only justify-and-author when nothing fits -
 then contribute the result back. That rule only works because there is exactly one
 canonical thing to reuse at each layer - tokens, primitives, golden components -
@@ -19,6 +19,6 @@ never a hidden forever-dependency, and the Technology Radar records the default
 so any component's status - reference, bootstrap, or native primitive - is
 always answerable.
 
-Building from scratch is not the default anywhere in this estate. It is a
+Building from scratch is not the default anywhere in an AI-native estate. It is a
 reasoned exception you can name, and now you can justify one - or recognize when
 you should not.

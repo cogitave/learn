@@ -2,12 +2,12 @@
 uid: cogitave.learn.testing-and-quality
 metadata:
   title: Test to the standard and pass the quality gate
-  description: How Cogitave treats a test as release-blocking evidence - the test-shape stance, required test types by surface, diff-coverage and mutation gates, flaky-test quarantine, the runnable harness, and the code-craftsmanship bar that review enforces.
+  description: How an AI-native org treats a test as release-blocking evidence - the test-shape stance, required test types by surface, diff-coverage and mutation gates, flaky-test quarantine, the runnable harness, and the code-craftsmanship bar that review enforces.
   ms.date: 2026-07-26
   author: cogitave
   ms.topic: module
 title: Test to the standard and pass the quality gate
-summary: Learn how Cogitave tests a change - the pyramid/trophy shape, the diff-coverage and mutation gates, flaky-test quarantine, the runnable harness, and the craftsmanship review bar - so you can test your own change and get it through the gate.
+summary: Learn how an AI-native org tests a change - the pyramid/trophy shape, the diff-coverage and mutation gates, flaky-test quarantine, the runnable harness, and the craftsmanship review bar - so you can test your own change and get it through the gate.
 abstract: |
   By the end of this module, you'll be able to:
   - Choose the right test shape and tier for a change, and apply the rule that overrides the ratios.

@@ -1,5 +1,7 @@
 The **inner loop** is how an engineer, or an agent, goes from a clean checkout to
-a green PR: edit, build, test, repeat, measured in seconds. Its full contract is
+a green PR: edit, build, test, repeat, measured in seconds. An AI-native org pins
+this loop so it runs byte-identically on every machine; Cogitave writes its full
+contract in
 [development-process](../../../../standards/docs/standards/development-process.md).
 The load-bearing rule of that standard, stated once and never restated, is this:
 
@@ -9,15 +11,16 @@ lefthook commands  ==  CI commands  ==  just targets
 
 ## The reproducible, pinned toolchain
 
-The toolchain is layered, floor to ceiling: **`dev-setup.sh`** bootstraps the
-floor (installs `mise` itself plus host prerequisites); **`mise`** is the org's
-pinned-toolchain layer - a single polyglot binary, versions committed in
-`.mise.toml` so a laptop and a CI runner get the byte-identical toolchain; **`just`**
-is the canonical task surface; a **devcontainer** is optional editor/LSP parity on
-top of the first three. Every repo exposes the **same canonical target names** -
-`build`, `test`, `lint`, `fmt`, `run`, `watch`, `bench`, `cov` - so muscle memory
-and automation transfer across Rust, Go, and TypeScript repos. A repo may add
-repo-specific recipes but **must not rename or omit** a canonical target.
+Pin the toolchain in layers, floor to ceiling. In Cogitave's estate the layers
+read: **`dev-setup.sh`** bootstraps the floor (installs `mise` itself plus host
+prerequisites); **`mise`** is the org's pinned-toolchain layer - a single polyglot
+binary, versions committed in `.mise.toml` so a laptop and a CI runner get the
+byte-identical toolchain; **`just`** is the canonical task surface; a
+**devcontainer** is optional editor/LSP parity on top of the first three. Every
+repo in the estate exposes the **same canonical target names** - `build`, `test`,
+`lint`, `fmt`, `run`, `watch`, `bench`, `cov` - so muscle memory and automation
+transfer across Rust, Go, and TypeScript repos. A repo may add repo-specific
+recipes but **must not rename or omit** a canonical target.
 
 ## The parity contract
 

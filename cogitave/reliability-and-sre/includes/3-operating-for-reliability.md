@@ -1,9 +1,10 @@
-An SLO with no consequence is a dashboard. The **error-budget policy** - section 3
-of the [reliability standard](../../../../standards/docs/standards/reliability.md),
-recorded as a governance decision in
-[ADR-0020](../../../../standards/docs/decisions/0020-reliability-and-secure-sdlc.md)
-- is what gives the number teeth, agreed **in advance, in calm**, so the decision
-at the moment of breach is mechanical, not political.
+An SLO with no consequence is a dashboard. The **error-budget policy** is what
+gives the number teeth - agreed **in advance, in calm**, so the decision at the
+moment of breach is mechanical, not political. Cogitave records its own as
+section 3 of the
+[reliability standard](../../../../standards/docs/standards/reliability.md),
+with the rationale kept as a governance decision in
+[ADR-0020](../../../../standards/docs/decisions/0020-reliability-and-secure-sdlc.md).
 
 ## The error-budget policy: the rule with teeth
 
@@ -46,9 +47,10 @@ gracefully under overload rather than collapse. Resilience is **tested, not
 assumed**: staging-first, hypothesis-driven chaos experiments and quarterly
 game-days validate that a failure really does degrade gracefully and that the
 runbook actually works - reusing the same DR game-days
-[business continuity](../../../../ops/business-continuity/README.md) already runs.
+[business continuity](../../../../ops/business-continuity/README.md) practice
+already runs.
 
 Finally, a customer-facing **SLA must be strictly looser than the SLO** that backs
 it. That gap is the operating margin that lets the team react to a burn before
-the customer-facing promise breaks - one of exactly two rules in the standard
-that may only be strengthened, never relaxed.
+the customer-facing promise breaks - in Cogitave's standard, one of exactly two
+rules that may only be strengthened, never relaxed.

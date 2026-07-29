@@ -1,5 +1,5 @@
-You can now build with the secure SDLC: you know the baseline of controls a
-Cogitave product carries, and the lifecycle that turns them into a gate at each
+You can now build with the secure SDLC: you know the baseline of controls an
+AI-native product carries, and the lifecycle that turns them into a gate at each
 stage.
 
 In this module, you:
@@ -21,12 +21,12 @@ In this module, you:
 
 ## Next steps
 
-- @cogitave.learn.ci-cd-pipelines - the next module in **Cogitave
-  engineering standards**, on the pipeline that carries these gates from pull
+- @cogitave.learn.ci-cd-pipelines - the next module in **Engineering standards
+  for an AI-native org**, on the pipeline that carries these gates from pull
   request to production.
 - The **Secure Development Lifecycle Standard** is the canonical process, in
-  the estate's standards repository, including the full SDL-to-lifecycle
+  Cogitave's standards repository, including the full SDL-to-lifecycle
   table, the testing tiers, and the OWASP LLM Top 10 coverage.
-- **ADR 0020** is the estate's decision behind why security-by-design with
+- **ADR 0020** is Cogitave's decision behind why security-by-design with
   STRIDE as the default was chosen over a security-as-team model, if you want
   the reasoning.

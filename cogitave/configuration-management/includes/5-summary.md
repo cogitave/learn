@@ -1,4 +1,4 @@
-You can now configure a Cogitave service and manage its secrets safely.
+You can now configure a service in an AI-native estate and manage its secrets safely.
 
 In this module, you:
 
@@ -22,12 +22,12 @@ than fail deep in production.
 
 ## Next steps
 
-- @cogitave.learn.secure-sdlc - the next module in **Cogitave engineering
-  standards**, on the controls and lifecycle gates a product carries beyond
+- @cogitave.learn.secure-sdlc - the next module in **Engineering standards for
+  an AI-native org**, on the controls and lifecycle gates a product carries beyond
   configuration.
-- The **configuration standard** is the canonical reference, in the estate's
+- The **configuration standard** is the canonical reference, in Cogitave's
   standards repository, for the full conformance checklist, feature flags via
   OpenFeature, and config-as-code drift control.
-- The **secrets & environment standard** and **ADR-0008** are the estate's
+- The **secrets & environment standard** and **ADR-0008** are Cogitave's
   canonical references for the secret store, rotation policy, and dev-env
   handling in full.

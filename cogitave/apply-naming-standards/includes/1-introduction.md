@@ -1,11 +1,11 @@
 A name is the first thing anyone reads - a human scanning a repo list, an agent
 resolving a UID, a linter deciding whether your commit lands. In most codebases
-naming is a matter of taste, argued in review and settled inconsistently. In the
-Cogitave estate it is a **standard**, and the standard is **machine-enforced**:
+naming is a matter of taste, argued in review and settled inconsistently. In an
+AI-native org it is a **standard**, and the standard is **machine-enforced**:
 every rule maps to a CI gate, so a naming violation fails the build the same as a
 failing test.
 
-That standard is the
+Cogitave's own standard is one such standard, the
 [naming standard](../../../../standards/docs/standards/naming.md). It owns the
 **cross-cutting principles** and the per-language and per-domain conventions -
 from a Rust type to an AWS tag to a Kafka topic - so a human or an agent meets
@@ -34,7 +34,7 @@ This module teaches two things that are easy to confuse:
 
 ## What you will get from this module
 
-Not a style opinion - a working command of the estate's naming rules, the ability
+Not a style opinion - a working command of an AI-native org's naming rules, the ability
 to name a new artifact correctly on the first try, and a clear line between a
 functional keyword and a product codename so you know which one a situation calls
 for. Throughout, the move is the same: follow the standard to the owning rule

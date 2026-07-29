@@ -4,10 +4,10 @@ named artifact."
 
 In this module, you:
 
-- Saw the gap the catalog closes: reuse-first stated the principle, and the
+- Saw the gap the catalog closes: reuse-first stated the principle, and a
   patterns catalog is the artifact that turns it into a one-hop answer to
-  "how does Cogitave do X", recorded in ADR-0022.
-- Read the **five-section entry shape** - Problem, The Cogitave way, Governing
+  "how does your org do X", recorded for Cogitave in ADR-0022.
+- Read the **five-section entry shape** - Problem, The canonical way, Governing
   standard(s), Reusable artifact, Anti-pattern - in both the human doc and the
   machine-readable `catalog.yaml`, and saw several task-level intents share
   one `canonical_pattern` doc.
@@ -23,7 +23,7 @@ In this module, you:
 - @cogitave.learn.inherit-the-project-baseline - how a repo scaffolded from a
   pattern's reusable artifact inherits the floor, the standards, the lifecycle,
   and the identity automatically.
-- The **patterns catalog**, in the estate's standards repository, is the
+- The **patterns catalog**, in your estate's standards repository, is the
   source - go back and query it for your next real task.
-- **ADR-0022** is the decision record behind both the catalog and the
+- Cogitave's **ADR-0022** is the decision record behind both the catalog and the
   project baseline.

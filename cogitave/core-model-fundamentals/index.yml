@@ -1,22 +1,22 @@
 ### YamlMime:Module
 uid: cogitave.learn.core-model-fundamentals
 metadata:
-  title: Core model fundamentals
-  description: The one-model thesis behind Cogitave Core - a single typed property graph that docs, IDP, governance, infra, and agents all project from - and why that substrate is a labeled property graph rather than a relational, RDF, or federated store.
+  title: The one-model architecture
+  description: The one-model thesis - a single typed property graph that documentation, the IDP, governance, infrastructure, and agents all project from - and why that substrate is a labeled property graph rather than a relational, RDF, or federated store. Cogitave's Core is the worked example.
   ms.date: 2026-07-26
   author: cogitave
   ms.topic: module
-title: Core model fundamentals
-summary: Explain why Cogitave Core is one canonical property graph that humans and agents both query, what its node/edge model and identity scheme actually are, and why ADR-0001 chose a labeled property graph as the substrate.
+title: The one-model architecture
+summary: Explain why an AI-native organization runs on one canonical property graph that humans and agents both query, what its node/edge model and identity scheme look like, and why a labeled property graph is the right substrate. Cogitave's Core is the concrete example.
 abstract: |
   By the end of this module, you'll be able to:
-  - Explain the one-model thesis: why Cogitave Core is a single canonical graph that docs, the IDP, governance, infra, and agents all project from, instead of one store per domain.
-  - Describe the canonical graph itself: its node and edge types, its two orthogonal identifiers (`uid` and `contentHash`), and the three materializations served from it.
-  - Explain why the substrate is a labeled property graph specifically - what ADR-0001 decided, and why the relational, RDF, and federated alternatives were rejected.
-  - State accurately what is decided today versus what is architecture to build against, without overstating a running product.
+  - Explain the one-model thesis: why a single canonical graph that documentation, the IDP, governance, infrastructure, and agents all project from beats one store per domain.
+  - Describe the canonical graph itself: its node and edge types, its two orthogonal identifiers (`uid` and `contentHash`), and the three materializations served from it - using Cogitave's Core as the worked instance.
+  - Explain why the substrate is a labeled property graph specifically, and why the relational, RDF, and federated alternatives are rejected (the reasoning Cogitave's ADR-0001 records).
+  - State accurately what such a model decides today versus what is architecture to build against, without overstating a running product.
 prerequisites: |
-  - No prior Cogitave Core experience required.
-  - Helpful, but not required: completion of the "Contributor onboarding" path.
+  - No prior experience with a canonical model required.
+  - Helpful, but not required: completion of the "Onboard to an AI-native codebase" path.
 iconUrl: /learn/achievements/core-model-fundamentals.svg
 ratingEnabled: true
 levels:

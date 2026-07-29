@@ -5,8 +5,9 @@ is where a deploy becomes auditable change evidence.
 
 ## One artifact, promoted forward
 
-Cogitave runs a **linear promotion pipeline** plus ephemeral preview
-environments per pull request. The path is `dev` to `staging` to `prod`:
+An AI-native org runs a **linear promotion pipeline** plus ephemeral preview
+environments per pull request. Cogitave's own path, for instance, is `dev` to
+`staging` to `prod`:
 
 - **preview** - ephemeral, per-PR, auto spun-up and auto torn-down on PR close;
   data-isolated (never prod data).

@@ -1,6 +1,8 @@
-The [agentic-operations](../../../../standards/docs/standards/agentic-operations.md)
-standard states a thesis, a scope, and one rule that governs every agent in
-both catalogs.
+An agentic-operations standard states a thesis, a scope, and one rule that
+governs every agent in the fleet. Cogitave's
+[agentic-operations](../../../../standards/docs/standards/agentic-operations.md)
+standard is the worked example; here is what it says, and what you would decide
+when you write your own.
 
 ## The thesis and scope
 
@@ -10,12 +12,14 @@ both catalogs.
 
 The standard does **not** claim a fully autonomous company. It claims a
 **co-pilot estate**: agents draft, triage, reconcile, enrich, summarize, and
-propose; humans decide. Its scope is business operations across five domains -
-marketing, RevOps/sales, customer support, finance/FinOps, and
-operations/incident-response. Engineering automation (PR triage, dependency
-review, security triage, docs sync) is explicitly **out of scope**; it is
-governed instead under [`agents/scheduled/`](../../../../agents/README.md) and
-its own specs, though it satisfies the same contract below.
+propose; humans decide. Cogitave's scope draws the line across five business
+domains - marketing, RevOps/sales, customer support, finance/FinOps, and
+operations/incident-response. In its instance, engineering automation (PR
+triage, dependency review, security triage, docs sync) is explicitly **out of
+scope** here; it is governed instead under
+[`agents/scheduled/`](../../../../agents/README.md) and its own specs, though it
+satisfies the same contract below. When you set your own scope, the split of
+concern matters more than where exactly you draw it.
 
 ## The three-part contract every ops agent satisfies
 
@@ -37,7 +41,9 @@ shared login; it MUST be:
 
 ## The draft-vs-act rule
 
-This is, in the standard's own words, "the single most important rule":
+This is, in the standard's own words, "the single most important rule" - and
+it is the heart of the transferable pattern: **an agent acts unattended inside
+its rails, and a human gate is an exception handler, not a routine checkpoint.**
 
 > **Default: the agent ACTS autonomously within its grant when the rails
 > hold** - typed and validated I/O, policy-as-code, a reversible or canaried
@@ -59,9 +65,10 @@ The **must-human-gate boundary** never runs unattended: irreversible
 decisions, policy violations, all customer-facing communications, contract
 interpretation, budget or payment approval, compensation/hiring decisions,
 external commitments, and any novel scenario past the confidence threshold.
-These map directly to the org floor - agents do not publish, pay, deploy,
-apply infra, rotate secrets, disclose data, or change org settings without an
-explicit human gate.
+In Cogitave's instance these map directly to the org floor - agents do not
+publish, pay, deploy, apply infra, rotate secrets, disclose data, or change org
+settings without an explicit human gate. Any org adopting the pattern draws its
+own version of that same minimal, always-human set.
 
 > [!TIP]
 > When a gated action does reach a human, it must arrive as a **15-second

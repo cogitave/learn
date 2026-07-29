@@ -34,7 +34,7 @@ quiz:
         - content: "Disable the check locally so the task can proceed, then re-enable it later."
           isCorrect: false
           explanation: "Incorrect. Silencing a guardrail is the same anti-pattern as widening a grant. The floor's answer is to fix the change, never to weaken the rule."
-    - content: "Under the AGENTS floor, when is a human summoned to approve an agent's action?"
+    - content: "Under a floor like Cogitave's, when is a human summoned to approve an agent's action?"
       choices:
         - content: "On an exception: a failed check, low confidence or novelty, detected drift or a policy violation, or an action in the minimal always-human set (rule 7). In-spec, in-grant, reversible work runs unattended."
           isCorrect: true

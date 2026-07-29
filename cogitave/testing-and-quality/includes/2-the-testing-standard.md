@@ -6,8 +6,8 @@ the suite** - same input, same result, on any machine, in any order.
 
 ## Test shape follows the layer
 
-Cogitave does not mandate one shape across the stack; the shape follows the
-failure modes of the layer.
+An AI-native org does not mandate one shape across the stack; the shape follows the
+failure modes of the layer. Cogitave's standard, for instance, resolves it this way.
 
 - **Backend / hot path (Rust, Go) - a pyramid.** Roughly unit ~70%, integration
   ~20%, end-to-end ~10%, as an order-of-magnitude guide, not a quota.
