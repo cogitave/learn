@@ -1,6 +1,7 @@
-The [configuration standard](../../../../standards/docs/standards/configuration.md)
-builds up in three moves: classify every value, assemble config from ordered
-providers, then parse it once into a value that cannot be invalid.
+Cogitave's [configuration standard](../../../../standards/docs/standards/configuration.md)
+is one worked example of this pattern, and it builds up in three moves: classify
+every value, assemble config from ordered providers, then parse it once into a
+value that cannot be invalid.
 
 ## 1. The line: constant vs configuration vs secret
 
@@ -26,8 +27,8 @@ code constant.
 
 ## 2. The precedence chain
 
-Config is assembled from **ordered providers**, later overriding earlier. This
-cross-ecosystem chain is the Cogitave standard:
+Config is assembled from **ordered providers**, later overriding earlier. One
+such cross-ecosystem chain is Cogitave's standard:
 
 ```
 built-in defaults

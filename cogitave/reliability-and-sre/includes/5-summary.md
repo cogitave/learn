@@ -1,5 +1,5 @@
-You can now reason about a service's reliability targets the way the reliability
-standard does, not just recite the word "SLO."
+You can now reason about a service's reliability targets the way an SRE
+discipline does, not just recite the word "SLO."
 
 In this module, you:
 
@@ -20,6 +20,6 @@ In this module, you:
 - @cogitave.learn.respond-to-incidents - continue the **Operate the estate**
   path here, where a burn-rate page becomes a declared incident under the
   severity matrix.
-- The **reliability.md** standard, in the estate's standards repository, is
-  worth keeping open whenever you set or review a real service's SLO.
-- **ADR-0020** is the governance decision behind the error-budget policy.
+- Cogitave's **reliability.md** standard is worth keeping open as the worked
+  reference whenever you set or review a real service's SLO.
+- **ADR-0020** is Cogitave's governance decision behind the error-budget policy.

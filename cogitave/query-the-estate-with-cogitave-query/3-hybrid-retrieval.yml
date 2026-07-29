@@ -3,7 +3,7 @@ uid: cogitave.learn.query-the-estate-with-cogitave-query.hybrid-retrieval
 title: Why hybrid retrieval, and what the graph adds
 metadata:
   title: Why hybrid retrieval, and what the graph adds
-  description: The ADR-0002 decision behind fusing BM25, dense vectors, and graph rerank by Reciprocal Rank Fusion - the options considered, why a weighted score blend was rejected, the Personalized PageRank rerank, the ranking signals, and faceting as a graph traversal.
+  description: The decision behind fusing BM25, dense vectors, and graph rerank by Reciprocal Rank Fusion, recorded in Cogitave's ADR-0002 - the options considered, why a weighted score blend was rejected, the Personalized PageRank rerank, the ranking signals, and faceting as a graph traversal.
   ms.date: 2026-07-26
   author: cogitave
   ms.topic: unit

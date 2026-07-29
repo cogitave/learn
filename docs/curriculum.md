@@ -23,7 +23,7 @@ status: draft
 
 ## 1. The curriculum thesis
 
-**learn.cogitave.com teaches the whole estate.** Cogitave is one harmonic, vertically integrated model (Cogitave Core). The learning platform is the human-facing projection of that same model: every standard, pattern, product spec, compliance control, and operational agent has a place a person can learn it, in the order that makes it stick.
+**learn.cogitave.com teaches how to build and run an AI-native, certification-grade organization.** The reader - mostly an organization adopting the approach, and individual learners - learns the transferable patterns and builds their own org's version of each. Cogitave's own estate, one harmonic vertically integrated model around a single canonical Core, is the worked reference throughout: every standard, pattern, product spec, compliance control, and operational agent has a place a person can learn it, in the order that makes it stick. The products (Yuva, Namzu, Massar, Diyar) are things the reader adopts; the estate and Core structure is a pattern the reader replicates, shown through Cogitave's instance.
 
 Three commitments follow from that thesis:
 

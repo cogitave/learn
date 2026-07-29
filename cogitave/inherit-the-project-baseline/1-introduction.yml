@@ -3,7 +3,7 @@ uid: cogitave.learn.inherit-the-project-baseline.introduction
 title: Introduction
 metadata:
   title: Introduction
-  description: Why a new Cogitave repo should never re-decide the rules, what "born on the paved road" means, and an honest statement of what is enforced today versus at cutover.
+  description: Why a new repo in an AI-native org should never re-decide the rules, what "born on the paved road" means, and an honest statement of what is enforced today versus at cutover.
   ms.date: 2026-07-26
   author: cogitave
   ms.topic: unit

@@ -2,7 +2,7 @@
 uid: cogitave.learn.secure-sdlc
 metadata:
   title: Build with the secure SDLC
-  description: The security baseline every Cogitave product carries - threat modeling, least privilege, and IAM at a high level - and the secure development lifecycle that makes security a gate at each stage rather than a release-time bolt-on, mapped onto the request lifecycle you already work.
+  description: The security baseline an AI-native product needs - threat modeling, least privilege, and IAM at a high level - and the secure development lifecycle that makes security a gate at each stage rather than a release-time bolt-on, mapped onto the request lifecycle you already work.
   ms.date: 2026-07-26
   author: cogitave
   ms.topic: module
@@ -15,7 +15,7 @@ abstract: |
   - Map security as a gate onto each stage of the request lifecycle - from a threat model at the design gate to remediation SLAs after release - rather than treating it as an afterthought.
   - Say when a threat model is mandatory and what enforces the no-new-high-or-critical gate, and follow each rule to the standard that owns the detail.
 prerequisites: |
-  - Familiarity with the AGENTS floor and the request lifecycle Cogitave changes move through.
+  - Familiarity with the AGENTS floor and the request lifecycle your changes move through.
   - Basic understanding of Git, pull requests, and CI gates.
 iconUrl: /learn/achievements/secure-sdlc.svg
 ratingEnabled: true

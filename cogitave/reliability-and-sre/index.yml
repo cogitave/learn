@@ -2,20 +2,20 @@
 uid: cogitave.learn.reliability-and-sre
 metadata:
   title: Reliability and SRE
-  description: The reliability standard's error-budget policy - how to set an SLO from a user journey, compute the error budget it buys, and operate a service against it with a burn-rate alert, an on-call rotation, a toil cap, and a freeze that stops feature velocity when the budget is spent.
+  description: The error-budget approach to reliability - how to set an SLO from a user journey, compute the error budget it buys, and operate a service against it with a burn-rate alert, an on-call rotation, a toil cap, and a freeze that stops feature velocity when the budget is spent.
   ms.date: 2026-07-26
   author: cogitave
   ms.topic: module
 title: Reliability and SRE
-summary: Reason about a service's reliability targets the way the reliability standard does - set an SLO from the user's journey, compute the error budget it buys, and operate the service against that budget with burn-rate alerts, sustainable on-call, a toil cap, and the freeze that stops shipping when the budget runs out.
+summary: Reason about a service's reliability targets the way an SRE discipline does - set an SLO from the user's journey, compute the error budget it buys, and operate the service against that budget with burn-rate alerts, sustainable on-call, a toil cap, and the freeze that stops shipping when the budget runs out.
 abstract: |
   By the end of this module, you'll be able to:
   - Explain why reliability is engineered as a budgeted feature, not chased as an absolute, and why SRE is an engineering discipline rather than a renamed ops rota.
   - Set an SLO from a critical user journey, pick the right tier target, and compute the error budget and burn rate it produces.
   - State the error-budget policy - freeze on exhaustion, one named owner, security exempt - and say what it buys operationally: sustainable on-call, a capped toil load, tested resilience, and an SLA that is always looser than the SLO behind it.
-  - Read the reliability standard and ADR-0020 as the source of truth for a service's reliability posture, and know when a different value requires an Accepted RFC.
+  - Read your org's reliability standard as the single source of truth for a service's reliability posture - Cogitave records its own in reliability.md and ADR-0020 - and know when a different value requires an Accepted RFC.
 prerequisites: |
-  - Completion of "Work the request lifecycle", or equivalent familiarity with the estate's propose-only change process.
+  - Completion of "Work the request lifecycle", or equivalent familiarity with your estate's propose-only change process.
   - Familiarity with SLIs and telemetry is helpful; this module defines SLO and error budget from first principles.
 iconUrl: /learn/achievements/reliability-and-sre.svg
 ratingEnabled: true

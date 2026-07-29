@@ -1,17 +1,20 @@
 Inheriting the ruleset is only half of staying on the paved road. The other half
 is a habit: **discover before you build**. Before you write a service, an
-endpoint, a background job, or a UI component, you look for how Cogitave already
+endpoint, a background job, or a UI component, you look for how your org already
 does it — and start from that.
 
-The [patterns catalog](../../../../standards/docs/patterns/README.md) is where you
-look. It is the machine-queryable index of "how do I do X the Cogitave way?", and
-it exists precisely so that an agent or a person discovers before generating.
-**Building from scratch is the exception that must be justified, not the default.**
+A **patterns catalog** is where you look: the machine-queryable index of "how do I
+do X the org's way?", which exists precisely so that an agent or a person
+discovers before generating. **Building from scratch is the exception that must be
+justified, not the default.** Cogitave's own
+[patterns catalog](../../../../standards/docs/patterns/README.md) is the worked
+example here.
 
 ## What a catalog entry is — and is not
 
-The catalog does not invent policy and it does not restate standards. Each entry
-is a thin, honest pointer with the **same five sections**:
+The catalog does not invent policy and it does not restate standards. In
+Cogitave's catalog, each entry is a thin, honest pointer with the **same five
+sections**:
 
 | Section | What it tells you |
 | --- | --- |

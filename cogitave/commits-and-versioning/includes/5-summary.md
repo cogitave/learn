@@ -19,12 +19,13 @@ In this module, you:
 
 ## Next steps
 
-- @cogitave.learn.testing-and-quality - the next module in **Cogitave
-  engineering standards**, on the gate a change must pass once it is committed.
-- The **commits-versioning standard** is the canonical reference, in the
-  estate's standards repository, including the full decision table of engine
+- @cogitave.learn.testing-and-quality - the next module in **Engineering
+  standards for an AI-native org**, on the gate a change must pass once it is
+  committed.
+- The **commits-versioning standard** is the canonical reference, in Cogitave's
+  standards repository, including the full decision table of engine
   per repo type.
 - The **branching-release standard** covers the protected-main ruleset,
   environment promotion, and release flow in full, in the same repository.
-- The root **`AGENTS.md`** states rule 2 (Conventional Commits) and rule 3
+- Cogitave's root **`AGENTS.md`** states rule 2 (Conventional Commits) and rule 3
   (signed commits) at the source; they are the floor every release rides on.

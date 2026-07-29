@@ -3,7 +3,7 @@ uid: cogitave.learn.respond-to-incidents.summary
 title: Summary
 metadata:
   title: Summary
-  description: Recap the incident-response flow and the business-continuity chain, and where to go next in the estate's operational-resilience documentation.
+  description: Recap the incident-response flow and the business-continuity chain, and where to go next in Cogitave's operational-resilience documentation.
   ms.date: 2026-07-26
   author: cogitave
   ms.topic: unit

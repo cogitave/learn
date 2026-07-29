@@ -1,8 +1,8 @@
-The previous unit walked the pipeline. This one is about the decision behind it - recorded as [ADR-0002](../../../../core/docs/decisions/0002-hybrid-retrieval.md) - and what the graph-aware rerank adds once lexical and dense are already fused.
+The previous unit walked the pipeline. This one is about the decision behind it - recorded in Cogitave's [ADR-0002](../../../../core/docs/decisions/0002-hybrid-retrieval.md) - and what the graph-aware rerank adds once lexical and dense are already fused.
 
 ## The decision: why not just pick one retriever
 
-The problem ADR-0002 states plainly: technical and agent queries mix natural-language intent with exact tokens, and Core additionally holds a graph neither text index can see. Four options were weighed:
+The problem is one any canonical-graph query layer faces: technical and agent queries mix natural-language intent with exact tokens, and the graph holds structure neither text index can see. Cogitave's ADR-0002 states it plainly and weighs four options:
 
 1. Dense-only (a single embedding model + ANN).
 2. Lexical-only (BM25).

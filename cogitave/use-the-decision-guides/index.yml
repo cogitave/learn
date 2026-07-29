@@ -2,12 +2,12 @@
 uid: cogitave.learn.use-the-decision-guides
 metadata:
   title: Use the decision guides
-  description: How Cogitave's technology-selection decision guides work - a stated default, a real decision tree, and an ADR-gated deviation rule for database, infrastructure, and model selection - and how to walk one to a justified choice.
+  description: How an AI-native org's technology-selection decision guides work - a stated default, a real decision tree, and an ADR-gated deviation rule for database, infrastructure, and model selection - and how to walk one to a justified choice.
   ms.date: 2026-07-26
   author: cogitave
   ms.topic: module
 title: Use the decision guides
-summary: Learn the shared shape behind Cogitave's database-selection, infrastructure-selection, and model-selection guides - a default, a decision tree, and an ADR-gated deviation rule - and walk a real workload to a justified, recorded choice.
+summary: Learn the shared shape behind an AI-native org's database-selection, infrastructure-selection, and model-selection guides - a default, a decision tree, and an ADR-gated deviation rule - and walk a real workload to a justified, recorded choice.
 abstract: |
   By the end of this module, you'll be able to:
   - Explain the three-layer guidance model from ADR-0021 - selection, radar, domain - and where the decision guides sit in it.

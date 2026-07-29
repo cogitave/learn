@@ -1,8 +1,9 @@
 A single service outage is an incident. A cloud region loss, a destructive
 ransomware attack, or a critical vendor failure is bigger than one incident -
-it threatens the estate's ability to keep operating at all. That is what
-[`business-continuity/`](../../../../ops/business-continuity/README.md)
-covers, and it runs on the same discipline as incident response, one level up.
+it threatens your org's ability to keep operating at all. That is what
+**business continuity** covers, and it runs on the same discipline as incident
+response, one level up. In Cogitave's estate, that tree is
+[`business-continuity/`](../../../../ops/business-continuity/README.md).
 
 ## The chain, in one line
 
@@ -16,9 +17,10 @@ then assign the smallest tier band whose **RTO is always less than MTPD**.
 
 ## Service tiers: RTO/RPO and DR strategy
 
-Four tiers fix how fast a service must return (**RTO**) and how much data loss
-is tolerable (**RPO**), each paired with an AWS Well-Architected DR strategy:
-**tier-0** (mission-critical, RTO <= 1 h, warm standby/multi-site), **tier-1**
+Cogitave's model uses four tiers to fix how fast a service must return
+(**RTO**) and how much data loss is tolerable (**RPO**), each paired with an
+AWS Well-Architected DR strategy: **tier-0** (mission-critical, RTO <= 1 h,
+warm standby/multi-site), **tier-1**
 (critical, RTO <= 4 h, pilot light -> warm standby), **tier-2** (important,
 RTO <= 24 h, backup & restore), and **tier-3** (standard, RTO <= 72 h,
 backup & restore/redeploy-from-IaC). The technical design that meets each tier
@@ -42,10 +44,10 @@ costs recovery time.
 ## Recovery order and failback
 
 > [!NOTE]
-> Recovery proceeds in **dependency order**, not tier-number order alone: the
-> [DR plan](../../../../ops/business-continuity/docs/dr-plan.md) sequences
-> **identity** first, then **secrets/PKI**, then the **API/MCP gateway and
-> Core**, then observability, then tier-1 products - because nothing else is
+> Recovery proceeds in **dependency order**, not tier-number order alone.
+> Cogitave's [DR plan](../../../../ops/business-continuity/docs/dr-plan.md)
+> sequences **identity** first, then **secrets/PKI**, then the **API/MCP gateway
+> and Core**, then observability, then tier-1 products - because nothing else is
 > operable without the layers beneath it.
 
 Recovery is not finished at failover. The BCP requires **failback**: validate

@@ -1,6 +1,6 @@
-Most teams treat a test as a courtesy - something you add if there is time.
-Cogitave does not. Here a test is **release-blocking evidence**: an agent or a
-human advances a change from `review` to `done` only when the test gates pass, so
+Most teams treat a test as a courtesy - something you add if there is time. An
+AI-native org does not: a test is **release-blocking evidence**, so an agent or a
+human advances a change from `review` to `done` only when the test gates pass, and
 a missing test is a missing piece of the Definition of Done, not a nice-to-have.
 
 Two standards own this together, and they are separated on purpose:

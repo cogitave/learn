@@ -2,15 +2,15 @@
 uid: cogitave.learn.apply-naming-standards
 metadata:
   title: Apply the naming standards
-  description: How everything in the Cogitave estate is named - keyword-first identifiers, files, repos, and branches under one machine-enforced naming standard - and the separate discipline of product codenames, so you can name a new artifact correctly and know when a codename is allowed.
+  description: How everything in an AI-native estate is named - keyword-first identifiers, files, repos, and branches under one machine-enforced naming standard - and the separate discipline of product codenames, so you can name a new artifact correctly and know when a codename is allowed.
   ms.date: 2026-07-26
   author: cogitave
   ms.topic: module
 title: Apply the naming standards
-summary: Name a new identifier, file, repo, or branch the way the estate does - keyword-first, no redundant prefix, cased by role - and tell a functional keyword apart from a product codename, so your first artifact passes the naming gate by default.
+summary: Name a new identifier, file, repo, or branch the way an AI-native org does - keyword-first, no redundant prefix, cased by role - and tell a functional keyword apart from a product codename, so your first artifact passes the naming gate by default.
 abstract: |
   By the end of this module, you'll be able to:
-  - Explain the cross-cutting naming principles the estate applies everywhere - keyword-first, no redundant prefix, casing by role, immutable IDs with mutable facts in metadata - and that naming is machine-enforced, not reviewer goodwill.
+  - Explain the cross-cutting naming principles an AI-native org applies everywhere - keyword-first, no redundant prefix, casing by role, immutable IDs with mutable facts in metadata - and that naming is machine-enforced, not reviewer goodwill.
   - Name a repo, a code identifier, a file, and a branch correctly by following the canonical naming standard rather than paraphrasing it from memory.
   - Separate a functional keyword from a product codename, and know when a codename is allowed and when a primitive is codename-exempt.
   - Follow the naming standard and the codename standard to the owning rule for any detail you need.

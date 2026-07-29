@@ -3,9 +3,9 @@ enough to keep shipping - the two halves of one discipline.
 
 In this module, you:
 
-- Learned Cogitave's telemetry model from the observability standard:
+- Learned an AI-native telemetry model from the observability standard:
   **OpenTelemetry-spec** traces, metrics, and logs under one correlation, bound to
-  the **Core model** and queryable from **MCP**, where every change, access, and
+  a **canonical model** and queryable from **MCP**, where every change, access, and
   inference is a traceable record.
 - Saw what **AI/agent observability** adds - the agent trace, token and cost, eval
   drift, and inference records kept as responsible-AI (42001) evidence.
@@ -18,7 +18,7 @@ In this module, you:
 
 ## You have completed the path
 
-This was the final module of **Cogitave engineering standards**. Completing it
+This was the final module of **Engineering standards for an AI-native org**. Completing it
 earns the engineering-standards trophy. You now know the non-negotiable floor
 every repository works to - from the AGENTS rules through to how a service is
 measured and kept reliable - well enough to make changes that pass the org gates

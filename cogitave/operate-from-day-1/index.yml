@@ -2,17 +2,17 @@
 uid: cogitave.learn.operate-from-day-1
 metadata:
   title: Operate from Day 1
-  description: How the Cogitave estate is operated from Day 1 - the pinned, parity-checked inner loop in development-process and the flow-based outer loop in ways-of-working and ADR-0025 - so operations is built into how work is developed and flowed from launch, not bolted on afterward.
+  description: How an AI-native org operates from Day 1 - a pinned, parity-checked inner loop composed with a flow-based outer loop - so operations is built into how work is developed and flowed from launch, not bolted on afterward. Cogitave's estate is the worked example.
   ms.date: 2026-07-26
   author: cogitave
   ms.topic: module
 title: Operate from Day 1
-summary: Describe the Day 1 operating model - the pinned inner loop and the flow-based outer loop - state the parity contract that keeps the inner loop honest, name Cogitave's flow-based ways of working and why ADR-0025 chose it over Scrum, and explain why the human gate stays an exception inside the flow.
+summary: Describe the Day 1 operating model - the pinned inner loop and the flow-based outer loop - state the parity contract that keeps the inner loop honest, read Cogitave's flow-based ways of working and its ADR-0025 choice of flow over Scrum as one org's answer, and explain why the human gate stays an exception inside the flow.
 abstract: |
   By the end of this module, you'll be able to:
-  - Describe the Day 1 operating model: a pinned, reproducible inner loop (mise, just, trunk-based delivery, preview environments) composed with a flow-based outer loop, both specified from the estate's first day rather than added after launch.
-  - State the parity contract that keeps the inner loop honest - lefthook commands == CI commands == just targets - and explain why drift between them is the bug development-process exists to kill.
-  - Name Cogitave's flow-based ways of working: WIP-limited continuous flow (Kanban-style) as the base method plus Shape-Up-style betting for larger bets, with the request-lifecycle Request as the unit that flows, and say why ADR-0025 rejected Scrum for this team.
+  - Describe the Day 1 operating model: a pinned, reproducible inner loop (mise, just, trunk-based delivery, preview environments) composed with a flow-based outer loop, both specified from your estate's first day rather than added after launch.
+  - State the parity contract that keeps the inner loop honest - lefthook commands == CI commands == just targets - and explain why drift between them is the bug a development-process standard exists to kill.
+  - Read Cogitave's flow-based ways of working as one org's answer: WIP-limited continuous flow (Kanban-style) as the base method plus Shape-Up-style betting for larger bets, with the request-lifecycle Request as the unit that flows, and say why ADR-0025 rejected Scrum for that team.
   - Explain what a WIP limit protects in an agent-heavy flow, why the human gate stays an exception rather than a routine checkpoint, and how DORA and flow metrics measure the system honestly without becoming a target.
 prerequisites: |
   - Completion of "Work the request lifecycle", the earlier module in this path - this module assumes you already know the seven lifecycle stages and the Definition of Done.

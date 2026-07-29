@@ -3,7 +3,7 @@ uid: cogitave.learn.query-the-estate-with-cogitave-query.knowledge-check
 title: Knowledge check
 metadata:
   title: Knowledge check
-  description: Check your grasp of why Cogitave Query fuses three retrieval signals, why fusion is rank-based rather than score-based, what the graph-aware rerank adds, and what makes the bounded query_graph profile safe for an agent to call directly.
+  description: Check your grasp of why a query layer fuses three retrieval signals, why fusion is rank-based rather than score-based, what the graph-aware rerank adds, and what makes a bounded read-only graph-query profile safe for an agent to call directly - with Cogitave Query as the worked example.
   ms.date: 2026-07-26
   author: cogitave
   ms.topic: unit

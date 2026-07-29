@@ -1,15 +1,19 @@
-Every estate eventually has a bad day: a service goes down, data looks wrong, a
-secret leaks, or an entire cloud region disappears. What separates a bad day
-from a crisis is whether the response was already written down, rehearsed, and
-followed - or improvised under pressure. Cogitave keeps that response as code,
-in one tree: [`ops/`](../../../../ops/README.md).
+Every organization eventually has a bad day: a service goes down, data looks
+wrong, a secret leaks, or an entire cloud region disappears. What separates a
+bad day from a crisis is whether the response was already written down,
+rehearsed, and followed - or improvised under pressure. An AI-native org keeps
+that response **as code**, in one operational-resilience tree, authored and
+reviewed like any other change. Cogitave keeps its own response in one such
+tree, [`ops/`](../../../../ops/README.md), and this module walks it as the
+worked example.
 
-`ops/` is the **operational-resilience** half of the estate: how Cogitave
-detects, responds to, communicates about, and recovers from anything that goes
-wrong, authored and reviewed the same way as any other code. It sits next to
-the proactive [reliability standard](../../../../standards/docs/standards/reliability.md)
+In Cogitave's estate, `ops/` is the **operational-resilience** half: how the
+org detects, responds to, communicates about, and recovers from anything that
+goes wrong, authored and reviewed the same way as any other code. It sits next
+to the proactive [reliability standard](../../../../standards/docs/standards/reliability.md)
 (SLOs, error budgets, on-call) - reliability is what keeps most days from
-becoming bad days; `ops/` is what happens once one does.
+becoming bad days; the operational-resilience tree is what happens once one
+does.
 
 > [!IMPORTANT]
 > **Day 0 caveat.** `ops/` is authoring only: plans, schemas, runbooks, and
@@ -25,7 +29,7 @@ becoming bad days; `ops/` is what happens once one does.
   blameless postmortem. This is what fires the moment something breaks.
 - **Business continuity** ([`ops/business-continuity/`](../../../../ops/business-continuity/README.md)) -
   the BIA, service tiers, backup strategy, and disaster-recovery plan that keep
-  the estate's critical activities running through a bigger disruption, like a
+  the org's critical activities running through a bigger disruption, like a
   region loss or a destructive attack.
 
 ## What you will get from this module

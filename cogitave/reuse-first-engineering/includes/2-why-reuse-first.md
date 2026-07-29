@@ -29,7 +29,8 @@ of operations for any feature:
 
 A reuse rule is only enforceable if there is exactly one canonical thing to
 reuse at each layer, queried through a single MCP-native registry that is a
-**Core projection, not a new engine**: the `ui`/`design` catalogs publish
+**projection of the canonical model, not a new engine**: in Cogitave's estate the
+`ui`/`design` catalogs publish
 `Component`/`Primitive`/`Pattern`/`Token` entities that designers, developers,
 and agents all query identically.
 
@@ -57,6 +58,6 @@ proven"*:
 
 > [!NOTE]
 > Per [ADR-0003](../../../../standards/docs/decisions/0003-build-from-scratch-reference-not-dependency.md),
-> jscpd and similarity-ts are the **reference we port** to a native Core
-> checker. The next unit covers that same port-then-rebuild discipline for
-> whole engines and tools, not just components.
+> jscpd and similarity-ts are the **reference to port** to a native checker on
+> the canonical model. The next unit covers that same port-then-rebuild discipline
+> for whole engines and tools, not just components.

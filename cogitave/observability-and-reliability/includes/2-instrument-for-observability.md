@@ -5,7 +5,7 @@ is short and directive - this unit walks its four parts.
 
 ## 1. Three signals, one correlation
 
-Cogitave's telemetry is **OpenTelemetry-spec**: the collector and SDK conform to
+An AI-native org's telemetry is **OpenTelemetry-spec**: the collector and SDK conform to
 the OpenTelemetry specification rather than importing a vendor agent. There are
 three signals, correlated under one model:
 
@@ -37,7 +37,7 @@ mechanism the next unit engineers into a policy.
 
 ## 3. AI and agent observability
 
-Because Cogitave is AI-native, telemetry covers a surface most observability
+Because an AI-native org runs agents, telemetry covers a surface most observability
 stacks ignore. On top of the three signals, the standard requires:
 
 - **The agent trace** - each step and tool call an agent makes, so an agent run
@@ -53,8 +53,9 @@ financial transaction is. This is the same "assume non-repudiation" posture the
 ## 4. Propagation: bound to the Core model
 
 The last part is what makes the whole thing queryable. **All signals are bound to
-the Cogitave Core model**, so telemetry is reachable from **MCP** - a human and
-an agent ask the same question of the same model and get the same answer. The
+the canonical model** - Cogitave's Core, in the reference implementation - so
+telemetry is reachable from **MCP** - a human and an agent ask the same question
+of the same model and get the same answer. The
 standard calls this **dogfooding observability**: the platform observes itself
 through the same interface it exposes to everyone else.
 

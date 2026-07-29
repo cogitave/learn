@@ -1,10 +1,10 @@
 Security bolted on after design is the most expensive and least effective place
-to add it. Cogitave's answer is to make security a **design property produced by
-a lifecycle** - decided at the requirements and design phase, then enforced by a
-gate at every stage a change moves through, all the way to how a vulnerability is
-remediated after release.
+to add it. The AI-native answer is to make security a **design property produced
+by a lifecycle** - decided at the requirements and design phase, then enforced by
+a gate at every stage a change moves through, all the way to how a vulnerability
+is remediated after release.
 
-Two standards carry this, and they divide cleanly:
+Two standards carry this in Cogitave's own estate, and they divide cleanly:
 
 - The [Security Standard](../../../../standards/docs/standards/security.md) owns
   the **controls** - identity and access management, secrets and PKI, security
@@ -18,7 +18,7 @@ Two standards carry this, and they divide cleanly:
 
 The decision to couple these - security-by-design with STRIDE threat modeling by
 default, an ASVS baseline, and CVSS/EPSS remediation SLAs - is recorded in
-[ADR 0020](../../../../standards/docs/decisions/0020-reliability-and-secure-sdlc.md).
+Cogitave's [ADR 0020](../../../../standards/docs/decisions/0020-reliability-and-secure-sdlc.md).
 
 > [!IMPORTANT]
 > The point of the lifecycle is **shift-left**: the earlier a class of defect is
@@ -28,7 +28,7 @@ default, an ASVS baseline, and CVSS/EPSS remediation SLAs - is recorded in
 
 ## What you will get from this module
 
-First, the **security baseline** - the controls a Cogitave product is built on:
+First, the **security baseline** - the controls an AI-native product is built on:
 threat modeling, least privilege, and IAM for humans, workloads, and agents.
 Then the **secure development lifecycle** - how those controls become a gate at
 each stage, when a threat model cannot be waived, and what blocks a merge. You

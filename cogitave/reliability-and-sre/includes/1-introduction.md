@@ -1,11 +1,13 @@
-Every service Cogitave runs will eventually fail some request. The question the
-[reliability standard](../../../../standards/docs/standards/reliability.md) makes
-you answer in advance is not *whether* that happens, but **how much of it is
-acceptable, and what happens the moment it isn't**.
+Every service you run will eventually fail some request. Reliability
+engineering makes you answer, in advance, not *whether* that happens but **how
+much of it is acceptable, and what happens the moment it isn't**. Cogitave's
+[reliability standard](../../../../standards/docs/standards/reliability.md) is
+one org's written answer to exactly that, and this module uses it as the worked
+example.
 
 ## Reliability is a budgeted feature, not an absolute
 
-The standard's thesis: 100% is the wrong target for everything. It is
+The thesis: 100% is the wrong target for everything. It is
 unaffordable, it makes change impossible, and a user cannot tell the difference
 between 100% and the nines their experience actually needs. So the job of SRE is
 not to prevent every failure - it is to **spend a measured, agreed amount of
@@ -17,14 +19,14 @@ law that the currency buys real decisions, not just a dashboard.
 > [!IMPORTANT]
 > This is why SRE is an **engineering discipline**, not a renamed ops rota. A
 > service that stays up only because a human watches it around the clock is
-> **not** reliable - it is unfunded debt. Cogitave is a small remote team with no
-> 24/7 wall-of-screens shift, so automation, not headcount, is the only
-> sustainable model.
+> **not** reliable - it is unfunded debt. Cogitave, for instance, is a small
+> remote team with no 24/7 wall-of-screens shift, so automation, not headcount,
+> is the only sustainable model.
 
-## What this standard sits on top of
+## What a reliability discipline sits on top of
 
-The reliability standard does not redefine measurement or incident response - it
-**consumes** them. SLIs and telemetry come from
+A reliability discipline does not redefine measurement or incident response - it
+**consumes** them. In Cogitave's estate, SLIs and telemetry come from
 [observability](../../../../standards/docs/standards/observability.md); a
 burn-rate page runs as an incident under
 [ops/incident-response](../../../../ops/incident-response/docs/incident-response-plan.md);

@@ -3,7 +3,7 @@ uid: cogitave.learn.respond-to-incidents.introduction
 title: Introduction
 metadata:
   title: Introduction
-  description: What ops/ owns - the operational-resilience half of the estate - how it splits into incident response and business continuity, and what you will be able to do after this module.
+  description: How an operational-resilience tree splits into incident response and business continuity - shown through Cogitave's ops/ - and what you will be able to do after this module.
   ms.date: 2026-07-26
   author: cogitave
   ms.topic: unit

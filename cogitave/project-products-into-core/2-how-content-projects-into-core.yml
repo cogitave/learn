@@ -1,8 +1,8 @@
 ### YamlMime:ModuleUnit
 uid: cogitave.learn.project-products-into-core.how-content-projects-into-core
-title: How content projects into Core
+title: How content projects into the canonical model
 metadata:
-  title: How content projects into Core
+  title: How content projects into the canonical model
   description: The ACQUIRE-to-PUBLISH pipeline that turns a source blob into a node, the UID and content-addressed contentHash that identify it, the closed edge set that links it in, and how the same node is served to humans and agents alike over MCP.
   ms.date: 2026-07-26
   author: cogitave

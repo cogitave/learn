@@ -11,12 +11,14 @@ this order**:
 | Section | What it tells you |
 | --- | --- |
 | **Problem** | When you reach for this pattern. |
-| **The Cogitave way** | The one canonical solution, concretely. |
+| **The canonical way** | The one canonical solution, concretely. |
 | **Governing standard(s)** | The authority - the rules live there, not here. |
 | **Reusable artifact** | The template, primitive, or snippet to start from. |
 | **Anti-pattern** | What agents most often wrongly generate instead. |
 
-Read [service-scaffold.md](../../../../standards/docs/patterns/service-scaffold.md)
+Cogitave's own catalog labels the canonical-solution row **The Cogitave way**; in
+your estate it would carry your org's name. Read
+[service-scaffold.md](../../../../standards/docs/patterns/service-scaffold.md)
 end to end and you can feel the shape: the Problem names the temptation to
 `git init` an empty repo; the Cogitave way says scaffold from `templates/base`
 plus a language template instead; the governing standards are
@@ -41,13 +43,13 @@ policies. When an entry has no `canonical_pattern`, its `catalog.yaml` fields
 *are* the pattern - there is no separate prose doc to open.
 
 > [!NOTE]
-> Both forms are the **same** projection of Cogitave Core, queried the same way
-> a human or an agent would: `docs_search` or `query_graph` over the
+> Both forms are the **same** projection of the canonical model - Cogitave Core -
+> queried the same way a human or an agent would: `docs_search` or `query_graph` over the
 > [query layer](../../../../core/docs/query.md) and the
 > [MCP interface](../../../../core/docs/mcp-interface.md). There is no second,
 > private index - see [ADR-0022](../../../../standards/docs/decisions/0022-patterns-catalog-and-project-inheritance.md)
 > part D.
 
-Whichever form you open, read the same way: get the Problem and the Cogitave way
+Whichever form you open, read the same way: get the Problem and the canonical way
 for orientation, then treat the Governing standard and the Reusable artifact as
 the two links that matter - everything else is a pointer to one of those two.

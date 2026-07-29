@@ -1,7 +1,9 @@
-A rule that depends on everyone remembering it is not a floor. What makes the
-seven rules load-bearing is that most of them are **enforced by construction** -
-a hook, a CI gate, an org ruleset, or policy-as-code refuses the violation, so the
-rule holds whether the author was a person or an agent.
+A rule that depends on everyone remembering it is not a floor. What makes a floor
+load-bearing is that most of its rules are **enforced by construction** - a hook,
+a CI gate, an org ruleset, or policy-as-code refuses the violation, so the rule
+holds whether the author was a person or an agent. Here is how Cogitave wires each
+of its seven rules; the **mechanism** behind each is the transferable part, not
+the specific tool names.
 
 ## The enforcement map
 

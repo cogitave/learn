@@ -1,12 +1,13 @@
 A graph made of `xref` and `dependsOn` edges only propagates changes along
-edges someone actually drew. That is a real gap, and the
+edges someone actually drew. That is a real gap in any linked model, and
+Cogitave's
 [knowledge-propagation standard](../../../../standards/docs/standards/knowledge-propagation.md)
 and [ADR-0028](../../../../standards/docs/decisions/0028-knowledge-propagation-and-fact-registry.md)
 name it precisely.
 
 ## The gap: restatement drift
 
-Two audits of the estate found 21 real defects, almost all the same shape: a
+Two audits of Cogitave's estate found 21 real defects, almost all the same shape: a
 load-bearing fact, retyped as plain prose in a second document, silently
 diverging from its source. An ADR restated an SLO ladder as
 `99.9 / 99.95 / 99.99` when the canonical ladder was `99.9 / 99.5 / 99.0`; prose
@@ -20,7 +21,7 @@ else points.**
 
 | Layer | Catches | Mechanism |
 | --- | --- | --- |
-| L1 Graph | linked references | `xref`/`dependsOn` edges, already in Core |
+| L1 Graph | linked references | `xref`/`dependsOn` edges, already in the model |
 | L2 Fact registry | unlinked restatements | `facts.yaml` + the fact-drift scanner |
 | L3 Impact map | pre-edit blindness | reverse-xref + graph walk + registry lookup |
 

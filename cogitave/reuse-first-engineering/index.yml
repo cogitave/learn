@@ -2,7 +2,7 @@
 uid: cogitave.learn.reuse-first-engineering
 metadata:
   title: Reuse-first engineering
-  description: Why Cogitave requires discover-before-generate before any UI or code is authored - the convergent, tokens-to-golden-components single source of truth, the MCP-native registry, the anti-duplication gates, and why building from scratch is the justified exception, not the default.
+  description: Why an AI-native org needs discover-before-generate before any UI or code is authored - the convergent, tokens-to-golden-components single source of truth, the MCP-native registry, the anti-duplication gates, and why building from scratch is the justified exception, not the default.
   ms.date: 2026-07-26
   author: cogitave
   ms.topic: module

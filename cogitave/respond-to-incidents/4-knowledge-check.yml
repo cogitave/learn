@@ -23,7 +23,7 @@ quiz:
         - content: "Default to S2, since a standard-response incident is cheaper to run than a full-response one."
           isCorrect: false
           explanation: "Incorrect. Optimizing for the cheaper response when severity is genuinely uncertain is the opposite of declare-high-downgrade-later; cost is not the deciding factor, customer impact is."
-    - content: "A report looks like a minor, cosmetic S3 bug, but it turns out to involve a possible credential leak. What happens under Cogitave's severity model?"
+    - content: "A report looks like a minor, cosmetic S3 bug, but it turns out to involve a possible credential leak. What happens under the severity model?"
       choices:
         - content: "The security override wins regardless of apparent severity: the signal routes onto the security-incident path, paging oncall-security and engaging the Security lead, even though it looked like an S3."
           isCorrect: true

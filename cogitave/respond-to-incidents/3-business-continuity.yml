@@ -3,7 +3,7 @@ uid: cogitave.learn.respond-to-incidents.business-continuity
 title: Business continuity and disaster recovery
 metadata:
   title: Business continuity and disaster recovery
-  description: How the BIA sets recovery objectives, how service tiers fix RTO/RPO and a DR strategy, how the BCP activates and hands off from incident response, and the dependency order the estate recovers in.
+  description: How the BIA sets recovery objectives, how service tiers fix RTO/RPO and a DR strategy, how the BCP activates and hands off from incident response, and the dependency order an AI-native org recovers in.
   ms.date: 2026-07-26
   author: cogitave
   ms.topic: unit

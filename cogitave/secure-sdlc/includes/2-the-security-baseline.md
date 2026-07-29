@@ -1,6 +1,7 @@
-The baseline is the set of controls every Cogitave product is built on. The
-[Security Standard](../../../../standards/docs/standards/security.md) owns them;
-this unit teaches you to recognize each one and where it lives.
+The baseline is the set of controls every product in an AI-native org is built
+on. Cogitave's [Security Standard](../../../../standards/docs/standards/security.md)
+owns them in its own estate; this unit teaches you to recognize each one and where
+it lives.
 
 ## Secure-by-design and secure-by-default
 

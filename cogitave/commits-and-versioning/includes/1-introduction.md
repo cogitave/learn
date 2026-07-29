@@ -1,14 +1,15 @@
 In most projects a commit message is a note to a human: a short line someone
-might read later while hunting a regression. In Cogitave it is that **and** an
+might read later while hunting a regression. In an AI-native org it is that **and** an
 instruction to the machine. The type you put in front of your message decides
 whether the next release is a patch, a minor, or a major version - and whether
 your change even appears in the changelog. Write the message carelessly and you
 version the code wrong.
 
-The root [`AGENTS.md`](../../../../../AGENTS.md) makes this rule 2 of the
-non-negotiable floor: every commit is **Conventional Commits 1.0.0**,
-`<type>[scope][!]: <desc>`. This module is where that one-line rule becomes a
-working skill. The single source of truth is the
+An AI-native org puts this in a non-negotiable floor; Cogitave's own, for
+instance, makes it rule 2 in the root [`AGENTS.md`](../../../../../AGENTS.md):
+every commit is **Conventional Commits 1.0.0**, `<type>[scope][!]: <desc>`. This
+module is where that one-line rule becomes a working skill. Cogitave's single
+source of truth for it is the
 [commits-versioning standard](../../../../standards/docs/standards/commits-versioning.md);
 the branching and release flow that carries a commit to a release lives in the
 [branching-release standard](../../../../standards/docs/standards/branching-release.md).

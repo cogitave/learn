@@ -1,17 +1,17 @@
 ### YamlMime:LearningPath
 uid: cogitave.learn.paths.engineering-standards
 metadata:
-  title: Cogitave engineering standards
-  description: Learn the non-negotiable engineering floor every Cogitave contributor and agent works to - the AGENTS floor, naming, commits and versioning, testing and quality, API design, configuration, secure SDLC, CI/CD, and observability and reliability.
+  title: Engineering standards for an AI-native org
+  description: Learn the non-negotiable engineering floor every contributor and agent in an AI-native org works to - the floor, naming, commits and versioning, testing and quality, API design, configuration, secure SDLC, CI/CD, and observability and reliability. Cogitave's own standards are the worked example.
   ms.date: 2026-06-28
   author: cogitave
   ms.topic: learning-path
-title: Cogitave engineering standards
+title: Engineering standards for an AI-native org
 summary: |
-  Learn the standards floor that governs every repository in the Cogitave estate: the AGENTS.md rules, naming, commits and versioning, testing and quality, API design, configuration, secure SDLC, CI/CD, and observability and reliability. By the end you'll be able to make changes that pass the org gates by default. Day 0: this path is scaffolded - the module bodies are authored in a later content phase.
+  Learn the standards floor that governs every repository in an AI-native estate: the floor rules, naming, commits and versioning, testing and quality, API design, configuration, secure SDLC, CI/CD, and observability and reliability. By the end you'll be able to make changes that pass the org gates by default. Cogitave's own standards are the worked example throughout.
 prerequisites: |
   - Basic familiarity with Git and the command line.
-  - Completion of the "Contributor onboarding" path is recommended.
+  - Completion of the "Onboard to an AI-native codebase" path is recommended.
 iconUrl: /learn/achievements/engineering-standards.svg
 levels:
   - intermediate

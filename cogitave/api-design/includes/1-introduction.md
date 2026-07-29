@@ -1,5 +1,5 @@
 An API is a promise. Once a human, an agent, or another service depends on the
-shape of your surface, that shape is a contract you have to honor. Cogitave takes
+shape of your surface, that shape is a contract you have to honor. An AI-native org takes
 two questions that most teams blur together and gives each its own standard: how
 a contract is **shaped**, and how a contract **changes over time**.
 
@@ -24,7 +24,7 @@ surface ships.
 
 ## Why one shape, four protocols
 
-Cogitave is MCP-native and also speaks HTTP, gRPC, and GraphQL. The design
+An AI-native org is MCP-native and also speaks HTTP, gRPC, and GraphQL. The design
 standard's core bet is that a single concept has **one shape** across all four:
 same field names, same enum values, same error taxonomy, same pagination
 contract. That is what lets an agent or an auditor read one model instead of

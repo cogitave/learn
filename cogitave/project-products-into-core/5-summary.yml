@@ -3,7 +3,7 @@ uid: cogitave.learn.project-products-into-core.summary
 title: Summary
 metadata:
   title: Summary
-  description: Recap how content projects into Cogitave Core as typed nodes and how the fact registry keeps one owner per fact, and complete the Build on Cogitave Core path.
+  description: Recap how content projects into one canonical model as typed nodes and how the fact registry keeps one owner per fact, and complete the Build on a single canonical model path.
   ms.date: 2026-07-26
   author: cogitave
   ms.topic: unit

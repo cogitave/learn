@@ -1,13 +1,13 @@
 ### YamlMime:Module
 uid: cogitave.learn.api-design
 metadata:
-  title: Design and version a Cogitave API
-  description: The two standards behind every Cogitave contract surface - the API design standard (contract-first, resource-oriented, RFC 9457 errors, cursor pagination, idempotency) and the versioning-and-deprecation policy - so you can shape a clean v1 and evolve it without breaking consumers.
+  title: Design and version an API
+  description: The two standards behind every contract surface in an AI-native org - the API design standard (contract-first, resource-oriented, RFC 9457 errors, cursor pagination, idempotency) and the versioning-and-deprecation policy - so you can shape a clean v1 and evolve it without breaking consumers.
   ms.date: 2026-07-26
   author: cogitave
   ms.topic: module
-title: Design and version a Cogitave API
-summary: Shape a clean, consistent API against the Cogitave API design standard - resources, standard methods, typed errors, cursor pagination, idempotency - then version and deprecate it under the versioning policy so no consumer is ever broken without consent.
+title: Design and version an API
+summary: Shape a clean, consistent API against a clear API design standard - resources, standard methods, typed errors, cursor pagination, idempotency - then version and deprecate it under a versioning policy so no consumer is ever broken without consent.
 abstract: |
   By the end of this module, you'll be able to:
   - Design a resource-oriented, contract-first API that meets the same shape across HTTP, gRPC, GraphQL, and MCP, using the conventions the API design standard fixes.

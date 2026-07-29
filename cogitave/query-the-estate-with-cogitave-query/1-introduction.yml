@@ -3,7 +3,7 @@ uid: cogitave.learn.query-the-estate-with-cogitave-query.introduction
 title: Introduction
 metadata:
   title: Introduction
-  description: Cogitave Query is the single retrieval layer over Core's canonical graph - one pipeline behind both the human and agent surfaces - and why it fuses three signals instead of picking one retriever.
+  description: The query interface is the single retrieval layer over a canonical graph - one pipeline behind both the human and agent surfaces - and why it fuses three signals instead of picking one retriever. Cogitave Query is the worked example.
   ms.date: 2026-07-26
   author: cogitave
   ms.topic: unit

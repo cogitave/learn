@@ -12,7 +12,7 @@ durationInMinutes: 4
 quiz:
   title: Check your knowledge
   questions:
-    - content: "Why does a new Cogitave repository not re-declare the org's non-negotiable rules in its own `AGENTS.md`?"
+    - content: "Why does a new repository in an AI-native org not re-declare the org's non-negotiable rules in its own `AGENTS.md`?"
       choices:
         - content: "The floor is inherited automatically through nearest-file precedence, and a leaf `AGENTS.md` can only ADD project specifics - it must not restate or override the floor."
           isCorrect: true

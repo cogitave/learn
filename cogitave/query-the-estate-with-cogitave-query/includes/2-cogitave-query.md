@@ -1,4 +1,4 @@
-[Cogitave Query](../../../../core/docs/query.md) is not a single index with a ranking tweak on top - it runs two independent retrievers in parallel and fuses their output before graph structure ever enters the picture. This unit walks the pipeline stage by stage.
+A query layer over a canonical graph is not a single index with a ranking tweak on top - it runs two independent retrievers in parallel and fuses their output before graph structure ever enters the picture. This unit walks that pipeline stage by stage, using [Cogitave Query](../../../../core/docs/query.md) as the worked example.
 
 ## 1. Lexical - BM25 over immutable segments
 

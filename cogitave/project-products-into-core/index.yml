@@ -1,21 +1,21 @@
 ### YamlMime:Module
 uid: cogitave.learn.project-products-into-core
 metadata:
-  title: Project products into Core
-  description: How a product spec, a standard, or a piece of learn content projects into Cogitave Core as a typed, content-addressed node instead of living in its own silo - the ACQUIRE-to-PUBLISH pipeline, the closed edge set, and the fact registry that keeps one owner per fact.
+  title: Project products into the canonical model
+  description: How a product spec, a standard, or a piece of learn content projects into one canonical model as a typed, content-addressed node instead of living in its own silo - the ACQUIRE-to-PUBLISH pipeline, the closed edge set, and the fact registry that keeps one owner per fact.
   ms.date: 2026-07-26
   author: cogitave
   ms.topic: module
-title: Project products into Core
-summary: See how content projects into Cogitave Core as typed, content-addressed nodes rather than separate silos, and how the fact registry's cite-not-restate rule and fact-drift scanner keep one owner per fact across the estate.
+title: Project products into the canonical model
+summary: See how content projects into one canonical model as typed, content-addressed nodes rather than separate silos - Cogitave's Core is the worked example - and how the fact registry's cite-not-restate rule and fact-drift scanner keep one owner per fact across your estate.
 abstract: |
   By the end of this module, you'll be able to:
-  - Explain why Cogitave treats docs, standards, and learn content as projections of one graph rather than separate stores.
+  - Explain why an AI-native org treats docs, standards, and learn content as projections of one graph rather than separate stores - with Cogitave's estate as the worked example.
   - Describe how a source document becomes a queryable node: the ACQUIRE-to-PUBLISH pipeline, its UID and content-addressed contentHash, and the closed edge set that links it in.
   - State the fact registry's cite-not-restate rule - one owner per fact, everything else points - and what the fact-drift scanner checks for.
-  - Read Core's Day-0 status accurately: the registry and scanner run on the mirror as plain files today, and full graph projection lands when Core runs.
+  - Read the Day-0 status of Cogitave's Core accurately: the registry and scanner run on the mirror as plain files today, and full graph projection lands when Core runs.
 prerequisites: |
-  - Completion of the first three modules in this path (the Core node/edge model, Cogitave Query, and the native MCP interface) is recommended but not required.
+  - Completion of the first three modules in this path (the canonical node/edge model, the query interface, and the native MCP interface) is recommended but not required.
   - No prior graph-database experience needed.
 iconUrl: /learn/achievements/project-products-into-core.svg
 ratingEnabled: true

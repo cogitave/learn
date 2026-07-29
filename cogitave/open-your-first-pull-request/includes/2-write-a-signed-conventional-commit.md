@@ -32,10 +32,12 @@ get it right at commit time rather than after the push.
 
 ## Sign the commit
 
-The commit must be **SSH-signed** so GitHub reports it as **Verified**. SSH signing
-is mandatory across the estate - it is the lowest-friction path to a verified
-commit, and the org branch ruleset **requires signed commits**, so an unsigned
-commit is rejected outright. This is set out in the
+The commit must be **signed** so GitHub reports it as **Verified**. In a
+certification-grade codebase the signature is the non-repudiation lineage an
+auditor reads, so signing is not optional. Cogitave requires **SSH signing**
+across its estate - the lowest-friction path to a verified commit - and its
+branch ruleset **requires signed commits**, so an unsigned commit is rejected
+outright. This is set out in Cogitave's
 [hooks-precommit standard](../../../../standards/docs/standards/hooks-precommit.md).
 
 Configure signing once, then let Git sign every commit:
@@ -48,7 +50,7 @@ git config --global commit.gpgsign true
 
 > [!WARNING]
 > Never disable signing to make a step easier - not with `--no-gpg-sign`, not by
-> flipping `commit.gpgsign` off. It is a non-negotiable rule of the floor
+> flipping `commit.gpgsign` off. It is a non-negotiable rule of Cogitave's floor
 > ([AGENTS.md](../../../../../AGENTS.md), rule 3); the ruleset rejects the push
 > anyway, and an unsigned commit has no non-repudiation lineage.
 

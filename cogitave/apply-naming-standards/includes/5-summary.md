@@ -1,4 +1,4 @@
-You can now name a new artifact the way the estate does, and tell a functional
+You can now name a new artifact the way an AI-native org does, and tell a functional
 keyword apart from a product codename.
 
 In this module, you:
@@ -21,5 +21,5 @@ In this module, you:
 - @cogitave.learn.commits-and-versioning - how the commit and branch *types* you
   just used carry versioning meaning, the next standard on the engineering path.
 - The **naming standard** is the canonical, full per-domain reference (cloud
-  tags, databases, observability, events, IaC) in the estate's standards
+  tags, databases, observability, events, IaC) in Cogitave's standards
   repository, for when you need a rule this module did not cover.
