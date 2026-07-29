@@ -284,13 +284,13 @@
         "byUid": "_api/{uid}.json"
       },
       "mcp": {
-        "comment": "Native MCP surface over the build intermediates. Target spec 2025-11-25.",
+        "comment": "Native MCP surface over the build intermediates. Spec 2026-07-28, stateless: no initialize handshake, server/discover is the entry point, protocol version per-request in _meta, resultType on every result. The older 2025-11-25 handshake is not supported.",
         "enabled": true,
-        "spec": "2025-11-25",
+        "spec": "2026-07-28",
         "resourceUriTemplate": "cogitave-docs://{product}/{version}/{uid}",
         "capabilities": {
-          "subscribe": true,
-          "listChanged": true
+          "subscribe": false,
+          "listChanged": false
         },
         "tools": [
           "docs_search",

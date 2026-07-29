@@ -3,7 +3,7 @@
  *
  * Nothing in this file may import `node:` anything, read `process`, or touch a
  * filesystem. It runs unchanged on Node (tools/mcp/server.mjs) and on workerd
- * (tools/mcp/worker.mjs, the Pages Function behind /mcp), so the endpoint an
+ * (functions/mcp.js, the Pages Function behind /mcp), so the endpoint an
  * agent runs locally and the one the edge serves are the SAME implementation
  * rather than two that drift.
  *
@@ -24,7 +24,13 @@
  * which parts of it are implemented and which are deliberately not.
  */
 
-export const PROTOCOL_VERSION = '2025-11-25'
+// This server speaks MCP 2026-07-28, stateless: no `initialize` handshake, a
+// mandatory `server/discover` RPC, the protocol version carried per-request in
+// `_meta`, and a `resultType` on every result. The older handshake-based
+// 2025-11-25 revision is deliberately NOT supported - a request declaring it is
+// answered with UnsupportedProtocolVersionError. See tools/mcp/README.md.
+export const PROTOCOL_VERSION = '2026-07-28'
+export const SUPPORTED_PROTOCOL_VERSIONS = ['2026-07-28']
 export const SERVER_INFO = { name: 'cogitave-learn', title: 'Cogitave Learn', version: '0.1.0' }
 export const URI_SCHEME = 'cogitave-docs://learn/'
 export const SITE_URL = 'https://learn.cogitave.com'
@@ -32,6 +38,9 @@ export const SITE_URL = 'https://learn.cogitave.com'
 // Bounded so a hostile or accidental query cannot turn into unbounded work.
 const MAX_QUERY_TERMS = 24
 const MAX_TOP_K = 50
+// The corpus is a static build, so list/read results are cacheable: a freshness
+// hint (ms) a client may cache against, publicly (no per-caller state here).
+const LIST_CACHE_MS = 3600000
 
 // ---------------------------------------------------------------------------
 // retrieval
@@ -430,47 +439,76 @@ export function callTool(state, name, args = {}) {
 // JSON-RPC
 // ---------------------------------------------------------------------------
 
-export const rpcResult = (id, result) => ({ jsonrpc: '2.0', id, result })
-export const rpcError = (id, code, message) => ({ jsonrpc: '2.0', id, error: { code, message } })
+// Every result carries `resultType: "complete"` and identifies the server in
+// `_meta`, per MCP 2026-07-28. (`input_required` never occurs here - this server
+// issues no server-initiated requests, so a result is always complete.)
+export const rpcResult = (id, result) => ({
+  jsonrpc: '2.0',
+  id,
+  result: {
+    resultType: 'complete',
+    ...result,
+    _meta: { 'io.modelcontextprotocol/serverInfo': SERVER_INFO, ...(result._meta ?? {}) },
+  },
+})
+export const rpcError = (id, code, message, data) => ({
+  jsonrpc: '2.0',
+  id,
+  error: data === undefined ? { code, message } : { code, message, data },
+})
 
 /**
- * The handshake stays answerable while the kill-switch is active, so a probe or
- * a client learns the service is intentionally down instead of timing out.
- * Every data method refuses.
+ * Discovery stays answerable while the kill-switch is active, so a probe learns
+ * the service is intentionally down instead of timing out. Every data method
+ * refuses.
  */
-const ALWAYS_ALLOWED = new Set(['initialize', 'ping', 'notifications/initialized', 'notifications/cancelled'])
+const ALWAYS_ALLOWED = new Set(['server/discover', 'notifications/cancelled'])
 
 /** Returns the reply object, or null for a notification (which gets no reply). */
 export function handle(state, msg) {
-  const { id, method, params = {} } = msg ?? {}
+  const { id, method } = msg ?? {}
+  // Default on null and non-objects too, not just undefined: `"params": null` is
+  // a valid JSON-RPC message and must not crash `params.name`/`params.uri`.
+  const params = msg?.params && typeof msg.params === 'object' ? msg.params : {}
   const isNotification = id === undefined || id === null
 
   if (state.disabled?.() && !ALWAYS_ALLOWED.has(method)) {
     return isNotification ? null : rpcError(id, -32001, 'learn MCP is disabled (kill-switch active).')
   }
 
+  // Stateless version negotiation (2026-07-28): a request declares its protocol
+  // version in `_meta`; reject one we do not support. server/discover is exempt -
+  // a client calls it to LEARN which versions we serve.
+  const reqVersion = params?._meta?.['io.modelcontextprotocol/protocolVersion']
+  if (reqVersion && !SUPPORTED_PROTOCOL_VERSIONS.includes(reqVersion) && method !== 'server/discover') {
+    return isNotification
+      ? null
+      : rpcError(id, -32022, `Unsupported protocol version "${reqVersion}". This server is stateless MCP 2026-07-28.`, {
+          supportedVersions: SUPPORTED_PROTOCOL_VERSIONS,
+        })
+  }
+
   switch (method) {
-    case 'initialize':
+    case 'server/discover':
+      // MUST-implement in 2026-07-28: advertise supported versions, capabilities,
+      // and identity in one request, so a client selects a version up front (or
+      // uses it as a probe on stdio). `subscribe`/`listChanged` are deliberately
+      // absent: this reads a built artifact and cannot notice a change, so
+      // claiming them would be a lie a client acts on.
       return rpcResult(id, {
-        protocolVersion: PROTOCOL_VERSION,
-        // Advertise only what is implemented. `subscribe` and `listChanged` are
-        // deliberately absent: this reads a built artifact and has no way to
-        // notice a change, so claiming them would be a lie a client acts on.
-        capabilities: { tools: {}, resources: {} },
+        protocolVersions: SUPPORTED_PROTOCOL_VERSIONS,
+        capabilities: { tools: {}, resources: {}, extensions: {} },
         serverInfo: SERVER_INFO,
         instructions:
-          'Search with docs_search, then read with docs_fetch using the returned uid. code_sample_search returns the compile-checked snippets the corpus pulls by reference.',
+          'Stateless MCP 2026-07-28: send requests directly, each carrying io.modelcontextprotocol/protocolVersion in _meta. Search with docs_search, read with docs_fetch by uid, get_related finds neighbours, code_sample_search returns the snippets the corpus pulls by reference.',
       })
 
-    case 'notifications/initialized':
     case 'notifications/cancelled':
       return null
 
-    case 'ping':
-      return rpcResult(id, {})
-
     case 'tools/list':
-      return rpcResult(id, { tools: TOOLS })
+      // Deterministic order + a cache hint, so a client can cache the list.
+      return rpcResult(id, { tools: TOOLS, ttlMs: LIST_CACHE_MS, cacheScope: 'public' })
 
     case 'tools/call':
       if (!params.name) return rpcError(id, -32602, 'tools/call requires "name".')
@@ -484,16 +522,21 @@ export function handle(state, msg) {
           description: n.summary,
           mimeType: 'text/markdown',
         })),
+        ttlMs: LIST_CACHE_MS,
+        cacheScope: 'public',
       })
 
     case 'resources/read': {
       const uri = params.uri ?? ''
       const node = state.corpus.get(uri.startsWith(URI_SCHEME) ? uri.slice(URI_SCHEME.length) : uri)
+      // -32602 (Invalid Params), aligned with JSON-RPC per 2026-07-28.
       if (!node) return rpcError(id, -32602, `Unknown resource "${uri}".`)
       return rpcResult(id, {
         contents: [
           { uri, mimeType: 'text/markdown', text: `# ${node.title}\n\n${node.summary}\n\n${node.source ?? ''}` },
         ],
+        ttlMs: LIST_CACHE_MS,
+        cacheScope: 'public',
       })
     }
 

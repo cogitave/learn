@@ -21,19 +21,24 @@ npm run mcp:http         # Streamable HTTP on 127.0.0.1:8787
 
 ## What is implemented
 
-Spec revision **2025-11-25**. The authority for this surface is
-[`cogitave/core/docs/mcp-interface.md`](../../../core/docs/mcp-interface.md);
-what follows is the honest delta.
+Spec revision **2026-07-28**, the **stateless** protocol. The older handshake-based
+2025-11-25 is **not** supported - a request declaring it gets
+`UnsupportedProtocolVersionError` (`-32022`). The authority for this surface is
+[`cogitave/core/docs/mcp-interface.md`](../../../core/docs/mcp-interface.md); what
+follows is the honest delta.
 
 | Contract | Here |
 |---|---|
-| Transports: stdio + Streamable HTTP | **Both.** No legacy HTTP+SSE. |
+| Stateless: no `initialize`/`notifications/initialized` handshake | **Yes.** Removed. A request carries its version in `_meta` (`io.modelcontextprotocol/protocolVersion`) and is served directly. |
+| `server/discover` (MUST) | **Yes** - returns `protocolVersions` (`["2026-07-28"]`), capabilities, and `serverInfo` in one request; answers even under the kill-switch. |
+| `resultType` on every result; `serverInfo` in each result's `_meta` | **Yes** - always `"complete"` (this server issues no server-initiated requests, so `"input_required"` never occurs). |
+| `CacheableResult` (`ttlMs`, `cacheScope`) on `tools/list` / `resources/list` / `resources/read` | **Yes** - the corpus is a static build, so lists are publicly cacheable. |
+| Transports: stdio + Streamable HTTP | **Both.** No legacy HTTP+SSE, no sessions (`Mcp-Session-Id` removed). |
 | `403` on invalid `Origin` | **Yes** - the DNS-rebinding defence for a locally bound server. |
-| GET stream, resumption, event IDs | **No.** Nothing here pushes, so there is no stream to open; `GET` returns `405`. |
-| Tools declare `inputSchema` + `outputSchema`, return structured content | **Yes**, every tool. |
+| GET stream, `subscriptions/listen`, resumption | **No.** Nothing here pushes, so there is no stream to open; `GET` returns `405`. |
+| Tools declare `inputSchema` + `outputSchema`, return structured content | **Yes**, every tool; deterministic `tools/list` order for client caching. |
 | Input-validation failures as tool errors (`isError: true`), not protocol errors | **Yes** - so a model can self-correct. |
-| Capabilities `tools`, `resources` | **Advertised.** |
-| `subscribe`, `listChanged`, `logging`, `completions` | **Not advertised**, because they are not implemented. This server reads a static build and cannot notice a change; claiming `subscribe` would be a promise a client acts on. |
+| `ping`, `logging`, Roots, Sampling | **Not implemented** (removed or deprecated in 2026-07-28). |
 | Tool/resource icons | Not exposed. |
 
 ## Tools

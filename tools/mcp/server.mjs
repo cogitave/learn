@@ -19,7 +19,8 @@
  * implemented and which are not. Do not widen the advertised capabilities beyond
  * what the code actually does.
  *
- * Spec revision: 2025-11-25. Transports: stdio and Streamable HTTP.
+ * Spec revision: 2026-07-28 (stateless - no initialize handshake, server/discover
+ * is the entry point). Transports: stdio and Streamable HTTP.
  * Zero runtime dependencies, per ADR-0003.
  *
  * Usage:
@@ -52,9 +53,9 @@ const ROOT = resolve(HERE, '..', '..')
 //   - COGITAVE_LEARN_MCP_ENABLED=false, or the --disabled flag: off at startup.
 //   - a kill-file at COGITAVE_LEARN_MCP_KILLFILE: off WHENEVER the file exists,
 //     so `touch` disables and `rm` re-enables live, without a restart.
-// When off, the handshake (initialize/ping) still answers so a probe and the
-// client learn the service is intentionally down; every data method returns a
-// clean "disabled" error, and HTTP returns 503 so a balancer routes around it.
+// When off, server/discover still answers so a probe and the client learn the
+// service is intentionally down; every data method returns a clean "disabled"
+// error, and HTTP returns 503 so a balancer routes around it.
 // In production the authoritative kill-switch is the deployment's own switch;
 // this server-level one is the self-host / local control.
 //

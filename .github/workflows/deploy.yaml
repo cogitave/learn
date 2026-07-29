@@ -101,12 +101,12 @@ jobs:
           code=$(curl -sS -o /dev/null -w '%{http_code}' "$BASE/")
           test "$code" = "200" || { echo "::error::homepage returned $code"; exit 1; }
 
-          # MCP must answer a real handshake, not just exist.
+          # MCP must answer server/discover (the stateless 2026-07-28 entry point), not just exist.
           body=$(curl -sS -X POST "$BASE/mcp" \
             -H 'content-type: application/json' \
-            -d '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{}}')
-          echo "$body" | grep -q '"protocolVersion":"2025-11-25"' \
-            || { echo "::error::/mcp did not complete the handshake: $body"; exit 1; }
+            -d '{"jsonrpc":"2.0","id":1,"method":"server/discover"}')
+          echo "$body" | grep -q '"2026-07-28"' \
+            || { echo "::error::/mcp did not answer server/discover: $body"; exit 1; }
 
           # And it must actually be able to read the corpus it shipped with.
           hits=$(curl -sS -X POST "$BASE/mcp" \

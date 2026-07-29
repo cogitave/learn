@@ -112,7 +112,7 @@ MCP is not a bolt-on adapter; **every build intermediate is a live MCP surface**
 cogitave-docs://{product}/{version}/{uid}
 ```
 
-The server declares `resources.subscribe` and `resources.listChanged`, supports `resources/list`, `resources/read`, `resources/templates/list`, and `resources/subscribe`, and emits `notifications/resources/updated` / `notifications/resources/list_changed` on republish — exactly the resource lifecycle in the MCP specification.[^mcp-resources] Tools expose the retrieval and graph surface: `docs_search`, `docs_fetch`, `code_sample_search`, plus graph tools `get_related`, `get_learning_path`, and `resolve_xref`. Target spec version is **2025-11-25**.
+The server supports `resources/list` and `resources/read`. It does **not** advertise change subscriptions: it reads a static build and cannot notice a change, so it emits no `listChanged`/`subscriptions/listen` stream (a target for a live-republishing deployment, not the static server).[^mcp-resources] Tools expose the retrieval and graph surface: `docs_search`, `docs_fetch`, `code_sample_search`, plus graph tools `get_related`, `get_learning_path`, and `resolve_xref`. The server is **stateless** (no `initialize` handshake, `server/discover` as the entry point); target spec version is **2026-07-28**.
 
 ## 6. Serve tier and edge-first search
 
