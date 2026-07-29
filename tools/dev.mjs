@@ -20,12 +20,23 @@ import { createServer } from 'node:http'
 import { spawn } from 'node:child_process'
 import { readFile, stat, realpath } from 'node:fs/promises'
 import { watch, existsSync } from 'node:fs'
-import { join, extname, dirname, resolve, relative, isAbsolute } from 'node:path'
+import { join, extname, dirname, resolve, sep } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const HERE = dirname(fileURLToPath(import.meta.url))
 const ROOT = resolve(HERE, '..')
 const SITE = join(ROOT, '_site')
+
+/**
+ * Is an already-resolved absolute path inside the site root?
+ *
+ * The trailing separator is the whole point. A bare `startsWith(SITE)` also
+ * accepts a SIBLING whose name merely begins with the same characters - with a
+ * root of `_site`, the directory `_sitemap` passes. Comparing against
+ * `_site<sep>` cannot, and the equality case keeps the root itself admissible.
+ */
+const ROOT_PREFIX = SITE + sep
+const contained = (p) => p === SITE || p.startsWith(ROOT_PREFIX)
 
 const args = process.argv.slice(2)
 const flag = (name, fallback) => {
@@ -126,15 +137,13 @@ createServer(async (req, res) => {
     return
   }
 
-  let path = resolve(SITE, `.${url}`)
+  const forbid = () => res.writeHead(403, { 'content-type': 'text/plain' }).end('forbidden')
 
-  // Containment is a PATH relationship, not a string prefix. `startsWith(SITE)`
-  // also accepts a sibling whose name merely begins with the same characters -
-  // `_site` would admit `_sitemap`. `relative` answers the real question: a path
-  // inside the root never has to climb out of it.
-  const rel = relative(SITE, path)
-  if (rel.startsWith('..') || isAbsolute(rel)) {
-    res.writeHead(403, { 'content-type': 'text/plain' }).end('forbidden')
+  // `resolve` collapses every `..` first, so what is checked is the path that
+  // would actually be opened rather than the one that was typed.
+  let path = resolve(SITE, `.${url}`)
+  if (!contained(path)) {
+    forbid()
     return
   }
 
@@ -143,20 +152,19 @@ createServer(async (req, res) => {
     // Directories and extensionless paths are pretty URLs: `/x/` -> `/x/index.html`.
     if (found?.isDirectory() || (!found && !extname(path))) path = join(path, 'index.html')
 
-    // The lexical check above proves the REQUESTED path is inside the root; it
-    // says nothing about where a symlink inside the root points. Resolve the
-    // real location and re-check, then read that - so the path opened is the
-    // path that was verified, not one that was merely spelled like it.
+    // The check above proves the REQUESTED path is inside the root; it says
+    // nothing about where a symlink INSIDE the root points. Resolve the real
+    // location, re-check that, and read the resolved path - so the file opened
+    // is the file that was verified, not one that was merely spelled like it.
     const real = await realpath(path)
-    const realRel = relative(SITE, real)
-    if (realRel.startsWith('..') || isAbsolute(realRel)) {
-      res.writeHead(403, { 'content-type': 'text/plain' }).end('forbidden')
+    if (!contained(real)) {
+      forbid()
       return
     }
 
-    const body = await readFile(join(SITE, realRel))
+    const body = await readFile(real)
     res.writeHead(200, {
-      'content-type': TYPES[extname(path)] ?? 'application/octet-stream',
+      'content-type': TYPES[extname(real)] ?? 'application/octet-stream',
       // A dev server that caches is a dev server that lies about your last edit.
       'cache-control': 'no-store',
     })
