@@ -478,14 +478,45 @@ export function handle(state, msg) {
 
   // Stateless version negotiation (2026-07-28): a request declares its protocol
   // version in `_meta`; reject one we do not support. server/discover is exempt -
-  // a client calls it to LEARN which versions we serve.
-  const reqVersion = params?._meta?.['io.modelcontextprotocol/protocolVersion']
-  if (reqVersion && !SUPPORTED_PROTOCOL_VERSIONS.includes(reqVersion) && method !== 'server/discover') {
+  // a client calls it to LEARN which versions we serve, so answering it is
+  // strictly more useful than refusing it. The compatibility matrix admits both
+  // a DiscoverResult and an UnsupportedProtocolVersionError from that probe.
+  const meta = params?._meta && typeof params._meta === 'object' ? params._meta : {}
+  const reqVersion = meta['io.modelcontextprotocol/protocolVersion']
+  const isDiscover = method === 'server/discover'
+  // Two methods cannot be held to the modern `_meta` contract without defeating
+  // their own purpose: `server/discover` is how a client LEARNS the version it
+  // must send, and `initialize` is only ever sent by a legacy client that has no
+  // way to send modern metadata at all. Answering either with "malformed" costs
+  // the caller the one diagnostic that would have told it what to do next.
+  const isEraProbe = isDiscover || method === 'initialize'
+
+  if (reqVersion && !SUPPORTED_PROTOCOL_VERSIONS.includes(reqVersion) && !isDiscover) {
     return isNotification
       ? null
-      : rpcError(id, -32022, `Unsupported protocol version "${reqVersion}". This server is stateless MCP 2026-07-28.`, {
-          supportedVersions: SUPPORTED_PROTOCOL_VERSIONS,
+      : // Field names are fixed by UnsupportedProtocolVersionError in the schema:
+        // `supported` and `requested`. A client reads `supported` to pick a
+        // version and retry, so an invented name silently breaks that retry.
+        rpcError(id, -32022, `Unsupported protocol version "${reqVersion}". This server is stateless MCP 2026-07-28.`, {
+          supported: SUPPORTED_PROTOCOL_VERSIONS,
+          requested: reqVersion,
         })
+  }
+
+  // The required per-request `_meta` fields ARE the session that 2026-07-28
+  // removed. Accepting a request without them would be inferring state the
+  // client never sent, which is the one thing a stateless server must not do -
+  // so a missing field is malformed (-32602), not a silent default.
+  if (!isNotification && !isEraProbe) {
+    const missing = []
+    if (typeof reqVersion !== 'string') missing.push('io.modelcontextprotocol/protocolVersion')
+    const caps = meta['io.modelcontextprotocol/clientCapabilities']
+    if (!caps || typeof caps !== 'object') missing.push('io.modelcontextprotocol/clientCapabilities')
+    if (missing.length) {
+      return rpcError(id, -32602, `Missing required _meta ${missing.length > 1 ? 'fields' : 'field'}: ${missing.join(', ')}.`, {
+        missing,
+      })
+    }
   }
 
   switch (method) {
@@ -540,6 +571,22 @@ export function handle(state, msg) {
       })
     }
 
+    // A legacy (2025-11-25 or earlier) client opens with `initialize` and has no
+    // fall-forward mechanism: this error is the only diagnostic it can show a
+    // user. So it names the versions we speak instead of just saying "unknown
+    // method", which would look like a broken endpoint rather than a newer one.
+    case 'initialize':
+      return isNotification
+        ? null
+        : rpcError(
+            id,
+            -32601,
+            'This server speaks stateless MCP 2026-07-28, which has no "initialize" handshake. ' +
+              'Send requests directly, each carrying io.modelcontextprotocol/protocolVersion in _meta, ' +
+              'and call server/discover to enumerate capabilities.',
+            { supported: SUPPORTED_PROTOCOL_VERSIONS },
+          )
+
     default:
       return isNotification ? null : rpcError(id, -32601, `Unknown method "${method}".`)
   }
@@ -561,6 +608,102 @@ export function handleBody(state, text) {
     return replies.length ? replies : null
   }
   return handle(state, msg)
+}
+
+// ---------------------------------------------------------------------------
+// Streamable HTTP binding
+// ---------------------------------------------------------------------------
+//
+// The transport mirrors selected body fields into headers so an intermediary
+// can route without parsing the body. That only holds if the two agree, so the
+// server MUST reject any request where they disagree - otherwise a load
+// balancer routes on one value while the server executes another. These two
+// helpers live here, not in the Function, because the rule belongs to the
+// protocol; the Function only supplies the headers and applies the status.
+
+/** `=?base64?...?=` carries a value that is not safe as a plain ASCII header. */
+function decodeHeaderValue(v) {
+  if (typeof v !== 'string' || !v.startsWith('=?base64?') || !v.endsWith('?=')) return v
+  const b64 = v.slice('=?base64?'.length, -'?='.length)
+  try {
+    return new TextDecoder().decode(Uint8Array.from(atob(b64), (c) => c.charCodeAt(0)))
+  } catch {
+    return null // Undecodable is a mismatch, not a pass.
+  }
+}
+
+/** Methods whose subject is mirrored into `Mcp-Name`. */
+const NAMED_METHODS = new Set(['tools/call', 'resources/read', 'prompts/get'])
+
+/**
+ * Validate the mirrored request headers against the parsed body.
+ *
+ * `get` is a case-insensitive header lookup, so this works with a `Headers`
+ * object, a Node `req.headers` bag, or a plain map.
+ *
+ * Returns a JSON-RPC error reply, or null when the request is consistent.
+ * Notifications are exempt: this revision does not define header requirements
+ * for them.
+ */
+export function checkHeaders(get, msg) {
+  if (!msg || typeof msg !== 'object' || Array.isArray(msg)) return null
+  const { id, method } = msg
+  if (id === undefined || id === null) return null
+
+  const bad = (m) => rpcError(id, -32020, `Header mismatch: ${m}`)
+
+  const version = get('mcp-protocol-version')
+  if (!version) return bad('the MCP-Protocol-Version header is required on every request.')
+  const bodyVersion = msg.params?._meta?.['io.modelcontextprotocol/protocolVersion']
+  if (bodyVersion !== undefined && version !== bodyVersion) {
+    return bad(`MCP-Protocol-Version "${version}" does not match the _meta protocol version "${bodyVersion}".`)
+  }
+
+  const hMethod = get('mcp-method')
+  if (!hMethod) return bad('the Mcp-Method header is required on every request.')
+  if (hMethod !== method) return bad(`Mcp-Method "${hMethod}" does not match the body method "${method}".`)
+
+  if (NAMED_METHODS.has(method)) {
+    const raw = get('mcp-name')
+    if (!raw) return bad(`the Mcp-Name header is required for "${method}".`)
+    const name = decodeHeaderValue(raw)
+    const bodyName = method === 'tools/call' ? msg.params?.name : msg.params?.uri
+    if (name === null) return bad('the Mcp-Name header is not valid base64.')
+    if (bodyName !== undefined && name !== bodyName) {
+      return bad(`Mcp-Name "${name}" does not match the body value "${bodyName}".`)
+    }
+  }
+
+  return null
+}
+
+/**
+ * The HTTP status a reply must carry. The transport binds specific JSON-RPC
+ * errors to specific statuses, and a client uses the status to decide whether
+ * to retry, re-negotiate, or fall back to a legacy handshake - so answering
+ * every error with 200 makes a modern server look like a broken one.
+ */
+export function httpStatusFor(reply) {
+  const code = reply?.error?.code
+  if (code === undefined) return 200
+  switch (code) {
+    case -32020: // HeaderMismatch
+    case -32021: // MissingRequiredClientCapability
+    case -32022: // UnsupportedProtocolVersion
+    case -32700: // Parse error
+    case -32600: // Invalid request
+      return 400
+    case -32601: // Method not found - distinguishable from a legacy 404 by the body.
+      return 404
+    case -32001: // Kill-switch.
+      return 503
+    case -32602:
+      // Only the malformed-`_meta` case is a transport-level failure; a bad
+      // argument or an unknown resource is a well-formed request that failed.
+      return reply.error.data?.missing ? 400 : 200
+    default:
+      return 200
+  }
 }
 
 /**

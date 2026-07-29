@@ -11,6 +11,7 @@
     "build": "node tools/build.mjs",
     "check": "node tools/build.mjs --out .cache/check --quiet",
     "mcp": "node tools/mcp/server.mjs",
-    "mcp:http": "node tools/mcp/server.mjs --http"
+    "mcp:http": "node tools/mcp/server.mjs --http",
+    "test": "node --test tools/mcp/conformance.test.mjs"
   }
 }

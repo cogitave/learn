@@ -39,7 +39,7 @@ import { fileURLToPath } from 'node:url'
 import { createServer } from 'node:http'
 import { createInterface } from 'node:readline'
 
-import { extractRegions, handleBody, rpcError } from './protocol.mjs'
+import { checkHeaders, extractRegions, handle, handleBody, httpStatusFor, rpcError } from './protocol.mjs'
 
 const HERE = dirname(fileURLToPath(import.meta.url))
 const ROOT = resolve(HERE, '..', '..')
@@ -177,15 +177,41 @@ function serveHttp(state, port) {
     })
     req.on('end', () => {
       if (aborted) return
-      const reply = handleBody(state, body)
+
+      const send = (reply, status) => {
+        const out = JSON.stringify(reply)
+        res
+          .writeHead(status, { 'content-type': 'application/json', 'content-length': Buffer.byteLength(out) })
+          .end(out)
+      }
+
+      // This path must answer exactly as the Pages Function does. A local
+      // server that is more forgiving than production is worse than no local
+      // server: it certifies a request that the edge will refuse.
+      let msg
+      try {
+        msg = JSON.parse(body)
+      } catch (e) {
+        send(rpcError(null, -32700, `Parse error: ${e.message}`), 400)
+        return
+      }
+      if (Array.isArray(msg)) {
+        send(rpcError(null, -32600, 'Streamable HTTP carries one JSON-RPC message per POST; batches are not accepted.'), 400)
+        return
+      }
+
+      const headerError = checkHeaders((n) => req.headers[n] ?? null, msg)
+      if (headerError) {
+        send(headerError, 400)
+        return
+      }
+
+      const reply = handle(state, msg)
       if (!reply) {
         res.writeHead(202).end() // notification only
         return
       }
-      const out = JSON.stringify(reply)
-      res
-        .writeHead(200, { 'content-type': 'application/json', 'content-length': Buffer.byteLength(out) })
-        .end(out)
+      send(reply, httpStatusFor(reply))
     })
   }).listen(port, '127.0.0.1', () => {
     process.stderr.write(
