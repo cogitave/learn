@@ -296,6 +296,7 @@
           "docs_search",
           "docs_fetch",
           "code_sample_search",
+          "list_catalogue",
           "get_related",
           "get_learning_path",
           "resolve_xref"
