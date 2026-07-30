@@ -24,13 +24,22 @@
  * which parts of it are implemented and which are deliberately not.
  */
 
-// This server speaks MCP 2026-07-28, stateless: no `initialize` handshake, a
-// mandatory `server/discover` RPC, the protocol version carried per-request in
-// `_meta`, and a `resultType` on every result. The older handshake-based
-// 2025-11-25 revision is deliberately NOT supported - a request declaring it is
-// answered with UnsupportedProtocolVersionError. See tools/mcp/README.md.
+// This server prefers MCP 2026-07-28, stateless: a `server/discover` RPC, the
+// protocol version carried per-request in `_meta`, `resultType` on every result,
+// and header/body mirroring on the HTTP transport. It ALSO accepts the older
+// handshake-based 2025-11-25 revision, because that is what shipping clients
+// still speak: a request that does not declare 2026-07-28 is served the legacy
+// way - `initialize` handshake, no per-request `_meta`, no header mirroring - so
+// the endpoint works with today's agents while staying correct for 2026-07-28
+// ones. The strict 2026-07-28 rules apply ONLY to a request that declares that
+// version; they are never imposed on a legacy client. See tools/mcp/README.md.
+//
+// "Modern" throughout this file means: the request declares 2026-07-28 (in the
+// `_meta` protocol version and, on HTTP, the mirrored header). Anything else is
+// legacy and permissive.
 export const PROTOCOL_VERSION = '2026-07-28'
-export const SUPPORTED_PROTOCOL_VERSIONS = ['2026-07-28']
+export const SUPPORTED_PROTOCOL_VERSIONS = ['2026-07-28', '2025-11-25']
+export const MODERN_VERSION = '2026-07-28'
 export const SERVER_INFO = { name: 'cogitave-learn', title: 'Cogitave Learn', version: '0.1.0' }
 export const URI_SCHEME = 'cogitave-docs://learn/'
 export const SITE_URL = 'https://learn.cogitave.com'
@@ -593,38 +602,40 @@ export function handle(state, msg) {
   // a DiscoverResult and an UnsupportedProtocolVersionError from that probe.
   const meta = params?._meta && typeof params._meta === 'object' ? params._meta : {}
   const reqVersion = meta['io.modelcontextprotocol/protocolVersion']
+  // Modern iff the request declares 2026-07-28; only then do the strict rules
+  // (per-request `_meta`, header mirroring) apply. A legacy client sends no
+  // version here, so it is served permissively.
+  const modern = reqVersion === MODERN_VERSION
   const isDiscover = method === 'server/discover'
-  // Two methods cannot be held to the modern `_meta` contract without defeating
-  // their own purpose: `server/discover` is how a client LEARNS the version it
-  // must send, and `initialize` is only ever sent by a legacy client that has no
-  // way to send modern metadata at all. Answering either with "malformed" costs
-  // the caller the one diagnostic that would have told it what to do next.
+  // `server/discover` is how a client LEARNS the versions we serve, and
+  // `initialize` is the legacy handshake itself, so neither can be held to the
+  // modern `_meta` contract without defeating its own purpose.
   const isEraProbe = isDiscover || method === 'initialize'
 
+  // Reject only a version we do not serve at all (neither 2026-07-28 nor
+  // 2025-11-25). A request that declares nothing is legacy and passes;
+  // server/discover is exempt so a client can always learn what we speak.
   if (reqVersion && !SUPPORTED_PROTOCOL_VERSIONS.includes(reqVersion) && !isDiscover) {
     return isNotification
       ? null
       : // Field names are fixed by UnsupportedProtocolVersionError in the schema:
         // `supported` and `requested`. A client reads `supported` to pick a
         // version and retry, so an invented name silently breaks that retry.
-        rpcError(id, -32022, `Unsupported protocol version "${reqVersion}". This server is stateless MCP 2026-07-28.`, {
+        rpcError(id, -32022, `Unsupported protocol version "${reqVersion}". This server speaks ${SUPPORTED_PROTOCOL_VERSIONS.join(' and ')}.`, {
           supported: SUPPORTED_PROTOCOL_VERSIONS,
           requested: reqVersion,
         })
   }
 
-  // The required per-request `_meta` fields ARE the session that 2026-07-28
-  // removed. Accepting a request without them would be inferring state the
-  // client never sent, which is the one thing a stateless server must not do -
-  // so a missing field is malformed (-32602), not a silent default.
-  if (!isNotification && !isEraProbe) {
-    const missing = []
-    if (typeof reqVersion !== 'string') missing.push('io.modelcontextprotocol/protocolVersion')
+  // For a MODERN request the per-request `_meta` fields ARE the session that
+  // 2026-07-28 removed: accepting one without them would infer state the client
+  // never sent, so a missing field is malformed (-32602). A legacy request is
+  // exempt - it negotiated at `initialize` instead.
+  if (modern && !isNotification && !isEraProbe) {
     const caps = meta['io.modelcontextprotocol/clientCapabilities']
-    if (!caps || typeof caps !== 'object') missing.push('io.modelcontextprotocol/clientCapabilities')
-    if (missing.length) {
-      return rpcError(id, -32602, `Missing required _meta ${missing.length > 1 ? 'fields' : 'field'}: ${missing.join(', ')}.`, {
-        missing,
+    if (!caps || typeof caps !== 'object') {
+      return rpcError(id, -32602, 'Missing required _meta field: io.modelcontextprotocol/clientCapabilities.', {
+        missing: ['io.modelcontextprotocol/clientCapabilities'],
       })
     }
   }
@@ -681,22 +692,36 @@ export function handle(state, msg) {
       })
     }
 
-    // A legacy (2025-11-25 or earlier) client opens with `initialize` and has no
-    // fall-forward mechanism: this error is the only diagnostic it can show a
-    // user. So it names the versions we speak instead of just saying "unknown
-    // method", which would look like a broken endpoint rather than a newer one.
-    case 'initialize':
-      return isNotification
-        ? null
-        : rpcError(
-            id,
-            -32601,
-            'This server speaks stateless MCP 2026-07-28, which has no "initialize" handshake. ' +
-              'Send requests directly, each carrying io.modelcontextprotocol/protocolVersion in _meta, ' +
-              'and call server/discover to enumerate capabilities.',
-            { supported: SUPPORTED_PROTOCOL_VERSIONS },
-          )
+    // The 2025-11-25 handshake. A shipping client opens with this, so answer it -
+    // then it lists and calls tools the legacy way (no per-request `_meta`, no
+    // header mirroring). Echo the version it asked for when we serve it, else our
+    // legacy floor. The reply is a plain handshake object with NO 2026-07-28
+    // `resultType`/`_meta` wrapper, so a strict legacy client sees exactly the
+    // shape it expects.
+    case 'initialize': {
+      if (isNotification) return null
+      const asked = typeof params.protocolVersion === 'string' ? params.protocolVersion : '2025-11-25'
+      const agreed = SUPPORTED_PROTOCOL_VERSIONS.includes(asked) ? asked : '2025-11-25'
+      return {
+        jsonrpc: '2.0',
+        id,
+        result: {
+          protocolVersion: agreed,
+          capabilities: { tools: {}, resources: {} },
+          serverInfo: SERVER_INFO,
+          instructions:
+            'The learn corpus over MCP. Search with docs_search, read with docs_fetch by uid; resolve_xref resolves a uid, get_learning_path returns the ordered path to a competency, get_related finds neighbours, code_sample_search returns snippets, list_catalogue enumerates everything.',
+        },
+      }
+    }
 
+    // Optional keepalive a legacy client may send; an empty result is the whole
+    // contract.
+    case 'ping':
+      return isNotification ? null : { jsonrpc: '2.0', id, result: {} }
+
+    // `notifications/initialized` and any other notification need no reply; the
+    // ternary returns null for them.
     default:
       return isNotification ? null : rpcError(id, -32601, `Unknown method "${method}".`)
   }
@@ -760,17 +785,23 @@ export function checkHeaders(get, msg) {
   const { id, method } = msg
   if (id === undefined || id === null) return null
 
+  // Header/body mirroring is a 2026-07-28 transport rule, so enforce it ONLY when
+  // the request declares 2026-07-28 (in the mirrored header or the body `_meta`).
+  // A legacy 2025-11-25 client sends neither the mirror headers nor that marker,
+  // so it is exempt and can connect - which is the whole point of back-compat.
+  const version = get('mcp-protocol-version')
+  const bodyVersion = msg.params?._meta?.['io.modelcontextprotocol/protocolVersion']
+  if (version !== MODERN_VERSION && bodyVersion !== MODERN_VERSION) return null
+
   const bad = (m) => rpcError(id, -32020, `Header mismatch: ${m}`)
 
-  const version = get('mcp-protocol-version')
-  if (!version) return bad('the MCP-Protocol-Version header is required on every request.')
-  const bodyVersion = msg.params?._meta?.['io.modelcontextprotocol/protocolVersion']
+  if (!version) return bad('the MCP-Protocol-Version header is required on a 2026-07-28 request.')
   if (bodyVersion !== undefined && version !== bodyVersion) {
     return bad(`MCP-Protocol-Version "${version}" does not match the _meta protocol version "${bodyVersion}".`)
   }
 
   const hMethod = get('mcp-method')
-  if (!hMethod) return bad('the Mcp-Method header is required on every request.')
+  if (!hMethod) return bad('the Mcp-Method header is required on a 2026-07-28 request.')
   if (hMethod !== method) return bad(`Mcp-Method "${hMethod}" does not match the body method "${method}".`)
 
   if (NAMED_METHODS.has(method)) {

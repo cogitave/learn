@@ -101,8 +101,9 @@ green. A deploy that serves a broken `/mcp` is a failed deploy.
 `learn.cogitave.com/mcp` is served **directly by the Cloudflare Pages Function**
 [`functions/mcp.js`](../functions/mcp.js), which imports the same
 `tools/mcp/protocol.mjs` the stdio server uses and reads the emitted `_api/`
-corpus - so the hosted MCP cannot drift from the site. It speaks the 2026-07-28
-stateless revision, is **public and unauthenticated**, and has no rate fence.
+corpus - so the hosted MCP cannot drift from the site. It accepts the current
+2025-11-25 handshake and the newer stateless 2026-07-28, is **public and
+unauthenticated**, and has no rate fence.
 There is no gateway hop: the edge function *is* the endpoint.
 
 > The estate's **managed Core** MCP (`mcp.cogitave.com`, governed, authenticated,

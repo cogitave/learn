@@ -131,9 +131,24 @@ jobs:
           probe "{\"jsonrpc\":\"2.0\",\"id\":2,\"method\":\"tools/call\",\"params\":{\"name\":\"docs_search\",\"arguments\":{\"query\":\"agent\",\"topK\":1},$META}}" \
             '"uid"' 'docs_search' -H 'Mcp-Method: tools/call' -H 'Mcp-Name: docs_search'
 
+          # Back-compat: a shipping 2025-11-25 client opens with `initialize` and
+          # sends NONE of the 2026-07-28 headers or _meta. It must get a real
+          # handshake result (serverInfo), not a refusal - otherwise no current
+          # agent can connect. This is the probe that proves back-compat is live;
+          # probe() cannot be reused because it always sends the version header.
+          legacy_ok=0; lout=''
+          for i in $(seq 1 6); do
+            lout=$(curl -sS -X POST "$BASE/mcp" -H 'content-type: application/json' \
+              -d '{"jsonrpc":"2.0","id":9,"method":"initialize","params":{"protocolVersion":"2025-11-25","capabilities":{},"clientInfo":{"name":"health","version":"1"}}}' || true)
+            echo "$lout" | grep -q '"serverInfo"' && { legacy_ok=1; break; }
+            sleep 5
+          done
+          test "$legacy_ok" = "1" || { echo "::error::/mcp legacy initialize handshake failed (back-compat broken): $lout"; exit 1; }
+
           # A deploy that serves the corpus but has stopped ENFORCING the
-          # transport is also a broken deploy, and nothing else would catch it:
-          # every check above passes on a server that validates nothing.
+          # transport (for a request that DOES declare 2026-07-28) is also a
+          # broken deploy, and nothing else would catch it: every check above
+          # passes on a server that validates nothing.
           # These retry on the same schedule as the positive probes, for a
           # sharper reason: the positive probes pass against the PREVIOUS
           # deployment too - it served the same corpus and simply ignored the
@@ -154,7 +169,11 @@ jobs:
             echo "::error::$label returned $code, expected $want after retries"; return 1
           }
 
-          reject 'request with no protocol-version header' 400 \
+          # The body declares 2026-07-28 (in _meta), so this IS a modern request -
+          # and a modern request missing the mirrored version header must be
+          # refused. (A truly legacy request, which the initialize probe above
+          # exercises, declares nothing and is accepted.)
+          reject '2026-07-28 request missing the version header' 400 \
             -H 'Mcp-Method: tools/list' -d "{\"jsonrpc\":\"2.0\",\"id\":3,\"method\":\"tools/list\",\"params\":{$META}}"
           reject 'header/body method mismatch' 400 \
             -H "MCP-Protocol-Version: $V" -H 'Mcp-Method: tools/call' \

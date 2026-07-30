@@ -10,11 +10,12 @@
  * answers the three questions that are environment-specific: where the corpus
  * comes from, how a request arrives, and how the kill-switch is resolved.
  *
- * Not the gateway. `docs/deployment.md` section 5 describes a metered,
- * authenticated MCP behind the cogitave-cloud edge (tenants, entitlements, the
- * free-tier fence). That is a different surface on a different hostname and it
- * does not exist yet. This endpoint is unauthenticated and unmetered by design:
- * it serves a public documentation corpus that is already public as HTML.
+ * Not the gateway. The estate's managed Core MCP (metered, authenticated, behind
+ * the cogitave-cloud edge - tenants, entitlements, the free-tier fence) is a
+ * different surface on a different hostname (`mcp.cogitave.com`) and does not
+ * exist yet; see the estate cloud docs. This endpoint is unauthenticated and
+ * unmetered by design: it serves a public documentation corpus that is already
+ * public as HTML.
  */
 
 import { checkHeaders, handle, httpStatusFor, rpcError } from '../tools/mcp/protocol.mjs'
