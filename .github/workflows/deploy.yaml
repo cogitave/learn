@@ -134,9 +134,14 @@ jobs:
           # A deploy that serves the corpus but has stopped ENFORCING the
           # transport is also a broken deploy, and nothing else would catch it:
           # every check above passes on a server that validates nothing.
-          # Retry like probe(): during propagation an old, laxer edge node can
-          # still accept a request the new one rejects, so a negative assertion
-          # (a bad request MUST be refused) has to wait for the strict node too.
+          # These retry on the same schedule as the positive probes, for a
+          # sharper reason: the positive probes pass against the PREVIOUS
+          # deployment too - it served the same corpus and simply ignored the
+          # headers - so they cannot tell "new code is live" from "old code is
+          # still answering". Only a negative assertion (a bad request MUST be
+          # refused) can, which makes these the probes that actually race
+          # propagation; a single-shot check here fails a deploy that was merely
+          # a few seconds early.
           reject() { # $1=label, $2=expected status, $3..=curl args
             local label="$1" want="$2"; shift 2
             local code=''

@@ -2,7 +2,7 @@
 uid: cogitave.learn.understand-massar
 metadata:
   title: "Understand Cogitave Massar"
-  description: "Cogitave Massar is the guardian remote-console agent that gives an authorized operator a terminal on a customer device without opening an inbound port or requiring a VPN. This module explains what Massar is and the one job its agent performs, why an outbound-only connection model removes the ne"
+  description: "Cogitave Massar is the guardian remote-console agent that gives an authorized operator a terminal on a customer device without opening an inbound port or requiring a VPN, and this module explains the one job its agent performs and why."
   ms.date: 2026-07-27
   author: cogitave
   ms.topic: module

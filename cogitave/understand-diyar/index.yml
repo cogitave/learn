@@ -2,7 +2,7 @@
 uid: cogitave.learn.understand-diyar
 metadata:
   title: "Understand Cogitave Diyar"
-  description: "Cogitave Diyar is the platform layer of the Cogitave cloud: multi-tenant management for distributed field devices that have to keep working, and keep proving what they did, even when the network is unavailable. This module introduces the problem Diyar solves (a regulated, unattended field proce"
+  description: "Cogitave Diyar is the platform layer of the Cogitave cloud: multi-tenant management for distributed field devices that have to keep working, and keep proving what they did, even when the network is unavailable."
   ms.date: 2026-07-27
   author: cogitave
   ms.topic: module

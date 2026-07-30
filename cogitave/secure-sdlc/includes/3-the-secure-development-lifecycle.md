@@ -42,8 +42,8 @@ protocol handlers. Pentest and red-team are marked **target**, not a present-day
 claim - Day-0 honesty for a small remote team.
 
 Findings flow into one vulnerability lifecycle with SLAs by CVSS severity:
-Critical 24-48h, High 7 days, Medium 30 days, Low 90 days. A finding with **EPSS
-> 0.5** or on the CISA **KEV** list is elevated one severity tier - probable
+Critical 24-48h, High 7 days, Medium 30 days, Low 90 days. A finding with
+**EPSS > 0.5** or on the CISA **KEV** list is elevated one severity tier - probable
 real-world exploitation outranks the raw base score. **No new High or Critical**
 dependency (SCA) finding may merge; that is the DoD S2 tie.
 

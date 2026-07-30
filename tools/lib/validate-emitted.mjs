@@ -84,3 +84,30 @@ export function checkEmittedBookmarks(outDir, err) {
     }
   }
 }
+
+/**
+ * render-fidelity: a literal `**` surviving into rendered prose means the
+ * emphasis parser could not pair a bold span - the marker leaks as visible text
+ * (e.g. a wrapped `**EPSS\n> 0.5**`, or a `**bold *italic* bold**` the subset
+ * renderer cannot nest). The reader sees raw asterisks; the source looked fine,
+ * so nothing else catches it. Code is exempt: `**` is a legitimate operator and
+ * glob there, and the copy control and language band live inside those regions.
+ */
+export function checkRenderFidelity(outDir, err) {
+  for (const file of htmlFiles(outDir)) {
+    // Strip only pre/code, the ordinary elements where `**` is a legitimate
+    // operator or glob. A failed bold pairing only ever leaks into prose, never
+    // into the raw-text tags (script/style) a general HTML filter has to reason
+    // about, so we deliberately do not try to match those - the corpus carries
+    // no `**` in an attribute or a JSON-LD block, and matching raw-text tags by
+    // regex is exactly the incomplete-filter trap to avoid.
+    const prose = readFileSync(file, 'utf8')
+      .replace(/<pre[\s\S]*?<\/pre>/gi, ' ')
+      .replace(/<code[\s\S]*?<\/code>/gi, ' ');
+    const at = prose.search(/\*\*/);
+    if (at !== -1) {
+      const snippet = prose.slice(Math.max(0, at - 30), at + 30).replace(/\s+/g, ' ').trim();
+      err('render-fidelity', urlOf(outDir, file), `literal '**' in rendered prose (unpaired emphasis): ...${snippet}...`);
+    }
+  }
+}

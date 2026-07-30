@@ -2,7 +2,7 @@
 uid: cogitave.learn.paths.introduction-to-diyar
 metadata:
   title: "Introduction to Cogitave Diyar"
-  description: "Diyar is Cogitave's edge-autonomous platform for operating regulated field devices, where the device stays the sole authority over safety and evidence and each industry ships as a signed, pluggable solution. Understand what Diyar is, why safety and evidence stay local to the device, and how a d"
+  description: "Diyar is Cogitave's edge-autonomous platform for operating regulated field devices, where the device stays the sole authority over safety and evidence and each industry ships as a signed, pluggable solution."
   ms.date: 2026-07-27
   author: cogitave
   ms.topic: learning-path

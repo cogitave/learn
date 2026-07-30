@@ -12,6 +12,9 @@
  * Implemented blocking rules (8 of 11):
  *   schema, metadata-required, unit-membership, achievement-resolves,
  *   broken-link, broken-xref, broken-bookmark (same-page AND cross-page anchors)
+ * Plus an engine safety net beyond the docs.config contract:
+ *   render-fidelity - a literal '**' surviving into rendered prose means the
+ *   emphasis parser could not pair a bold span (validate-emitted.mjs).
  * Deferred (reported as warnings or not at all):
  *   code-snippet-resolves (compile check), quiz-shape (partially checked),
  *   alt-text, stale-content
@@ -35,7 +38,7 @@ import { buildViewModel } from './lib/render/site.mjs';
 import { renderLanding } from './lib/render/landing.mjs';
 import { renderPages } from './lib/render/pages.mjs';
 import { emitProjections, hashAssets } from './lib/projections.mjs';
-import { checkEmittedBookmarks } from './lib/validate-emitted.mjs';
+import { checkEmittedBookmarks, checkRenderFidelity } from './lib/validate-emitted.mjs';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(HERE, '..'); // the learn content root
@@ -76,9 +79,11 @@ function main() {
   renderLanding(vm, outDir);
   renderPages(vm, outDir, { ROOT, err });
   emitProjections(vm, { outDir, ROOT, HERE, assets });
-  // Two-pass anchor validation: cross-page bookmarks resolve only once every
-  // target page has been emitted, so this runs on the assembled site.
+  // Post-emit checks on the assembled site: cross-page bookmarks resolve only
+  // once every target page exists, and render-fidelity reads the final HTML to
+  // catch emphasis markers the parser failed to pair.
   checkEmittedBookmarks(outDir, err);
+  checkRenderFidelity(outDir, err);
   const counts = {
     paths: vm.paths.length,
     modules: vm.modules.length,
