@@ -1,12 +1,10 @@
 ---
 uid: cogitave.learn.docs.deployment
-title: Deployment, delivery, and membership - learn.cogitave.com
-description: How learn.cogitave.com and the cogitave-learn plugin are built, validated, promoted, deployed, and served behind the cogitave-cloud gateway; where the free-tier fence is enforced; and which steps stay human-gated at Day 0.
+title: Deployment and delivery - learn.cogitave.com
+description: How learn.cogitave.com and the cogitave-learn plugin are built, validated, promoted, and deployed to Cloudflare Pages as a free, public site and MCP endpoint, and which steps stay human-gated.
 type: how-to
 owner: cogitave/platform
-lastReviewed: 2026-07-26
-products:
-  - cogitave-core
+lastReviewed: 2026-07-30
 roles:
   - developer
   - platform-engineer
@@ -15,23 +13,31 @@ visibility: internal   # engineering document: stays in git, not published
 status: draft
 ---
 
-# Deployment, delivery, and membership - learn.cogitave.com
+# Deployment and delivery - learn.cogitave.com
 
-> The end-to-end path from a commit to a served, metered surface: **CI ->
-> build -> promote -> deploy -> serve behind the gateway -> meter/bill**, plus how
-> membership works and where the free-tier fence is enforced. It mirrors the
-> estate CD standard ([deployment-and-delivery](../../standards/docs/standards/deployment-and-delivery.md),
-> [ADR-0017](../../standards/docs/decisions/0017-devops-cicd-and-deployment.md)) and the
-> hosted-plane architecture ([cloud](../../standards/docs/architecture/products/cloud.md)).
+> The end-to-end path from a commit to the served surface: **CI -> build ->
+> promote -> deploy to Cloudflare Pages -> serve**. It mirrors the estate CD
+> standard ([deployment-and-delivery](../../standards/docs/standards/deployment-and-delivery.md),
+> [ADR-0017](../../standards/docs/decisions/0017-devops-cicd-and-deployment.md)).
 
 > [!IMPORTANT]
-> **Day-0 honesty.** Nothing here is enacted yet. The estate has not been pushed;
-> no CI has run, no site is deployed, no gateway is live. These workflows and this
-> spec are **scaffolds a human enacts**. Per [AGENTS.md](../../../AGENTS.md) rules
-> 6-7, `merge` / `apply` / `release` / `deploy` are the **always-human** verb
-> ceiling: an agent authors the pipeline; a human runs it. The publish step of
-> [`deploy.yaml`](../.github/workflows/deploy.yaml) fails closed until its target
-> is wired, so a green run is never a false "deployed".
+> **What learn is - and is not.** `learn.cogitave.com` is a **free, public**
+> static site plus an MCP edge function, served **directly by Cloudflare Pages**.
+> It is *not* behind the cogitave-cloud gateway, and it has **no membership, no
+> auth, no request fence, and no metering**. Those belong to a **different**
+> surface - the managed **Cloud** product (governed Cogitave Core access at
+> `mcp.cogitave.com`), documented in
+> [cloud](../../standards/docs/architecture/products/cloud.md) and
+> [editions.yaml](../../corp/gtm/pricing/editions.yaml). This document covers only
+> how the learn site and its own MCP ship; it does not describe that product.
+
+> [!NOTE]
+> **Human-gated.** `merge` / `apply` / `release` / `deploy` are the always-human
+> verb ceiling ([AGENTS.md](../../../AGENTS.md) rules 6-7): an agent authors the
+> pipeline; a human runs it. The `production` Environment in
+> [`deploy.yaml`](../.github/workflows/deploy.yaml) requires a human reviewer, and
+> the publish job fails closed until approved, so a green run is never a false
+> "deployed".
 
 ## 1. CI - the pull-request gate
 
@@ -39,10 +45,13 @@ status: draft
 `main`:
 
 - **Build + validate** (`node tools/build.mjs`) - enforces every implemented gate
-  (schema, metadata-required, unit-membership, achievement-resolves, quiz-shape,
-  and include/snippet resolution). A failing gate fails the PR.
-- **MCP smoke** - starts `tools/mcp/server.mjs` against the freshly emitted
-  `_api/` projection and asserts it serves the corpus.
+  (schema, metadata-required, unit-membership, achievement-resolves,
+  broken-link/xref, broken-bookmark, render-fidelity, and partial quiz-shape). A
+  failing gate fails the PR. See [build-v0](build-v0.md) for exactly what is and
+  is not enforced.
+- **MCP smoke** - drives `tools/mcp/server.mjs` against the freshly emitted
+  `_api/` projection and asserts it answers `server/discover` on the pinned
+  protocol revision.
 
 The marketplace plugin has its own gate
 ([`cogitave-ai/plugins/.github/workflows/validate.yaml`](../../../cogitave-ai/plugins/.github/workflows/validate.yaml)):
@@ -58,10 +67,11 @@ One build produces every surface from one typed model (no drift):
 
 | Artifact | For |
 |---|---|
-| `_site/` | the human-facing HTML site |
-| `_api/` (`{uid}.json` + `index.json`) | the JSON content API |
-| MCP over stdio / Streamable HTTP (`tools/mcp/server.mjs`) | the agent-native surface; reads `_api/`, so it cannot drift from the site |
+| `_site/` | the human-facing HTML site (with content-hashed CSS/JS) |
+| `_api/` (`{uid}.json` + `{uid}.md` + `index.json`) | the JSON and raw-markdown content API |
+| `functions/mcp.js` (Streamable HTTP) | the agent-native surface; reads `_api/`, so it cannot drift from the site |
 | `llms.txt` / `llms-full.txt` | the LLM index |
+| `sitemap.xml`, `robots.txt`, `_headers`, `404.html`, `_redirects` | crawler, header, and not-found policy |
 
 ## 3. Environments and promotion
 
@@ -71,120 +81,87 @@ One build produces every surface from one typed model (no drift):
 protection: `production` requires a human reviewer + a wait timer. That gate *is*
 the merge/apply/release ceiling, enforced by construction.
 
-## 4. Deploy
+## 4. Deploy - Cloudflare Pages
 
 [`.github/workflows/deploy.yaml`](../.github/workflows/deploy.yaml) builds the
 publishable bundle and uploads it, then a **human-gated `publish` job** (bound to
-the `staging`/`production` Environment) ships it. GitOps (Argo CD / Flux
-pull-reconcile) is the estate default delivery model; this push-flow is the
-fallback and the uniform place the health gate + change-management evidence live
-(ADR-0017).
+the `staging`/`production` Environment) ships it to **Cloudflare Pages** with
+`cloudflare/wrangler-action` (`pages deploy _site --project-name=<project>`).
+This is **Direct Upload**, not the Cloudflare Git integration: the build runs in
+our own pipeline and we upload the artifact, so no third party gets a repo grant
+and the supply chain stays ours.
 
-**The publish target is a cutover decision** ([build-v0](build-v0.md): no publish
-path is wired yet). At cutover, the `publish` step syncs `_site/` to the chosen
-static edge and serves the `_api/` projection behind the gateway (section 5).
+A **health gate** then asserts, against the same upload, that the homepage returns
+`200` and that `/mcp` both answers `server/discover` and still *enforces* the
+transport (a header-less request is refused), before the run is allowed to go
+green. A deploy that serves a broken `/mcp` is a failed deploy.
 
-## 5. Serving the MCP behind the cogitave-cloud gateway
+## 5. How the MCP is served
 
-The **estate Core** agent-native surface (`https://mcp.cogitave.com/mcp` - what
-the `cogitave-estate` and `cogitave-flow` plugins point at, and a Day-0
-placeholder until Core is deployed, so it does not resolve yet) is served through
-the [cogitave-cloud](../../standards/docs/architecture/products/cloud.md) **edge
-gateway** (Envoy/Kong, `ext_authz`). The public **learn** MCP is *not* behind
-this gateway: `learn.cogitave.com/mcp` is served directly by the Pages Function
-(`functions/mcp.js`), unauthenticated, and is what the `cogitave-learn` plugin
-uses. This section is about the Core gateway. The gateway, once, fail-closed:
+`learn.cogitave.com/mcp` is served **directly by the Cloudflare Pages Function**
+[`functions/mcp.js`](../functions/mcp.js), which imports the same
+`tools/mcp/protocol.mjs` the stdio server uses and reads the emitted `_api/`
+corpus - so the hosted MCP cannot drift from the site. It speaks the 2026-07-28
+stateless revision, is **public and unauthenticated**, and has no rate fence.
+There is no gateway hop: the edge function *is* the endpoint.
 
-1. **Authenticates** the caller - `COGITAVE_API_KEY` at Day 0; OAuth 2.1
-   Resource-Server scopes are the target (MCP spec 2026-07-28).
-2. **Resolves the tenant** and propagates the context immutably.
-3. **Enforces the entitlement + rate limit** - this is where the free-tier fence
-   (section 6) lives. Tenants, entitlements, and evidence are **Cogitave Core
-   graph facts**, not a bespoke admin DB.
-
-Local agents may instead run Core / the learn MCP as a **stdio** server in-estate
-with no gateway - which is exactly how the team develops (section 6).
-
-## 6. Membership and the free-tier fence
-
-Self-serve, product-led ([PLG ADR](../../corp/gtm/decisions/0002-plg-with-sales-assist-motion.md)):
-
-1. **Sign up** -> the control plane provisions a tenant
-   (`provisioning -> active -> ...`) and issues a key. No card for the free tier.
-2. **Use** -> calls hit the gateway, which enforces the tenant's entitlement.
-3. **Bill** -> event-sourced metering on Core -> PSP (Stripe/Adyen); usage is
-   visible before the bill; caps protect free-tier users from overage.
-
-The fence, from [editions.yaml](../../corp/gtm/pricing/editions.yaml) (the source
-of truth; billing and the pricing page are downstream projections):
-
-| Tier | Governed requests | How |
-|---|---|---|
-| **Community** (self-host) | **unlimited** | your own compute; open-core never caps the core dev experience |
-| **Cloud free** (managed) | **25 / month** | gateway entitlement, no card |
-| **Cloud / Enterprise** (paid) | **unlimited** | metered (pay-as-you-go), never blocked |
-
-> [!NOTE]
-> **Does the team hit 25?** No. That cap is only the *hosted managed free tier*,
-> enforced at the gateway when the Cloud is live. The team develops against the
-> **self-host Community edition (unlimited)** or the **local build + local MCP
-> server** - no gateway, no cap. The 25-request fence never touches self-hosted or
-> local usage.
+> The estate's **managed Core** MCP (`mcp.cogitave.com`, governed, authenticated,
+> metered) is a *separate product* served behind the cogitave-cloud gateway, with
+> its own membership and free-tier fence. It is not learn and is not covered here;
+> see [cloud](../../standards/docs/architecture/products/cloud.md) and
+> [editions.yaml](../../corp/gtm/pricing/editions.yaml). The `cogitave-estate` and
+> `cogitave-flow` plugins point at *that* endpoint; the `cogitave-learn` plugin
+> points at the public learn MCP described above.
 
 ## Turning it on and off (the kill-switch)
 
 [agentic-operations](../../standards/docs/standards/agentic-operations.md) section 6
 requires every service to be **independently disable-able in one action**, and
-disablement to be a **logged event**. The learn MCP has that at three levels,
-from local to production:
+disablement to be a **logged event**. The learn MCP has that at three levels:
 
 | Level | How to disable | Effect | Reversible |
 |---|---|---|---|
-| **Local / self-host** | `COGITAVE_LEARN_MCP_ENABLED=false` (or the `--disabled` flag) at start | server starts but every data method returns a `-32001 "disabled"` error; HTTP returns `503`; on stdio `server/discover` still answers so a probe learns it is intentionally down | restart with the flag off |
+| **Local / self-host** | `COGITAVE_LEARN_MCP_ENABLED=false` (or the `--disabled` flag) at start | server starts but every data method returns a `-32001 "disabled"` error; HTTP returns `503`; `server/discover` still answers so a probe learns it is intentionally down | restart with the flag off |
 | **Local / self-host, live** | create the file at `COGITAVE_LEARN_MCP_KILLFILE` (`touch`) | same, but flips **without a restart** - the server checks the file per request | `rm` the file |
-| **Production** | the **cogitave-cloud gateway** disables the `/mcp` route (and/or an OpenFeature kill-switch flag) | the hosted endpoint is off for everyone or per-tenant, at the edge, before any backend is hit | re-enable the route/flag |
+| **Production** | delete the deployment or disable the `/mcp` Function/route in the Cloudflare Pages project | the hosted endpoint is off at the edge, before any code runs | redeploy / re-enable the route |
 
-The production kill-switch is the **authoritative** one (the gateway is the trust
-boundary and where disablement is evidenced); the server-level switch is the
-self-host / local control and the backstop. All three are one action.
+The production switch is the **authoritative** one (the edge is the trust boundary
+and where disablement is evidenced); the server-level switch is the self-host /
+local control and the backstop. All three are one action.
 
 ## Testing the live system before it ships
 
-Yes - you test the real thing on your side, three ways, cheapest first:
+You test the real thing on your side, three ways, cheapest first:
 
 1. **Local** - `node tools/build.mjs` then `npm run mcp` (stdio) or `npm run mcp:http`
    runs the **real** MCP server against the **real** built corpus. This is the same
-   code that serves production; no account, no cap, no gateway.
+   code that serves production; no account, no gateway.
 2. **Staging** - `deploy.yaml` with `environment: staging` publishes to the staging
-   edge behind the gateway - the full path (auth, tenant, entitlement, metering)
-   against real infra, gated by a human approval, before prod.
-3. **Production** - promoted from staging through the `production` Environment
-   (required reviewers + wait timer). Progressive delivery (canary) + a health gate
-   + auto-rollback, per [deployment-and-delivery](../../standards/docs/standards/deployment-and-delivery.md).
+   Pages branch and runs the same health gate, gated by a human approval, before
+   prod.
+3. **Production** - promoted through the `production` Environment (required
+   reviewers + wait timer), with the health gate + change evidence, per
+   [deployment-and-delivery](../../standards/docs/standards/deployment-and-delivery.md).
 
-## 7. Releasing the plugin
+## 6. Releasing the plugin
 
 The `cogitave-learn` plugin (and its siblings) are OSS in the marketplace. Day-0
 versioning is the **git SHA** a consumer pins; semver moves to the
 `cogitave-ai/registry` later (see the
 [marketplace README](../../../cogitave-ai/plugins/README.md)). There is no npm
-package to publish - the plugin is thin config + skills; the intelligence is in
-Core.
+package to publish - the plugin is thin config + skills.
 
-## 8. What stays human-gated (the honest list)
+## 7. What stays human-gated (the honest list)
 
-An agent authored everything above; a **human** does each of these:
+An agent authored the pipeline; a **human** does each of these:
 
-- `git push` the estate to GitHub (Day 0: not yet pushed).
 - Approve each environment promotion (`staging`, then `production`).
-- Wire the real publish target + the gateway route at cutover (replace the
-  fail-closed placeholder in `deploy.yaml`).
-- Stand up the control plane, gateway, metering, and PSP (cloud.md: "no
-  implementation in this phase; only the gateway repo exists yet").
-- Rotate/issue production secrets and the OIDC deploy role.
+- Rotate/issue production secrets (the Cloudflare API token, the OIDC deploy role).
+- Any change to the Cloudflare Pages project settings (custom domain, routes).
 
 ## See also
 
 - [build-v0](build-v0.md) - what the build does today and every deviation.
 - [engine-architecture](engine-architecture.md) - how the build validates and serves.
-- [deployment-and-delivery](../../standards/docs/standards/deployment-and-delivery.md) · [ci-cd-pipelines](../../standards/docs/standards/ci-cd-pipelines.md) · [cloud](../../standards/docs/architecture/products/cloud.md) · [saas](../../standards/docs/standards/saas.md)
+- [deployment-and-delivery](../../standards/docs/standards/deployment-and-delivery.md) · [ci-cd-pipelines](../../standards/docs/standards/ci-cd-pipelines.md)
+- For the managed Cloud product (gateway, membership, metering) - a different surface from learn: [cloud](../../standards/docs/architecture/products/cloud.md) · [editions.yaml](../../corp/gtm/pricing/editions.yaml)
