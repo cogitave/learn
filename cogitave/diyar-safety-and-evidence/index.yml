@@ -2,7 +2,7 @@
 uid: cogitave.learn.diyar-safety-and-evidence
 metadata:
   title: "Safety and evidence in Diyar"
-  description: "Cogitave Diyar drives real industrial heat-treatment equipment without depending on a network connection, and this module explains the three mechanisms that let it do so safely and provably. First, a layered, hardware-first fail-safe design where every failure path — a wedged CPU, a blind senso"
+  description: "Cogitave Diyar drives real industrial heat-treatment equipment without depending on a network connection, and this module explains the three mechanisms that let it do so safely and provably: a hardware-first fail-safe design, an ask-only request model, and a tamper-evident evidence pipeline."
   ms.date: 2026-07-27
   author: cogitave
   ms.topic: module

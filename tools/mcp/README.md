@@ -108,8 +108,11 @@ before a second server exposes the same UIDs.
 }
 ```
 
-## What this is not
+## The hosted endpoint
 
-A hosted endpoint. `https://learn.cogitave.com/mcp` does not exist and cannot be
-a static file - MCP is a live JSON-RPC service. This server is the thing you
-would deploy behind that path; deploying it is a human, gated step.
+`https://learn.cogitave.com/mcp` is live: the same corpus is served over MCP by
+the Cloudflare Pages Function in `functions/mcp.js`, deployed alongside the site
+by `.github/workflows/deploy.yaml`. It speaks the 2026-07-28 stateless revision
+and enforces that revision's per-request header mirroring, so a client still on
+an older revision - or one that does not mirror the method and name headers - is
+refused with a message that says so, rather than served wrong data.

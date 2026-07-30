@@ -87,6 +87,7 @@ only tags that have a facet page are shown, so a chip never lands on a 404.
 | `quiz-shape` | **partial** - choice count, exactly-one-correct, explanation present |
 | `broken-xref` | **enforced** - an unresolvable `@uid` fails the build instead of rendering as literal text |
 | `broken-bookmark` | **enforced (same-page AND cross-page)** - every `#anchor` in a rendered body resolves to an `id` in that body (same-page, checked at render time), and every cross-page `/other/#x` anchor resolves to an `id` on the emitted target page (two-pass, `tools/lib/validate-emitted.mjs`, run after the whole site is assembled). Both work on the emitted HTML, so they are tab-aware. A link whose path is not an emitted page is a link-integrity concern, not a bookmark one, and is left to `broken-link`. |
+| `render-fidelity` | **enforced (engine safety net, beyond the docs.config contract)** - a literal `**` surviving into rendered prose means the emphasis parser could not pair a bold span (a wrapped `**a\n> b**`, or a `**bold *italic* bold**` the subset renderer cannot nest); checked on the emitted HTML with code/pre regions exempt (`tools/lib/validate-emitted.mjs`). |
 | `code-snippet-resolves` | **partial** - the region is resolved, but **not compile-checked** |
 | `alt-text` | deferred - `:::image` is not implemented at all |
 | `stale-content` | deferred - `lastReviewed` is not evaluated; see [content-lifecycle](content-lifecycle.md) for the intended window |

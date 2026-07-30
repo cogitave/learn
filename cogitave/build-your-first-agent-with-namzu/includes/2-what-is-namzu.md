@@ -1,4 +1,4 @@
-**Namzu is an agent *kernel*, not an application framework.** That distinction is
+**Namzu is an agent kernel, not an application framework.** That distinction is
 the whole design, so it is worth being precise about it before you write code.
 
 ## Framework or kernel

@@ -134,7 +134,7 @@ export function renderLanding(vm, outDir) {
     `<aside class="hero-connect"><div class="hero-connect-inner">` +
     `<p class="hero-connect-kicker">Built for agents too</p>` +
     `<h2>Connect an agent</h2>` +
-    `<p>The same corpus a person reads &mdash; over MCP, from whichever agent you use.</p>` +
+    `<p>The same corpus a person reads &mdash; exposed over MCP for your agent to query.</p>` +
     `<div class="hc-switch">` +
     clients
       .map(

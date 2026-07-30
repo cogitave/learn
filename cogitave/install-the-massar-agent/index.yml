@@ -2,7 +2,7 @@
 uid: cogitave.learn.install-the-massar-agent
 metadata:
   title: "Install and operate the Massar agent"
-  description: "This module installs and operates the Cogitave Massar agent: the small, cross-platform binary a customer runs on a device so an authorized Diyar operator can dial in for an audited remote terminal, with no inbound port and no VPN. You install it with the CLI installer for your OS - install.sh o"
+  description: "This module installs and operates the Cogitave Massar agent: the small, cross-platform binary a customer runs on a device so an authorized Diyar operator can dial in for an audited remote terminal, with no inbound port and no VPN."
   ms.date: 2026-07-27
   author: cogitave
   ms.topic: module

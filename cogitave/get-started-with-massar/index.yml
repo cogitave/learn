@@ -2,7 +2,7 @@
 uid: cogitave.learn.paths.get-started-with-massar
 metadata:
   title: "Get started with Cogitave Massar"
-  description: "Massar is the guardian agent that lets an authorized Cogitave operator open an audited terminal session on a customer device with no inbound port and no VPN. Understand the dial-out security model and how a session is bridged, then install, verify, and cleanly remove the agent on Linux and Wind"
+  description: "Massar is the guardian agent that lets an authorized Cogitave operator open an audited terminal session on a customer device with no inbound port and no VPN. Understand the dial-out security model and how a session is bridged, then install, verify, and remove the agent."
   ms.date: 2026-07-27
   author: cogitave
   ms.topic: learning-path
