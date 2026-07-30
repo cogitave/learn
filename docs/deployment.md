@@ -86,10 +86,14 @@ static edge and serves the `_api/` projection behind the gateway (section 5).
 
 ## 5. Serving the MCP behind the cogitave-cloud gateway
 
-The agent-native surface (the same one the `cogitave-learn` plugin's `.mcp.json`
-points at, `https://mcp.cogitave.com/mcp`) is served through the
-[cogitave-cloud](../../standards/docs/architecture/products/cloud.md) **edge
-gateway** (Envoy/Kong, `ext_authz`). The gateway, once, fail-closed:
+The **estate Core** agent-native surface (`https://mcp.cogitave.com/mcp` - what
+the `cogitave-estate` and `cogitave-flow` plugins point at, and a Day-0
+placeholder until Core is deployed, so it does not resolve yet) is served through
+the [cogitave-cloud](../../standards/docs/architecture/products/cloud.md) **edge
+gateway** (Envoy/Kong, `ext_authz`). The public **learn** MCP is *not* behind
+this gateway: `learn.cogitave.com/mcp` is served directly by the Pages Function
+(`functions/mcp.js`), unauthenticated, and is what the `cogitave-learn` plugin
+uses. This section is about the Core gateway. The gateway, once, fail-closed:
 
 1. **Authenticates** the caller - `COGITAVE_API_KEY` at Day 0; OAuth 2.1
    Resource-Server scopes are the target (MCP spec 2026-07-28).
