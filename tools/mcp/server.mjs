@@ -19,8 +19,9 @@
  * implemented and which are not. Do not widen the advertised capabilities beyond
  * what the code actually does.
  *
- * Spec revision: 2026-07-28 (stateless - no initialize handshake, server/discover
- * is the entry point). Transports: stdio and Streamable HTTP.
+ * Spec: prefers 2026-07-28 (stateless, server/discover as the entry point) and
+ * also accepts the current 2025-11-25 handshake, so shipping clients connect.
+ * Transports: stdio and Streamable HTTP.
  * Zero runtime dependencies, per ADR-0003.
  *
  * Usage:

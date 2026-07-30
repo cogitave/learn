@@ -21,22 +21,25 @@ npm run mcp:http         # Streamable HTTP on 127.0.0.1:8787
 
 ## What is implemented
 
-Spec revision **2026-07-28**, the **stateless** protocol. The older handshake-based
-2025-11-25 is **not** supported - a request declaring it gets
-`UnsupportedProtocolVersionError` (`-32022`). The authority for this surface is
+Prefers spec revision **2026-07-28** (the **stateless** protocol) and also accepts
+the current handshake-based **2025-11-25**, so a shipping client connects today
+while the endpoint stays correct for 2026-07-28 ones. The strict 2026-07-28 rules
+below (`server/discover`, per-request `_meta`, header mirroring) apply **only** to
+a request that declares that version; a legacy 2025-11-25 client is served through
+the `initialize` handshake with none of them. The authority for this surface is
 [`cogitave/core/docs/mcp-interface.md`](../../../core/docs/mcp-interface.md); what
 follows is the honest delta.
 
 | Contract | Here |
 |---|---|
-| Stateless: no `initialize`/`notifications/initialized` handshake | **Yes.** Removed. A request carries its version in `_meta` (`io.modelcontextprotocol/protocolVersion`) and is served directly. |
-| Required per-request `_meta` (`protocolVersion`, `clientCapabilities`) | **Enforced.** A request missing either is malformed - `-32602` and HTTP `400`. Accepting it would mean inferring the state that this revision removed. |
-| `server/discover` (MUST) | **Yes** - returns `protocolVersions` (`["2026-07-28"]`), capabilities, and `serverInfo` in one request; answers even under the kill-switch. |
+| Stateless for 2026-07-28: no `initialize` handshake | **Yes.** A 2026-07-28 request carries its version in `_meta` (`io.modelcontextprotocol/protocolVersion`) and is served directly. A legacy client still opens with `initialize` (below). |
+| Required per-request `_meta` (`protocolVersion`, `clientCapabilities`) | **Enforced for a 2026-07-28 request.** One that declares 2026-07-28 but omits `clientCapabilities` is malformed - `-32602` and HTTP `400`. A legacy request is exempt; it negotiated at `initialize`. |
+| `server/discover` (MUST) | **Yes** - returns `protocolVersions` (`["2026-07-28", "2025-11-25"]`), capabilities, and `serverInfo` in one request; answers even under the kill-switch. |
 | `UnsupportedProtocolVersionError` shape | **Schema-exact**: `data.supported` + `data.requested`. A client retries from `supported`, so the field name is load-bearing, not cosmetic. |
 | Header/body agreement (`MCP-Protocol-Version`, `Mcp-Method`, `Mcp-Name`) | **Enforced on both HTTP transports** - a mismatch or a missing required header is `-32020` and HTTP `400`, including base64-sentinel (`=?base64?…?=`) decoding before comparison. See the interop note below. |
 | HTTP status binding | **Yes** - `400` for header, version, and malformed-`_meta` failures; `404` for an unknown method; `405` for `GET`/`DELETE`; `202` for an accepted notification. A modern server that answered everything `200` would read as a broken one. |
 | One JSON-RPC message per POST | **Enforced.** A batch is refused with `-32600`; the transport does not permit it, and a batch has no single method or name to mirror into headers. |
-| `initialize` from a legacy client | Refused with `-32601`, but the error **names the supported versions** - a legacy client has no fall-forward mechanism, so this message is the only diagnostic its user can see. |
+| `initialize` from a legacy client | **Served** - a 2025-11-25 handshake: echoes a version it serves, advertises `tools`/`resources` capabilities, and identifies the server, so a shipping client connects. Plain result, no 2026-07-28 `resultType` wrapper. |
 | `resultType` on every result; `serverInfo` in each result's `_meta` | **Yes** - always `"complete"` (this server issues no server-initiated requests, so `"input_required"` never occurs). |
 | `CacheableResult` (`ttlMs`, `cacheScope`) on `tools/list` / `resources/list` / `resources/read` | **Yes** - the corpus is a static build, so lists are publicly cacheable. |
 | Transports: stdio + Streamable HTTP | **Both.** No legacy HTTP+SSE, no sessions (`Mcp-Session-Id` removed). |
@@ -44,25 +47,26 @@ follows is the honest delta.
 | GET stream, `subscriptions/listen`, resumption | **No.** Nothing here pushes, so there is no stream to open; `GET` returns `405`. |
 | Tools declare `inputSchema` + `outputSchema`, return structured content | **Yes**, every tool; deterministic `tools/list` order for client caching. |
 | Input-validation failures as tool errors (`isError: true`), not protocol errors | **Yes** - so a model can self-correct. |
-| `ping`, `logging`, Roots, Sampling | **Not implemented** (removed or deprecated in 2026-07-28). |
+| `ping` | **Yes** - an empty result, so a legacy client's keepalive is answered. |
+| `logging`, Roots, Sampling | **Not implemented** (removed or deprecated in 2026-07-28). |
 | Tool/resource icons | Not exposed. |
 
-### Interop note: this endpoint is strict, and that has a cost
+### Interop note: two revisions, one endpoint
 
-`MCP-Protocol-Version`, `Mcp-Method`, and (for `tools/call` / `resources/read`)
-`Mcp-Name` are **REQUIRED** by the transport, and a request that omits one is
-refused with `-32020` and HTTP `400`. That is what the specification says, and
-the mismatch rule is a real security property - an intermediary routes on the
-header while the server executes the body, so the two being allowed to disagree
-is the vulnerability.
+A request that **declares 2026-07-28** (in `_meta` and the mirrored
+`MCP-Protocol-Version` header) is held to the full 2026-07-28 transport:
+`Mcp-Method`, and for `tools/call` / `resources/read` `Mcp-Name`, are REQUIRED,
+and a mismatch or a missing required header is `-32020` and HTTP `400`. The
+mismatch rule is a real security property - an intermediary routes on the header
+while the server executes the body, so the two being allowed to disagree is the
+vulnerability, and it is never relaxed for a 2026-07-28 request.
 
-The cost is honest: **a client that does not yet send those headers cannot use
-this endpoint.** Header mirroring is new in `2026-07-28`, so some SDKs will lag.
-The refusal names the exact missing header so the failure is actionable rather
-than mysterious, but it is still a refusal. Relaxing it to a warning is a
-one-line change in `checkHeaders`; it is deliberately not the default, because a
-public endpoint that silently accepts unvalidated headers is the thing the rule
-exists to prevent.
+A request that does **not** declare 2026-07-28 is a legacy **2025-11-25** client:
+it opens with `initialize`, sends no per-request `_meta`, and mirrors no headers -
+and it is served without any of the above. That back-compat is what lets a
+shipping client (which does not yet speak 2026-07-28) connect today. The strict
+rules are not weakened; they simply do not apply to a legacy request, because a
+legacy request cannot carry the headers whose agreement they check.
 
 Conformance is pinned by [`conformance.test.mjs`](conformance.test.mjs)
 (`npm test`), which asserts the MUST/SHOULD rules by name and runs in CI.

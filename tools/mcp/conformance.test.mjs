@@ -1,10 +1,13 @@
 /**
- * MCP 2026-07-28 conformance tests.
+ * MCP conformance tests: 2026-07-28 (preferred) + 2025-11-25 back-compat.
  *
  * These assert the rules the specification states as MUST/SHOULD, not the
  * behaviour that happens to be convenient. Each test names the rule it pins so
  * a future edit that "simplifies" one of them fails with the reason attached
- * rather than with a diff.
+ * rather than with a diff. The endpoint holds a request to the strict 2026-07-28
+ * rules only when it DECLARES that version; a legacy 2025-11-25 client (the
+ * handshake, no per-request _meta, no header mirroring) is served, so shipping
+ * agents can connect today.
  *
  * Scope: the protocol module and the HTTP binding helpers. The corpus is a
  * two-node stub - what is under test is dispatch, negotiation, and validation,
@@ -98,11 +101,13 @@ test('an unsupported version maps to HTTP 400, not 200', () => {
 // Required per-request metadata
 // ---------------------------------------------------------------------------
 
-test('a request without a protocol version is malformed (-32602), not defaulted', () => {
+test('a legacy request without _meta is served (back-compat), not malformed', () => {
+  // With back-compat, a request that declares no version is a 2025-11-25 client
+  // that negotiated at initialize; it is served, not refused for missing _meta.
+  // Only a request that DECLARES 2026-07-28 is held to the modern _meta contract.
   const r = handle(state, { jsonrpc: '2.0', id: 1, method: 'tools/list', params: {} })
-  assert.equal(r.error.code, -32602)
-  assert.ok(r.error.data.missing.includes('io.modelcontextprotocol/protocolVersion'))
-  assert.equal(httpStatusFor(r), 400)
+  assert.ok(r.result?.tools, 'legacy tools/list returns tools without _meta')
+  assert.equal(r.error, undefined)
 })
 
 test('a request without client capabilities is malformed', () => {
@@ -129,17 +134,27 @@ test('notifications are exempt and are never answered', () => {
 })
 
 // ---------------------------------------------------------------------------
-// Legacy clients
+// Back-compat: legacy 2025-11-25 clients
 // ---------------------------------------------------------------------------
 
-test('initialize names the versions this server speaks', () => {
-  // A legacy client has no fall-forward mechanism, so this error is the only
-  // diagnostic its user will ever see. "Unknown method" reads as a broken
-  // endpoint; naming the version reads as a newer one.
-  const r = handle(state, { jsonrpc: '2.0', id: 1, method: 'initialize', params: { protocolVersion: '2025-11-25' } })
-  assert.equal(r.error.code, -32601)
-  assert.deepEqual(r.error.data.supported, SUPPORTED_PROTOCOL_VERSIONS)
-  assert.match(r.error.message, /2026-07-28/)
+test('initialize returns a 2025-11-25 handshake, so a shipping client connects', () => {
+  // Back-compat is the point: the endpoint accepts the legacy handshake instead
+  // of refusing it. It echoes a version it serves and identifies itself, with no
+  // 2026-07-28 resultType wrapper a strict legacy client would not expect.
+  const r = handle(state, { jsonrpc: '2.0', id: 1, method: 'initialize', params: { protocolVersion: '2025-11-25', capabilities: {} } })
+  assert.equal(r.result.protocolVersion, '2025-11-25')
+  assert.equal(r.result.serverInfo.name, 'cogitave-learn')
+  assert.ok(r.result.capabilities.tools, 'advertises tools')
+  assert.equal(r.result.resultType, undefined, 'the legacy handshake has no 2026-07-28 wrapper')
+})
+
+test('a legacy tools/call is served without _meta or header mirroring', () => {
+  const r = handle(state, { jsonrpc: '2.0', id: 1, method: 'tools/call', params: { name: 'docs_search', arguments: { query: 'stub' } } })
+  assert.ok(r.result?.structuredContent, 'legacy tools/call works with no per-request metadata')
+})
+
+test('ping returns an empty result', () => {
+  assert.deepEqual(handle(state, { jsonrpc: '2.0', id: 1, method: 'ping' }).result, {})
 })
 
 test('an unknown method maps to HTTP 404 with a JSON-RPC body', () => {
@@ -207,6 +222,16 @@ test('an undecodable sentinel is a mismatch, not a pass', () => {
 
 test('notifications skip header validation, which this revision does not define for them', () => {
   assert.equal(checkHeaders(headers({}), { jsonrpc: '2.0', method: 'notifications/cancelled' }), null)
+})
+
+test('a legacy request (no 2026-07-28 marker) is exempt from header mirroring', () => {
+  // The mirroring rule is a 2026-07-28 transport feature. A 2025-11-25 client
+  // sends neither the mirror headers nor the body marker, so it must pass - that
+  // exemption is exactly what lets a shipping client reach the endpoint at all.
+  assert.equal(checkHeaders(headers({}), { jsonrpc: '2.0', id: 1, method: 'tools/list', params: {} }), null)
+  // Even a 2025-11-25 version header (which a client sends after initialize) is
+  // exempt, because it does not carry the mirrored method/name headers.
+  assert.equal(checkHeaders(headers({ 'mcp-protocol-version': '2025-11-25' }), { jsonrpc: '2.0', id: 1, method: 'tools/list', params: {} }), null)
 })
 
 // ---------------------------------------------------------------------------

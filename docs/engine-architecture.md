@@ -112,7 +112,7 @@ MCP is not a bolt-on adapter; **every build intermediate is a live MCP surface**
 cogitave-docs://{product}/{version}/{uid}
 ```
 
-The server supports `resources/list` and `resources/read`. It does **not** advertise change subscriptions: it reads a static build and cannot notice a change, so it emits no `listChanged`/`subscriptions/listen` stream (a target for a live-republishing deployment, not the static server).[^mcp-resources] Tools expose the retrieval and graph surface: `docs_search`, `docs_fetch`, `code_sample_search`, plus graph tools `get_related`, `get_learning_path`, and `resolve_xref`. The server is **stateless** (no `initialize` handshake, `server/discover` as the entry point); target spec version is **2026-07-28**.
+The server supports `resources/list` and `resources/read`. It does **not** advertise change subscriptions: it reads a static build and cannot notice a change, so it emits no `listChanged`/`subscriptions/listen` stream (a target for a live-republishing deployment, not the static server).[^mcp-resources] Tools expose the retrieval and graph surface: `docs_search`, `docs_fetch`, `code_sample_search`, plus graph tools `get_related`, `get_learning_path`, and `resolve_xref`. The server prefers the **stateless** 2026-07-28 revision (`server/discover` as the entry point, the protocol version carried per-request in `_meta`) and also accepts the current handshake-based **2025-11-25**, so shipping clients connect today; the strict 2026-07-28 rules apply only to a request that declares that version.
 
 ## 6. Serve tier and edge-first search
 
