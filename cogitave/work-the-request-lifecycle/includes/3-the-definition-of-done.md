@@ -14,8 +14,8 @@ fills that shape out like this:
 
 - **Core (every Request)** - code review complete, tests green, evals green for
   any agent-behavior change, the `docs-required` gate satisfied, signed
-  Conventional Commits, English only, least privilege honored, no unapproved
-  mutation, no secrets, links complete, evidence recorded.
+  Conventional Commits, English only, least privilege honored, standards honored,
+  no unapproved mutation, no secrets, links complete, evidence recorded.
 - **Conditional (added by flags)** - `impact.breaking` adds migration notes;
   `impact.security` adds a threat model; `type: deps` adds a dependency review; a
   design-class change requires its RFC/ADR already `Accepted`.

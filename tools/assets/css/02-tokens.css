@@ -90,7 +90,7 @@
   --bg-hover: #1c1c20;
   --t1: #ecebe4;
   --t2: #a3a29c;
-  --t3: #6f6e6a;
+  --t3: #8a8984; /* WCAG AA on the dark bg; matches the auto-dark path (was #6f6e6a, ~3.5:1, failed) */
   --line: #232327;
   --line-strong: #2f2f34;
   --accent: #e6e2d4;
