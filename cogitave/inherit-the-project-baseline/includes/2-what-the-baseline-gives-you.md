@@ -12,8 +12,8 @@ with nearest-file precedence. A leaf repo's `AGENTS.md` **adds** project specifi
 and **must not restate** the floor. A floor is a small org-wide ruleset every
 human and agent obeys, defined once at the root. Cogitave's floor, for instance,
 is seven non-negotiables (English only; Conventional Commits; signed/`Verified`
-commits; docs-as-code; least-privilege default-deny; no unapproved mutation of the
-world; human-in-the-loop on consequence).
+commits; docs-as-code; least-privilege default-deny; autonomy within the rails by
+default; the human gate as an exception handler, not a routine checkpoint).
 
 > [!IMPORTANT]
 > A new repo does **not** re-declare any of this. Inheriting the floor is free;
