@@ -238,6 +238,15 @@ export function emitProjections(vm, { outDir, ROOT, HERE, assets }) {
   );
   writeFileSync(join(outDir, 'robots.txt'), `User-agent: *\nAllow: /\n\nSitemap: ${SITE_URL}/sitemap.xml\n`, 'utf8');
 
+  // --- _redirects: turn the Cloudflare Pages soft-404 into a real 404. Pages
+  // evaluates this only for a path that matches no static asset and no Function,
+  // so every real page (served as /path/index.html) and the /mcp Function are
+  // untouched; only a genuine miss - a mistyped page, a stale or nonexistent
+  // /_api/{uid}.json an agent requested - falls through to the splat and is
+  // served the 404.html page with a 404 status, instead of a 200 home page that
+  // hides the miss. Last-match-wins, so this single catch-all is the whole file.
+  writeFileSync(join(outDir, '_redirects'), '/* /404.html 404\n', 'utf8');
+
   // --- _headers: security headers applied by Cloudflare Pages to every path.
   // Inline theme resolver + mermaid's injected SVG styles need 'unsafe-inline';
   // everything else is same-origin only, framing and object embeds are denied. ---
