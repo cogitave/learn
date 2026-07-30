@@ -1,3 +1,6 @@
+import { writeFileSync } from 'node:fs';
+import { join } from 'node:path';
+
 import { escapeHtml } from '../markdown.mjs';
 import { icon } from '../icons.mjs';
 import {
@@ -224,6 +227,33 @@ export function renderLanding(vm, outDir) {
       layout: 'wide',
       hideHeaderSearch: true,
     }),
+  );
+
+  // --- 404: served by Cloudflare Pages for any path with no static asset, so a
+  // stale or mistyped URL - including a missing /_api/{uid}.json an agent asked
+  // for - lands on a real not-found page with a 404 status (paired with the
+  // /* -> /404.html 404 rule in _redirects), not a 200 masquerading as the home
+  // page. Written to the site root as 404.html, which is the name Pages looks
+  // for, rather than through writePage (which would nest it at /404/index.html).
+  writeFileSync(
+    join(outDir, '404.html'),
+    shell({
+      title: 'Page not found',
+      description: 'That page is not here. Search the corpus or start from a section.',
+      body:
+        `<div class="hero"><h1>Page not found</h1>` +
+        `<p class="lede">That page is not here - it may have moved, or the link may be wrong. ` +
+        `Search the corpus, or head back to a main section.</p>` +
+        heroSearch() +
+        `<p class="nf-links">` +
+        `<a href="/">Home</a> &middot; <a href="/documentation/">Documentation</a> &middot; ` +
+        `<a href="/training/">Training</a> &middot; <a href="/browse/">Browse</a></p>` +
+        `</div>`,
+      nav,
+      layout: 'wide',
+      hideHeaderSearch: true,
+    }),
+    'utf8',
   );
 
   // --- section landings -------------------------------------------------------
